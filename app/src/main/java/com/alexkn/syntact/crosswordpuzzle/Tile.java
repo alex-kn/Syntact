@@ -2,6 +2,7 @@ package com.alexkn.syntact.crosswordpuzzle;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Tile {
 
@@ -64,6 +65,21 @@ public class Tile {
 
     public int[] getCoordinates(){
         return new int[]{x, y};
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile tile = (Tile) o;
+        return x == tile.x &&
+                y == tile.y;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(x, y);
     }
 
     class Registration {

@@ -48,5 +48,7 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         button.setWidth(120);
         button.setText(String.valueOf(tile.getCharacter()));
         gridLayout.addView(button, params);
+
+        //TODO extract and save Buttons in subclassed Layout
     }
 }
