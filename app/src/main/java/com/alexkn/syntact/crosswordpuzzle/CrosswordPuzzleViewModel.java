@@ -1,17 +1,22 @@
 package com.alexkn.syntact.crosswordpuzzle;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.ViewModel;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class Grid {
+class CrosswordPuzzleViewModel extends ViewModel {
 
-    private LinkedList<Tile> points = new LinkedList<>();
-    private CrosswordPuzzleActivity activity;
+    private LinkedList<Tile> tiles = new LinkedList<>();
 
-    public Grid(CrosswordPuzzleActivity activity) {
-        this.activity = activity;
+
+    private MutableLiveData<List<Tile>> tilesData = new MutableLiveData<>();
+
+    public CrosswordPuzzleViewModel() {
         LinkedList<Phrase> phrases = new LinkedList<>();
         phrases.add(new Phrase("Massive", "ACTION"));
         phrases.add(new Phrase("Massive", "CLOWN"));
@@ -24,97 +29,93 @@ class Grid {
         }
     }
 
-    private void sortPointsByDistanceToOrigin() {
+    private void sortTilesByDistanceToOrigin() {
 
     }
 
     public void addPhraseToGrid(Phrase phrase) {
-        for (int i = 0; i < points.size(); i++) {
-            Tile currentPoint = points.get(i);
-            if (!currentPoint.isFull()) {
-                Character intersectingCharacter = currentPoint.getCharacter();
+        for (int i = 0; i < tiles.size(); i++) {
+            Tile currentTile = tiles.get(i);
+            if (!currentTile.isFull()) {
+                Character intersectingCharacter = currentTile.getCharacter();
                 if (phrase.hasCharacter(intersectingCharacter)) {
                     ArrayList<Integer> intersectingCharacterIndexes = phrase.getIndexOf(intersectingCharacter);
 
                     for (Integer intersectingCharacterIndex : intersectingCharacterIndexes) {
-                        if (addPhraseToGrid(phrase, currentPoint, intersectingCharacterIndex)) {
+                        if (addPhraseToGrid(phrase, currentTile, intersectingCharacterIndex)) {
                             return;
                         }
                     }
                 }
             }
         }
-
-
-        findNewPointFor(phrase);
+        findNewTileFor(phrase);
     }
 
-    private void findNewPointFor(Phrase phrase) {
+    private void findNewTileFor(Phrase phrase) {
         int maxTries = 20;
         for (int i = 0; i < maxTries; i++) {
-            Tile point = findEmptyPoint();
+            Tile tile = findEmptyTile();
             for (int j = 0; j < phrase.getLength(); j++) {
-                if (addPhraseToGrid(phrase, point, i)) {
+                if (addPhraseToGrid(phrase, tile, i)) {
                     return;
                 }
             }
         }
     }
 
-    private boolean addPhraseToGrid(Phrase phrase, Tile currentPoint, int intersectingCharacterIndex) {
-        ArrayList<Axis> freeAxes = currentPoint.getFreeAxis();
+    private boolean addPhraseToGrid(Phrase phrase, Tile currentTile, int intersectingCharacterIndex) {
+        ArrayList<Axis> freeAxes = currentTile.getFreeAxis();
         for (Axis freeAxis : freeAxes) {
             boolean successful = true;
-            LinkedList<Tile> pointsToRegister = new LinkedList<>();
-            int[] coordinates = currentPoint.getCoordinates();
+            LinkedList<Tile> tilesToRegister = new LinkedList<>();
+            int[] coordinates = currentTile.getCoordinates();
             coordinates[freeAxis.index()] -= intersectingCharacterIndex;
 
             for (int j = 0; j < phrase.getLength(); j++) {
                 Character character = phrase.getCharacterAt(j);
-                Tile point = getPointAt(coordinates);
-                pointsToRegister.add(point);
+                Tile tile = getTileAt(coordinates);
+                tilesToRegister.add(tile);
                 coordinates[freeAxis.index()]++;
-                if (!(point.canHaveCharacter(character) && point.isAxisFree(freeAxis))) {
+                if (!(tile.canHaveCharacter(character) && tile.isAxisFree(freeAxis))) {
                     successful = false;
                     break;
                 }
             }
             if (successful) {
-                addPhrase(phrase, freeAxis, pointsToRegister);
+                addPhrase(phrase, freeAxis, tilesToRegister);
                 return true;
             }
         }
         return false;
     }
 
-    private void addPhrase(Phrase phrase, Axis freeAxis, LinkedList<Tile> pointsToRegister) {
-        for (int i = 0; i < pointsToRegister.size(); i++) {
-            Tile point = pointsToRegister.get(i);
-            point.setCharacter(phrase.getCharacterAt(i));
-            point.register(phrase, freeAxis);
-            if (!points.contains(point)) {
-                addNewPoint(point);
-                points.add(point);
+    private void addPhrase(Phrase phrase, Axis freeAxis, LinkedList<Tile> tilesToRegister) {
+        for (int i = 0; i < tilesToRegister.size(); i++) {
+            Tile tile = tilesToRegister.get(i);
+            tile.setCharacter(phrase.getCharacterAt(i));
+            tile.register(phrase, freeAxis);
+            if (!tiles.contains(tile)) {
+                tiles.add(tile);
+                publishTiles();
             }
         }
     }
 
-    private Tile getPointAt(int[] coordinates) {
-        List<Tile> list = points.stream().filter(item -> (item.x == coordinates[0] && item.y == coordinates[1])).collect(Collectors.toList());
+    private void publishTiles() {
+        tilesData.postValue(tiles);
+    }
+
+    private Tile getTileAt(int[] coordinates) {
+        List<Tile> list = tiles.stream().filter(item -> (item.x == coordinates[0] && item.y == coordinates[1])).collect(Collectors.toList());
         if (list.isEmpty()) {
             return new Tile(coordinates);
         } else {
             return list.get(0);
         }
-
-
     }
 
-    private void addNewPoint(Tile point) {
-        activity.addPointToGrid(point);
-    }
-
-    private Tile findEmptyPoint() {
+    private Tile findEmptyTile() {
         int iterations = 100;
 
         // (di, dj) is a vector - direction in which we move right now
@@ -129,7 +130,7 @@ class Grid {
         int segmentPassed = 0;
         for (int k = 0; k < iterations; ++k) {
             // make a step, add 'direction' vector (di, dj) to current position (i, j)
-            if (!points.contains(new Tile(i, j))) {
+            if (!tiles.contains(new Tile(i, j))) {
                 return new Tile(i, j);
             }
             System.out.println(i + " " + j);
@@ -153,5 +154,9 @@ class Grid {
             }
         }
         throw new RuntimeException();
+    }
+
+    public LiveData<List<Tile>> getTilesData() {
+        return tilesData;
     }
 }
