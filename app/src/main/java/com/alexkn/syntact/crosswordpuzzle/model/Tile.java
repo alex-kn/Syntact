@@ -1,4 +1,8 @@
-package com.alexkn.syntact.crosswordpuzzle;
+package com.alexkn.syntact.crosswordpuzzle.model;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -10,6 +14,8 @@ public class Tile {
     int y;
 
     Character character;
+
+    MutableLiveData<Integer> color = new MutableLiveData<>();
 
     private LinkedList<Registration> registrations = new LinkedList<>();
 
@@ -65,6 +71,22 @@ public class Tile {
 
     public int[] getCoordinates(){
         return new int[]{x, y};
+    }
+
+    public void setColor(Integer color) {
+        this.color.setValue(color);
+    }
+
+    public LiveData<Integer> getColor() {
+        return color;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
     }
 
     @Override

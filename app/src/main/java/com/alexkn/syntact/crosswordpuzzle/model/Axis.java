@@ -1,4 +1,4 @@
-package com.alexkn.syntact.crosswordpuzzle;
+package com.alexkn.syntact.crosswordpuzzle.model;
 
 
 enum Axis {

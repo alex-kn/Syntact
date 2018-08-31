@@ -1,14 +1,17 @@
 package com.alexkn.syntact.crosswordpuzzle;
 
-import android.app.Activity;
-import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
-import android.widget.Button;
+import android.view.View;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.crosswordpuzzle.model.CrosswordPuzzleViewModel;
+import com.alexkn.syntact.crosswordpuzzle.model.Tile;
+import com.alexkn.syntact.crosswordpuzzle.view.TileView;
+
+import java.util.Set;
 
 public class CrosswordPuzzleActivity extends AppCompatActivity {
 
@@ -19,36 +22,40 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
     private CrosswordPuzzleViewModel viewModel;
 
+    private Set<Tile> currentTiles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crossword_puzzle);
 
-
         gridLayout = findViewById(R.id.boardGridLayout);
         gridLayout.setRowCount(boardSize);
         gridLayout.setColumnCount(boardSize);
-        viewModel = ViewModelProviders.of(this).get(CrosswordPuzzleViewModel.class);
 
+        viewModel = ViewModelProviders.of(this).get(CrosswordPuzzleViewModel.class);
         viewModel.getTilesData().observe(this, tiles -> {
             for (Tile tile : tiles) {
-                addPointToGrid(tile);
+                addTileToGrid(tile);
             }
         });
     }
 
-    public void addPointToGrid(Tile tile) {
-        int x = tile.x + offset;
-        int y = tile.y + offset;
+    public void addTileToGrid(Tile tile) {
+        int x = tile.getX() + offset;
+        int y = tile.getY() + offset;
         GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(y), GridLayout.spec(x));
-        Button button = new Button(this);
-        button.setMinimumHeight(120);
-        button.setHeight(120);
-        button.setMinimumWidth(120);
-        button.setWidth(120);
-        button.setText(String.valueOf(tile.getCharacter()));
-        gridLayout.addView(button, params);
 
-        //TODO extract and save Buttons in subclassed Layout
+        TileView tileView = new TileView(this);
+        tileView.setMinimumHeight(120);
+        tileView.setHeight(120);
+        tileView.setMinimumWidth(120);
+        tileView.setWidth(120);
+        tileView.setText(String.valueOf(tile.getCharacter()));
+        tile.getColor().observe(this, tileView);
+
+        
+        gridLayout.addView(tileView, params);
+
     }
 }

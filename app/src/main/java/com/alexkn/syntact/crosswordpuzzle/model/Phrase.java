@@ -1,4 +1,4 @@
-package com.alexkn.syntact.crosswordpuzzle;
+package com.alexkn.syntact.crosswordpuzzle.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;

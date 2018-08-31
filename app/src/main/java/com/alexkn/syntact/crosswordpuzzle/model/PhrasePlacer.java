@@ -1,17 +1,15 @@
-package com.alexkn.syntact.crosswordpuzzle;
+package com.alexkn.syntact.crosswordpuzzle.model;
 
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import androidx.work.Worker;
-
-
-public class PhrasePlacer extends AsyncTask<PlacingData, Void, List<Tile>> {
+public class PhrasePlacer extends AsyncTask<PlacingData, Void, Set<Tile>> {
 
     public static final String KEY_TILES = "T";
     public static final String KEY_PHRASE = "P";
@@ -19,6 +17,7 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, List<Tile>> {
     public static final String KEY_RESULT = "R";
 
     private List<Tile> tiles;
+    private Set<Tile> newTiles;
     private Phrase phrase;
 
     private TaskCompleteCallback callback;
@@ -30,11 +29,13 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, List<Tile>> {
     }
 
     @Override
-    protected List<Tile> doInBackground(PlacingData... placingData) {
+    protected Set<Tile> doInBackground(PlacingData... placingData) {
+
         tiles = placingData[0].tiles;
+        newTiles = new HashSet<>();
         addPhraseToGrid(placingData[0].phrase);
 
-        return tiles;
+        return newTiles;
     }
 
     private void addPhraseToGrid(Phrase phrase) {
@@ -100,6 +101,7 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, List<Tile>> {
             tile.setCharacter(phrase.getCharacterAt(i));
             tile.register(phrase, freeAxis);
             if (!tiles.contains(tile)) {
+                newTiles.add(tile);
                 tiles.add(tile);
             }
         }
@@ -157,12 +159,12 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, List<Tile>> {
     }
 
     @Override
-    protected void onPostExecute(List<Tile> list) {
-        super.onPostExecute(list);
-        callback.onTaskComplete(list);
+    protected void onPostExecute(Set<Tile> set) {
+        super.onPostExecute(set);
+        callback.onTaskComplete(set);
     }
 
     public interface TaskCompleteCallback {
-        void onTaskComplete(List<Tile> tiles);
+        void onTaskComplete(Set<Tile> tiles);
     }
 }

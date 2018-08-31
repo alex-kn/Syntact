@@ -1,25 +1,18 @@
-package com.alexkn.syntact.crosswordpuzzle;
+package com.alexkn.syntact.crosswordpuzzle.model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Set;
 
-import androidx.work.Data;
-import androidx.work.OneTimeWorkRequest;
-import androidx.work.WorkManager;
+public class CrosswordPuzzleViewModel extends ViewModel {
 
-class CrosswordPuzzleViewModel extends ViewModel {
+    private LinkedList<Tile> tilesList = new LinkedList<>();
 
-    private LinkedList<Tile> tiles = new LinkedList<>();
-
-    private WorkManager workManager;
-
-    private MutableLiveData<List<Tile>> tilesData = new MutableLiveData<>();
+    private MutableLiveData<Set<Tile>> tilesData = new MutableLiveData<>();
 
     public CrosswordPuzzleViewModel() {
         LinkedList<Phrase> phrases = new LinkedList<>();
@@ -30,28 +23,17 @@ class CrosswordPuzzleViewModel extends ViewModel {
         phrases.add(new Phrase("Massive", "TEA"));
         phrases.add(new Phrase("Massive", "ALL"));
         for (Phrase next : phrases) {
-            new PhrasePlacer(tiles -> tilesData.setValue(tiles)).execute(new PlacingData(tiles, next));
+            new PhrasePlacer(tiles -> {
+                tilesData.setValue(tiles);
+            }).execute(new PlacingData(tilesList, next));
         }
-
     }
 
     private void sortTilesByDistanceToOrigin() {
 
     }
 
-
-
-
-
-
-
-    private void publishTiles() {
-        tilesData.postValue(tiles);
-    }
-
-
-
-    public LiveData<List<Tile>> getTilesData() {
+    public MutableLiveData<Set<Tile>> getTilesData() {
         return tilesData;
     }
 }
