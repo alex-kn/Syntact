@@ -3,44 +3,37 @@ package com.alexkn.syntact.crosswordpuzzle.model;
 import android.os.AsyncTask;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class PhrasePlacer extends AsyncTask<PlacingData, Void, Set<Tile>> {
+public class PhrasePlacer extends AsyncTask<PlacingData, Void, TreeMap<Point, Tile>> {
 
-    public static final String KEY_TILES = "T";
-    public static final String KEY_PHRASE = "P";
-
-    public static final String KEY_RESULT = "R";
-
-    private List<Tile> tiles;
-    private Set<Tile> newTiles;
-    private Phrase phrase;
+    private TreeMap<Point, Tile> tiles;
 
     private TaskCompleteCallback callback;
 
-    private boolean success;
-
-    public PhrasePlacer(TaskCompleteCallback callback) {
+    PhrasePlacer(TaskCompleteCallback callback) {
         this.callback = callback;
     }
 
     @Override
-    protected Set<Tile> doInBackground(PlacingData... placingData) {
+    protected TreeMap<Point, Tile> doInBackground(PlacingData... placingData) {
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         tiles = placingData[0].tiles;
-        newTiles = new HashSet<>();
         addPhraseToGrid(placingData[0].phrase);
 
-        return newTiles;
+        return tiles;
     }
 
     private void addPhraseToGrid(Phrase phrase) {
-        for (int i = 0; i < tiles.size(); i++) {
-            Tile currentTile = tiles.get(i);
+        for (Map.Entry<Point, Tile> entry : tiles.entrySet()){
+            Tile currentTile = entry.getValue();
             if (!currentTile.isFull()) {
                 Character intersectingCharacter = currentTile.getCharacter();
                 if (phrase.hasCharacter(intersectingCharacter)) {
@@ -100,20 +93,19 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, Set<Tile>> {
             Tile tile = tilesToRegister.get(i);
             tile.setCharacter(phrase.getCharacterAt(i));
             tile.register(phrase, freeAxis);
-            if (!tiles.contains(tile)) {
-                newTiles.add(tile);
-                tiles.add(tile);
+            Point key = new Point(tile.getX(), tile.getY());
+            if (!tiles.containsKey(key)) {
+                tiles.put(key, tile);
             }
         }
-        success = true;
     }
 
     private Tile getTileAt(int[] coordinates) {
-        List<Tile> list = tiles.stream().filter(item -> (item.x == coordinates[0] && item.y == coordinates[1])).collect(Collectors.toList());
-        if (list.isEmpty()) {
+        Tile tile = tiles.get(new Point(coordinates[0], coordinates[1]));
+        if (tile == null) {
             return new Tile(coordinates);
         } else {
-            return list.get(0);
+            return tile;
         }
     }
 
@@ -132,7 +124,7 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, Set<Tile>> {
         int segmentPassed = 0;
         for (int k = 0; k < iterations; ++k) {
             // make a step, add 'direction' vector (di, dj) to current position (i, j)
-            if (!tiles.contains(new Tile(i, j))) {
+            if (!tiles.containsKey(new Point(i, j))) {
                 return new Tile(i, j);
             }
             System.out.println(i + " " + j);
@@ -159,12 +151,12 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, Set<Tile>> {
     }
 
     @Override
-    protected void onPostExecute(Set<Tile> set) {
-        super.onPostExecute(set);
-        callback.onTaskComplete(set);
+    protected void onPostExecute(TreeMap<Point, Tile> list) {
+        super.onPostExecute(list);
+        callback.onTaskComplete(list);
     }
 
     public interface TaskCompleteCallback {
-        void onTaskComplete(Set<Tile> tiles);
+        void onTaskComplete(TreeMap<Point, Tile> tiles);
     }
 }

@@ -2,39 +2,47 @@ package com.alexkn.syntact.crosswordpuzzle.model;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Tile {
 
-    int x;
-    int y;
+    private static final AtomicInteger count = new AtomicInteger(0);
+    private final int id;
 
-    Character character;
+    private int x;
+    private int y;
 
-    MutableLiveData<Integer> color = new MutableLiveData<>();
+    private Tile[] neighbors;
+
+    private Character character;
+
+    private MutableLiveData<Integer> color = new MutableLiveData<>();
 
     private LinkedList<Registration> registrations = new LinkedList<>();
 
     private final int maxRegistrations = 2;
 
-    public Tile(int x, int y) {
+    Tile(int x, int y) {
+        this.id = count.incrementAndGet();
         this.x = x;
         this.y = y;
     }
 
-    public Tile(int[] coordinates) {
+    Tile(int[] coordinates) {
+        this.id = count.incrementAndGet();
         this.x = coordinates[0];
         this.y = coordinates[1];
     }
+
     public void register(Phrase phrase, Axis axis) {
         if (registrations.size() < maxRegistrations) {
             registrations.add(new Registration(phrase, axis));
         } else {
-            //TODO exception
+            throw new RuntimeException("Registrations exceeded");
         }
     }
 
@@ -87,6 +95,10 @@ public class Tile {
 
     public int getY() {
         return y;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

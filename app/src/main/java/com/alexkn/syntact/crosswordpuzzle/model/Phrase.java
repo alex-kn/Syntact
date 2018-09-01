@@ -5,12 +5,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 class Phrase {
-    String clue;
-    String solution;
+    private String clue;
+    private String solution;
 
-    ArrayList<Character> solutionCharacters = new ArrayList<>();
+    private ArrayList<Character> solutionCharacters = new ArrayList<>();
 
-    public Phrase(String clue, String solution) {
+    Phrase(String clue, String solution) {
         this.clue = clue;
         this.solution = solution;
         for (int i = 0; i < solution.toCharArray().length; i++) {

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".crosswordpuzzle.CrosswordPuzzleActivity">
 
-    <com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout
+    <android.support.v7.widget.GridLayout
         android:id="@+id/boardGridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +15,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout>
-
+    </android.support.v7.widget.GridLayout>
 </android.support.constraint.ConstraintLayout>
