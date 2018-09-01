@@ -61,7 +61,7 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         tileView.setText(String.valueOf(tile.getCharacter()));
         tile.getColor().observe(this, tileView);
 
-        tileView.setOnClickListener(view -> tile.setColor(Color.GREEN));
+        tileView.setOnClickListener(view -> tile.setColorForNeighbors(Color.GREEN));
 
         gridLayout.addView(tileView, params);
     }

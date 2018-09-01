@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,7 +17,7 @@ public class Tile {
     private int x;
     private int y;
 
-    private Tile[] neighbors;
+    private HashMap<Direction, Tile> neighbors = new HashMap<>();
 
     private Character character;
 
@@ -73,6 +74,10 @@ public class Tile {
         return this.character == null || this.character.equals(character);
     }
 
+    public void setNeighbor(Direction direction, Tile tile) {
+        neighbors.put(direction, tile);
+    }
+
     public boolean isFull() {
         return registrations.size() >= maxRegistrations;
     }
@@ -83,6 +88,14 @@ public class Tile {
 
     public void setColor(Integer color) {
         this.color.setValue(color);
+    }
+
+    public void setColorForNeighbors(Integer color){
+        setColor(color);
+        for (Tile tile : neighbors.values()) {
+            tile.setColor(color);
+        }
+
     }
 
     public LiveData<Integer> getColor() {
