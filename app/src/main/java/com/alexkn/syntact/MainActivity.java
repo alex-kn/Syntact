@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.alexkn.syntact.crosswordpuzzle.CrosswordPuzzleActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

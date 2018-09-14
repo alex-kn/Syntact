@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
-public class PhrasePlacer extends AsyncTask<PlacingData, Void, TreeMap<Point, Tile>> {
+public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipListMap<Point, Tile>> {
 
-    private TreeMap<Point, Tile> tiles;
+    private ConcurrentSkipListMap<Point, Tile> tiles;
 
     private TaskCompleteCallback callback;
 
@@ -18,17 +19,14 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, TreeMap<Point, Ti
     }
 
     @Override
-    protected TreeMap<Point, Tile> doInBackground(PlacingData... placingData) {
+    protected ConcurrentSkipListMap<Point, Tile> doInBackground(PlacingData... placingData) {
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         tiles = placingData[0].tiles;
-        addPhraseToGrid(placingData[0].phrase);
+            addPhraseToGrid(placingData[0].phrase);
 
-        return tiles;
+            return tiles;
+
     }
 
     private void addPhraseToGrid(Phrase phrase) {
@@ -151,12 +149,12 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, TreeMap<Point, Ti
     }
 
     @Override
-    protected void onPostExecute(TreeMap<Point, Tile> list) {
+    protected void onPostExecute(ConcurrentSkipListMap<Point, Tile> list) {
         super.onPostExecute(list);
         callback.onTaskComplete(list);
     }
 
     public interface TaskCompleteCallback {
-        void onTaskComplete(TreeMap<Point, Tile> tiles);
+        void onTaskComplete(ConcurrentSkipListMap<Point, Tile> tiles);
     }
 }

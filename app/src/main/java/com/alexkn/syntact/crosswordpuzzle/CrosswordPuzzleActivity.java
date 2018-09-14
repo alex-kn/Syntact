@@ -1,15 +1,20 @@
 package com.alexkn.syntact.crosswordpuzzle;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.crosswordpuzzle.model.CrosswordPuzzleViewModel;
 import com.alexkn.syntact.crosswordpuzzle.model.Tile;
+import com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout;
 import com.alexkn.syntact.crosswordpuzzle.view.TileView;
 
 import java.util.HashSet;
@@ -20,7 +25,8 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
     int boardSize = 40;
     int offset = 20;
 
-    private GridLayout gridLayout;
+    private CrosswordPuzzleGridLayout gridLayout;
+    private ConstraintLayout constraintLayout;
 
     private CrosswordPuzzleViewModel viewModel;
 
@@ -28,6 +34,7 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
     private Set<Tile> currentTiles;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +42,10 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
         addedTiles = new HashSet<>();
         gridLayout = findViewById(R.id.boardGridLayout);
+        constraintLayout = findViewById(R.id.test);
         gridLayout.setRowCount(boardSize);
         gridLayout.setColumnCount(boardSize);
+        gridLayout.init(getApplicationContext());
 
         viewModel = ViewModelProviders.of(this).get(CrosswordPuzzleViewModel.class);
         viewModel.getTilesData().observe(this, tiles -> {
@@ -44,6 +53,14 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
                 addTileToGrid(tile);
             }
         });
+//        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                gridLayout.dragGrid(event, true);
+//                return true;
+//            }
+//        });
+
     }
 
     public void addTileToGrid(Tile tile) {
@@ -59,10 +76,12 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         tileView.setMinimumWidth(120);
         tileView.setWidth(120);
         tileView.setText(String.valueOf(tile.getCharacter()));
-        tile.getColor().observe(this, tileView);
+        tile.getColor().observe(this, tileView::setColor);
+        tile.getOpenDirections().observe(this, tileView::setOpenDirections);
 
-        tileView.setOnClickListener(view -> tile.setColorForNeighbors(Color.GREEN));
+        tileView.setOnClickListener(view -> tile.setColorForConnectedTiles(Color.GREEN));
 
         gridLayout.addView(tileView, params);
     }
+
 }
