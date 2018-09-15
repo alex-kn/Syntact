@@ -6,10 +6,8 @@ import android.graphics.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,7 +22,9 @@ public class Tile {
 
     private HashMap<Direction, Tile> neighbors = new HashMap<>();
 
-    private Character character;
+    private Character correctCharacter;
+
+    private MutableLiveData<Character> currentCharacter = new MutableLiveData<>();
 
     private MutableLiveData<Integer> color = new MutableLiveData<>();
 
@@ -50,6 +50,17 @@ public class Tile {
         } else {
             throw new RuntimeException("Registrations exceeded");
         }
+    }
+
+    public void checkInput(Character character) {
+        currentCharacter.postValue(character);
+        if (character == correctCharacter) {
+            color.postValue(Color.argb(128,0,255,0));
+
+        } else {
+            color.postValue(Color.argb(128,255,0,0));
+        }
+
     }
 
     private List<Tile> findTilesWithSamePhrase(Direction direction) {
@@ -98,16 +109,16 @@ public class Tile {
         return registrations.isEmpty() || registrations.getFirst().axis != axis;
     }
 
-    public Character getCharacter() {
-        return character;
+    public Character getCorrectCharacter() {
+        return correctCharacter;
     }
 
-    public void setCharacter(Character character) {
-        this.character = character;
+    public void setCorrectCharacter(Character correctCharacter) {
+        this.correctCharacter = correctCharacter;
     }
 
     public boolean canHaveCharacter(Character character) {
-        return this.character == null || this.character.equals(character);
+        return this.correctCharacter == null || this.correctCharacter.equals(character);
     }
 
     public void setNeighbor(Direction direction, Tile tile) {
@@ -145,6 +156,10 @@ public class Tile {
         return color;
     }
 
+    public LiveData<Character> getCurrentCharacter() {
+        return currentCharacter;
+    }
+
     public LiveData<Set<Direction>> getOpenDirections() {
         return openDirections;
     }
@@ -172,6 +187,7 @@ public class Tile {
 
     @Override
     public int hashCode() {
+
 
         return Objects.hash(x, y);
     }

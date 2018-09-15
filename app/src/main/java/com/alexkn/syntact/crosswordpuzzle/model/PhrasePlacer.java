@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipListMap<Point, Tile>> {
@@ -33,7 +32,7 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipLis
         for (Map.Entry<Point, Tile> entry : tiles.entrySet()){
             Tile currentTile = entry.getValue();
             if (!currentTile.isFull()) {
-                Character intersectingCharacter = currentTile.getCharacter();
+                Character intersectingCharacter = currentTile.getCorrectCharacter();
                 if (phrase.hasCharacter(intersectingCharacter)) {
                     ArrayList<Integer> intersectingCharacterIndexes = phrase.getIndexOf(intersectingCharacter);
 
@@ -89,7 +88,7 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipLis
     private void addPhrase(Phrase phrase, Axis freeAxis, LinkedList<Tile> tilesToRegister) {
         for (int i = 0; i < tilesToRegister.size(); i++) {
             Tile tile = tilesToRegister.get(i);
-            tile.setCharacter(phrase.getCharacterAt(i));
+            tile.setCorrectCharacter(phrase.getCharacterAt(i));
             tile.register(phrase, freeAxis);
             Point key = new Point(tile.getX(), tile.getY());
             if (!tiles.containsKey(key)) {

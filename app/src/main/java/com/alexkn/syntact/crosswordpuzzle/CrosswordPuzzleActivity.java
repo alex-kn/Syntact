@@ -1,15 +1,17 @@
 package com.alexkn.syntact.crosswordpuzzle;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.arch.lifecycle.ViewModelProviders;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.ScrollView;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.crosswordpuzzle.model.CrosswordPuzzleViewModel;
@@ -17,16 +19,26 @@ import com.alexkn.syntact.crosswordpuzzle.model.Tile;
 import com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout;
 import com.alexkn.syntact.crosswordpuzzle.view.TileView;
 
+import java.security.SecureRandom;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 public class CrosswordPuzzleActivity extends AppCompatActivity {
+
+    private static final String alphabet = "ABCDEFGJKLMNPRSTUVWXYZ";
+
+    private  static final int keyboardSize = 6;
+
+    private Tile focusedTile;
 
     int boardSize = 40;
     int offset = 20;
 
     private CrosswordPuzzleGridLayout gridLayout;
-    private ConstraintLayout constraintLayout;
+    private LinearLayout keyboardContainer;
+    private LinearLayout clueLayout;
 
     private CrosswordPuzzleViewModel viewModel;
 
@@ -41,25 +53,28 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         setContentView(R.layout.activity_crossword_puzzle);
 
         addedTiles = new HashSet<>();
+        keyboardContainer = findViewById(R.id.keyboardContainer);
+        keyboardContainer.setGravity(Gravity.CENTER);
+
+        clueLayout = findViewById(R.id.boardClueLayout);
+        clueLayout.bringToFront();
+        clueLayout.setGravity(Gravity.CENTER);
+
         gridLayout = findViewById(R.id.boardGridLayout);
-        constraintLayout = findViewById(R.id.test);
         gridLayout.setRowCount(boardSize);
         gridLayout.setColumnCount(boardSize);
         gridLayout.init(getApplicationContext());
 
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
         viewModel = ViewModelProviders.of(this).get(CrosswordPuzzleViewModel.class);
         viewModel.getTilesData().observe(this, tiles -> {
             for (Tile tile : tiles) {
                 addTileToGrid(tile);
             }
         });
-//        constraintLayout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                gridLayout.dragGrid(event, true);
-//                return true;
-//            }
-//        });
 
     }
 
@@ -69,19 +84,62 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         int x = tile.getX() + offset;
         int y = tile.getY() + offset;
         GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(y), GridLayout.spec(x));
-
+        params.setMargins(5,5,5,5);
         TileView tileView = new TileView(this);
+
         tileView.setMinimumHeight(120);
         tileView.setHeight(120);
         tileView.setMinimumWidth(120);
         tileView.setWidth(120);
-        tileView.setText(String.valueOf(tile.getCharacter()));
+
         tile.getColor().observe(this, tileView::setColor);
         tile.getOpenDirections().observe(this, tileView::setOpenDirections);
+        tile.getCurrentCharacter().observe(this, tileView::setCurrentCharacter);
 
-        tileView.setOnClickListener(view -> tile.setColorForConnectedTiles(Color.GREEN));
+
+        tileView.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                tile.setColorForConnectedTiles(Color.argb(32,0,255,0));
+                tile.setColor(Color.argb(128,0,255,0));
+                focusedTile = tile;
+                showKeyboard(tile);
+            } else {
+                tile.setColorForConnectedTiles(Color.TRANSPARENT);
+                tile.setColor(Color.TRANSPARENT);
+            }
+        });
+
 
         gridLayout.addView(tileView, params);
+    }
+
+    private void showKeyboard(Tile tile) {
+        keyboardContainer.removeAllViews();
+        List<Character> characters = new LinkedList<>();
+        for (int i = 0; i < keyboardSize-1; i++) {
+            SecureRandom rnd = new SecureRandom();
+            Character character = alphabet.charAt(rnd.nextInt(alphabet.length()));
+            characters.add(character);
+        }
+        characters.add(tile.getCorrectCharacter());
+
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+        layoutParams.weight = 1;
+        for (Character character : characters) {
+            Button button = new Button(getApplicationContext());
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    focusedTile.checkInput(((Button)v).getText().charAt(0));
+                }
+            });
+            button.setText(character.toString());
+            button.setLayoutParams(layoutParams);
+            keyboardContainer.addView(button);
+        }
+
+
     }
 
 }
