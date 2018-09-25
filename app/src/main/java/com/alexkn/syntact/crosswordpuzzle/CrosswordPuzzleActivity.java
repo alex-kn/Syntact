@@ -2,19 +2,20 @@ package com.alexkn.syntact.crosswordpuzzle;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.crosswordpuzzle.model.CrosswordPuzzleViewModel;
+import com.alexkn.syntact.crosswordpuzzle.model.Direction;
 import com.alexkn.syntact.crosswordpuzzle.model.Tile;
 import com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout;
 import com.alexkn.syntact.crosswordpuzzle.view.TileView;
@@ -35,6 +36,7 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
     int boardSize = 40;
     int offset = 20;
+
 
     private CrosswordPuzzleGridLayout gridLayout;
     private LinearLayout keyboardContainer;
@@ -95,21 +97,25 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         tile.getColor().observe(this, tileView::setColor);
         tile.getOpenDirections().observe(this, tileView::setOpenDirections);
         tile.getCurrentCharacter().observe(this, tileView::setCurrentCharacter);
+        tile.isPhraseSolved().observe(this,tileView::setSolved);
 
-
-        tileView.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                tile.setColorForConnectedTiles(Color.argb(32,0,255,0));
-                tile.setColor(Color.argb(128,0,255,0));
-                focusedTile = tile;
-                showKeyboard(tile);
-            } else {
-                tile.setColorForConnectedTiles(Color.TRANSPARENT);
-                tile.setColor(Color.TRANSPARENT);
+        tile.isFocused().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                if (aBoolean) {
+                    tileView.requestFocus();
+                }
             }
         });
 
-
+        tileView.setOnFocusChangeListener((v, hasFocus) -> {
+            tileView.setFocused(hasFocus);
+            tile.setFocused(hasFocus);
+            if (hasFocus) {
+                focusedTile = tile;
+                showKeyboard(tile);
+            }
+        });
         gridLayout.addView(tileView, params);
     }
 
@@ -127,12 +133,12 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         layoutParams.weight = 1;
         for (Character character : characters) {
             Button button = new Button(getApplicationContext());
-
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    focusedTile.checkInput(((Button)v).getText().charAt(0));
-                }
+            button.setOnClickListener(v -> {
+                focusedTile.setInput(((Button) v).getText().charAt(0));
+                focusedTile.getNext().ifPresent(tile1 -> {
+                    focusedTile = tile1;
+                    tile1.setFocused(true);
+                });
             });
             button.setText(character.toString());
             button.setLayoutParams(layoutParams);

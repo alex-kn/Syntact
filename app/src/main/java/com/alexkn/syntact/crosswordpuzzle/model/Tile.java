@@ -1,21 +1,29 @@
 package com.alexkn.syntact.crosswordpuzzle.model;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.graphics.Color;
+import android.arch.lifecycle.Observer;
+import android.graphics.Path;
+import android.support.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 public class Tile {
 
     private static final AtomicInteger count = new AtomicInteger(0);
     private final int id;
+
+    private static Direction preferredDirection = Direction.EAST;
 
     private int x;
     private int y;
@@ -26,11 +34,15 @@ public class Tile {
 
     private MutableLiveData<Character> currentCharacter = new MutableLiveData<>();
 
+    private MediatorLiveData<Boolean> phraseSolved = new MediatorLiveData<>();
+
     private MutableLiveData<Integer> color = new MutableLiveData<>();
 
     private DirectionLiveData openDirections = new DirectionLiveData();
 
-    private LinkedList<Registration> registrations = new LinkedList<>();
+    private TreeMap<Axis, Phrase> phrases = new TreeMap<>();
+
+    private MutableLiveData<Boolean> focused = new MutableLiveData<>();
 
     private final int maxRegistrations = 2;
 
@@ -38,6 +50,7 @@ public class Tile {
         this.id = count.incrementAndGet();
         this.x = x;
         this.y = y;
+        phraseSolved.addSource(currentCharacter, character -> checkPhrasesSolved());
     }
 
     Tile(int[] coordinates) {
@@ -45,68 +58,67 @@ public class Tile {
     }
 
     public void register(Phrase phrase, Axis axis) {
-        if (registrations.size() < maxRegistrations) {
-            registrations.add(new Registration(phrase, axis));
-        } else {
-            throw new RuntimeException("Registrations exceeded");
+        if (phrases.size() <= maxRegistrations) {
+            phrases.put(axis, phrase);
+            phrase.addTile(this);
+            phraseSolved.addSource(phrase.isSolved(), aBoolean -> {
+                for (Phrase phrase1 : phrases.values()) {
+                    //noinspection ConstantConditions
+                    if (phrase1.isSolved().getValue()) {
+                        phraseSolved.postValue(true);
+                        return;
+                    }
+                }
+                phraseSolved.postValue(false);
+
+            });
         }
     }
 
-    public void checkInput(Character character) {
+    public void setInput(Character character) {
         currentCharacter.postValue(character);
-        if (character == correctCharacter) {
-            color.postValue(Color.argb(128,0,255,0));
+    }
 
-        } else {
-            color.postValue(Color.argb(128,255,0,0));
+    public boolean hasCorrectCharacter() {
+        Character currentChar = currentCharacter.getValue();
+        return currentChar == correctCharacter;
+    }
+
+    private void checkPhrasesSolved() {
+        for (Phrase phrase : phrases.values()) {
+            phrase.checkSolved();
         }
-
     }
 
     private List<Tile> findTilesWithSamePhrase(Direction direction) {
-        //TODO extract to activity
-        //TODO refactor registration queries
         List<Tile> tiles = new LinkedList<>();
 
         Tile tile = neighbors.get(direction);
-        if(tile == null) return tiles;
-        for (Registration registration : tile.getRegistrations()) {
-            for (Registration registration1 : this.registrations) {
-                if (registration.phrase.equals(registration1.phrase)) {
+        if (tile == null) return tiles;
+        for (Phrase phrase : tile.getPhrases().values()) {
+            for (Phrase phrase1 : this.phrases.values()) {
+                if (phrase.equals(phrase1)) {
                     tiles.addAll(tile.findTilesWithSamePhrase(direction));
                     tiles.add(tile);
                 }
             }
-
-
         }
         return tiles;
     }
-
-    private List<Tile> findConnectedTiles() {
-        List<Tile> tiles = new LinkedList<>();
-        tiles.add(this);
-        for (Direction direction : neighbors.keySet()) {
-            tiles.addAll(findTilesWithSamePhrase(direction));
-        }
-
-        return tiles;
-    }
-
 
     public ArrayList<Axis> getFreeAxis() {
         ArrayList<Axis> axes = new ArrayList<>();
-        if (registrations.isEmpty()) {
+        if (phrases.isEmpty()) {
             axes.add(Axis.X);
             axes.add(Axis.Y);
         } else {
-            axes.add(registrations.getFirst().axis.opposite());
+            axes.add(phrases.firstKey().opposite());
         }
         return axes;
     }
 
     public boolean isAxisFree(Axis axis) {
-        return registrations.isEmpty() || registrations.getFirst().axis != axis;
+        return !phrases.containsKey(axis);
     }
 
     public Character getCorrectCharacter() {
@@ -123,14 +135,31 @@ public class Tile {
 
     public void setNeighbor(Direction direction, Tile tile) {
         neighbors.put(direction, tile);
-        //TODO refactor
         if (!findTilesWithSamePhrase(direction).isEmpty()) {
             openDirections.addDirection(direction);
         }
     }
 
+    public Optional<Tile> getNext() {
+        Tile tile1 = neighbors.get(preferredDirection);
+        if (tile1 != null) {
+            return Optional.of(tile1);
+        }
+        Tile tile2 = neighbors.get(Direction.EAST);
+        if (tile2 != null) {
+            preferredDirection = Direction.EAST;
+            return Optional.of(tile2);
+        }
+        Tile tile3 = neighbors.get(Direction.SOUTH);
+        if (tile3 != null) {
+            preferredDirection = Direction.SOUTH;
+            return Optional.of(tile3);
+        }
+        return Optional.empty();
+    }
+
     public boolean isFull() {
-        return registrations.size() >= maxRegistrations;
+        return phrases.size() >= maxRegistrations;
     }
 
     public int[] getCoordinates() {
@@ -141,17 +170,6 @@ public class Tile {
         this.color.setValue(color);
     }
 
-    public void setColorForConnectedTiles(Integer color) {
-        for (Tile tile : findConnectedTiles()) {
-            tile.setColor(color);
-        }
-
-    }
-
-    public LinkedList<Registration> getRegistrations() {
-        return registrations;
-    }
-
     public LiveData<Integer> getColor() {
         return color;
     }
@@ -160,8 +178,20 @@ public class Tile {
         return currentCharacter;
     }
 
+    public LiveData<Boolean> isPhraseSolved() {
+        return phraseSolved;
+    }
+
     public LiveData<Set<Direction>> getOpenDirections() {
         return openDirections;
+    }
+
+    public LiveData<Boolean> isFocused() {
+        return focused;
+    }
+
+    public void setFocused(Boolean value) {
+        focused.postValue(value);
     }
 
     public int getX() {
@@ -176,6 +206,10 @@ public class Tile {
         return id;
     }
 
+    private TreeMap<Axis, Phrase> getPhrases() {
+        return phrases;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -187,19 +221,18 @@ public class Tile {
 
     @Override
     public int hashCode() {
-
-
         return Objects.hash(x, y);
     }
 
-    class Registration {
+//    class Registration {
+//
+//        Phrase phrase;
+//        Axis axis;
+//
+//        Registration(Phrase phrase, Axis axis) {
+//            this.phrase = phrase;
+//            this.axis = axis;
+//        }
+//    }
 
-        Phrase phrase;
-        Axis axis;
-
-        Registration(Phrase phrase, Axis axis) {
-            this.phrase = phrase;
-            this.axis = axis;
-        }
-    }
 }

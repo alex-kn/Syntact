@@ -36,7 +36,6 @@ public class CrosswordPuzzleViewModel extends ViewModel {
         phrases.add(new Phrase("Massive", "CARTOON"));
         Collections.shuffle(phrases);
         for (Phrase next : phrases) {
-
             new PhrasePlacer(tiles -> {
                 tilesData.setValue(new HashSet<>(tiles.values()));
                 calculateNeighbors();

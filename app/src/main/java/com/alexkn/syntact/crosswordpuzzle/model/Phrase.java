@@ -1,7 +1,11 @@
 package com.alexkn.syntact.crosswordpuzzle.model;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MediatorLiveData;
+
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,9 +18,14 @@ class Phrase {
     private String clue;
     private String solution;
 
+    private LinkedList<Tile> tiles = new LinkedList<>();
+
+    private MediatorLiveData<Boolean> solved = new MediatorLiveData<>();
+
     private ArrayList<Character> solutionCharacters = new ArrayList<>();
 
     Phrase(String clue, String solution) {
+        this.solved.postValue(false);
         this.id = count.incrementAndGet();
         this.clue = clue;
         this.solution = solution;
@@ -46,6 +55,28 @@ class Phrase {
         return first;
     }
 
+    public void addTile(Tile tile) {
+        tiles.add(tile);
+    }
+
+    public void checkSolved() {
+        boolean solved = true;
+        for (Tile tile : tiles) {
+            if (!tile.hasCorrectCharacter()) {
+                solved = false;
+            }
+        }
+        setSolved(solved);
+    }
+
+    public LiveData<Boolean> isSolved() {
+        return solved;
+    }
+
+    public void setSolved(boolean solved) {
+        this.solved.postValue(solved);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,5 +94,4 @@ class Phrase {
     public int getLength(){
         return solution.length(); //TODO no clue for now
     }
-
 }

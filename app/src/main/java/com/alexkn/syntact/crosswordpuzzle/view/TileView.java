@@ -1,10 +1,14 @@
 package com.alexkn.syntact.crosswordpuzzle.view;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
@@ -23,8 +27,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class TileView extends AppCompatEditText{
+public class TileView extends AppCompatEditText {
 
+    private static final Integer COLOR_SOLVED = Color.argb(64, 0, 255, 0);
+    private static final Integer COLOR_UNSOLVED = Color.TRANSPARENT;
+
+    private static final Integer COLOR_FOCUSED = Color.argb(64, 255, 255, 0);
     private Paint paint;
 
     private Set<Direction> openDirections = new HashSet<>();
@@ -40,7 +48,6 @@ public class TileView extends AppCompatEditText{
 
         setInputType(InputType.TYPE_NULL);
 
-        setPrivateImeOptions("nm, com.google.android.inputmethod.latin.noMicrophoneKey");
         setFilters(new InputFilter[]{
                 new InputFilter.LengthFilter(1)
         });
@@ -58,20 +65,27 @@ public class TileView extends AppCompatEditText{
 
     @Override
     protected void onDraw(Canvas canvas) {
-
-//        canvas.drawLine(0, 0, getWidth()/1.2f, 0, paint);
-//        canvas.drawLine(0, 0, 0, getHeight()/1.2f, paint);
-        canvas.drawLine(0, 0, getWidth()/4, 0, paint);
-        canvas.drawLine(0, 0, 0, getHeight()/4, paint);
-        canvas.drawLine(getWidth(), getHeight(), getWidth() - getWidth()/4, getHeight(), paint);
-        canvas.drawLine(getWidth(), getHeight(), getWidth(), getHeight() - getHeight()/4, paint);
+        canvas.drawLine(0, 0, getWidth() / 4, 0, paint);
+        canvas.drawLine(0, 0, 0, getHeight() / 4, paint);
+        canvas.drawLine(getWidth(), getHeight(), getWidth() - getWidth() / 4, getHeight(), paint);
+        canvas.drawLine(getWidth(), getHeight(), getWidth(), getHeight() - getHeight() / 4, paint);
         super.onDraw(canvas);
 
     }
 
+    public void setFocused(boolean focused) {
+        if (focused) {
+            getBackground().setColorFilter(COLOR_FOCUSED, PorterDuff.Mode.ADD);
+        } else {
+            getBackground().clearColorFilter();
+        }
+    }
+
     public void setColor(Integer color) {
-//        getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
-        setBackgroundColor(color);
+        int currentColor = ((ColorDrawable) getBackground()).getColor();
+        ObjectAnimator colorFade = ObjectAnimator.ofObject(this, "backgroundColor", new ArgbEvaluator(), currentColor, color);
+        colorFade.setDuration(200);
+        colorFade.start();
     }
 
     public void setOpenDirections(Set<Direction> openDirections) {
@@ -86,24 +100,12 @@ public class TileView extends AppCompatEditText{
 
     }
 
-    private class TileTextWatcher implements TextWatcher {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+    public void setSolved(Boolean solved) {
+        if (solved) {
+            setColor(COLOR_SOLVED);
+        } else {
+            setColor(COLOR_UNSOLVED);
         }
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            String text = s.toString();
-            if (!text.equals(text.toUpperCase())) {
-                text = text.toUpperCase();
-                setText(text);
-            }
-        }
     }
 }
