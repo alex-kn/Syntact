@@ -9,9 +9,11 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayout;
 import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.crosswordpuzzle.model.CrosswordPuzzleViewModel;
@@ -24,7 +26,10 @@ import java.security.SecureRandom;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.function.Consumer;
 
 public class CrosswordPuzzleActivity extends AppCompatActivity {
 
@@ -39,7 +44,12 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
 
     private CrosswordPuzzleGridLayout gridLayout;
+
     private LinearLayout keyboardContainer;
+    private TextView verticalClueTextView;
+    private TextView horizontalClueTextView;
+    private LinearLayout horizontalClueContainer;
+    private LinearLayout verticalClueContainer;
     private LinearLayout clueLayout;
 
     private CrosswordPuzzleViewModel viewModel;
@@ -57,6 +67,12 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         addedTiles = new HashSet<>();
         keyboardContainer = findViewById(R.id.keyboardContainer);
         keyboardContainer.setGravity(Gravity.CENTER);
+
+        horizontalClueTextView = findViewById(R.id.horizontalClueTextView);
+        horizontalClueContainer = findViewById(R.id.horizontalClueContainer);
+
+        verticalClueTextView = findViewById(R.id.verticalClueTextView);
+        verticalClueContainer = findViewById(R.id.verticalClueContainer);
 
         clueLayout = findViewById(R.id.boardClueLayout);
         clueLayout.bringToFront();
@@ -78,6 +94,11 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
             }
         });
 
+        viewModel.nextPhrase();
+    }
+
+    public void nextPhrase(View view) {
+        viewModel.nextPhrase();
     }
 
     public void addTileToGrid(Tile tile) {
@@ -98,13 +119,12 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         tile.getOpenDirections().observe(this, tileView::setOpenDirections);
         tile.getCurrentCharacter().observe(this, tileView::setCurrentCharacter);
         tile.isPhraseSolved().observe(this,tileView::setSolved);
+        tile.isConnected().observe(this, tileView::setConnected);
 
-        tile.isFocused().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                if (aBoolean) {
-                    tileView.requestFocus();
-                }
+        tile.isFocused().observe(this, aBoolean -> {
+            if (aBoolean) {
+                tileView.requestFocus();
+                showClues(tile);
             }
         });
 
@@ -117,6 +137,33 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
             }
         });
         gridLayout.addView(tileView, params);
+        tileView.requestFocus();
+        gridLayout.scrollTo(Math.round(tileView.getX()), Math.round(tileView.getY()));
+    }
+
+    public void solveHorizontal(View view) {
+        focusedTile.solveHorizontal();
+    }
+
+    public void solveVertical(View view) {
+        focusedTile.solveVertical();
+    }
+
+    private void showClues(Tile tile) {
+        Optional<String> horizontalClue = tile.getHorizontalClue();
+        if (horizontalClue.isPresent()) {
+            horizontalClueContainer.setVisibility(View.VISIBLE);
+            horizontalClueTextView.setText(horizontalClue.get());
+        } else {
+            horizontalClueContainer.setVisibility(View.GONE);
+        }
+        Optional<String> verticalClue = tile.getVerticalClue();
+        if (verticalClue.isPresent()) {
+            verticalClueContainer.setVisibility(View.VISIBLE);
+            verticalClueTextView.setText(verticalClue.get());
+        } else {
+            verticalClueContainer.setVisibility(View.GONE);
+        }
     }
 
     private void showKeyboard(Tile tile) {
@@ -135,10 +182,11 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
             Button button = new Button(getApplicationContext());
             button.setOnClickListener(v -> {
                 focusedTile.setInput(((Button) v).getText().charAt(0));
-                focusedTile.getNext().ifPresent(tile1 -> {
-                    focusedTile = tile1;
-                    tile1.setFocused(true);
-                });
+                //TODO
+//                focusedTile.getNext().ifPresent(tile1 -> {
+//                    focusedTile = tile1;
+//                    tile1.setFocused(true);
+//                });
             });
             button.setText(character.toString());
             button.setLayoutParams(layoutParams);

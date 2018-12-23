@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:id="@+id/boardClueLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -19,12 +19,76 @@
         app:layout_constraintTop_toBottomOf="@+id/boardGridLayout">
 
         <LinearLayout
+            android:id="@+id/horizontalClueContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/horizontalClueTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/horSolveButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:elevation="0dp"
+                android:onClick="solveHorizontal"
+                android:text="Solve" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/verticalClueContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/verticalClueTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                android:gravity="center_horizontal" />
+
+            <Button
+                android:id="@+id/vertSolveButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="solveVertical"
+                android:text="Solve" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/keyboardContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/continueButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="nextPhrase"
+                android:text="Continue" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout

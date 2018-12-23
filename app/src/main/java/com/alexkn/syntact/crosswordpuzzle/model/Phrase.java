@@ -77,6 +77,20 @@ class Phrase {
         this.solved.postValue(solved);
     }
 
+    public void solve() {
+        for (Tile tile : tiles) {
+            tile.solve();
+        }
+
+    }
+
+    public void highlightTiles(boolean highlighted) {
+        for (Tile tile : tiles) {
+            tile.setConnected(highlighted);
+        }
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,5 +107,9 @@ class Phrase {
 
     public int getLength(){
         return solution.length(); //TODO no clue for now
+    }
+
+    public String getClue() {
+        return clue;
     }
 }

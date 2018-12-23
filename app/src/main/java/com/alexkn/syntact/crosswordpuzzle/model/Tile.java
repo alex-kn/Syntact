@@ -43,6 +43,7 @@ public class Tile {
     private TreeMap<Axis, Phrase> phrases = new TreeMap<>();
 
     private MutableLiveData<Boolean> focused = new MutableLiveData<>();
+    private MediatorLiveData<Boolean> connected = new MediatorLiveData<>();
 
     private final int maxRegistrations = 2;
 
@@ -51,6 +52,12 @@ public class Tile {
         this.x = x;
         this.y = y;
         phraseSolved.addSource(currentCharacter, character -> checkPhrasesSolved());
+        connected.addSource(focused, connected -> {
+            for (Phrase phrase : phrases.values()) {
+                phrase.highlightTiles(connected);
+            }
+
+        });
     }
 
     Tile(int[] coordinates) {
@@ -194,6 +201,14 @@ public class Tile {
         focused.postValue(value);
     }
 
+    public LiveData<Boolean> isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected.postValue(connected);
+    }
+
     public int getX() {
         return x;
     }
@@ -206,8 +221,36 @@ public class Tile {
         return id;
     }
 
-    private TreeMap<Axis, Phrase> getPhrases() {
+    public void solveHorizontal() {
+        phrases.get(Axis.X).solve();
+    }
+
+    public void solveVertical() {
+        phrases.get(Axis.Y).solve();
+    }
+
+    public void solve() {
+        currentCharacter.postValue(correctCharacter);
+    }
+
+    public TreeMap<Axis, Phrase> getPhrases() {
         return phrases;
+    }
+
+    public Optional<String> getHorizontalClue() {
+        Phrase phrase = phrases.get(Axis.X);
+        if (phrase != null) {
+            return Optional.of(phrase.getClue());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<String> getVerticalClue() {
+        Phrase phrase = phrases.get(Axis.Y);
+        if (phrase != null) {
+            return Optional.of(phrase.getClue());
+        }
+        return Optional.empty();
     }
 
     @Override
@@ -223,16 +266,5 @@ public class Tile {
     public int hashCode() {
         return Objects.hash(x, y);
     }
-
-//    class Registration {
-//
-//        Phrase phrase;
-//        Axis axis;
-//
-//        Registration(Phrase phrase, Axis axis) {
-//            this.phrase = phrase;
-//            this.axis = axis;
-//        }
-//    }
 
 }

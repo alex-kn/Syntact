@@ -5,34 +5,35 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatTextView;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 
 import com.alexkn.syntact.crosswordpuzzle.model.Direction;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
 public class TileView extends AppCompatEditText {
 
     private static final Integer COLOR_SOLVED = Color.argb(64, 0, 255, 0);
-    private static final Integer COLOR_UNSOLVED = Color.TRANSPARENT;
+    private static final Integer COLOR_NEUTRAL = Color.TRANSPARENT;
 
-    private static final Integer COLOR_FOCUSED = Color.argb(64, 255, 255, 0);
+    private static final Integer COLOR_FOCUSED = Color.argb(192, 255, 255, 0);
+    private static final Integer COLOR_CONNECTED = Color.argb(64, 255, 255, 0);
+
+    private boolean focused = false;
+    private boolean connected = false;
+
     private Paint paint;
 
     private Set<Direction> openDirections = new HashSet<>();
@@ -44,7 +45,6 @@ public class TileView extends AppCompatEditText {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
         paint.setStrokeWidth(2);
-
 
         setInputType(InputType.TYPE_NULL);
 
@@ -74,17 +74,30 @@ public class TileView extends AppCompatEditText {
     }
 
     public void setFocused(boolean focused) {
-        if (focused) {
+        this.focused = focused;
+        setColorFilters();
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
+        setColorFilters();
+    }
+
+    private void setColorFilters() {
+        if (this.focused) {
             getBackground().setColorFilter(COLOR_FOCUSED, PorterDuff.Mode.ADD);
+        } else if (this.connected) {
+            getBackground().setColorFilter(COLOR_CONNECTED, PorterDuff.Mode.ADD);
         } else {
             getBackground().clearColorFilter();
         }
+        invalidate();
     }
 
     public void setColor(Integer color) {
         int currentColor = ((ColorDrawable) getBackground()).getColor();
         ObjectAnimator colorFade = ObjectAnimator.ofObject(this, "backgroundColor", new ArgbEvaluator(), currentColor, color);
-        colorFade.setDuration(200);
+        colorFade.setDuration(50);
         colorFade.start();
     }
 
@@ -104,7 +117,7 @@ public class TileView extends AppCompatEditText {
         if (solved) {
             setColor(COLOR_SOLVED);
         } else {
-            setColor(COLOR_UNSOLVED);
+            setColor(COLOR_NEUTRAL);
         }
 
     }

@@ -19,29 +19,36 @@ public class CrosswordPuzzleViewModel extends ViewModel {
     private ConcurrentSkipListMap<Point, Tile> tiles;
 
     private MutableLiveData<Set<Tile>> tilesData = new MutableLiveData<>();
+    private LinkedList<Phrase> phrases  = new LinkedList<>();;
 
     public CrosswordPuzzleViewModel() {
         tiles = new ConcurrentSkipListMap<>(Comparator.comparing(Point::getX).thenComparing(Point::getY));
-        LinkedList<Phrase> phrases = new LinkedList<>();
-        phrases.add(new Phrase("Massive", "ACTION"));
-        phrases.add(new Phrase("Massive", "CLOWN"));
-        phrases.add(new Phrase("Massive", "OWEN"));
-        phrases.add(new Phrase("Massive", "LEWIS"));
-        phrases.add(new Phrase("Massive", "BEER"));
-        phrases.add(new Phrase("Massive", "TEA"));
-        phrases.add(new Phrase("Massive", "ALL"));
-        phrases.add(new Phrase("Massive", "WIGGLE"));
-        phrases.add(new Phrase("Massive", "WAIT"));
-        phrases.add(new Phrase("Massive", "LOW"));
-        phrases.add(new Phrase("Massive", "CARTOON"));
-        Collections.shuffle(phrases);
-        for (Phrase next : phrases) {
-            new PhrasePlacer(tiles -> {
-                tilesData.setValue(new HashSet<>(tiles.values()));
-                calculateNeighbors();
-            }).execute(new PlacingData(tiles, next));
-        }
+        phrases.add(new Phrase("Aktion", "ACTION"));
+        phrases.add(new Phrase("Clown", "CLOWN"));
+        phrases.add(new Phrase("Owen", "OWEN"));
+        phrases.add(new Phrase("Lewis", "LEWIS"));
+        phrases.add(new Phrase("Bier", "BEER"));
+        phrases.add(new Phrase("Tee", "TEA"));
+        phrases.add(new Phrase("Alle", "ALL"));
+        phrases.add(new Phrase("Wackeln", "WIGGLE"));
+        phrases.add(new Phrase("Warten", "WAIT"));
+        phrases.add(new Phrase("Niedrig", "LOW"));
+        phrases.add(new Phrase("Zeichentrickfilm", "CARTOON"));
+//        for (Phrase next : phrases) {
+//            new PhrasePlacer(tiles -> {
+//                tilesData.setValue(new HashSet<>(tiles.values()));
+//                calculateNeighbors();
+//            }).execute(new PlacingData(tiles, next));
+//        }
 
+    }
+
+    public void nextPhrase() {
+        Phrase phrase = phrases.pop();
+        new PhrasePlacer(tiles -> {
+            tilesData.setValue(new HashSet<>(tiles.values()));
+            calculateNeighbors();
+        }).execute(new PlacingData(tiles, phrase));
     }
 
     private void sortTilesByDistanceToOrigin() {
