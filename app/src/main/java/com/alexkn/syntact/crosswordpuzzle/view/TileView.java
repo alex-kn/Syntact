@@ -5,10 +5,8 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputFilter;
@@ -16,10 +14,9 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
 
-import com.alexkn.syntact.crosswordpuzzle.model.Direction;
+import com.alexkn.syntact.crosswordpuzzle.common.Direction;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 

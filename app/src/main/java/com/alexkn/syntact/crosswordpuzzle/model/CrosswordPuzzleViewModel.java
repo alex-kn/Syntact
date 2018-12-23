@@ -1,16 +1,14 @@
 package com.alexkn.syntact.crosswordpuzzle.model;
 
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
-import android.support.annotation.Nullable;
 
-import java.util.Collections;
+import com.alexkn.syntact.crosswordpuzzle.common.Direction;
+
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
 public class CrosswordPuzzleViewModel extends ViewModel {

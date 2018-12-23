@@ -2,6 +2,8 @@ package com.alexkn.syntact.crosswordpuzzle.model;
 
 import android.arch.lifecycle.MutableLiveData;
 
+import com.alexkn.syntact.crosswordpuzzle.common.Direction;
+
 import java.util.HashSet;
 import java.util.Set;
 

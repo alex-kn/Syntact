@@ -3,9 +3,8 @@ package com.alexkn.syntact.crosswordpuzzle.model;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.Observer;
-import android.graphics.Path;
-import android.support.annotation.Nullable;
+
+import com.alexkn.syntact.crosswordpuzzle.common.Direction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +15,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 public class Tile {
 
@@ -69,7 +67,6 @@ public class Tile {
             phrase.addTile(this);
             phraseSolved.addSource(phrase.isSolved(), aBoolean -> {
                 for (Phrase phrase1 : phrases.values()) {
-                    //noinspection ConstantConditions
                     if (phrase1.isSolved().getValue()) {
                         phraseSolved.postValue(true);
                         return;

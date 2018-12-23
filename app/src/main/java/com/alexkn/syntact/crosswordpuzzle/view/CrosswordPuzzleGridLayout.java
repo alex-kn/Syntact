@@ -34,7 +34,6 @@ public class CrosswordPuzzleGridLayout extends GridLayout {
         detectorCompat = new GestureDetectorCompat(ctx, new GridGestureListener());
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return detectorCompat.onTouchEvent(event);

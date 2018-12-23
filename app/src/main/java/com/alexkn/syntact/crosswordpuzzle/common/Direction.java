@@ -1,4 +1,4 @@
-package com.alexkn.syntact.crosswordpuzzle.model;
+package com.alexkn.syntact.crosswordpuzzle.common;
 
 import java.util.concurrent.ThreadLocalRandom;
 
