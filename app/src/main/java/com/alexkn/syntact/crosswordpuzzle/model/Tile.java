@@ -56,7 +56,6 @@ public class Tile {
             for (Phrase phrase : phrases.values()) {
                 phrase.highlightTiles(connected);
             }
-
         });
     }
 
