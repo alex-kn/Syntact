@@ -57,7 +57,7 @@ public class CrosswordPuzzleGridLayout extends GridLayout {
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            scrollBy(Math.round(distanceX), Math.round(distanceY));
+            scrollBy(0, Math.round(distanceY));
             return false;
         }
 

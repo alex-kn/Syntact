@@ -67,14 +67,21 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipLis
             int[] coordinates = currentTile.getCoordinates();
             coordinates[freeAxis.index()] -= intersectingCharacterIndex;
 
+            if (indexIsOutOfBounds(coordinates[0])) {
+                continue;
+            }
+
             for (int j = 0; j < phrase.getLength(); j++) {
                 Character character = phrase.getCharacterAt(j);
                 Tile tile = getTileAt(coordinates);
                 tilesToRegister.add(tile);
                 coordinates[freeAxis.index()]++;
-                if (!(tile.canHaveCharacter(character) && tile.isAxisFree(freeAxis))) {
+                if (!(tile.canHaveCharacter(character) && tile.isAxisFree(freeAxis)) ||
+                        indexIsOutOfBounds(coordinates[0])) {
                     successful = false;
                     break;
+                } else {
+                    successful = true;
                 }
             }
             if (successful) {
@@ -121,7 +128,7 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipLis
         int segmentPassed = 0;
         for (int k = 0; k < iterations; ++k) {
             // make a step, add 'direction' vector (di, dj) to current position (i, j)
-            if (!tiles.containsKey(new Point(i, j))) {
+            if (!tiles.containsKey(new Point(i, j)) && !indexIsOutOfBounds(i)) {
                 return new Tile(i, j);
             }
             System.out.println(i + " " + j);
@@ -145,6 +152,10 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipLis
             }
         }
         throw new RuntimeException();
+    }
+
+    private boolean indexIsOutOfBounds(int index) {
+        return index < 0 || index >4;
     }
 
     @Override

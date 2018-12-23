@@ -94,7 +94,7 @@ public class TileView extends AppCompatEditText {
     public void setColor(Integer color) {
         int currentColor = ((ColorDrawable) getBackground()).getColor();
         ObjectAnimator colorFade = ObjectAnimator.ofObject(this, "backgroundColor", new ArgbEvaluator(), currentColor, color);
-        colorFade.setDuration(50);
+        colorFade.setDuration(0);
         colorFade.start();
     }
 

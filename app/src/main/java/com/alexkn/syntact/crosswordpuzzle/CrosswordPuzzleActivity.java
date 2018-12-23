@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.crosswordpuzzle.model.CrosswordPuzzleViewModel;
 import com.alexkn.syntact.crosswordpuzzle.model.Tile;
 import com.alexkn.syntact.crosswordpuzzle.view.CrosswordPuzzleGridLayout;
 import com.alexkn.syntact.crosswordpuzzle.view.TileView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.security.SecureRandom;
 import java.util.HashSet;
@@ -33,8 +35,8 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
     private Tile focusedTile;
 
-    int boardSize = 40;
-    int offset = 20;
+    int boardSize = 80;
+    int offset = 40;
 
 
     private CrosswordPuzzleGridLayout gridLayout;
@@ -73,7 +75,7 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
         gridLayout = findViewById(R.id.boardGridLayout);
         gridLayout.setRowCount(boardSize);
-        gridLayout.setColumnCount(boardSize);
+        gridLayout.setColumnCount(5);
         gridLayout.init(getApplicationContext());
 
         ActionBar actionBar = getActionBar();
@@ -86,6 +88,10 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
         viewModel.nextPhrase();
 
         getSupportActionBar().hide();
+
+        FloatingActionButton continueButton = findViewById(R.id.fab);
+        continueButton.setOnClickListener(this::nextPhrase);
+
     }
 
     public void nextPhrase(View view) {
@@ -95,7 +101,7 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
     public void addTileToGrid(Tile tile) {
         if (addedTiles.contains(tile.getId())) return;
         addedTiles.add(tile.getId());
-        int x = tile.getX() + offset;
+        int x = tile.getX();
         int y = tile.getY() + offset;
         GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(y), GridLayout.spec(x));
         params.setMargins(5, 5, 5, 5);
@@ -143,17 +149,11 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
     private void showClues(Tile tile) {
         Optional<String> horizontalClue = tile.getHorizontalClue();
         if (horizontalClue.isPresent()) {
-            horizontalClueContainer.setVisibility(View.VISIBLE);
-            horizontalClueTextView.setText(horizontalClue.get());
-        } else {
-            horizontalClueContainer.setVisibility(View.GONE);
+            Toast.makeText(this, horizontalClue.get(), Toast.LENGTH_SHORT).show();
         }
         Optional<String> verticalClue = tile.getVerticalClue();
         if (verticalClue.isPresent()) {
-            verticalClueContainer.setVisibility(View.VISIBLE);
-            verticalClueTextView.setText(verticalClue.get());
-        } else {
-            verticalClueContainer.setVisibility(View.GONE);
+            Toast.makeText(this, verticalClue.get(), Toast.LENGTH_SHORT).show();
         }
     }
 
