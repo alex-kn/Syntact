@@ -1,10 +1,10 @@
 package com.alexkn.syntact.crosswordpuzzle;
 
 import android.app.ActionBar;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.gridlayout.widget.GridLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;

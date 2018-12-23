@@ -1,9 +1,8 @@
 package com.alexkn.syntact.crosswordpuzzle.view;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.widget.GridLayout;
+import androidx.core.view.GestureDetectorCompat;
+import androidx.gridlayout.widget.GridLayout;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;

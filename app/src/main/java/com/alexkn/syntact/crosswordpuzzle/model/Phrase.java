@@ -1,7 +1,7 @@
 package com.alexkn.syntact.crosswordpuzzle.model;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 import java.util.ArrayList;
 import java.util.HashSet;

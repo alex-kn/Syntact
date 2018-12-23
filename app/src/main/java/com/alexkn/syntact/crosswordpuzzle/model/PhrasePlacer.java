@@ -22,14 +22,14 @@ public class PhrasePlacer extends AsyncTask<PlacingData, Void, ConcurrentSkipLis
 
 
         tiles = placingData[0].tiles;
-            addPhraseToGrid(placingData[0].phrase);
+        addPhraseToGrid(placingData[0].phrase);
 
-            return tiles;
+        return tiles;
 
     }
 
     private void addPhraseToGrid(Phrase phrase) {
-        for (Map.Entry<Point, Tile> entry : tiles.entrySet()){
+        for (Map.Entry<Point, Tile> entry : tiles.entrySet()) {
             Tile currentTile = entry.getValue();
             if (!currentTile.isFull()) {
                 Character intersectingCharacter = currentTile.getCorrectCharacter();

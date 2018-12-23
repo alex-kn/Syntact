@@ -1,6 +1,6 @@
 package com.alexkn.syntact.crosswordpuzzle.model;
 
-import android.arch.lifecycle.MutableLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.alexkn.syntact.crosswordpuzzle.common.Direction;
 

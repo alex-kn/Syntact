@@ -1,8 +1,7 @@
 package com.alexkn.syntact.crosswordpuzzle.model;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.MutableLiveData;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.alexkn.syntact.crosswordpuzzle.common.Direction;
 
@@ -15,6 +14,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class Tile {
 
@@ -65,7 +68,8 @@ public class Tile {
         if (phrases.size() <= maxRegistrations) {
             phrases.put(axis, phrase);
             phrase.addTile(this);
-            phraseSolved.addSource(phrase.isSolved(), aBoolean -> {
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(() -> phraseSolved.addSource(phrase.isSolved(), aBoolean -> {
                 for (Phrase phrase1 : phrases.values()) {
                     if (phrase1.isSolved().getValue()) {
                         phraseSolved.postValue(true);
@@ -74,7 +78,9 @@ public class Tile {
                 }
                 phraseSolved.postValue(false);
 
-            });
+            }));
+
+
         }
     }
 
