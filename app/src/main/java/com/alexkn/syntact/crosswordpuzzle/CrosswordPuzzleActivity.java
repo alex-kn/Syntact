@@ -87,8 +87,6 @@ public class CrosswordPuzzleActivity extends AppCompatActivity {
 
         viewModel.nextPhrase();
 
-        getSupportActionBar().hide();
-
         FloatingActionButton continueButton = findViewById(R.id.fab);
         continueButton.setOnClickListener(this::nextPhrase);
 
