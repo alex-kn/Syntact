@@ -32,7 +32,11 @@ public class CardRunnerFragment extends Fragment {
 
         cardsView = view.findViewById(R.id.cardsView);
         cardsView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        cardsView.setAdapter(new CardAdapter(viewModel.getPhrases()));
+        CardAdapter adapter = new CardAdapter();
+        cardsView.setAdapter(adapter);
+
+        viewModel.getPhrases().observe(this, phrases -> adapter.setData(phrases));
+
         return view;
     }
 

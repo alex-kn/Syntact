@@ -3,27 +3,35 @@ package com.alexkn.syntact.cardrunner.ui;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 public class CardRunnerViewModel extends ViewModel {
 
-    public List<Phrase> getPhrases() {
-        return phrases;
-    }
-
-    private final List<Phrase> phrases = new ArrayList<>();
+    private final MutableLiveData<List<Phrase>> phrases = new MutableLiveData<>();
 
     public CardRunnerViewModel() {
-        phrases.add(new Phrase("Aktion", "Action"));
-        phrases.add(new Phrase("Clown", "Clown"));
-        phrases.add(new Phrase("Owen", "Owen"));
-        phrases.add(new Phrase("Lewis", "Lewis"));
-        phrases.add(new Phrase("Bier", "Beer"));
-        phrases.add(new Phrase("Tee", "Tea"));
-        phrases.add(new Phrase("Alle", "All"));
-        phrases.add(new Phrase("Wackeln", "Wiggle"));
-        phrases.add(new Phrase("Warten", "Wait"));
-        phrases.add(new Phrase("Niedrig", "Low"));
-        phrases.add(new Phrase("Zeichentrickfilm", "Cartoon"));
+
+
+        ArrayList<Phrase> tmpPhrases = new ArrayList<>();
+        tmpPhrases.add(new Phrase("Aktion", "Action"));
+        tmpPhrases.add(new Phrase("Clown", "Clown"));
+        tmpPhrases.add(new Phrase("Owen", "Owen"));
+        tmpPhrases.add(new Phrase("Lewis", "Lewis"));
+        tmpPhrases.add(new Phrase("Bier", "Beer"));
+        tmpPhrases.add(new Phrase("Tee", "Tea"));
+        tmpPhrases.add(new Phrase("Alle", "All"));
+        tmpPhrases.add(new Phrase("Wackeln", "Wiggle"));
+        tmpPhrases.add(new Phrase("Warten", "Wait"));
+        tmpPhrases.add(new Phrase("Niedrig", "Low"));
+        tmpPhrases.add(new Phrase("Zeichentrickfilm", "Cartoon"));
+
+
+        phrases.setValue(tmpPhrases);
+    }
+
+    public LiveData<List<Phrase>> getPhrases() {
+        return phrases;
     }
 }

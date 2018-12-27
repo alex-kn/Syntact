@@ -29,8 +29,9 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.CardViewHolder
         }
     }
 
-    public CardAdapter(List<Phrase> phrases) {
-        this.phrases = phrases;
+    public void setData(List<Phrase> data){
+        this.phrases= data;
+        notifyDataSetChanged();
     }
 
     @NonNull
