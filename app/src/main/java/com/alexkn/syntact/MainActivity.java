@@ -3,11 +3,9 @@ package com.alexkn.syntact;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 
-import com.alexkn.syntact.cardrunner.CardRunnerActivity;
-import com.alexkn.syntact.crosswordpuzzle.CrosswordPuzzleActivity;
+import com.alexkn.syntact.cardrunner.HangWordsActivity;
 
 public class MainActivity extends Activity {
 
@@ -18,7 +16,7 @@ public class MainActivity extends Activity {
     }
 
     public void startGame(View view) {
-        Intent intent = new Intent(this, CardRunnerActivity.class);
+        Intent intent = new Intent(this, HangWordsActivity.class);
         startActivity(intent);
     }
 }

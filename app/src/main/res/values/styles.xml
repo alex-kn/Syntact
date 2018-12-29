@@ -1,15 +1,14 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#6200EE</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorPrimaryVariant">#3700B3</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#03DAC6</item>
-        <item name="colorSecondaryVariant">#018786</item>
-        <item name="colorOnSecondary">#000000</item>
+        <item name="colorPrimary">#03DAC6</item>
+        <item name="colorPrimaryVariant">#018786</item>
+        <item name="colorOnPrimary">#000</item>
+        <item name="colorSecondary">#6200EE</item>
+        <item name="colorSecondaryVariant">#3700B3</item>
+        <item name="colorOnSecondary">#FFFFFF</item>
+        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
     </style>
-
 </resources>

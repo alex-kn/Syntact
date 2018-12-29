@@ -6,7 +6,7 @@ import com.alexkn.syntact.R;
 
 import androidx.fragment.app.FragmentActivity;
 
-public class CardRunnerActivity extends FragmentActivity {
+public class HangWordsActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

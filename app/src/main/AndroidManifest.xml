@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".crosswordpuzzle.CrosswordPuzzleActivity" />
-        <activity android:name=".cardrunner.CardRunnerActivity"></activity>
+        <activity android:name=".cardrunner.HangWordsActivity"></activity>
     </application>
 
 </manifest>

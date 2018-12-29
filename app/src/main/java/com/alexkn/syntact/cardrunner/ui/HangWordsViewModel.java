@@ -7,12 +7,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CardRunnerViewModel extends ViewModel {
+public class HangWordsViewModel extends ViewModel {
 
     private final MutableLiveData<List<Phrase>> phrases = new MutableLiveData<>();
 
-    public CardRunnerViewModel() {
-
+    public HangWordsViewModel() {
 
         ArrayList<Phrase> tmpPhrases = new ArrayList<>();
         tmpPhrases.add(new Phrase("Aktion", "Action"));
