@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.alexkn.syntact.cardrunner.HangWordsActivity;
+import com.alexkn.syntact.hangwords.HangwordsActivity;
 
 public class MainActivity extends Activity {
 
@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
     }
 
     public void startGame(View view) {
-        Intent intent = new Intent(this, HangWordsActivity.class);
+        Intent intent = new Intent(this, HangwordsActivity.class);
         startActivity(intent);
     }
 }
