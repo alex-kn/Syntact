@@ -25,15 +25,13 @@ class LetterViewHolder extends EntityViewHolder<Letter> {
 
         textView.setText(letter.getCharacter().toString());
 
-        itemView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    v.startDragAndDrop(ClipData.newPlainText(letter.toString(), letter.toString()),
-                            new LetterDragShadow(v), null, 0);
-                }
-                return false;
+        itemView.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                v.performClick();
+                v.startDragAndDrop(ClipData.newPlainText(letter.toString(), letter.toString()),
+                        new LetterDragShadow(v), null, View.DRAG_FLAG_OPAQUE);
             }
+            return false;
         });
     }
 
@@ -48,7 +46,6 @@ class LetterViewHolder extends EntityViewHolder<Letter> {
             View v = getView();
             int height = v.getHeight();
             int width = v.getWidth();
-            v.setAlpha(1f);
             shadowSize.set(width, height);
             shadowTouchPoint.set((width / 2), height*2);
         }
