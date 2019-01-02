@@ -13,7 +13,11 @@ class LetterViewHolder extends EntityViewHolder<Letter> {
     LetterViewHolder(View v) {
         super(v);
         textView = v.findViewById(R.id.characterTextView);
+        textView.setMinHeight(textView.getMeasuredWidth());
+
     }
+
+
 
     void bindTo(Letter letter) {
 

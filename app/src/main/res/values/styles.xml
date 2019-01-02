@@ -2,13 +2,30 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">#03DAC6</item>
-        <item name="colorPrimaryVariant">#018786</item>
-        <item name="colorOnPrimary">#000</item>
-        <item name="colorSecondary">#6200EE</item>
-        <item name="colorSecondaryVariant">#3700B3</item>
-        <item name="colorOnSecondary">#FFFFFF</item>
-        <item name="android:statusBarColor">?android:attr/colorPrimary</item>
+
+        <item name="colorPrimary">@color/lightShades</item>
+        <item name="colorPrimaryDark">@color/darkShades</item>
+        <item name="colorSecondary">@color/main</item>
+
+        <item name="colorOnPrimary">@color/darkShades</item>
+        <item name="colorOnSecondary">@color/darkShades</item>
+
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/darkShades</item>
+
+        <item name="materialCardViewStyle">@style/HangwordsCardStyle</item>
+
+        <item name="android:windowBackground">@color/darkShades</item>
+        <item name="android:textColorPrimary">@color/darkShades</item>
     </style>
+
+    <style name="HangwordsCardStyle" parent="Widget.MaterialComponents.CardView">
+
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+    
+
+
+
 </resources>
