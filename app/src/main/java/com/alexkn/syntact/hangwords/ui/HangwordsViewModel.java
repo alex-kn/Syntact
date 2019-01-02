@@ -1,11 +1,18 @@
 package com.alexkn.syntact.hangwords.ui;
 
+import com.alexkn.syntact.hangwords.dataaccess.Phrase;
+import com.alexkn.syntact.hangwords.logic.SolvablePhrase;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 public class HangwordsViewModel extends ViewModel {
@@ -13,6 +20,8 @@ public class HangwordsViewModel extends ViewModel {
     private final MutableLiveData<List<Phrase>> phrases = new MutableLiveData<>();
 
     private final MutableLiveData<List<Letter>> letters = new MutableLiveData<>();
+
+    private final LiveData<List<SolvablePhrase>> solvablePhrases;
 
     public HangwordsViewModel() {
 
@@ -29,13 +38,21 @@ public class HangwordsViewModel extends ViewModel {
         tmpPhrases.add(new Phrase("Niedrig", "Low"));
         tmpPhrases.add(new Phrase("Zeichentrickfilm", "Cartoon"));
 
-        letters.setValue(Arrays.asList(new Letter('A'), new Letter('L'), new Letter('P'), new Letter
-                ('O'), new Letter('W'), new Letter('C'), new Letter('D'), new Letter('E'), new
-                Letter
-                ('Z'), new Letter('Y'), new Letter('Q'), new Letter('B')));
+        solvablePhrases = Transformations
+                .map(phrases, HangwordsViewModel::convertyPhrasesToUiModel);
 
+
+        List<Letter> letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".chars()
+                .mapToObj(character -> new Letter(((char) character))).collect(Collectors.toList());
+        this.letters.setValue(letters);
 
         phrases.setValue(tmpPhrases);
+    }
+
+    private static List<SolvablePhrase> convertyPhrasesToUiModel(List<Phrase> phrases) {
+        return phrases.stream().map(phrase -> new SolvablePhrase(phrase.getId(), phrase.getClue(),
+                phrase.getSolution(), StringUtils.repeat('_', phrase.getSolution().length())))
+                .collect(Collectors.toList());
     }
 
     public LiveData<List<Phrase>> getPhrases() {
@@ -44,5 +61,9 @@ public class HangwordsViewModel extends ViewModel {
 
     public LiveData<List<Letter>> getLetters() {
         return letters;
+    }
+
+    public LiveData<List<SolvablePhrase>> getSolvablePhrases() {
+        return solvablePhrases;
     }
 }

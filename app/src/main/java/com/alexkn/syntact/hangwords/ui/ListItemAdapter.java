@@ -1,6 +1,6 @@
 package com.alexkn.syntact.hangwords.ui;
 
-import com.alexkn.syntact.hangwords.util.Entity;
+import com.alexkn.syntact.hangwords.util.Identifiable;
 
 import java.util.List;
 
@@ -9,19 +9,20 @@ import androidx.recyclerview.widget.AsyncListDiffer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class EntityListAdapter<T extends Entity, S extends RecyclerView.ViewHolder>
+public abstract class ListItemAdapter<T extends Identifiable, S extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<S> {
 
     private final DiffUtil.ItemCallback<T> DIFF_CALLBACK = new DiffUtil
             .ItemCallback<T>() {
 
         @Override
-        public boolean areItemsTheSame(@NonNull Entity oldItem, @NonNull Entity newItem) {
+        public boolean areItemsTheSame(@NonNull Identifiable oldItem, @NonNull Identifiable newItem) {
             return oldItem.getId() == newItem.getId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull Entity oldItem, @NonNull Entity newItem) {
+        public boolean areContentsTheSame(@NonNull Identifiable oldItem, @NonNull
+                Identifiable newItem) {
             return oldItem.equals(newItem);
         }
     };

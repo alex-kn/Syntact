@@ -1,6 +1,6 @@
 package com.alexkn.syntact.hangwords.util;
 
-public interface Entity {
+public interface Identifiable {
 
     int getId();
 }

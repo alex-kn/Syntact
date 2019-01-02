@@ -1,11 +1,10 @@
-package com.alexkn.syntact.hangwords.ui;
+package com.alexkn.syntact.hangwords.dataaccess;
 
-import com.alexkn.syntact.hangwords.util.Entity;
-
+import java.time.Instant;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class Phrase implements Entity {
+public class Phrase {
 
     private static final AtomicInteger count = new AtomicInteger(0);
 
@@ -15,7 +14,11 @@ class Phrase implements Entity {
 
     private String solution;
 
-    Phrase(String clue, String solution) {
+    private Instant lastSolved;
+
+    private int timesSolved;
+
+    public Phrase(String clue, String solution) {
         this.clue = clue;
         this.solution = solution;
         id = count.getAndIncrement();
@@ -33,6 +36,21 @@ class Phrase implements Entity {
         return id;
     }
 
+    public Instant getLastSolved() {
+        return lastSolved;
+    }
+
+    public void setLastSolved(Instant lastSolved) {
+        this.lastSolved = lastSolved;
+    }
+
+    public int getTimesSolved() {
+        return timesSolved;
+    }
+
+    public void setTimesSolved(int timesSolved) {
+        this.timesSolved = timesSolved;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,4 +65,5 @@ class Phrase implements Entity {
     public int hashCode() {
         return Objects.hash(id, clue, solution);
     }
+
 }

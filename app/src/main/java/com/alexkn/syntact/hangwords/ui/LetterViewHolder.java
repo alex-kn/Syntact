@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 
-class LetterViewHolder extends EntityViewHolder<Letter> {
+class LetterViewHolder extends ListItemViewHolder<Letter> {
 
 
     private TextView textView;

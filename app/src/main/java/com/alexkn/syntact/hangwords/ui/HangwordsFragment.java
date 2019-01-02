@@ -36,6 +36,7 @@ public class HangwordsFragment extends Fragment  {
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         PhraseListAdapter phraseListAdapter = new PhraseListAdapter();
+
         cardsView.setAdapter(phraseListAdapter);
 
         lettersView = view.findViewById(R.id.lettersView);
@@ -46,7 +47,7 @@ public class HangwordsFragment extends Fragment  {
         lettersView.setAdapter(letterListAdapter);
 
         viewModel.getLetters().observe(this, letterListAdapter::submitList);
-        viewModel.getPhrases().observe(this, phraseListAdapter::submitList);
+        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
 
         return view;
     }

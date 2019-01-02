@@ -14,4 +14,10 @@
     <color name="darkAccent">#C76D69</color>
     <color name="darkShades">#833A46</color>
 
+    <color name="success">#59a36a</color>
+    <color name="warning">#dd983e</color>
+    <color name="danger">#f44336</color>
+    <color name="info">#563574</color>
+
+
 </resources>
