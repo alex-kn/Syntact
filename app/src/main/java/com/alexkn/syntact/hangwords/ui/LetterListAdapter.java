@@ -1,6 +1,8 @@
 package com.alexkn.syntact.hangwords.ui;
 
+import android.content.ClipData;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -8,6 +10,7 @@ import com.alexkn.syntact.R;
 import com.google.android.material.card.MaterialCardView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ItemTouchHelper;
 
 public class LetterListAdapter extends EntityListAdapter<Letter, LetterViewHolder> {
 
@@ -21,6 +24,7 @@ public class LetterListAdapter extends EntityListAdapter<Letter, LetterViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull LetterViewHolder holder, int position) {
-        holder.bindTo(getList().get(position));
+        Letter letter = getList().get(position);
+        holder.bindTo(letter);
     }
 }

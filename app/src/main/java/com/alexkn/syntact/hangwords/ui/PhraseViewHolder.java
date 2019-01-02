@@ -1,5 +1,7 @@
 package com.alexkn.syntact.hangwords.ui;
 
+import android.content.ClipData;
+import android.view.DragEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -20,6 +22,22 @@ class PhraseViewHolder extends EntityViewHolder<Phrase> {
     void bindTo(Phrase phrase) {
         clueTextView.setText(phrase.getClue());
         solutionTextView.setText(phrase.getSolution());
+
+        addDragListener();
+
+    }
+
+
+    void addDragListener(){
+        itemView.setOnDragListener((v, event) -> {
+
+            if (event.getAction() == DragEvent.ACTION_DROP) {
+                ClipData.Item item = event.getClipData().getItemAt(0);
+                String letter = item.getText().toString();
+            }
+            v.invalidate();
+            return true;
+        });
     }
 
 

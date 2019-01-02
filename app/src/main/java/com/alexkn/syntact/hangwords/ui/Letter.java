@@ -4,6 +4,8 @@ import com.alexkn.syntact.hangwords.util.Entity;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.annotation.NonNull;
+
 public class Letter implements Entity {
 
     private static final AtomicInteger count = new AtomicInteger(0);
@@ -15,6 +17,12 @@ public class Letter implements Entity {
     public Letter(Character letter) {
         id = count.getAndIncrement();
         this.character = letter;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return character.toString();
     }
 
     @Override

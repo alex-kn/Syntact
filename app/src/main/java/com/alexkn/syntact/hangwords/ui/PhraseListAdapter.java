@@ -1,5 +1,7 @@
 package com.alexkn.syntact.hangwords.ui;
 
+import android.graphics.Color;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +9,7 @@ import android.view.ViewGroup;
 import com.alexkn.syntact.R;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 
 public class PhraseListAdapter extends EntityListAdapter<Phrase, PhraseViewHolder> {
     @NonNull
@@ -21,5 +24,6 @@ public class PhraseListAdapter extends EntityListAdapter<Phrase, PhraseViewHolde
     @Override
     public void onBindViewHolder(@NonNull PhraseViewHolder holder, int position) {
         holder.bindTo(getList().get(position));
+
     }
 }

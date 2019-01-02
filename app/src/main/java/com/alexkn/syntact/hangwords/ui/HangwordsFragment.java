@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.alexkn.syntact.R;
 
 
-public class HangwordsFragment extends Fragment {
+public class HangwordsFragment extends Fragment  {
 
     private HangwordsViewModel viewModel;
 
