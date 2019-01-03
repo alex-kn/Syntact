@@ -39,37 +39,15 @@ class PhraseViewHolder extends ListItemViewHolder<SolvablePhrase> {
 
     PhraseViewHolder(View v) {
         super(v);
+        v.setFocusable(false);
         clueTextView = v.findViewById(R.id.clueTextView);
         solutionTextView = v.findViewById(R.id.solutionTextView);
     }
 
     @Override
     public void bindTo(SolvablePhrase phrase) {
-
-        updatePhrase(phrase);
-        addDragListener();
-
-    }
-
-    private void updatePhrase(SolvablePhrase phrase) {
         this.phrase = phrase;
         clueTextView.setText(phrase.getClue());
         solutionTextView.setText(phrase.getCurrentText());
-    }
-
-    private void addDragListener() {
-        itemView.setOnDragListener((v, event) -> {
-
-            if (event.getAction() == DragEvent.ACTION_DROP) {
-                ClipData.Item item = event.getClipData().getItemAt(0);
-                Character letter = item.getText().toString().charAt(0);
-                if (PhraseSolver.getInstance().isCharacterCorrect(this.phrase, letter)) {
-                    SolvablePhrase phrase = PhraseSolver.getInstance().solve(this.phrase, letter);
-                    updatePhrase(phrase);
-                }
-            }
-            v.invalidate();
-            return true;
-        });
     }
 }

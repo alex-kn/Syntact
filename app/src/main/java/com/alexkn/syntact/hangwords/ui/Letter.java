@@ -2,6 +2,7 @@ package com.alexkn.syntact.hangwords.ui;
 
 import com.alexkn.syntact.hangwords.util.Identifiable;
 
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,21 @@ public class Letter implements Identifiable {
     }
 
     @Override
-    public int getId() {
+    public Integer getId() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Letter letter = (Letter) o;
+        return id == letter.id && Objects.equals(character, letter.character);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, character);
     }
 }

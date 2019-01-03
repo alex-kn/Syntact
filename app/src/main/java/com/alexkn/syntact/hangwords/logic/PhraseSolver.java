@@ -1,5 +1,7 @@
 package com.alexkn.syntact.hangwords.logic;
 
+import com.alexkn.syntact.hangwords.ui.Letter;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.stream.IntStream;
@@ -11,14 +13,18 @@ public class PhraseSolver {
         return ourInstance;
     }
 
+    private LetterManagement letterManagement;
+
     private PhraseSolver() {
+        letterManagement = LetterManagement.getInstance();
     }
 
-    public boolean isCharacterCorrect(SolvablePhrase phrase, Character character) {
-        return StringUtils.containsIgnoreCase(phrase.getSolution(), character.toString());
+    public boolean isCharacterCorrect(SolvablePhrase phrase, int id) {
+        return StringUtils.containsIgnoreCase(phrase.getSolution(), letterManagement.findLetter(id).toString());
     }
 
-    public SolvablePhrase solve(SolvablePhrase phrase, Character character) {
+    public SolvablePhrase solve(SolvablePhrase phrase, int id) {
+        Character character = letterManagement.findLetter(id).getCharacter();
         String solution = phrase.getSolution();
         IntStream indices = IntStream.range(0, solution.length()).filter(i -> StringUtils
                 .equalsIgnoreCase(character.toString(), String.valueOf(solution.charAt(i))));

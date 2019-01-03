@@ -51,19 +51,21 @@ public class Phrase {
     public void setTimesSolved(int timesSolved) {
         this.timesSolved = timesSolved;
     }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, clue, solution, lastSolved, timesSolved);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Phrase phrase = (Phrase) o;
-        return id == phrase.id &&
-                Objects.equals(clue, phrase.clue) &&
-                Objects.equals(solution, phrase.solution);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, clue, solution);
+        return id == phrase.id && timesSolved == phrase.timesSolved &&
+                Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
+                Objects.equals(lastSolved, phrase.lastSolved);
     }
 
 }
