@@ -17,7 +17,7 @@ public class Letter implements Identifiable {
 
     private Character character;
 
-    Letter(Character letter) {
+    public Letter(Character letter) {
         this.id = count.getAndIncrement();
         this.character = letter;
     }
