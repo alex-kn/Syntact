@@ -1,4 +1,4 @@
-package com.alexkn.syntact.hangwords.ui;
+package com.alexkn.syntact.hangwords.ui.util;
 
 import com.alexkn.syntact.hangwords.util.Identifiable;
 
@@ -17,7 +17,7 @@ public class Letter implements Identifiable {
 
     private Character character;
 
-    public Letter(Character letter) {
+    Letter(Character letter) {
         this.id = count.getAndIncrement();
         this.character = letter;
     }

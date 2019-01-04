@@ -20,8 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".crosswordpuzzle.CrosswordPuzzleActivity" />
-        <activity android:name=".hangwords.HangwordsActivity"></activity>
+        <activity android:name=".hangwords.HangwordsActivity" />
     </application>
 
 </manifest>

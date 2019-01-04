@@ -1,6 +1,7 @@
-package com.alexkn.syntact.hangwords.util;
+package com.alexkn.syntact.hangwords.ui.util;
 
-import androidx.annotation.IntDef;
+import com.alexkn.syntact.hangwords.util.Identifiable;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 

@@ -6,8 +6,8 @@ import com.alexkn.syntact.hangwords.util.Identifiable;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class ListItemViewHolder<T extends Identifiable> extends RecyclerView.ViewHolder {
-    public ListItemViewHolder(View v) {
+abstract class ListItemViewHolder<T extends Identifiable> extends RecyclerView.ViewHolder {
+    ListItemViewHolder(View v) {
         super(v);
     }
 

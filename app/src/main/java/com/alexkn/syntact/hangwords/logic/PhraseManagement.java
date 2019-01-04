@@ -1,7 +1,6 @@
 package com.alexkn.syntact.hangwords.logic;
 
 import com.alexkn.syntact.hangwords.dataaccess.Phrase;
-import com.alexkn.syntact.hangwords.ui.Letter;
 
 import java.time.Instant;
 import java.util.ArrayList;

@@ -2,17 +2,15 @@ package com.alexkn.syntact.hangwords.ui;
 
 import android.content.ClipData;
 import android.graphics.Point;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.hangwords.logic.LetterManagement;
+import com.alexkn.syntact.hangwords.ui.util.Letter;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModelProviders;
 
 public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder> {
 
