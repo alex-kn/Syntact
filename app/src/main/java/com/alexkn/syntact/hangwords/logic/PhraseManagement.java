@@ -5,15 +5,16 @@ import com.alexkn.syntact.hangwords.dataaccess.Phrase;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class PhraseManagement {
+class PhraseManagement {
     private static final PhraseManagement ourInstance = new PhraseManagement();
 
-    public static PhraseManagement getInstance() {
+    static PhraseManagement getInstance() {
         return ourInstance;
     }
 
@@ -38,8 +39,8 @@ public class PhraseManagement {
 
     }
 
-    public void solvePhrase(int id) {
-        List<Phrase> value = new ArrayList<>(phrases.getValue());
+    void solvePhrase(int id) {
+        List<Phrase> value = new ArrayList<>(Objects.requireNonNull(phrases.getValue()));
         List<Phrase> collect = value.stream().peek(phrase1 -> {
             if (phrase1.getId() == id) {
                 phrase1.setLastSolved(Instant.now());
@@ -48,12 +49,7 @@ public class PhraseManagement {
         phrases.setValue(collect);
     }
 
-    public Phrase findPhrase(int id) {
-        return phrases.getValue().stream().filter(phrase -> phrase.getId() == id).findFirst().get();
-
-    }
-
-    public LiveData<List<Phrase>> getPhrases() {
+    LiveData<List<Phrase>> getPhrases() {
         return phrases;
     }
 }

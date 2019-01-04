@@ -21,29 +21,30 @@ import java.util.List;
 
 public class HangwordsFragment extends Fragment {
 
-    private HangwordsViewModel viewModel;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.hangwords_fragment, container, false);
-        viewModel = ViewModelProviders.of(this).get(HangwordsViewModel.class);
+        HangwordsViewModel viewModel = ViewModelProviders.of(this).get(HangwordsViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
-        PhraseListAdapter phraseListAdapter = new PhraseListAdapter(
-                (solvablePhrase, letterId) -> viewModel.solve(solvablePhrase, letterId));
+        PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
         phraseListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+
             @Override
             public void onItemRangeChanged(int positionStart, int itemCount) {
+
                 linearLayoutManager.scrollToPosition(0);
             }
 
             @Override
             public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+
                 linearLayoutManager.scrollToPosition(0);
             }
         });
@@ -70,10 +71,4 @@ public class HangwordsFragment extends Fragment {
 
         liveData.observe(this, letterListAdapter::submitList);
     }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
 }
