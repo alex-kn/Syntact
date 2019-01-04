@@ -63,7 +63,14 @@ public class HangwordsFragment extends Fragment {
     private void createLetterRecyclerView(RecyclerView recyclerView,
             LiveData<List<Letter>> liveData) {
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()){
+
+            @Override
+            public boolean canScrollVertically() {
+
+                return false;
+            }
+        };
         linearLayoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         LetterListAdapter letterListAdapter = new LetterListAdapter();
