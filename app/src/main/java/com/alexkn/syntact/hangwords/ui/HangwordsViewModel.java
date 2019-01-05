@@ -1,7 +1,9 @@
 package com.alexkn.syntact.hangwords.ui;
 
-import com.alexkn.syntact.hangwords.logic.SolvablePhrase;
-import com.alexkn.syntact.hangwords.logic.SolvablePhrasesManagement;
+import android.app.Application;
+
+import com.alexkn.syntact.hangwords.logic.PhraseManagement;
+import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 import com.alexkn.syntact.hangwords.ui.util.Letter;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,11 +14,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class HangwordsViewModel extends ViewModel {
+public class HangwordsViewModel extends AndroidViewModel {
 
     private final MutableLiveData<List<Letter>> letters1 = new MutableLiveData<>(
             Collections.emptyList());
@@ -27,9 +29,12 @@ public class HangwordsViewModel extends ViewModel {
     private final MutableLiveData<List<Letter>> letters3 = new MutableLiveData<>(
             Collections.emptyList());
 
-    private final SolvablePhrasesManagement solvablePhrasesManagement = new SolvablePhrasesManagement();
+    private final PhraseManagement phrasesManagement;
 
-    public HangwordsViewModel() {
+
+    public HangwordsViewModel(Application application) {
+        super(application);
+        phrasesManagement = new PhraseManagement(application);
 
         this.letters1.setValue(generateLetters());
         this.letters2.setValue(generateLetters());
@@ -39,7 +44,7 @@ public class HangwordsViewModel extends ViewModel {
     boolean solve(SolvablePhrase solvablePhrase, Integer letterId) {
 
         Letter letter = findLetter(letterId);
-        boolean successful = solvablePhrasesManagement.solvePhrase(solvablePhrase, letter);
+        boolean successful = phrasesManagement.solvePhrase(solvablePhrase, letter);
         if (successful) replaceLetter(letterId);
 
         return successful;
@@ -108,6 +113,6 @@ public class HangwordsViewModel extends ViewModel {
 
     LiveData<List<SolvablePhrase>> getSolvablePhrases() {
 
-        return solvablePhrasesManagement.getSolvablePhrasesLiveData();
+        return phrasesManagement.getSolvablePhrasesLiveData();
     }
 }

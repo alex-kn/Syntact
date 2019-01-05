@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.hangwords.logic.SolvablePhrase;
+import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 
 class PhraseViewHolder extends ListItemViewHolder<SolvablePhrase> {
 

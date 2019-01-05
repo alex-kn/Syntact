@@ -1,14 +1,17 @@
-package com.alexkn.syntact.hangwords.dataaccess;
+package com.alexkn.syntact.hangwords.dataaccess.api.to;
 
 import java.time.Instant;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Phrase {
 
-    private static final AtomicInteger count = new AtomicInteger(0);
-
-    private final int id;
+    @PrimaryKey
+    private int id;
 
     private String clue;
 
@@ -18,37 +21,61 @@ public class Phrase {
 
     private int timesSolved;
 
+    public Phrase(int id) {
+
+        this.id = id;
+    }
+
+    @Ignore
     public Phrase(String clue, String solution) {
+
         this.clue = clue;
         this.solution = solution;
-        id = count.getAndIncrement();
+        id = 0;
     }
 
     public String getClue() {
+
         return clue;
     }
 
+    public void setClue(String clue) {
+
+        this.clue = clue;
+    }
+
     public String getSolution() {
+
         return solution;
     }
 
+    public void setSolution(String solution) {
+
+        this.solution = solution;
+    }
+
     public int getId() {
+
         return id;
     }
 
     public Instant getLastSolved() {
+
         return lastSolved;
     }
 
     public void setLastSolved(Instant lastSolved) {
+
         this.lastSolved = lastSolved;
     }
 
     public int getTimesSolved() {
+
         return timesSolved;
     }
 
     public void setTimesSolved(int timesSolved) {
+
         this.timesSolved = timesSolved;
     }
 
@@ -60,6 +87,7 @@ public class Phrase {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Phrase phrase = (Phrase) o;
@@ -67,5 +95,4 @@ public class Phrase {
                 Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
                 Objects.equals(lastSolved, phrase.lastSolved);
     }
-
 }

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.hangwords.logic;
+package com.alexkn.syntact.hangwords.logic.api.to;
 
 import com.alexkn.syntact.hangwords.ui.util.Letter;
 import com.alexkn.syntact.hangwords.util.Identifiable;

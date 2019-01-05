@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.hangwords.logic.SolvablePhrase;
+import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 import com.alexkn.syntact.hangwords.ui.util.DropLetterOnPhraseListener;
 
 import androidx.annotation.NonNull;
