@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 @Entity
 public class Phrase {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private String clue;
@@ -31,7 +31,6 @@ public class Phrase {
 
         this.clue = clue;
         this.solution = solution;
-        id = 0;
     }
 
     public String getClue() {

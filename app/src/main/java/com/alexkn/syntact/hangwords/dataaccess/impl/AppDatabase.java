@@ -1,15 +1,18 @@
-package com.alexkn.syntact.hangwords.dataaccess;
+package com.alexkn.syntact.hangwords.dataaccess.impl;
 
 import android.content.Context;
 
 import com.alexkn.syntact.hangwords.dataaccess.api.to.Phrase;
 import com.alexkn.syntact.hangwords.dataaccess.api.PhraseDao;
+import com.alexkn.syntact.hangwords.dataaccess.util.Converters;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 @Database(entities = {Phrase.class}, version = 1)
+@TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase instance;

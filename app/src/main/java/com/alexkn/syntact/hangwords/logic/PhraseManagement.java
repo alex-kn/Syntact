@@ -2,7 +2,7 @@ package com.alexkn.syntact.hangwords.logic;
 
 import android.app.Application;
 
-import com.alexkn.syntact.hangwords.dataaccess.PhraseRepository;
+import com.alexkn.syntact.hangwords.dataaccess.impl.PhraseRepository;
 import com.alexkn.syntact.hangwords.dataaccess.api.to.Phrase;
 import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 import com.alexkn.syntact.hangwords.ui.util.Letter;
@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -38,16 +37,12 @@ public class PhraseManagement {
 
         phraseRepository = new PhraseRepository(application);
         solvablePhrasesLiveData.addSource(phraseRepository.getAllPhrases(), this::handleNewPhrases);
+
     }
 
     public void solvePhrase(int id) {
-        //        List<Phrase> value = new ArrayList<>(Objects.requireNonNull(phrases.getValue()));
-        //        List<Phrase> collect = value.stream().peek(phrase1 -> {
-        //            if (phrase1.getId() == id) {
-        //                phrase1.setLastSolved(Instant.now());
-        //            }
-        //        }).collect(Collectors.toList());
-        //        phrases.setValue(collect);
+
+        phraseRepository.updateLastSolved(id, Instant.now());
     }
 
     /**

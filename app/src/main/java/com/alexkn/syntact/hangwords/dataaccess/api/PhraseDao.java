@@ -2,6 +2,7 @@ package com.alexkn.syntact.hangwords.dataaccess.api;
 
 import com.alexkn.syntact.hangwords.dataaccess.api.to.Phrase;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,4 +30,7 @@ public interface PhraseDao {
 
     @Query("SELECT * FROM phrase")
     public LiveData<List<Phrase>> findAll();
+
+    @Query("UPDATE phrase SET lastSolved = :newLastSolved WHERE id = :id")
+    public void updateLastSolved(int id, Instant newLastSolved);
 }
