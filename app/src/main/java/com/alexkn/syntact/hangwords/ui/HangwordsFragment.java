@@ -30,7 +30,14 @@ public class HangwordsFragment extends Fragment {
         HangwordsViewModel viewModel = ViewModelProviders.of(this).get(HangwordsViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()){
+
+            @Override
+            public boolean canScrollVertically() {
+
+                return false;
+            }
+        };
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
