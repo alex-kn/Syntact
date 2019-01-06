@@ -33,4 +33,7 @@ public interface PhraseDao {
 
     @Query("UPDATE phrase SET lastSolved = :newLastSolved WHERE id = :id")
     public void updateLastSolved(int id, Instant newLastSolved);
+
+    @Query("DELETE FROM phrase")
+    void deleteAll();
 }

@@ -54,7 +54,7 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
             int height = v.getHeight();
             int width = v.getWidth();
             shadowSize.set(width, height);
-            shadowTouchPoint.set((width / 2), height * 2);
+            shadowTouchPoint.set((width / 2), height);
         }
     }
 

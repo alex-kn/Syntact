@@ -6,12 +6,14 @@ import android.widget.TextView;
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 
-class PhraseViewHolder extends ListItemViewHolder<SolvablePhrase> {
+public class PhraseViewHolder extends ListItemViewHolder<SolvablePhrase> {
 
     private TextView clueTextView;
+
     private TextView solutionTextView;
 
     PhraseViewHolder(View v) {
+
         super(v);
         v.setFocusable(false);
         clueTextView = v.findViewById(R.id.clueTextView);
@@ -20,9 +22,8 @@ class PhraseViewHolder extends ListItemViewHolder<SolvablePhrase> {
 
     @Override
     public void bindTo(SolvablePhrase phrase) {
+
         clueTextView.setText(phrase.getClue());
         solutionTextView.setText(phrase.getCurrentText());
     }
-
-
 }

@@ -52,7 +52,7 @@ public class HangwordsViewModel extends AndroidViewModel {
 
     private List<Letter> generateLetters() {
 
-        List<Letter> letters = "ACTIONAALOWCLOWNAL".chars()
+        List<Letter> letters = "ABCDEFGHIJABCDEFGHIJABCDEFGHIJ".chars()
                 .mapToObj(character -> new Letter(((char) character))).collect(Collectors.toList());
         Collections.shuffle(letters);
         return letters.subList(0, 12);

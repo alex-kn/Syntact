@@ -37,6 +37,17 @@ public class PhraseManagement {
 
         phraseRepository = new PhraseRepository(application);
         solvablePhrasesLiveData.addSource(phraseRepository.getAllPhrases(), this::handleNewPhrases);
+//        phraseRepository.deleteAll();
+//        phraseRepository.insert(new Phrase("A", "A"));
+//        phraseRepository.insert(new Phrase("B", "B"));
+//        phraseRepository.insert(new Phrase("C", "C"));
+//        phraseRepository.insert(new Phrase("D", "D"));
+//        phraseRepository.insert(new Phrase("E", "E"));
+//        phraseRepository.insert(new Phrase("F", "F"));
+//        phraseRepository.insert(new Phrase("G", "G"));
+//        phraseRepository.insert(new Phrase("H", "H"));
+//        phraseRepository.insert(new Phrase("I", "I"));
+//        phraseRepository.insert(new Phrase("J", "J"));
     }
 
     public void solvePhrase(int id) {

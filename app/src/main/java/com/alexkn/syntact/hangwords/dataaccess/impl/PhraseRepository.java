@@ -39,4 +39,8 @@ public class PhraseRepository {
 
         AsyncTask.execute(() -> phraseDao.insert(phrase));
     }
+
+    public void deleteAll(){
+        AsyncTask.execute(() -> phraseDao.deleteAll());
+    }
 }
