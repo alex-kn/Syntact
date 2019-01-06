@@ -2,6 +2,7 @@ package com.alexkn.syntact.hangwords.ui;
 
 import android.app.Application;
 
+import com.alexkn.syntact.hangwords.logic.LetterManagement;
 import com.alexkn.syntact.hangwords.logic.PhraseManagement;
 import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 import com.alexkn.syntact.hangwords.ui.util.Letter;
@@ -20,95 +21,29 @@ import androidx.lifecycle.MutableLiveData;
 
 public class HangwordsViewModel extends AndroidViewModel {
 
-    private final MutableLiveData<List<Letter>> letters1 = new MutableLiveData<>(
-            Collections.emptyList());
+    private PhraseManagement phrasesManagement;
 
-    private final MutableLiveData<List<Letter>> letters2 = new MutableLiveData<>(
-            Collections.emptyList());
-
-    private final MutableLiveData<List<Letter>> letters3 = new MutableLiveData<>(
-            Collections.emptyList());
-
-    private final PhraseManagement phrasesManagement;
-
+    private LetterManagement letterManagement;
 
     public HangwordsViewModel(Application application) {
+
         super(application);
         phrasesManagement = new PhraseManagement(application);
-
-        this.letters1.setValue(generateLetters());
-        this.letters2.setValue(generateLetters());
-        this.letters3.setValue(generateLetters());
+        letterManagement = new LetterManagement(3);
     }
 
     boolean solve(SolvablePhrase solvablePhrase, Integer letterId) {
 
-        Letter letter = findLetter(letterId);
+        Letter letter = letterManagement.findLetter(letterId);
         boolean successful = phrasesManagement.solvePhrase(solvablePhrase, letter);
-        if (successful) replaceLetter(letterId);
+        if (successful) letterManagement.removeLetter(letter);
 
         return successful;
     }
 
-    private List<Letter> generateLetters() {
+    LiveData<List<Letter>> getLetters(int bucket) {
 
-        List<Letter> letters = "ABCDEFGHIJABCDEFGHIJABCDEFGHIJ".chars()
-                .mapToObj(character -> new Letter(((char) character))).collect(Collectors.toList());
-        Collections.shuffle(letters);
-        return letters.subList(0, 12);
-    }
-
-    private void replaceLetter(int id) {
-
-        Letter letter = findLetter(id);
-        List<Letter> value1 = new ArrayList<>(Objects.requireNonNull(letters1.getValue()));
-        if (value1.remove(letter)) {
-            value1.add(generateRandomLetter());
-            letters1.setValue(value1);
-            return;
-        }
-
-        List<Letter> value2 = new ArrayList<>(Objects.requireNonNull(letters2.getValue()));
-        if (value2.remove(letter)) {
-            value2.add(generateRandomLetter());
-            letters2.setValue(value2);
-            return;
-        }
-
-        List<Letter> value3 = new ArrayList<>(Objects.requireNonNull(letters3.getValue()));
-        if (value3.remove(letter)) {
-            value3.add(generateRandomLetter());
-            letters3.setValue(value3);
-        }
-    }
-
-    private Letter findLetter(int id) {
-
-        ArrayList<Letter> letters = new ArrayList<>();
-        letters.addAll(letters1.getValue());
-        letters.addAll(letters2.getValue());
-        letters.addAll(letters3.getValue());
-        return letters.stream().filter(letter -> letter.getId() == id).findFirst().get();
-    }
-
-    private Letter generateRandomLetter() {
-
-        return new Letter(RandomStringUtils.randomAlphabetic(1).charAt(0));
-    }
-
-    LiveData<List<Letter>> getLetters1() {
-
-        return letters1;
-    }
-
-    LiveData<List<Letter>> getLetters2() {
-
-        return letters2;
-    }
-
-    LiveData<List<Letter>> getLetters3() {
-
-        return letters3;
+        return letterManagement.getLetters(bucket);
     }
 
     LiveData<List<SolvablePhrase>> getSolvablePhrases() {

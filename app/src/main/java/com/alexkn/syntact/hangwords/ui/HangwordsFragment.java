@@ -61,11 +61,10 @@ public class HangwordsFragment extends Fragment {
             }
         });
         cardsView.setAdapter(phraseListAdapter);
-        createLetterRecyclerView(view.findViewById(R.id.lettersViewLeft), viewModel.getLetters1());
+        createLetterRecyclerView(view.findViewById(R.id.lettersViewLeft), viewModel.getLetters(0));
         createLetterRecyclerView(view.findViewById(R.id.lettersViewCenter),
-                viewModel.getLetters2());
-        createLetterRecyclerView(view.findViewById(R.id.lettersViewRight), viewModel.getLetters3());
-
+                viewModel.getLetters(1));
+        createLetterRecyclerView(view.findViewById(R.id.lettersViewRight), viewModel.getLetters(2));
 
         return view;
     }
