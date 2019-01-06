@@ -23,4 +23,6 @@ class PhraseViewHolder extends ListItemViewHolder<SolvablePhrase> {
         clueTextView.setText(phrase.getClue());
         solutionTextView.setText(phrase.getCurrentText());
     }
+
+
 }

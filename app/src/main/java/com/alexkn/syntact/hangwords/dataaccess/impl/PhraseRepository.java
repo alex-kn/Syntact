@@ -23,10 +23,6 @@ public class PhraseRepository {
         phraseDao = database.phraseDao();
         allPhrases = phraseDao.findAll();
 
-//        insert(new Phrase("Sonne", "Sun"));
-//        insert(new Phrase("Mond", "Moon"));
-//        insert(new Phrase("Erde", "Earth"));
-//        insert(new Phrase("Ozean", "Ocean"));
     }
 
     public void updateLastSolved(int id, Instant lastSolved) {
