@@ -1,4 +1,4 @@
-package com.alexkn.syntact.hangwords.ui;
+package com.alexkn.syntact.hangwords.ui.list;
 
 import android.content.ClipData;
 import android.graphics.Point;

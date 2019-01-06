@@ -1,4 +1,4 @@
-package com.alexkn.syntact.hangwords.ui;
+package com.alexkn.syntact.hangwords.ui.list;
 
 import com.alexkn.syntact.hangwords.ui.util.DiffCallback;
 import com.alexkn.syntact.hangwords.util.Identifiable;
@@ -18,7 +18,7 @@ public abstract class ListItemAdapter<T extends Identifiable, S extends Recycler
         return new DiffCallback<>();
     }
 
-    void submitList(List<T> data) {
+    public void submitList(List<T> data) {
         differ.submitList(data);
     }
 

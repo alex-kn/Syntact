@@ -13,7 +13,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_anchorGravity="top"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toStartOf="@+id/guideline"

@@ -37,7 +37,6 @@ public class PhraseManagement {
 
         phraseRepository = new PhraseRepository(application);
         solvablePhrasesLiveData.addSource(phraseRepository.getAllPhrases(), this::handleNewPhrases);
-
     }
 
     public void solvePhrase(int id) {

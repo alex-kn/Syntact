@@ -1,4 +1,4 @@
-package com.alexkn.syntact.hangwords.ui;
+package com.alexkn.syntact.hangwords.ui.list;
 
 import android.content.ClipData;
 import android.view.DragEvent;
@@ -17,7 +17,7 @@ public class PhraseListAdapter extends ListItemAdapter<SolvablePhrase, PhraseVie
 
     private DropLetterOnPhraseListener dropLetterOnPhraseListener;
 
-    PhraseListAdapter(DropLetterOnPhraseListener dropLetterOnPhraseListener) {
+    public PhraseListAdapter(DropLetterOnPhraseListener dropLetterOnPhraseListener) {
 
         this.dropLetterOnPhraseListener = dropLetterOnPhraseListener;
     }

@@ -7,17 +7,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.hangwords.ui.animation.PhraseItemAnimator;
+import com.alexkn.syntact.hangwords.ui.list.LetterListAdapter;
+import com.alexkn.syntact.hangwords.ui.list.PhraseListAdapter;
 import com.alexkn.syntact.hangwords.ui.util.Letter;
 
 import java.util.List;
@@ -44,8 +44,8 @@ public class HangwordsFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
+        cardsView.setItemAnimator(new PhraseItemAnimator());
         viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
-        //        cardsView.setLayoutAnimation(animation);
         phraseListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
 
             @Override
@@ -61,9 +61,6 @@ public class HangwordsFragment extends Fragment {
             }
         });
         cardsView.setAdapter(phraseListAdapter);
-        //        int resId = R.anim.layout_animation_fall_down;
-        //        LayoutAnimationController animation = AnimationUtils
-        //                .loadLayoutAnimation(this.getContext(), resId);
         createLetterRecyclerView(view.findViewById(R.id.lettersViewLeft), viewModel.getLetters1());
         createLetterRecyclerView(view.findViewById(R.id.lettersViewCenter),
                 viewModel.getLetters2());
