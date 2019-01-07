@@ -33,34 +33,17 @@ public class HangwordsFragment extends Fragment {
         HangwordsViewModel viewModel = ViewModelProviders.of(this).get(HangwordsViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
-
-            @Override
-            public boolean canScrollVertically() {
-
-                return false;
-            }
-        };
+        LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager();
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
         cardsView.setItemAnimator(new PhraseItemAnimator());
         viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
-        phraseListAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-
-            @Override
-            public void onItemRangeChanged(int positionStart, int itemCount) {
-
-                linearLayoutManager.scrollToPosition(0);
-            }
-
-            @Override
-            public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-
-                linearLayoutManager.scrollToPosition(0);
-            }
-        });
+        phraseListAdapter.registerAdapterDataObserver(
+                new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);
+
+
         createLetterRecyclerView(view.findViewById(R.id.lettersViewLeft), viewModel.getLetters(0));
         createLetterRecyclerView(view.findViewById(R.id.lettersViewCenter),
                 viewModel.getLetters(1));
@@ -86,5 +69,36 @@ public class HangwordsFragment extends Fragment {
         recyclerView.setAdapter(letterListAdapter);
 
         liveData.observe(this, letterListAdapter::submitList);
+    }
+
+    private static class PhraseAdapterDataObserver extends RecyclerView.AdapterDataObserver {
+
+        private final LinearLayoutManager linearLayoutManager;
+
+        PhraseAdapterDataObserver(
+                LinearLayoutManager linearLayoutManager) {this.linearLayoutManager = linearLayoutManager;}
+
+        @Override
+        public void onItemRangeChanged(int positionStart, int itemCount) {
+
+            linearLayoutManager.scrollToPosition(0);
+        }
+
+        @Override
+        public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+
+            linearLayoutManager.scrollToPosition(0);
+        }
+    }
+
+    private class UnscrollableLinearLayoutManager extends LinearLayoutManager {
+
+        UnscrollableLinearLayoutManager() {super(HangwordsFragment.this.getActivity());}
+
+        @Override
+        public boolean canScrollVertically() {
+
+            return false;
+        }
     }
 }

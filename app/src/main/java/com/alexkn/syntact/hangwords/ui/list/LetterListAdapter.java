@@ -32,7 +32,7 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
                 v.performClick();
                 v.startDragAndDrop(
                         ClipData.newPlainText(letter.getId().toString(), letter.getId().toString()),
-                        new LetterDragShadow(v), null, View.DRAG_FLAG_OPAQUE);
+                        new LetterDragShadow(v), v, View.DRAG_FLAG_OPAQUE);
 
             }
 

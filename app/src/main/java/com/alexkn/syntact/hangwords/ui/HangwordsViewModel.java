@@ -7,17 +7,10 @@ import com.alexkn.syntact.hangwords.logic.PhraseManagement;
 import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
 import com.alexkn.syntact.hangwords.ui.util.Letter;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class HangwordsViewModel extends AndroidViewModel {
 

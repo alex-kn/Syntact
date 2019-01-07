@@ -40,7 +40,7 @@ public class PhraseItemAnimator extends DefaultItemAnimator {
 
             ObjectAnimator firstAnimation = ObjectAnimator
                     .ofFloat(holder.itemView, View.TRANSLATION_X,
-                            -holder.itemView.getWidth() * 1.5f);
+                            -holder.itemView.getWidth() * 1.5f).setDuration(1000);
 
             firstAnimation.addListener(new AnimatorListenerAdapter() {
 

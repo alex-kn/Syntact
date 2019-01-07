@@ -8,23 +8,24 @@ import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
-import com.alexkn.syntact.hangwords.ui.util.DropLetterOnPhraseListener;
+import com.alexkn.syntact.hangwords.ui.util.ViewModelCallback;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class PhraseListAdapter extends ListItemAdapter<SolvablePhrase, PhraseViewHolder> {
 
-    private DropLetterOnPhraseListener dropLetterOnPhraseListener;
+    private ViewModelCallback viewModelCallback;
 
-    public PhraseListAdapter(DropLetterOnPhraseListener dropLetterOnPhraseListener) {
+    public PhraseListAdapter(ViewModelCallback viewModelCallback) {
 
-        this.dropLetterOnPhraseListener = dropLetterOnPhraseListener;
+        this.viewModelCallback = viewModelCallback;
     }
 
     @NonNull
     @Override
     public PhraseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.phrase_card, parent, false);
         PhraseViewHolder viewHolder = new PhraseViewHolder(view);
@@ -36,7 +37,7 @@ public class PhraseListAdapter extends ListItemAdapter<SolvablePhrase, PhraseVie
                 int adapterPosition = viewHolder.getAdapterPosition();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     SolvablePhrase solvablePhrase = this.getList().get(adapterPosition);
-                    return dropLetterOnPhraseListener.handleDrop(solvablePhrase, id);
+                    return viewModelCallback.handleDrop(solvablePhrase, id);
                 }
             }
             v.invalidate();
@@ -48,7 +49,10 @@ public class PhraseListAdapter extends ListItemAdapter<SolvablePhrase, PhraseVie
 
     @Override
     public void onBindViewHolder(@NonNull PhraseViewHolder holder, int position) {
+
         SolvablePhrase phrase = getList().get(position);
         holder.bindTo(phrase);
     }
 }
+
+

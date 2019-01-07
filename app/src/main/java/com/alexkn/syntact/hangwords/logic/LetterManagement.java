@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -23,12 +24,9 @@ public class LetterManagement {
 
     public LetterManagement(int numberOfBuckets) {
 
-            buckets = new ArrayList<>();
-            for (int i = 0; i < numberOfBuckets; i++) {
-                MutableLiveData<List<Letter>> bucket = new MutableLiveData<>();
-                bucket.postValue(generateLetters());
-                buckets.add(bucket);
-            }
+        buckets = Arrays.asList(new MutableLiveData<>(new ArrayList<>()),
+                new MutableLiveData<>(new ArrayList<>()), new MutableLiveData<>(new ArrayList<>()));
+        popuateLetters();
     }
 
     public void removeLetter(Letter letter) {
@@ -38,14 +36,18 @@ public class LetterManagement {
             letters.remove(letter);
             liveData.setValue(letters);
         });
+        popuateLetters();
     }
 
-    private List<Letter> generateLetters() {
+    private void popuateLetters() {
 
-        List<Letter> letters = "ABCDEFGHIJABCDEFGHIJABCDEFGHIJ".chars()
-                .mapToObj(character -> new Letter(((char) character))).collect(Collectors.toList());
-        Collections.shuffle(letters);
-        return letters.subList(0, 12);
+        buckets.forEach(liveData -> {
+            List<Letter> letters = Objects.requireNonNull(liveData.getValue());
+            while (letters.size() < 20) {
+                letters.add(generateRandomLetter());
+            }
+            liveData.setValue(letters);
+        });
     }
 
     public Letter findLetter(int id) {
