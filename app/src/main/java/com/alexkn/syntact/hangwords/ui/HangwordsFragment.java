@@ -1,8 +1,8 @@
 package com.alexkn.syntact.hangwords.ui;
 
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,9 +18,6 @@ import com.alexkn.syntact.R;
 import com.alexkn.syntact.hangwords.ui.animation.PhraseItemAnimator;
 import com.alexkn.syntact.hangwords.ui.list.LetterListAdapter;
 import com.alexkn.syntact.hangwords.ui.list.PhraseListAdapter;
-import com.alexkn.syntact.hangwords.ui.util.Letter;
-
-import java.util.List;
 
 public class HangwordsFragment extends Fragment {
 
@@ -33,42 +30,34 @@ public class HangwordsFragment extends Fragment {
         HangwordsViewModel viewModel = ViewModelProviders.of(this).get(HangwordsViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
-        LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager();
+        LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
         cardsView.setItemAnimator(new PhraseItemAnimator());
         viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
-        phraseListAdapter.registerAdapterDataObserver(
-                new PhraseAdapterDataObserver(linearLayoutManager));
+        phraseListAdapter
+                .registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);
 
+        RecyclerView letterViewLeft = view.findViewById(R.id.lettersViewLeft);
+        RecyclerView letterViewRight = view.findViewById(R.id.lettersViewRight);
 
-        createLetterRecyclerView(view.findViewById(R.id.lettersViewLeft), viewModel.getLetters(0));
-        createLetterRecyclerView(view.findViewById(R.id.lettersViewCenter),
-                viewModel.getLetters(1));
-        createLetterRecyclerView(view.findViewById(R.id.lettersViewRight), viewModel.getLetters(2));
+        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
+        linearLayoutManager1.setReverseLayout(true);
+        letterViewLeft.setLayoutManager(linearLayoutManager1);
+        LetterListAdapter letterListAdapter1 = new LetterListAdapter();
+        letterViewLeft.setAdapter(letterListAdapter1);
 
+        LinearLayoutManager linearLayoutManager2 = new UnscrollableLinearLayoutManager(getContext());
+        linearLayoutManager2.setReverseLayout(true);
+        letterViewRight.setLayoutManager(linearLayoutManager2);
+        LetterListAdapter letterListAdapter2 = new LetterListAdapter();
+        letterViewRight.setAdapter(letterListAdapter2);
+
+        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
+        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
         return view;
-    }
-
-    private void createLetterRecyclerView(RecyclerView recyclerView,
-            LiveData<List<Letter>> liveData) {
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity()) {
-
-            @Override
-            public boolean canScrollVertically() {
-
-                return false;
-            }
-        };
-        linearLayoutManager.setReverseLayout(true);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        LetterListAdapter letterListAdapter = new LetterListAdapter();
-        recyclerView.setAdapter(letterListAdapter);
-
-        liveData.observe(this, letterListAdapter::submitList);
     }
 
     private static class PhraseAdapterDataObserver extends RecyclerView.AdapterDataObserver {
@@ -93,7 +82,9 @@ public class HangwordsFragment extends Fragment {
 
     private class UnscrollableLinearLayoutManager extends LinearLayoutManager {
 
-        UnscrollableLinearLayoutManager() {super(HangwordsFragment.this.getActivity());}
+        UnscrollableLinearLayoutManager(Context context) {
+            super(context);
+        }
 
         @Override
         public boolean canScrollVertically() {

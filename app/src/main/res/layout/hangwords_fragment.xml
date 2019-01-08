@@ -23,32 +23,36 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewLeft"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layoutAnimation="@anim/layout_animation_fall_down"
-        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-        app:layout_constraintEnd_toStartOf="@+id/lettersViewCenter"
-        app:layout_constraintStart_toStartOf="@+id/guideline" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/lettersViewCenter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"
-        app:layout_constraintStart_toEndOf="@+id/lettersViewLeft" />
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<androidx.recyclerview.widget.RecyclerView-->
+        <!--android:id="@+id/lettersViewCenter"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--android:layoutAnimation="@anim/layout_animation_fall_down"-->
+        <!--app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"-->
+        <!--app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"-->
+        <!--app:layout_constraintStart_toEndOf="@+id/lettersViewLeft" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewRight"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lettersViewCenter" />
+        app:layout_constraintStart_toEndOf="@+id/lettersViewLeft"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

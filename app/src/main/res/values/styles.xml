@@ -12,7 +12,7 @@
         <item name="colorOnSecondary">@color/white</item>
 
 
-        <item name="android:windowActivityTransitions">true</item>
+        <!--<item name="android:windowActivityTransitions">true</item>-->
 
         <item name="materialCardViewStyle">@style/HangwordsCardStyle</item>
 

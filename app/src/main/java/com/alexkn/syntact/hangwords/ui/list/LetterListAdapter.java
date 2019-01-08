@@ -17,6 +17,7 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
     @NonNull
     @Override
     public LetterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.letter_card, parent, false);
         return new LetterViewHolder(view);
@@ -24,32 +25,30 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull LetterViewHolder holder, int position) {
+
         Letter letter = getList().get(position);
         holder.bindTo(letter);
 
         holder.itemView.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 v.performClick();
-                v.startDragAndDrop(
-                        ClipData.newPlainText(letter.getId().toString(), letter.getId().toString()),
-                        new LetterDragShadow(v), v, View.DRAG_FLAG_OPAQUE);
-
+                v.startDragAndDrop(null, new LetterDragShadow(v), letter, View.DRAG_FLAG_OPAQUE);
             }
 
             return false;
         });
     }
 
-
-
     private class LetterDragShadow extends View.DragShadowBuilder {
 
         LetterDragShadow(View view) {
+
             super(view);
         }
 
         @Override
         public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+
             View v = getView();
             int height = v.getHeight();
             int width = v.getWidth();
@@ -57,5 +56,4 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
             shadowTouchPoint.set((width / 2), height);
         }
     }
-
 }

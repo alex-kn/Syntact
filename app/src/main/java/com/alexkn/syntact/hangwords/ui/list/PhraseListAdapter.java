@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.hangwords.logic.api.to.SolvablePhrase;
+import com.alexkn.syntact.hangwords.ui.util.Letter;
 import com.alexkn.syntact.hangwords.ui.util.ViewModelCallback;
 
 import androidx.annotation.NonNull;
@@ -32,12 +33,13 @@ public class PhraseListAdapter extends ListItemAdapter<SolvablePhrase, PhraseVie
 
         viewHolder.itemView.setOnDragListener((v, event) -> {
             if (event.getAction() == DragEvent.ACTION_DROP) {
-                ClipData.Item item = event.getClipData().getItemAt(0);
-                int id = Integer.parseInt(item.getText().toString());
+//                ClipData.Item item = event.getClipData().getItemAt(0);
+//                int id = Integer.parseInt(item.getText().toString());
                 int adapterPosition = viewHolder.getAdapterPosition();
+                Letter letter = (Letter) event.getLocalState();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
                     SolvablePhrase solvablePhrase = this.getList().get(adapterPosition);
-                    return viewModelCallback.handleDrop(solvablePhrase, id);
+                    return viewModelCallback.handleDrop(solvablePhrase, letter);
                 }
             }
             v.invalidate();
