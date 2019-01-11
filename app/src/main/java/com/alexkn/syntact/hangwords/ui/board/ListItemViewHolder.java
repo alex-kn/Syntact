@@ -1,4 +1,4 @@
-package com.alexkn.syntact.hangwords.ui.list;
+package com.alexkn.syntact.hangwords.ui.board;
 
 import android.view.View;
 

@@ -1,6 +1,5 @@
-package com.alexkn.syntact.hangwords.ui.list;
+package com.alexkn.syntact.hangwords.ui.board;
 
-import android.content.ClipData;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;

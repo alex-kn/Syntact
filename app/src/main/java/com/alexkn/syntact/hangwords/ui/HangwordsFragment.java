@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.hangwords.ui.animation.PhraseItemAnimator;
-import com.alexkn.syntact.hangwords.ui.list.LetterListAdapter;
-import com.alexkn.syntact.hangwords.ui.list.PhraseListAdapter;
+import com.alexkn.syntact.hangwords.ui.board.LetterListAdapter;
+import com.alexkn.syntact.hangwords.ui.board.PhraseListAdapter;
 
 public class HangwordsFragment extends Fragment {
 
