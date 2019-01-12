@@ -2,13 +2,17 @@ package com.alexkn.syntact.presentation.hangman.board;
 
 import android.app.Application;
 
-import com.alexkn.syntact.domain.usecase.PhraseUseCase;
+import com.alexkn.syntact.domain.SyntactApplication;
 import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.usecase.PhraseUseCase;
+import com.alexkn.syntact.presentation.hangman.DaggerHangmanComponent;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -17,7 +21,8 @@ import androidx.lifecycle.MutableLiveData;
 
 public class HangmanBoardViewModel extends AndroidViewModel {
 
-    private PhraseUseCase phrasesManagement;
+    @Inject
+    PhraseUseCase phrasesManagement;
 
     private MutableLiveData<List<Letter>> lettersLeft = new MutableLiveData<>();
 
@@ -26,9 +31,12 @@ public class HangmanBoardViewModel extends AndroidViewModel {
     public HangmanBoardViewModel(Application application) {
 
         super(application);
+
+        DaggerHangmanComponent.builder()
+                .syntactComponent(((SyntactApplication) getApplication()).getSyntactComponent())
+                .build().inject(this);
         lettersLeft.setValue(LetterGenerator.generateLetters(7));
         lettersRight.setValue(LetterGenerator.generateLetters(7));
-        phrasesManagement = new PhraseUseCase(application);
     }
 
     @SuppressWarnings("ConstantConditions")

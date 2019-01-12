@@ -19,10 +19,14 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
+@Singleton
 public class PhraseUseCase {
 
     private final MutableLiveData<List<PhraseEntity>> phrases = new MutableLiveData<>();
@@ -33,6 +37,7 @@ public class PhraseUseCase {
 
     private MediatorLiveData<List<Phrase>> solvablePhrasesLiveData = new MediatorLiveData<>();
 
+    @Inject
     public PhraseUseCase(Application application) {
 
         phraseRepository = new PhraseRepositoryImpl(application);
@@ -94,7 +99,7 @@ public class PhraseUseCase {
         String solution = solvablePhrase.getSolution();
         IntStream indices = IntStream.range(0, solution.length()).filter(i -> StringUtils
                 .equalsIgnoreCase(letter.toString(), String.valueOf(solution.charAt(i))));
-        StringBuilder newCurrentText = new StringBuilder(solvablePhrase.getCurrentText());
+        StringBuilder newCurrentText = new StringBuilder(solvablePhrase.getCurrentAttempt());
         indices.forEach(i -> newCurrentText.setCharAt(i, letter.getCharacter()));
 
         return new Phrase(solvablePhrase.getId(), solvablePhrase.getClue(),
@@ -104,7 +109,7 @@ public class PhraseUseCase {
     private boolean isLetterCorrect(Phrase solvablePhrase, Letter letter) {
 
         return StringUtils.containsIgnoreCase(solvablePhrase.getSolution(), letter.toString()) &&
-                !StringUtils.containsIgnoreCase(solvablePhrase.getCurrentText(), letter.toString());
+                !StringUtils.containsIgnoreCase(solvablePhrase.getCurrentAttempt(), letter.toString());
     }
 
     public LiveData<List<Phrase>> getSolvablePhrasesLiveData() {

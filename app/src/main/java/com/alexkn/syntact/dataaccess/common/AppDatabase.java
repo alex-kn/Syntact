@@ -1,5 +1,6 @@
 package com.alexkn.syntact.dataaccess.common;
 
+import android.content.ContentProvider;
 import android.content.Context;
 
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;

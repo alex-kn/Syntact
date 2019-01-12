@@ -11,14 +11,14 @@ public class Phrase implements Identifiable {
 
     private String clue;
     private String solution;
-    private String currentText;
+    private String currentAttempt;
     private boolean solved;
 
-    public Phrase(int id, String clue, String solution, String currentText) {
+    public Phrase(int id, String clue, String solution, String currentAttempt) {
         this.id = id;
         this.clue = clue;
         this.solution = solution;
-        this.currentText = currentText;
+        this.currentAttempt = currentAttempt;
         checkSolved();
     }
 
@@ -34,19 +34,18 @@ public class Phrase implements Identifiable {
         return id;
     }
 
-    public void setCurrentText(String currentText) {
-        this.currentText = currentText;
-        checkSolved();
+    public void setCurrentAttempt(String currentAttempt) {
+        this.currentAttempt = currentAttempt;
     }
 
     private void checkSolved() {
-        if (!currentText.contains(Letter.EMPTY.toString())) {
+        if (!currentAttempt.contains(Letter.EMPTY.toString())) {
             solved = true;
         }
     }
 
-    public String getCurrentText() {
-        return currentText;
+    public String getCurrentAttempt() {
+        return currentAttempt;
     }
 
     public boolean isSolved() {
@@ -60,13 +59,13 @@ public class Phrase implements Identifiable {
         Phrase that = (Phrase) o;
         return id == that.id && solved == that.solved && Objects.equals(clue, that.clue) &&
                 Objects.equals(solution, that.solution) &&
-                Objects.equals(currentText, that.currentText);
+                Objects.equals(currentAttempt, that.currentAttempt);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, clue, solution, currentText, solved);
+        return Objects.hash(id, clue, solution, currentAttempt, solved);
     }
 
 }
