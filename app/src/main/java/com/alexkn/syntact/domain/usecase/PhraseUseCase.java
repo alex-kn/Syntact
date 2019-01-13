@@ -12,9 +12,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.inject.Inject;
@@ -27,109 +24,75 @@ import androidx.lifecycle.MutableLiveData;
 @Singleton
 public class PhraseUseCase {
 
-    private final MutableLiveData<List<PhraseEntity>> phrases = new MutableLiveData<>();
-
     @Inject
     PhraseRepository phraseRepository;
 
     private List<Phrase> solvablePhrases = new ArrayList<>();
 
-    private MediatorLiveData<List<Phrase>> solvablePhrasesLiveData;
+    private LiveData<List<Phrase>> phrases;
 
     @Inject
-    public PhraseUseCase() {
-        //        phraseRepository = new PhraseRepositoryImpl(application);
-        //        phraseRepository.deleteAll();
-        //        phraseRepository.insert(new PhraseEntity("A", "A"));
-        //        phraseRepository.insert(new PhraseEntity("B", "B"));
-        //        phraseRepository.insert(new PhraseEntity("C", "C"));
-        //        phraseRepository.insert(new PhraseEntity("D", "D"));
-        //        phraseRepository.insert(new PhraseEntity("E", "E"));
-        //        phraseRepository.insert(new PhraseEntity("F", "F"));
-        //        phraseRepository.insert(new PhraseEntity("G", "G"));
-        //        phraseRepository.insert(new PhraseEntity("H", "H"));
-        //        phraseRepository.insert(new PhraseEntity("I", "I"));
-        //        phraseRepository.insert(new PhraseEntity("J", "J"));
-    }
+    public PhraseUseCase() { }
 
-    public void solvePhrase(int id) {
+    public boolean solvePhrase(Phrase phrase, Letter letter) {
 
-        phraseRepository.updateLastSolved(id, Instant.now());
-    }
-
-    /**
-     * Converts List of Phrases and populates the LiveData for SolvablePhrases
-     *
-     * @param phraseEntities The List of Phrases
-     */
-    private void handleNewPhrases(List<PhraseEntity> phraseEntities) {
-
-        phraseEntities.sort(new PhraseAppearanceComparator());
-        Map<Integer, Phrase> solvablePhraseMap = solvablePhrases.stream()
-                .collect(Collectors.toMap(Phrase::getId, Function.identity()));
-
-        solvablePhrases = phraseEntities.stream().map(phrase -> solvablePhraseMap
-                .getOrDefault(phrase.getId(), convertPhraseToUiModel(phrase)))
-                .collect(Collectors.toList());
-
-        solvablePhrasesLiveData.setValue(solvablePhrases);
-    }
-
-    public boolean solvePhrase(Phrase solvablePhrase, Letter letter) {
-
-        if (!isLetterCorrect(solvablePhrase, letter)) {
+        if (!isLetterCorrect(phrase, letter)) {
             return false;
         }
-        Phrase newSolvablePhrase = updateCurrentText(solvablePhrase, letter);
-        if (newSolvablePhrase.isSolved()) {
-            solvePhrase(solvablePhrase.getId());
+        String attempt = updateCurrentText(phrase, letter);
+        if (!attempt.contains(Letter.EMPTY.toString())) {
+            phraseRepository.updateLastSolved(phrase.getId(), Instant.now());
         }
-        ArrayList<Phrase> tmpPhrases = new ArrayList<>(solvablePhrases);
-        tmpPhrases.set(solvablePhrases.indexOf(solvablePhrase), newSolvablePhrase);
-        solvablePhrasesLiveData.setValue(tmpPhrases);
-        solvablePhrases = tmpPhrases;
+        phraseRepository.updateAttempt(phrase.getId(), attempt);
+
+//        ArrayList<Phrase > tmpPhrases = new ArrayList<>(solvablePhrases);
+//        tmpPhrases.set(solvablePhrases.indexOf(phrase), newSolvablePhrase);
+//                phrases.setValue(tmpPhrases);
+//        solvablePhrases = tmpPhrases;
         return true;
     }
 
-    private Phrase updateCurrentText(Phrase solvablePhrase, Letter letter) {
+    private String updateCurrentText(Phrase phrase, Letter letter) {
 
-        String solution = solvablePhrase.getSolution();
+        String solution = phrase.getSolution();
         IntStream indices = IntStream.range(0, solution.length()).filter(i -> StringUtils
                 .equalsIgnoreCase(letter.toString(), String.valueOf(solution.charAt(i))));
-        StringBuilder newCurrentText = new StringBuilder(solvablePhrase.getCurrentAttempt());
+        StringBuilder newCurrentText = new StringBuilder(phrase.getAttempt());
         indices.forEach(i -> newCurrentText.setCharAt(i, letter.getCharacter()));
+        return newCurrentText.toString();
 
-        return new Phrase(solvablePhrase.getId(), solvablePhrase.getClue(),
-                solvablePhrase.getSolution(), newCurrentText.toString());
+//        return new Phrase(phrase.getId(), phrase.getClue(), phrase.getSolution(),
+//                newCurrentText.toString(), phrase.getLastSolved(), phrase.getTimesSolved());
     }
 
     private boolean isLetterCorrect(Phrase solvablePhrase, Letter letter) {
 
         return StringUtils.containsIgnoreCase(solvablePhrase.getSolution(), letter.toString()) &&
-                !StringUtils
-                        .containsIgnoreCase(solvablePhrase.getCurrentAttempt(), letter.toString());
+                !StringUtils.containsIgnoreCase(solvablePhrase.getAttempt(), letter.toString());
     }
 
-    public LiveData<List<Phrase>> getSolvablePhrasesLiveData() {
+    public LiveData<List<Phrase>> getPhrases() {
 
-        if (solvablePhrasesLiveData == null) {
-            solvablePhrasesLiveData = new MediatorLiveData<>();
-            solvablePhrasesLiveData
-                    .addSource(phraseRepository.getAllPhrases(), this::handleNewPhrases);
+        if (phrases == null) {
+            //            phraseRepository.insert(new PhraseEntity("A", "A", "_"));
+            //            phraseRepository.insert(new PhraseEntity("B", "B", "_"));
+            //            phraseRepository.insert(new PhraseEntity("C", "C", "_"));
+            //            phraseRepository.insert(new PhraseEntity("D", "D", "_"));
+            //            phraseRepository.insert(new PhraseEntity("E", "E", "_"));
+            //            phraseRepository.insert(new PhraseEntity("F", "F", "_"));
+            //            phraseRepository.insert(new PhraseEntity("G", "G", "_"));
+            //            phraseRepository.insert(new PhraseEntity("H", "H", "_"));
+            //            phraseRepository.insert(new PhraseEntity("I", "I", "_"));
+            //            phraseRepository.insert(new PhraseEntity("J", "J", "_"));
+            phrases = phraseRepository.getAllPhrases();
         }
-        return solvablePhrasesLiveData;
+        return phrases;
     }
 
-    private Phrase convertPhraseToUiModel(PhraseEntity phraseEntity) {
-
-        return new Phrase(phraseEntity.getId(), phraseEntity.getClue(), phraseEntity.getSolution(),
-                StringUtils.repeat(Letter.EMPTY, phraseEntity.getSolution().length()));
-    }
-
-    private static class PhraseAppearanceComparator implements Comparator<PhraseEntity> {
+    private static class PhraseAppearanceComparator implements Comparator<Phrase> {
 
         @Override
-        public int compare(PhraseEntity o1, PhraseEntity o2) {
+        public int compare(Phrase o1, Phrase o2) {
 
             int result;
             result = ObjectUtils.compare(o1.getLastSolved(), o2.getLastSolved());

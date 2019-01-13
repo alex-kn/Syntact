@@ -24,6 +24,6 @@ public class PhraseViewHolder extends ListItemViewHolder<Phrase> {
     public void bindTo(Phrase phrase) {
 
         clueTextView.setText(phrase.getClue());
-        solutionTextView.setText(phrase.getCurrentAttempt());
+        solutionTextView.setText(phrase.getAttempt());
     }
 }

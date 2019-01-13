@@ -57,7 +57,7 @@ public class HangmanViewModel extends AndroidViewModel {
 
     public LiveData<List<Phrase>> getSolvablePhrases() {
 
-        return phrasesManagement.getSolvablePhrasesLiveData();
+        return phrasesManagement.getPhrases();
     }
 
     public LiveData<List<Letter>> getLettersLeft() {

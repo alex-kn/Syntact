@@ -15,23 +15,26 @@ import androidx.room.Update;
 public interface PhraseDao {
 
     @Insert
-    public void insert(PhraseEntity phraseEntity);
+    void insert(PhraseEntity phraseEntity);
 
     @Insert
-    public void insert(Collection<PhraseEntity> phraseEntities);
+    void insert(Collection<PhraseEntity> phraseEntities);
 
     @Update
-    public void update(PhraseEntity phraseEntity);
+    void update(PhraseEntity phraseEntity);
 
     @Delete
-    public void delete(PhraseEntity phraseEntity);
+    void delete(PhraseEntity phraseEntity);
 
-    @Query("SELECT * FROM Phrase")
-    public LiveData<List<PhraseEntity>> findAll();
+    @Query("SELECT * FROM Phrase ORDER BY lastSolved")
+    LiveData<List<PhraseEntity>> findAll();
 
     @Query("UPDATE Phrase SET lastSolved = :newLastSolved WHERE id = :id")
-    public void updateLastSolved(int id, Instant newLastSolved);
+    void updateLastSolved(int id, Instant newLastSolved);
 
     @Query("DELETE FROM Phrase")
     void deleteAll();
+
+    @Query("UPDATE Phrase SET attempt = :newAttempt WHERE id = :id")
+    void updateAttempt(int id, String newAttempt);
 }

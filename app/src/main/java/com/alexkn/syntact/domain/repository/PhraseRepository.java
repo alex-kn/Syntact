@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.repository;
 
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
+import com.alexkn.syntact.domain.model.Phrase;
 
 import java.time.Instant;
 import java.util.List;
@@ -11,7 +12,9 @@ public interface PhraseRepository {
 
     void updateLastSolved(int id, Instant lastSolved);
 
-    LiveData<List<PhraseEntity>> getAllPhrases();
+    void updateAttempt(int id, String attempt);
+
+    LiveData<List<Phrase>> getAllPhrases();
 
     void insert(PhraseEntity phraseEntity);
 

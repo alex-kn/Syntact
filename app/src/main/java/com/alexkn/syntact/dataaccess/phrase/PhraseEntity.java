@@ -3,6 +3,7 @@ package com.alexkn.syntact.dataaccess.phrase;
 import java.time.Instant;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -17,20 +18,34 @@ public class PhraseEntity {
 
     private String solution;
 
+    private String attempt;
+
     private Instant lastSolved;
 
     private int timesSolved;
 
-    public PhraseEntity(int id) {
+    public PhraseEntity() {
 
-        this.id = id;
     }
 
     @Ignore
-    public PhraseEntity(String clue, String solution) {
+    public PhraseEntity(@NonNull String clue, @NonNull String solution, @NonNull String attempt) {
 
         this.clue = clue;
         this.solution = solution;
+        this.attempt = attempt;
+    }
+
+    @Ignore
+    public PhraseEntity(int id, @NonNull String clue, @NonNull String solution,
+            @NonNull String attempt, Instant lastSolved, int timesSolved) {
+
+        this.id = id;
+        this.clue = clue;
+        this.solution = solution;
+        this.attempt = attempt;
+        this.lastSolved = lastSolved;
+        this.timesSolved = timesSolved;
     }
 
     public String getClue() {
@@ -58,6 +73,11 @@ public class PhraseEntity {
         return id;
     }
 
+    public void setId(int id) {
+
+        this.id = id;
+    }
+
     public Instant getLastSolved() {
 
         return lastSolved;
@@ -78,6 +98,17 @@ public class PhraseEntity {
         this.timesSolved = timesSolved;
     }
 
+    @NonNull
+    public String getAttempt() {
+
+        return attempt;
+    }
+
+    public void setAttempt(@NonNull String attempt) {
+
+        this.attempt = attempt;
+    }
+
     @Override
     public int hashCode() {
 
@@ -91,7 +122,8 @@ public class PhraseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         PhraseEntity phraseEntity = (PhraseEntity) o;
         return id == phraseEntity.id && timesSolved == phraseEntity.timesSolved &&
-                Objects.equals(clue, phraseEntity.clue) && Objects.equals(solution, phraseEntity.solution) &&
+                Objects.equals(clue, phraseEntity.clue) &&
+                Objects.equals(solution, phraseEntity.solution) &&
                 Objects.equals(lastSolved, phraseEntity.lastSolved);
     }
 }
