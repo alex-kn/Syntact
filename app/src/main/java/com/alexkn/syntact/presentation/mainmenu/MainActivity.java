@@ -6,12 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.SyntactApplication;
-import com.alexkn.syntact.domain.SyntactComponent;
-import com.alexkn.syntact.domain.usecase.PhraseUseCase;
 import com.alexkn.syntact.presentation.hangman.main.HangmanActivity;
-
-import javax.inject.Inject;
 
 public class MainActivity extends Activity {
 

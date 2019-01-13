@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.common;
+package com.alexkn.syntact.presentation.scope;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

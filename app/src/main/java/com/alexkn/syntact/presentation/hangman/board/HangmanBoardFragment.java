@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.presentation.hangman.main.HangmanViewModel;
 
 public class HangmanBoardFragment extends Fragment {
 
@@ -24,7 +25,7 @@ public class HangmanBoardFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.hangman_board_fragment, container, false);
-        HangmanBoardViewModel viewModel = ViewModelProviders.of(this).get(HangmanBoardViewModel.class);
+        HangmanViewModel viewModel = ViewModelProviders.of(this).get(HangmanViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager(getContext());

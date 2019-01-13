@@ -1,10 +1,8 @@
 package com.alexkn.syntact.domain.usecase;
 
-import android.app.Application;
-
-import com.alexkn.syntact.dataaccess.phrase.PhraseRepositoryImpl;
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
 import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.repository.PhraseRepository;
 import com.alexkn.syntact.presentation.hangman.board.Letter;
 
 import org.apache.commons.lang3.ObjectUtils;
@@ -31,28 +29,27 @@ public class PhraseUseCase {
 
     private final MutableLiveData<List<PhraseEntity>> phrases = new MutableLiveData<>();
 
-    private PhraseRepositoryImpl phraseRepository;
+    @Inject
+    PhraseRepository phraseRepository;
 
     private List<Phrase> solvablePhrases = new ArrayList<>();
 
-    private MediatorLiveData<List<Phrase>> solvablePhrasesLiveData = new MediatorLiveData<>();
+    private MediatorLiveData<List<Phrase>> solvablePhrasesLiveData;
 
     @Inject
-    public PhraseUseCase(Application application) {
-
-        phraseRepository = new PhraseRepositoryImpl(application);
-        solvablePhrasesLiveData.addSource(phraseRepository.getAllPhrases(), this::handleNewPhrases);
-//        phraseRepository.deleteAll();
-//        phraseRepository.insert(new PhraseEntity("A", "A"));
-//        phraseRepository.insert(new PhraseEntity("B", "B"));
-//        phraseRepository.insert(new PhraseEntity("C", "C"));
-//        phraseRepository.insert(new PhraseEntity("D", "D"));
-//        phraseRepository.insert(new PhraseEntity("E", "E"));
-//        phraseRepository.insert(new PhraseEntity("F", "F"));
-//        phraseRepository.insert(new PhraseEntity("G", "G"));
-//        phraseRepository.insert(new PhraseEntity("H", "H"));
-//        phraseRepository.insert(new PhraseEntity("I", "I"));
-//        phraseRepository.insert(new PhraseEntity("J", "J"));
+    public PhraseUseCase() {
+        //        phraseRepository = new PhraseRepositoryImpl(application);
+        //        phraseRepository.deleteAll();
+        //        phraseRepository.insert(new PhraseEntity("A", "A"));
+        //        phraseRepository.insert(new PhraseEntity("B", "B"));
+        //        phraseRepository.insert(new PhraseEntity("C", "C"));
+        //        phraseRepository.insert(new PhraseEntity("D", "D"));
+        //        phraseRepository.insert(new PhraseEntity("E", "E"));
+        //        phraseRepository.insert(new PhraseEntity("F", "F"));
+        //        phraseRepository.insert(new PhraseEntity("G", "G"));
+        //        phraseRepository.insert(new PhraseEntity("H", "H"));
+        //        phraseRepository.insert(new PhraseEntity("I", "I"));
+        //        phraseRepository.insert(new PhraseEntity("J", "J"));
     }
 
     public void solvePhrase(int id) {
@@ -109,11 +106,17 @@ public class PhraseUseCase {
     private boolean isLetterCorrect(Phrase solvablePhrase, Letter letter) {
 
         return StringUtils.containsIgnoreCase(solvablePhrase.getSolution(), letter.toString()) &&
-                !StringUtils.containsIgnoreCase(solvablePhrase.getCurrentAttempt(), letter.toString());
+                !StringUtils
+                        .containsIgnoreCase(solvablePhrase.getCurrentAttempt(), letter.toString());
     }
 
     public LiveData<List<Phrase>> getSolvablePhrasesLiveData() {
 
+        if (solvablePhrasesLiveData == null) {
+            solvablePhrasesLiveData = new MediatorLiveData<>();
+            solvablePhrasesLiveData
+                    .addSource(phraseRepository.getAllPhrases(), this::handleNewPhrases);
+        }
         return solvablePhrasesLiveData;
     }
 

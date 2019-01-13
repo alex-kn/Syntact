@@ -1,14 +1,14 @@
 package com.alexkn.syntact.presentation.hangman;
 
-import com.alexkn.syntact.domain.SyntactComponent;
-import com.alexkn.syntact.presentation.hangman.board.HangmanBoardViewModel;
-import com.alexkn.syntact.presentation.common.ActivityScope;
+import com.alexkn.syntact.presentation.app.ApplicationComponent;
+import com.alexkn.syntact.presentation.hangman.main.HangmanViewModel;
+import com.alexkn.syntact.presentation.scope.ActivityScope;
 
 import dagger.Component;
 
-@Component(dependencies = SyntactComponent.class)
+@Component(dependencies = ApplicationComponent.class)
 @ActivityScope
 public interface HangmanComponent {
 
-    void inject(HangmanBoardViewModel hangmanBoardViewModel);
+    void inject(HangmanViewModel hangmanBoardViewModel);
 }

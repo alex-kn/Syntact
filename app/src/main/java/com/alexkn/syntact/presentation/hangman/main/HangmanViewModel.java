@@ -1,11 +1,12 @@
-package com.alexkn.syntact.presentation.hangman.board;
+package com.alexkn.syntact.presentation.hangman.main;
 
 import android.app.Application;
 
-import com.alexkn.syntact.domain.SyntactApplication;
+import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
 import com.alexkn.syntact.presentation.hangman.DaggerHangmanComponent;
+import com.alexkn.syntact.presentation.hangman.board.Letter;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -19,7 +20,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-public class HangmanBoardViewModel extends AndroidViewModel {
+public class HangmanViewModel extends AndroidViewModel {
 
     @Inject
     PhraseUseCase phrasesManagement;
@@ -28,19 +29,19 @@ public class HangmanBoardViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Letter>> lettersRight = new MutableLiveData<>();
 
-    public HangmanBoardViewModel(Application application) {
+    public HangmanViewModel(Application application) {
 
         super(application);
 
         DaggerHangmanComponent.builder()
-                .syntactComponent(((SyntactApplication) getApplication()).getSyntactComponent())
+                .applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent())
                 .build().inject(this);
         lettersLeft.setValue(LetterGenerator.generateLetters(7));
         lettersRight.setValue(LetterGenerator.generateLetters(7));
     }
 
     @SuppressWarnings("ConstantConditions")
-    boolean solve(Phrase solvablePhrase, Letter letter) {
+    public boolean solve(Phrase solvablePhrase, Letter letter) {
 
         boolean successful = phrasesManagement.solvePhrase(solvablePhrase, letter);
         if (successful) {
@@ -54,7 +55,7 @@ public class HangmanBoardViewModel extends AndroidViewModel {
         return successful;
     }
 
-    LiveData<List<Phrase>> getSolvablePhrases() {
+    public LiveData<List<Phrase>> getSolvablePhrases() {
 
         return phrasesManagement.getSolvablePhrasesLiveData();
     }
