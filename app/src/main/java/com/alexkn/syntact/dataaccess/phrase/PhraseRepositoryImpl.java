@@ -12,7 +12,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -27,7 +26,7 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     private LiveData<List<PhraseEntity>> phrases;
 
     @Inject
-    public PhraseRepositoryImpl(Application application) {
+    PhraseRepositoryImpl(Application application) {
 
         AppDatabase database = AppDatabase.getDatabase(application);
         phraseDao = database.phraseDao();
@@ -54,9 +53,9 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
-    public void insert(PhraseEntity phraseEntity) {
+    public void insert(Phrase phrase) {
 
-        AsyncTask.execute(() -> phraseDao.insert(phraseEntity));
+        AsyncTask.execute(() -> phraseDao.insert(Mapper.toEntity(phrase)));
     }
 
     @Override

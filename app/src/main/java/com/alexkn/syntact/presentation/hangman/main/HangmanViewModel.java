@@ -43,7 +43,7 @@ public class HangmanViewModel extends AndroidViewModel {
     @SuppressWarnings("ConstantConditions")
     public boolean solve(Phrase solvablePhrase, Letter letter) {
 
-        boolean successful = phrasesManagement.solvePhrase(solvablePhrase, letter);
+        boolean successful = phrasesManagement.solvePhrase(solvablePhrase, letter.getCharacter());
         if (successful) {
             List<Letter> leftValue = new ArrayList<>(lettersLeft.getValue());
             leftValue.remove(letter);

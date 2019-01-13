@@ -16,7 +16,7 @@ public interface PhraseRepository {
 
     LiveData<List<Phrase>> getAllPhrases();
 
-    void insert(PhraseEntity phraseEntity);
+    void insert(Phrase phrase);
 
     void deleteAll();
 }
