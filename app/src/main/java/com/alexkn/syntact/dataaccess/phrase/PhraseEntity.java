@@ -14,10 +14,13 @@ public class PhraseEntity {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
+    @NonNull
     private String clue;
 
+    @NonNull
     private String solution;
 
+    @NonNull
     private String attempt;
 
     private Instant lastSolved;
@@ -26,14 +29,6 @@ public class PhraseEntity {
 
     public PhraseEntity() {
 
-    }
-
-    @Ignore
-    public PhraseEntity(@NonNull String clue, @NonNull String solution, @NonNull String attempt) {
-
-        this.clue = clue;
-        this.solution = solution;
-        this.attempt = attempt;
     }
 
     @Ignore

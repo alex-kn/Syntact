@@ -12,7 +12,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-@Database(entities = {PhraseEntity.class}, version = 1)
+@Database(entities = {PhraseEntity.class}, version = 2)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -27,7 +27,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (instance == null) {
                     instance = Room
                             .databaseBuilder(context.getApplicationContext(), AppDatabase.class,
-                                    "app_database").build();
+                                    "app_database").fallbackToDestructiveMigration().build();
                 }
             }
         }

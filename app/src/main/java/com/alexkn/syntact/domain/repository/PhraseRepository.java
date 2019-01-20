@@ -18,5 +18,9 @@ public interface PhraseRepository {
 
     void insert(Phrase phrase);
 
+    void insert(List<Phrase> phrases);
+
     void deleteAll();
+
+    int count();
 }

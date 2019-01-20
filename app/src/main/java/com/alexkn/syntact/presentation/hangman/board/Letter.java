@@ -9,8 +9,6 @@ import androidx.annotation.NonNull;
 
 public class Letter implements Identifiable {
 
-    public static final Character EMPTY ='_';
-
     private static final AtomicInteger count = new AtomicInteger(0);
 
     private final int id;

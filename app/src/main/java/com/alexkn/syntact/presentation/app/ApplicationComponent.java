@@ -3,6 +3,8 @@ package com.alexkn.syntact.presentation.app;
 import android.app.Application;
 
 import com.alexkn.syntact.domain.repository.PhraseRepository;
+import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
+import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
 
 import javax.inject.Singleton;
@@ -15,8 +17,8 @@ public interface ApplicationComponent {
 
     Application application();
     PhraseUseCase phraseUseCase();
-
-    PhraseRepository phraseRepository();
+    GeneratePhrasesUseCase generatePhraseUseCase();
+    GenerateCharactersUseCase generateCharactersUseCase();
 }
 
 

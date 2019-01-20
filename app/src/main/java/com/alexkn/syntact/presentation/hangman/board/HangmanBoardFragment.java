@@ -41,7 +41,7 @@ public class HangmanBoardFragment extends Fragment {
         RecyclerView letterViewLeft = view.findViewById(R.id.lettersViewLeft);
         RecyclerView letterViewRight = view.findViewById(R.id.lettersViewRight);
 
-        LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager1 = new UnscrollableLinearLayoutManager(getContext());
         linearLayoutManager1.setReverseLayout(true);
         letterViewLeft.setLayoutManager(linearLayoutManager1);
         LetterListAdapter letterListAdapter1 = new LetterListAdapter();

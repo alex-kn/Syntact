@@ -3,6 +3,9 @@ package com.alexkn.syntact.dataaccess.util;
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
 import com.alexkn.syntact.domain.model.Phrase;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Mapper {
 
     public static Phrase toPhrase(PhraseEntity entity) {
@@ -11,8 +14,19 @@ public class Mapper {
                 entity.getAttempt(), entity.getLastSolved(), entity.getTimesSolved());
     }
 
+    public static List<Phrase> toPhrase(List<PhraseEntity> entities) {
+
+        return entities.stream().map(Mapper::toPhrase).collect(Collectors.toList());
+    }
+
     public static PhraseEntity toEntity(Phrase phrase) {
+
         return new PhraseEntity(phrase.getId(), phrase.getClue(), phrase.getSolution(),
                 phrase.getAttempt(), phrase.getLastSolved(), phrase.getTimesSolved());
+    }
+
+    public static List<PhraseEntity> toEntity(List<Phrase> phrases) {
+
+        return phrases.stream().map(Mapper::toEntity).collect(Collectors.toList());
     }
 }

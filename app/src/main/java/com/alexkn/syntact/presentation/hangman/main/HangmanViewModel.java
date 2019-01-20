@@ -2,6 +2,8 @@ package com.alexkn.syntact.presentation.hangman.main;
 
 import android.app.Application;
 
+import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
+import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
@@ -12,18 +14,27 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 
 public class HangmanViewModel extends AndroidViewModel {
 
     @Inject
-    PhraseUseCase phrasesManagement;
+    PhraseUseCase phraseUseCase;
+
+    @Inject
+    GeneratePhrasesUseCase generatePhrasesUseCase;
+
+    @Inject
+    GenerateCharactersUseCase generateCharactersUseCase;
 
     private MutableLiveData<List<Letter>> lettersLeft = new MutableLiveData<>();
 
@@ -32,32 +43,41 @@ public class HangmanViewModel extends AndroidViewModel {
     public HangmanViewModel(Application application) {
 
         super(application);
+        DaggerHangmanComponent.builder().applicationComponent(
+                ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
+                .inject(this);
 
-        DaggerHangmanComponent.builder()
-                .applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent())
-                .build().inject(this);
-        lettersLeft.setValue(LetterGenerator.generateLetters(7));
-        lettersRight.setValue(LetterGenerator.generateLetters(7));
+        generatePhrasesUseCase.generatePhrasesAsync();
+
+        int initialCharacterCount = 12;
+        lettersLeft.setValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
+                Collectors.toList()));
+        lettersRight.setValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
+                Collectors.toList()));
     }
 
     @SuppressWarnings("ConstantConditions")
     public boolean solve(Phrase solvablePhrase, Letter letter) {
 
-        boolean successful = phrasesManagement.solvePhrase(solvablePhrase, letter.getCharacter());
+        boolean successful = phraseUseCase.solvePhrase(solvablePhrase, letter.getCharacter());
         if (successful) {
             List<Letter> leftValue = new ArrayList<>(lettersLeft.getValue());
-            leftValue.remove(letter);
-            lettersLeft.setValue(leftValue);
+            if (leftValue.remove(letter)) {
+                leftValue.add(new Letter(generateCharactersUseCase.generateNewCharacter()));
+                lettersLeft.setValue(leftValue);
+            }
             List<Letter> rightValue = new ArrayList<>(lettersRight.getValue());
-            rightValue.remove(letter);
-            lettersRight.setValue(rightValue);
+            if (rightValue.remove(letter)) {
+                rightValue.add(new Letter(generateCharactersUseCase.generateNewCharacter()));
+                lettersRight.setValue(rightValue);
+            }
         }
         return successful;
     }
 
     public LiveData<List<Phrase>> getSolvablePhrases() {
 
-        return phrasesManagement.getPhrases();
+        return phraseUseCase.getPhrases();
     }
 
     public LiveData<List<Letter>> getLettersLeft() {

@@ -6,9 +6,11 @@ import com.alexkn.syntact.presentation.hangman.board.Letter;
 import java.time.Instant;
 import java.util.Objects;
 
+import androidx.room.Ignore;
+
 public class Phrase implements Identifiable {
 
-    private final int id;
+    private int id;
 
     private String clue;
 
@@ -20,7 +22,9 @@ public class Phrase implements Identifiable {
 
     private int timesSolved;
 
-    private boolean solved;
+    public Phrase(){
+
+    }
 
     public Phrase(int id, String clue, String solution, String attempt, Instant lastSolved,
             int timesSolved) {
@@ -31,7 +35,6 @@ public class Phrase implements Identifiable {
         this.attempt = attempt;
         this.lastSolved = lastSolved;
         this.timesSolved = timesSolved;
-        checkSolved();
     }
 
     public String getClue() {
@@ -39,9 +42,19 @@ public class Phrase implements Identifiable {
         return clue;
     }
 
+    public void setClue(String clue) {
+
+        this.clue = clue;
+    }
+
     public String getSolution() {
 
         return solution;
+    }
+
+    public void setSolution(String solution) {
+
+        this.solution = solution;
     }
 
     public Integer getId() {
@@ -49,16 +62,9 @@ public class Phrase implements Identifiable {
         return id;
     }
 
-    public void setAttempt(String attempt) {
+    public void setId(int id) {
 
-        this.attempt = attempt;
-    }
-
-    private void checkSolved() {
-
-        if (!attempt.contains(Letter.EMPTY.toString())) {
-            solved = true;
-        }
+        this.id = id;
     }
 
     public String getAttempt() {
@@ -66,25 +72,9 @@ public class Phrase implements Identifiable {
         return attempt;
     }
 
-    public boolean isSolved() {
+    public void setAttempt(String attempt) {
 
-        return solved;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Phrase that = (Phrase) o;
-        return id == that.id && solved == that.solved && Objects.equals(clue, that.clue) &&
-                Objects.equals(solution, that.solution) && Objects.equals(attempt, that.attempt);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, clue, solution, attempt, solved);
+        this.attempt = attempt;
     }
 
     public Instant getLastSolved() {
@@ -106,4 +96,22 @@ public class Phrase implements Identifiable {
 
         this.timesSolved = timesSolved;
     }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Phrase phrase = (Phrase) o;
+        return id == phrase.id && timesSolved == phrase.timesSolved &&
+                Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
+                Objects.equals(attempt, phrase.attempt) &&
+                Objects.equals(lastSolved, phrase.lastSolved);
+    }
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, clue, solution, attempt, lastSolved, timesSolved);
+    }
+
 }

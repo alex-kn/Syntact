@@ -26,6 +26,9 @@ public interface PhraseDao {
     @Delete
     void delete(PhraseEntity phraseEntity);
 
+    @Query("SELECT COUNT(*) FROM Phrase")
+    int count();
+
     @Query("SELECT * FROM Phrase ORDER BY lastSolved")
     LiveData<List<PhraseEntity>> findAll();
 

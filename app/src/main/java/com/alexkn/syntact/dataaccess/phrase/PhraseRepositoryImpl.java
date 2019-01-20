@@ -59,8 +59,20 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
+    public void insert(List<Phrase> phrases) {
+
+        AsyncTask.execute(() -> phraseDao.insert(Mapper.toEntity(phrases)));
+    }
+
+    @Override
     public void deleteAll() {
 
         AsyncTask.execute(() -> phraseDao.deleteAll());
+    }
+
+    @Override
+    public int count() {
+
+        return phraseDao.count();
     }
 }
