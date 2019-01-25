@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.usecase;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
@@ -28,7 +29,7 @@ public class GenerateCharactersUseCase {
     @Inject
     GenerateCharactersUseCase(Application application) {
 
-            List<Pair<Character,Double>> letterFrequencyList = new ArrayList<>();
+        List<Pair<Character, Double>> letterFrequencyList = new ArrayList<>();
         try {
 
             InputStream open = application.getAssets().open("letterfrequencies.json");
@@ -41,7 +42,6 @@ public class GenerateCharactersUseCase {
                 Double frequency = jsonObject.getDouble("frequency");
                 letterFrequencyList.add(new Pair<>(letter, frequency));
             }
-
         } catch (Exception e) {
 
             Log.e(TAG, "GenerateCharactersUseCase: Error reading JSON", e);
@@ -57,6 +57,7 @@ public class GenerateCharactersUseCase {
 
     public List<Character> generateCharacters(int count) {
 
-        return Stream.generate(this::generateNewCharacter).limit(count).collect(Collectors.toList());
+        return Stream.generate(this::generateNewCharacter).limit(count)
+                .collect(Collectors.toList());
     }
 }
