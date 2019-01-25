@@ -1,13 +1,13 @@
-package com.alexkn.syntact.presentation.hangman.main;
+package com.alexkn.syntact.presentation.hangman.common;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
 import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
-import com.alexkn.syntact.presentation.hangman.DaggerHangmanComponent;
 import com.alexkn.syntact.presentation.hangman.board.Letter;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -21,20 +21,18 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
 
 public class HangmanViewModel extends AndroidViewModel {
 
     @Inject
-    PhraseUseCase phraseUseCase;
+    public PhraseUseCase phraseUseCase;
 
     @Inject
-    GeneratePhrasesUseCase generatePhrasesUseCase;
+    public GeneratePhrasesUseCase generatePhrasesUseCase;
 
     @Inject
-    GenerateCharactersUseCase generateCharactersUseCase;
+    public GenerateCharactersUseCase generateCharactersUseCase;
 
     private MutableLiveData<List<Letter>> lettersLeft = new MutableLiveData<>();
 
@@ -49,11 +47,18 @@ public class HangmanViewModel extends AndroidViewModel {
 
         generatePhrasesUseCase.generatePhrasesAsync();
 
+        loadLetters();
+    }
+
+    private void  loadLetters(){
         int initialCharacterCount = 12;
-        lettersLeft.setValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
-                Collectors.toList()));
-        lettersRight.setValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
-                Collectors.toList()));
+
+        AsyncTask.execute(() -> {
+            lettersLeft.postValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
+                    Collectors.toList()));
+            lettersRight.postValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
+                    Collectors.toList()));
+        });
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -88,23 +93,5 @@ public class HangmanViewModel extends AndroidViewModel {
     public LiveData<List<Letter>> getLettersRight() {
 
         return lettersRight;
-    }
-
-    private static class LetterGenerator {
-
-        @NonNull
-        static List<Letter> generateLetters(int length) {
-
-            List<Letter> letters = new ArrayList<>();
-            for (int i = 0; i < length; i++) {
-                letters.add(generateLetter());
-            }
-            return letters;
-        }
-
-        static Letter generateLetter() {
-
-            return new Letter(RandomStringUtils.randomAlphabetic(1).toUpperCase().charAt(0));
-        }
     }
 }

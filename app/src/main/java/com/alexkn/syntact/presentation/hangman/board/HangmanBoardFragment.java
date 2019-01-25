@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.presentation.hangman.main.HangmanViewModel;
+import com.alexkn.syntact.presentation.hangman.common.HangmanViewModel;
 
 public class HangmanBoardFragment extends Fragment {
 
@@ -24,8 +24,8 @@ public class HangmanBoardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.hangman_board_fragment, container, false);
-        HangmanViewModel viewModel = ViewModelProviders.of(this).get(HangmanViewModel.class);
+        View view = inflater.inflate(R.layout.fragment_hangman_board, container, false);
+        HangmanViewModel viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager(getContext());
@@ -41,13 +41,15 @@ public class HangmanBoardFragment extends Fragment {
         RecyclerView letterViewLeft = view.findViewById(R.id.lettersViewLeft);
         RecyclerView letterViewRight = view.findViewById(R.id.lettersViewRight);
 
-        LinearLayoutManager linearLayoutManager1 = new UnscrollableLinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager1 = new UnscrollableLinearLayoutManager(
+                getContext());
         linearLayoutManager1.setReverseLayout(true);
         letterViewLeft.setLayoutManager(linearLayoutManager1);
         LetterListAdapter letterListAdapter1 = new LetterListAdapter();
         letterViewLeft.setAdapter(letterListAdapter1);
 
-        LinearLayoutManager linearLayoutManager2 = new UnscrollableLinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager2 = new UnscrollableLinearLayoutManager(
+                getContext());
         linearLayoutManager2.setReverseLayout(true);
         letterViewRight.setLayoutManager(linearLayoutManager2);
         LetterListAdapter letterListAdapter2 = new LetterListAdapter();
@@ -81,6 +83,7 @@ public class HangmanBoardFragment extends Fragment {
     private class UnscrollableLinearLayoutManager extends LinearLayoutManager {
 
         UnscrollableLinearLayoutManager(Context context) {
+
             super(context);
         }
 
