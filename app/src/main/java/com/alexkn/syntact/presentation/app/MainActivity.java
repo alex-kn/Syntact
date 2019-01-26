@@ -5,9 +5,10 @@ import android.view.View;
 
 import com.alexkn.syntact.R;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
 
     @Override
