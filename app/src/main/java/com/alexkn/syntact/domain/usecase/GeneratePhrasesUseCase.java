@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
-import com.alexkn.syntact.presentation.app.ApplicationComponent;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -15,9 +14,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import androidx.room.util.StringUtil;
-import kotlin.text.StringsKt;
 
 @Singleton
 public class GeneratePhrasesUseCase {
@@ -31,9 +27,9 @@ public class GeneratePhrasesUseCase {
     @Inject
     GeneratePhrasesUseCase() {}
 
-    public void generatePhrases() {
+    private void generatePhrases() {
 
-        if(phraseRepository.count()>5)return ;
+        if (phraseRepository.count() > 5) return;
         ArrayList<Phrase> phrases = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
 
@@ -47,10 +43,9 @@ public class GeneratePhrasesUseCase {
             phrases.add(phrase);
         }
         phraseRepository.insert(phrases);
-
     }
 
-    public void generatePhrasesAsync(){
+    public void generatePhrasesAsync() {
 
         AsyncTask.execute(this::generatePhrases);
     }

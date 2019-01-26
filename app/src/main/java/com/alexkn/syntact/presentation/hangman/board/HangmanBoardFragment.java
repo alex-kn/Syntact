@@ -1,21 +1,20 @@
 package com.alexkn.syntact.presentation.hangman.board;
 
-import androidx.lifecycle.ViewModelProviders;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.alexkn.syntact.R;
+import com.alexkn.syntact.presentation.hangman.common.HangmanViewModel;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.alexkn.syntact.R;
-import com.alexkn.syntact.presentation.hangman.common.HangmanViewModel;
 
 public class HangmanBoardFragment extends Fragment {
 
@@ -28,6 +27,7 @@ public class HangmanBoardFragment extends Fragment {
         HangmanViewModel viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
+        cardsView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);

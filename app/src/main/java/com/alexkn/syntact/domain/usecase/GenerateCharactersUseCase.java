@@ -24,23 +24,23 @@ public class GenerateCharactersUseCase {
 
     private static final String TAG = GenerateCharactersUseCase.class.getSimpleName();
 
-    private final EnumeratedDistribution<Character> letterDistribution;
+    private EnumeratedDistribution<Character> letterDistribution;
 
     @Inject
     GenerateCharactersUseCase(Application application) {
-
         List<Pair<Character, Double>> letterFrequencyList = new ArrayList<>();
         try {
 
-            InputStream open = application.getAssets().open("letterfrequencies.json");
+            try (InputStream open = application.getAssets().open("letterfrequencies.json")) {
 
-            String s = IOUtils.toString(open, "UTF-8");
-            JSONArray letters = new JSONArray(s);
-            for (int i = 0; i < letters.length(); i++) {
-                JSONObject jsonObject = letters.getJSONObject(i);
-                Character letter = jsonObject.getString("letter").charAt(0);
-                Double frequency = jsonObject.getDouble("frequency");
-                letterFrequencyList.add(new Pair<>(letter, frequency));
+                String s = IOUtils.toString(open, "UTF-8");
+                JSONArray letters = new JSONArray(s);
+                for (int i = 0; i < letters.length(); i++) {
+                    JSONObject jsonObject = letters.getJSONObject(i);
+                    Character letter = jsonObject.getString("letter").charAt(0);
+                    Double frequency = jsonObject.getDouble("frequency");
+                    letterFrequencyList.add(new Pair<>(letter, frequency));
+                }
             }
         } catch (Exception e) {
 

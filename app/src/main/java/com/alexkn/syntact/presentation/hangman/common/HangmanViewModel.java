@@ -3,14 +3,12 @@ package com.alexkn.syntact.presentation.hangman.common;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
 import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
-import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
+import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
 import com.alexkn.syntact.presentation.hangman.board.Letter;
-
-import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
