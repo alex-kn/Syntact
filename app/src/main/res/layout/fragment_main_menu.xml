@@ -14,15 +14,16 @@
         android:adjustViewBounds="true"
         android:cropToPadding="false"
         android:translationZ="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/summaryCard"
+        app:layout_constraintBottom_toBottomOf="@+id/topCard"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/summaryCard"
+        app:layout_constraintTop_toBottomOf="@+id/topCard"
         app:srcCompat="@drawable/portrait" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/summaryCard"
+        android:id="@+id/topCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:transitionName="top_card"
         app:cardBackgroundColor="@color/primaryLight"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"

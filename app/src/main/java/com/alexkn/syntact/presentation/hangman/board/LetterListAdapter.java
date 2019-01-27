@@ -5,20 +5,27 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
+import android.widget.FrameLayout;
 
 import com.alexkn.syntact.R;
 
 import androidx.annotation.NonNull;
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 
 public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder> {
+
+    private AsyncLayoutInflater asyncLayoutInflater;
 
     @NonNull
     @Override
     public LetterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.letter_card, parent, false);
-        return new LetterViewHolder(view);
+        if (inflater == null) {
+            inflater = LayoutInflater.from(parent.getContext());
+        }
+
+        return new LetterViewHolder(new FrameLayout(parent.getContext()));
     }
 
     @Override

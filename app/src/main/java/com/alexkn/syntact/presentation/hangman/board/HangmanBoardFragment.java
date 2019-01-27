@@ -2,6 +2,8 @@ package com.alexkn.syntact.presentation.hangman.board;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.ChangeBounds;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import com.alexkn.syntact.presentation.hangman.common.HangmanViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +25,10 @@ public class HangmanBoardFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
+
+        final ChangeBounds transition = new ChangeBounds();
+        transition.setDuration(600L);
+        TransitionManager.beginDelayedTransition(container, transition);
 
         View view = inflater.inflate(R.layout.fragment_hangman_board, container, false);
         HangmanViewModel viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);

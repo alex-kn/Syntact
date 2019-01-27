@@ -24,14 +24,14 @@ public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder>
     @Override
     public PhraseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.phrase_card, parent, false);
+        if (inflater == null) {
+            inflater = LayoutInflater.from(parent.getContext());
+        }
+        View view = inflater.inflate(R.layout.phrase_card, parent, false);
         PhraseViewHolder viewHolder = new PhraseViewHolder(view);
 
         viewHolder.itemView.setOnDragListener((v, event) -> {
             if (event.getAction() == DragEvent.ACTION_DROP) {
-//                ClipData.Item item = event.getClipData().getItemAt(0);
-//                int id = Integer.parseInt(item.getText().toString());
                 int adapterPosition = viewHolder.getAdapterPosition();
                 Letter letter = (Letter) event.getLocalState();
                 if (adapterPosition != RecyclerView.NO_POSITION) {

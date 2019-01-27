@@ -1,5 +1,7 @@
 package com.alexkn.syntact.presentation.hangman.board;
 
+import android.view.LayoutInflater;
+
 import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.util.List;
@@ -12,6 +14,8 @@ public abstract class ListItemAdapter<T extends Identifiable, S extends Recycler
         extends RecyclerView.Adapter<S> {
 
     private final AsyncListDiffer<T> differ = new AsyncListDiffer<>(this, onDiff());
+
+    protected LayoutInflater inflater;
 
     private DiffUtil.ItemCallback<T> onDiff(){
         return new DiffCallback<>();

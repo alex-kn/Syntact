@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ca"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:transitionName="top_card"
+        app:cardBackgroundColor="@color/primaryLight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </com.google.android.material.card.MaterialCardView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/phrasesView"
         android:layout_width="0dp"

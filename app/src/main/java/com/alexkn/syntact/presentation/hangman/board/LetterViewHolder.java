@@ -1,21 +1,40 @@
 package com.alexkn.syntact.presentation.hangman.board;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
+
+import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 
 class LetterViewHolder extends ListItemViewHolder<Letter> {
 
     private TextView textView;
 
-    LetterViewHolder(View v) {
+    private String text = "";
+
+    LetterViewHolder(FrameLayout v) {
+
         super(v);
-        textView = v.findViewById(R.id.characterTextView);
+
+        AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(v.getContext());
+        asyncLayoutInflater.inflate(R.layout.letter_card, v, (view, resid, parent) -> {
+
+            textView = view.findViewById(R.id.characterTextView);
+            v.addView(view);
+            textView.setText(text);
+
+        });
+
     }
 
     void bindTo(Letter letter) {
-        textView.setText(letter.getCharacter().toString());
-    }
 
+        if (textView != null) {
+
+            textView.setText(letter.getCharacter().toString());
+        }
+        text = letter.getCharacter().toString();
+    }
 }
