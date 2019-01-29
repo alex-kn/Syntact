@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.hangman.board;
 
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -24,15 +25,12 @@ class LetterViewHolder extends ListItemViewHolder<Letter> {
             textView = view.findViewById(R.id.characterTextView);
             v.addView(view);
             textView.setText(text);
-
         });
-
     }
 
     void bindTo(Letter letter) {
 
         if (textView != null) {
-
             textView.setText(letter.getCharacter().toString());
         }
         text = letter.getCharacter().toString();

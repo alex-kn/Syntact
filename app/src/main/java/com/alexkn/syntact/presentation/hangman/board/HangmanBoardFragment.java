@@ -2,8 +2,6 @@ package com.alexkn.syntact.presentation.hangman.board;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.transition.ChangeBounds;
-import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.ChangeTransform;
+import androidx.transition.TransitionManager;
 
 public class HangmanBoardFragment extends Fragment {
 
@@ -26,7 +26,7 @@ public class HangmanBoardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        final ChangeBounds transition = new ChangeBounds();
+        final ChangeTransform transition = new ChangeTransform();
         transition.setDuration(600L);
         TransitionManager.beginDelayedTransition(container, transition);
 
@@ -40,7 +40,7 @@ public class HangmanBoardFragment extends Fragment {
         cardsView.setLayoutManager(linearLayoutManager);
         PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
         cardsView.setItemAnimator(new PhraseItemAnimator());
-        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
+//        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
         phraseListAdapter
                 .registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);
@@ -62,8 +62,8 @@ public class HangmanBoardFragment extends Fragment {
         LetterListAdapter letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
-        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
-        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
+//        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
+//        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
         return view;
     }
 

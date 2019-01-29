@@ -6,75 +6,53 @@
     android:layout_height="match_parent"
     tools:context=".presentation.menu.MainMenuFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dip"
-        android:layout_height="100dip"
-        android:layout_marginTop="8dp"
-        android:adjustViewBounds="true"
-        android:cropToPadding="false"
-        android:translationZ="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/topCard"
-        app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/topCard"
-        app:srcCompat="@drawable/portrait" />
-
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/topCard"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:transitionName="top_card"
+        android:layout_height="56dp"
         app:cardBackgroundColor="@color/primaryLight"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.31" />
-
     <TextView
-        android:id="@+id/levelLabel"
+        android:id="@+id/playerLevelLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Level"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/topCard" />
 
     <TextView
-        android:id="@+id/score"
+        android:id="@+id/playerScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="290"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/levelLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/playerLevelLabel" />
 
     <TextView
-        android:id="@+id/maxScore"
+        android:id="@+id/playerMaxScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="/12000"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-        app:layout_constraintBaseline_toBaselineOf="@+id/score"
-        app:layout_constraintStart_toEndOf="@+id/score" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/playerScore"
+        app:layout_constraintStart_toEndOf="@+id/playerScore" />
 
     <TextView
-        android:id="@+id/level"
+        android:id="@+id/playerLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="10"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
         android:textColor="@color/secondaryDark"
-        app:layout_constraintBaseline_toBaselineOf="@id/levelLabel"
-        app:layout_constraintStart_toEndOf="@+id/levelLabel" />
+        app:layout_constraintBaseline_toBaselineOf="@id/playerLevelLabel"
+        app:layout_constraintStart_toEndOf="@+id/playerLevelLabel" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline4"
@@ -100,7 +78,19 @@
         android:progress="40"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
-        app:layout_constraintTop_toBottomOf="@+id/maxScore" />
+        app:layout_constraintTop_toBottomOf="@+id/playerScore" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/languagesList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline5"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/guideline4"
+        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/startButton"
@@ -113,7 +103,6 @@
         android:src="@android:drawable/ic_media_play"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline5" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

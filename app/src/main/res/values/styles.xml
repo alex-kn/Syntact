@@ -3,23 +3,32 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light">
 
+
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <!--<item name="colorPrimaryVariant">@color/primaryLight</item>-->
         <item name="colorSecondary">@color/secondary</item>
         <item name="android:windowContentTransitions">true</item>
+        <!--TODO transition manager-->
+
+        <item name="android:windowEnterTransition">@transition/explode</item>
+        <item name="android:windowExitTransition">@transition/explode</item>
+
+
+        <item name="android:windowSharedElementEnterTransition">@transition/change_transform</item>
+        <item name="android:windowSharedElementExitTransition">@transition/change_transform</item>
+
 
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <item name="android:fontFamily">@font/raleway</item>
 
-        <!--<item name="android:windowActivityTransitions">true</item>-->
 
         <item name="materialCardViewStyle">@style/HangwordsCardStyle</item>
 
-        <item name="android:windowBackground">@color/lightGrey</item>
+        <item name="android:windowBackground">@color/almostWhite</item>
         <item name="android:textColorPrimary">@color/darkShades</item>
     </style>
 

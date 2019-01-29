@@ -10,11 +10,61 @@
         android:id="@+id/ca"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:transitionName="top_card"
         app:cardBackgroundColor="@color/primaryLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/languageBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="German"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                android:transitionName="langlang"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressBar2"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:max="100"
+                android:progress="40"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/langBoardScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="125/5000"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                app:layout_constraintBaseline_toBaselineOf="@+id/languageBoard"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/langBoardLevel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lvl 10"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintBaseline_toBaselineOf="@+id/languageBoard"
+                app:layout_constraintStart_toEndOf="@+id/languageBoard" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -23,12 +73,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         app:layout_anchorGravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ca" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewLeft"
@@ -37,17 +86,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/ca" />
 
     <!--<androidx.recyclerview.widget.RecyclerView-->
-        <!--android:id="@+id/lettersViewCenter"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginBottom="8dp"-->
-        <!--android:layoutAnimation="@anim/layout_animation_fall_down"-->
-        <!--app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"-->
-        <!--app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"-->
-        <!--app:layout_constraintStart_toEndOf="@+id/lettersViewLeft" />-->
+    <!--android:id="@+id/lettersViewCenter"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layoutAnimation="@anim/layout_animation_fall_down"-->
+    <!--app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"-->
+    <!--app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"-->
+    <!--app:layout_constraintStart_toEndOf="@+id/lettersViewLeft" />-->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewRight"
@@ -56,9 +105,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lettersViewLeft"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/ca" />
 
 
     <androidx.constraintlayout.widget.Guideline

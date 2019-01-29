@@ -1,9 +1,11 @@
 package com.alexkn.syntact.presentation.hangman.board;
 
+import android.content.res.ColorStateList;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Phrase;
@@ -27,10 +29,12 @@ public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder>
         if (inflater == null) {
             inflater = LayoutInflater.from(parent.getContext());
         }
-        View view = inflater.inflate(R.layout.phrase_card, parent, false);
-        PhraseViewHolder viewHolder = new PhraseViewHolder(view);
+        FrameLayout frameLayout = new FrameLayout(parent.getContext());
+        frameLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.WRAP_CONTENT));
+        frameLayout.setBackgroundTintList(parent.getContext().getColorStateList(R.color.hangwords_card_background_color));
+        PhraseViewHolder viewHolder = new PhraseViewHolder(frameLayout);
 
-        viewHolder.itemView.setOnDragListener((v, event) -> {
+        viewHolder.setOnDrag((v, event) -> {
             if (event.getAction() == DragEvent.ACTION_DROP) {
                 int adapterPosition = viewHolder.getAdapterPosition();
                 Letter letter = (Letter) event.getLocalState();
@@ -42,6 +46,19 @@ public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder>
             v.invalidate();
             return true;
         });
+
+//        viewHolder.itemView.setOnDragListener((v, event) -> {
+//            if (event.getAction() == DragEvent.ACTION_DROP) {
+//                int adapterPosition = viewHolder.getAdapterPosition();
+//                Letter letter = (Letter) event.getLocalState();
+//                if (adapterPosition != RecyclerView.NO_POSITION) {
+//                    Phrase solvablePhrase = this.getList().get(adapterPosition);
+//                    return viewModelCallback.handleDrop(solvablePhrase, letter);
+//                }
+//            }
+//            v.invalidate();
+//            return true;
+//        });
 
         return viewHolder;
     }
