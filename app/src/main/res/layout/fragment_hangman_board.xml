@@ -7,10 +7,10 @@
     android:fitsSystemWindows="true">
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/ca"
+        android:id="@+id/topBar"
+        style="@style/TopCardStyle"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        app:cardBackgroundColor="@color/primaryLight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -20,15 +20,14 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/languageBoard"
+                android:id="@+id/boardStreakLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="German"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                android:transitionName="langlang"
+                android:text="Streak 5"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,23 +46,24 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/langBoardScore"
+                android:id="@+id/boardLangScoreLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:text="125/5000"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-                app:layout_constraintBaseline_toBaselineOf="@+id/languageBoard"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintBaseline_toBaselineOf="@+id/boardStreakLabel"
                 app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
-                android:id="@+id/langBoardLevel"
+                android:id="@+id/boardLangLevelLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="Lvl 10"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                app:layout_constraintBaseline_toBaselineOf="@+id/languageBoard"
-                app:layout_constraintStart_toEndOf="@+id/languageBoard" />
+                app:layout_constraintBaseline_toBaselineOf="@+id/boardLangScoreLabel"
+                app:layout_constraintEnd_toStartOf="@+id/boardLangScoreLabel" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -73,11 +73,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         app:layout_anchorGravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/lettersViewLeft"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ca" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewLeft"
@@ -85,8 +87,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/ca" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
     <!--<androidx.recyclerview.widget.RecyclerView-->
     <!--android:id="@+id/lettersViewCenter"-->
@@ -104,15 +105,7 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/lettersViewLeft"
-        app:layout_constraintTop_toBottomOf="@+id/ca" />
+        app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

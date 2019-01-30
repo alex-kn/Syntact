@@ -2,6 +2,7 @@ package com.alexkn.syntact.presentation.hangman.board;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,30 +18,37 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeTransform;
+import androidx.transition.Explode;
 import androidx.transition.TransitionManager;
 
 public class HangmanBoardFragment extends Fragment {
+
+    private HangmanViewModel viewModel;
+
+    private LetterListAdapter letterListAdapter2;
+
+    private LetterListAdapter letterListAdapter1;
+
+    private PhraseListAdapter phraseListAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        final ChangeTransform transition = new ChangeTransform();
-        transition.setDuration(600L);
-        TransitionManager.beginDelayedTransition(container, transition);
+        this.setAllowEnterTransitionOverlap(true);
+        this.setAllowReturnTransitionOverlap(true);
 
         View view = inflater.inflate(R.layout.fragment_hangman_board, container, false);
-        HangmanViewModel viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager(getContext());
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
-        PhraseListAdapter phraseListAdapter = new PhraseListAdapter(viewModel::solve);
+        phraseListAdapter = new PhraseListAdapter(viewModel::solve);
         cardsView.setItemAnimator(new PhraseItemAnimator());
-//        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
         phraseListAdapter
                 .registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);
@@ -52,20 +60,23 @@ public class HangmanBoardFragment extends Fragment {
                 getContext());
         linearLayoutManager1.setReverseLayout(true);
         letterViewLeft.setLayoutManager(linearLayoutManager1);
-        LetterListAdapter letterListAdapter1 = new LetterListAdapter();
+        letterListAdapter1 = new LetterListAdapter();
         letterViewLeft.setAdapter(letterListAdapter1);
 
         LinearLayoutManager linearLayoutManager2 = new UnscrollableLinearLayoutManager(
                 getContext());
         linearLayoutManager2.setReverseLayout(true);
         letterViewRight.setLayoutManager(linearLayoutManager2);
-        LetterListAdapter letterListAdapter2 = new LetterListAdapter();
+        letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
-//        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
-//        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
+        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
+        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
+        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
+
         return view;
     }
+
 
     private static class PhraseAdapterDataObserver extends RecyclerView.AdapterDataObserver {
 

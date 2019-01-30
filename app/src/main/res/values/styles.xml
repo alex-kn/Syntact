@@ -10,14 +10,16 @@
         <!--<item name="colorPrimaryVariant">@color/primaryLight</item>-->
         <item name="colorSecondary">@color/secondary</item>
         <item name="android:windowContentTransitions">true</item>
-        <!--TODO transition manager-->
 
-        <item name="android:windowEnterTransition">@transition/explode</item>
-        <item name="android:windowExitTransition">@transition/explode</item>
+        <!--<item name="android:windowContentTransitionManager">@tran</item>-->
 
+        <!--<item name="android:windowEnterTransition">@transition/explode</item>-->
+        <!--<item name="android:windowExitTransition">@transition/explode</item>-->
 
-        <item name="android:windowSharedElementEnterTransition">@transition/change_transform</item>
-        <item name="android:windowSharedElementExitTransition">@transition/change_transform</item>
+        <!--<item name="android:fragmentEnterTransition">@transition/explode</item>-->
+
+        <!--<item name="android:windowSharedElementEnterTransition">@transition/change_transform</item>-->
+        <!--<item name="android:windowSharedElementExitTransition">@transition/change_transform</item>-->
 
 
         <item name="colorOnPrimary">@color/white</item>
@@ -26,9 +28,7 @@
         <item name="android:fontFamily">@font/raleway</item>
 
 
-        <item name="materialCardViewStyle">@style/HangwordsCardStyle</item>
-
-        <item name="android:windowBackground">@color/almostWhite</item>
+        <!--<item name="android:windowBackground">@color/almostWhite</item>-->
         <item name="android:textColorPrimary">@color/darkShades</item>
     </style>
 
@@ -36,12 +36,13 @@
         <item name="android:textStyle">normal|bold</item>
     </style>
 
-    <style name="HangwordsCardStyle" parent="Widget.MaterialComponents.CardView">
+    <style name="TopCardStyle" parent="Widget.MaterialComponents.CardView">
 
         <!--<item name="strokeWidth">1dp</item>-->
         <!--<item name="strokeColor">@color/lightShades</item>-->
-        <!--<item name="cardCornerRadius">4dp</item>-->
-        <!--<item name="cardElevation">2dp</item>-->
+        <item name="android:textColor">@color/lightShades</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="cardElevation">16dp</item>
         <!--<item name="android:strokeColor">@color/darkShades</item>-->
         <!--<item name="android:strokeWidth">4</item>-->
         <!--<item name="android:strokeAlpha">1</item>-->

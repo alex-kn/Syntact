@@ -2,6 +2,7 @@ package com.alexkn.syntact.presentation.hangman.common;
 
 import android.app.Application;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
@@ -44,7 +45,7 @@ public class HangmanViewModel extends AndroidViewModel {
 
         generatePhrasesUseCase.generatePhrasesAsync();
 
-        loadLetters();
+        (new Handler()).postDelayed(this::loadLetters, 300);
     }
 
     private void  loadLetters(){
