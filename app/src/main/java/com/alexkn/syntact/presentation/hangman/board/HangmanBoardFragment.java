@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.presentation.hangman.common.HangmanViewModel;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeTransform;
@@ -70,25 +72,16 @@ public class HangmanBoardFragment extends Fragment {
         letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
-//        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
-//        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
-//        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
-
-        cardsView.setVisibility(View.INVISIBLE);
-        letterViewLeft.setVisibility(View.INVISIBLE);
-        letterViewRight.setVisibility(View.INVISIBLE);
-
-
         new Handler().postDelayed(() -> {
-            cardsView.setVisibility(View.VISIBLE);
-            letterViewLeft.setVisibility(View.VISIBLE);
-            letterViewRight.setVisibility(View.VISIBLE);
-        }, 3000);
-
+            viewModel.getSolvablePhrases()
+                    .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
+            viewModel.getLettersLeft()
+                    .observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
+            viewModel.getLettersRight()
+                    .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
+        }, 200);
         return view;
     }
-
-
 
     private static class PhraseAdapterDataObserver extends RecyclerView.AdapterDataObserver {
 

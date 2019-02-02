@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="primary">#26C6DA</color>
-    <color name="primaryLight">#B2EBF2</color>
-    <color name="primaryDark">#0097A7</color>
+    <!--<color name="primary">#26C6DA</color>-->
+    <!--<color name="primaryLight">#B2EBF2</color>-->
+    <!--<color name="primaryDark">#0097A7</color>-->
+
+    <color name="primary">#F9A825</color>
+    <color name="primaryLight">#FDD835</color>
+    <color name="primaryDark">#F57F17</color>
+
+
     <color name="secondary">#FF7043</color>
     <color name="secondaryDark">#FB8C00</color>
     <color name="white">#fff</color>

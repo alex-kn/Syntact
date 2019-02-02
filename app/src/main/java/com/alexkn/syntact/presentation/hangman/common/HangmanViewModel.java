@@ -44,8 +44,7 @@ public class HangmanViewModel extends AndroidViewModel {
                 .inject(this);
 
         generatePhrasesUseCase.generatePhrasesAsync();
-
-        (new Handler()).postDelayed(this::loadLetters, 300);
+        loadLetters();
     }
 
     private void  loadLetters(){

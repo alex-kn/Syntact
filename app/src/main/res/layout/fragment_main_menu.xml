@@ -43,9 +43,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Level"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:layout_marginTop="16dp"
+        android:text="LEVEL"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintStart_toStartOf="@+id/guideline4"
         app:layout_constraintTop_toBottomOf="@+id/topCard" />
 

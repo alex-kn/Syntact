@@ -26,7 +26,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
-                android:text="Streak 5"
+                android:text="STREAK 5"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

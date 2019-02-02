@@ -17,20 +17,19 @@
 
         <TextView
             android:id="@+id/clueTextView"
-            style="@style/TextAppearance.MaterialComponents.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:padding="@dimen/default_gap" />
+            android:padding="@dimen/default_gap"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
 
         <TextView
             android:id="@+id/solutionTextView"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="monospace"
             android:padding="@dimen/default_gap"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
