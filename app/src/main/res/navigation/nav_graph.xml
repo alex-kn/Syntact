@@ -13,10 +13,11 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_hangmanBoardFragment"
             app:destination="@+id/hangmanBoardFragment"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out"
-            app:popEnterAnim="@anim/fade_in"
-            app:popExitAnim="@anim/fade_out" />
+            app:enterAnim="@anim/zoom_enter"
+            app:exitAnim="@anim/zoom_exit"
+            app:popEnterAnim="@anim/zoom_enter_pop"
+            app:popExitAnim="@anim/zoom_exit_pop"
+            app:popUpTo="@+id/mainMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/hangmanBoardFragment"

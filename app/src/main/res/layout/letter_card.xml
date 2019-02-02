@@ -6,9 +6,9 @@
     android:layout_width="48dp"
     android:layout_height="48dp"
 
-    android:layoutAnimation="@anim/layout_animation_fall_down"
     android:layout_gravity="center"
     android:layout_margin="@dimen/default_gap"
+    android:layoutAnimation="@anim/layout_animation_fall_down"
     app:cardElevation="4dp">
 
     <LinearLayout

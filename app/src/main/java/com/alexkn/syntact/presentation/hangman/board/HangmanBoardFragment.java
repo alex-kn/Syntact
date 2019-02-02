@@ -70,12 +70,24 @@ public class HangmanBoardFragment extends Fragment {
         letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
-        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
-        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
-        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
+//        viewModel.getSolvablePhrases().observe(this, phraseListAdapter::submitList);
+//        viewModel.getLettersLeft().observe(this, letterListAdapter1::submitList);
+//        viewModel.getLettersRight().observe(this, letterListAdapter2::submitList);
+
+        cardsView.setVisibility(View.INVISIBLE);
+        letterViewLeft.setVisibility(View.INVISIBLE);
+        letterViewRight.setVisibility(View.INVISIBLE);
+
+
+        new Handler().postDelayed(() -> {
+            cardsView.setVisibility(View.VISIBLE);
+            letterViewLeft.setVisibility(View.VISIBLE);
+            letterViewRight.setVisibility(View.VISIBLE);
+        }, 3000);
 
         return view;
     }
+
 
 
     private static class PhraseAdapterDataObserver extends RecyclerView.AdapterDataObserver {
