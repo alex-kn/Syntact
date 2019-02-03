@@ -1,10 +1,10 @@
 package com.alexkn.syntact.domain.repository;
 
-import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
 import com.alexkn.syntact.domain.model.Phrase;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.lifecycle.LiveData;
 
@@ -14,7 +14,7 @@ public interface PhraseRepository {
 
     void updateAttempt(int id, String attempt);
 
-    LiveData<List<Phrase>> getAllPhrases();
+    LiveData<List<Phrase>> getAllPhrases(Locale locale);
 
     void insert(Phrase phrase);
 

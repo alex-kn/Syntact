@@ -1,6 +1,7 @@
-package com.alexkn.syntact.dataaccess.phrase;
+package com.alexkn.syntact.dataaccess.phrase.api;
 
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Objects;
 
 import androidx.annotation.NonNull;
@@ -27,13 +28,20 @@ public class PhraseEntity {
 
     private int timesSolved;
 
+    @NonNull
+    private Locale clueLocale;
+
+    @NonNull
+    private Locale solutionLocale;
+
     public PhraseEntity() {
 
     }
 
     @Ignore
     public PhraseEntity(int id, @NonNull String clue, @NonNull String solution,
-            @NonNull String attempt, Instant lastSolved, int timesSolved) {
+            @NonNull String attempt, Instant lastSolved, int timesSolved, @NonNull Locale clueLocale,
+            @NonNull Locale solutionLocale) {
 
         this.id = id;
         this.clue = clue;
@@ -41,6 +49,8 @@ public class PhraseEntity {
         this.attempt = attempt;
         this.lastSolved = lastSolved;
         this.timesSolved = timesSolved;
+        this.clueLocale = clueLocale;
+        this.solutionLocale = solutionLocale;
     }
 
     public String getClue() {
@@ -105,20 +115,45 @@ public class PhraseEntity {
     }
 
     @Override
-    public int hashCode() {
-
-        return Objects.hash(id, clue, solution, lastSolved, timesSolved);
-    }
-
-    @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PhraseEntity phraseEntity = (PhraseEntity) o;
-        return id == phraseEntity.id && timesSolved == phraseEntity.timesSolved &&
-                Objects.equals(clue, phraseEntity.clue) &&
-                Objects.equals(solution, phraseEntity.solution) &&
-                Objects.equals(lastSolved, phraseEntity.lastSolved);
+        PhraseEntity that = (PhraseEntity) o;
+        return id == that.id && timesSolved == that.timesSolved &&
+                Objects.equals(clue, that.clue) && Objects.equals(solution, that.solution) &&
+                Objects.equals(attempt, that.attempt) &&
+                Objects.equals(lastSolved, that.lastSolved) && Objects.equals(
+                clueLocale, that.clueLocale) &&
+                Objects.equals(solutionLocale, that.solutionLocale);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, clue, solution, attempt, lastSolved, timesSolved, clueLocale,
+                solutionLocale);
+    }
+
+    @NonNull
+    public Locale getClueLocale() {
+
+        return clueLocale;
+    }
+
+    public void setClueLocale(@NonNull Locale clueLocale) {
+
+        this.clueLocale = clueLocale;
+    }
+
+    @NonNull
+    public Locale getSolutionLocale() {
+
+        return solutionLocale;
+    }
+
+    public void setSolutionLocale(@NonNull Locale solutionLocale) {
+
+        this.solutionLocale = solutionLocale;
     }
 }

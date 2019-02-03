@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.IntStream;
 
 import javax.inject.Inject;
@@ -61,10 +62,10 @@ public class PhraseUseCase {
                 !StringUtils.containsIgnoreCase(solvablePhrase.getAttempt(), character.toString());
     }
 
-    public LiveData<List<Phrase>> getPhrases() {
+    public LiveData<List<Phrase>> getPhrases(Locale locale) {
 
         if (phrases == null) {
-            phrases = phraseRepository.getAllPhrases();
+            phrases = phraseRepository.getAllPhrases(locale);
         }
         return phrases;
     }

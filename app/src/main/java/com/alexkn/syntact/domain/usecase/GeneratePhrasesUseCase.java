@@ -11,6 +11,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -39,6 +40,8 @@ public class GeneratePhrasesUseCase {
             phrase.setSolution(randomString);
             phrase.setAttempt(StringUtils
                     .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
+            phrase.setClueLocale(Locale.ENGLISH);
+            phrase.setSolutionLocale(Locale.GERMAN);
             phraseRepository.insert(phrase);
             phrases.add(phrase);
         }

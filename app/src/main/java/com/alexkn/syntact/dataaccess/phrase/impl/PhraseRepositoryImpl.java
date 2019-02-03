@@ -1,15 +1,18 @@
-package com.alexkn.syntact.dataaccess.phrase;
+package com.alexkn.syntact.dataaccess.phrase.impl;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
+import com.alexkn.syntact.dataaccess.phrase.api.PhraseDao;
+import com.alexkn.syntact.dataaccess.phrase.api.PhraseEntity;
 import com.alexkn.syntact.dataaccess.util.Mapper;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -28,6 +31,7 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     @Inject
     PhraseRepositoryImpl(Application application) {
 
+        //TODO pass locale
         AppDatabase database = AppDatabase.getDatabase(application);
         phraseDao = database.phraseDao();
         phrases = phraseDao.findAll();
@@ -47,8 +51,8 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
-    public LiveData<List<Phrase>> getAllPhrases() {
-        return Transformations.map(phraseDao.findAll(),
+    public LiveData<List<Phrase>> getAllPhrases(Locale locale) {
+        return Transformations.map(phraseDao.findAll(locale),
                 input -> input.stream().map(Mapper::toPhrase).collect(Collectors.toList()));
     }
 

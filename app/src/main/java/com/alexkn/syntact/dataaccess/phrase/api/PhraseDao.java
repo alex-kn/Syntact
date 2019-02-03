@@ -1,8 +1,9 @@
-package com.alexkn.syntact.dataaccess.phrase;
+package com.alexkn.syntact.dataaccess.phrase.api;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -31,6 +32,9 @@ public interface PhraseDao {
 
     @Query("SELECT * FROM Phrase ORDER BY lastSolved")
     LiveData<List<PhraseEntity>> findAll();
+
+    @Query("SELECT * FROM Phrase WHERE clueLocale = :locale OR solutionLocale = :locale ORDER BY lastSolved")
+    LiveData<List<PhraseEntity>> findAll(Locale locale);
 
     @Query("UPDATE Phrase SET lastSolved = :newLastSolved WHERE id = :id")
     void updateLastSolved(int id, Instant newLastSolved);

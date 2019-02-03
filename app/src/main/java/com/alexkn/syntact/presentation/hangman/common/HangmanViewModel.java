@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.hangman.common;
 
 import android.app.Application;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Handler;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
+import androidx.core.os.ConfigurationCompat;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -47,14 +49,17 @@ public class HangmanViewModel extends AndroidViewModel {
         loadLetters();
     }
 
-    private void  loadLetters(){
+    private void loadLetters() {
+
         int initialCharacterCount = 12;
 
         AsyncTask.execute(() -> {
-            lettersLeft.postValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
-                    Collectors.toList()));
-            lettersRight.postValue(generateCharactersUseCase.generateCharacters(initialCharacterCount).stream().map(Letter::new).collect(
-                    Collectors.toList()));
+            lettersLeft.postValue(
+                    generateCharactersUseCase.generateCharacters(initialCharacterCount).stream()
+                            .map(Letter::new).collect(Collectors.toList()));
+            lettersRight.postValue(
+                    generateCharactersUseCase.generateCharacters(initialCharacterCount).stream()
+                            .map(Letter::new).collect(Collectors.toList()));
         });
     }
 
@@ -79,7 +84,8 @@ public class HangmanViewModel extends AndroidViewModel {
 
     public LiveData<List<Phrase>> getSolvablePhrases() {
 
-        return phraseUseCase.getPhrases();
+        return phraseUseCase.getPhrases(
+                ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0));
     }
 
     public LiveData<List<Letter>> getLettersLeft() {

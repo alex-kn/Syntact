@@ -1,12 +1,10 @@
 package com.alexkn.syntact.domain.model;
 
 import com.alexkn.syntact.domain.common.Identifiable;
-import com.alexkn.syntact.presentation.hangman.board.Letter;
 
 import java.time.Instant;
+import java.util.Locale;
 import java.util.Objects;
-
-import androidx.room.Ignore;
 
 public class Phrase implements Identifiable {
 
@@ -22,12 +20,16 @@ public class Phrase implements Identifiable {
 
     private int timesSolved;
 
+    private Locale clueLocale;
+
+    private Locale solutionLocale;
+
     public Phrase(){
 
     }
 
     public Phrase(int id, String clue, String solution, String attempt, Instant lastSolved,
-            int timesSolved) {
+            int timesSolved, Locale clueLocale, Locale solutionLocale) {
 
         this.id = id;
         this.clue = clue;
@@ -35,6 +37,8 @@ public class Phrase implements Identifiable {
         this.attempt = attempt;
         this.lastSolved = lastSolved;
         this.timesSolved = timesSolved;
+        this.clueLocale = clueLocale;
+        this.solutionLocale = solutionLocale;
     }
 
     public String getClue() {
@@ -97,6 +101,11 @@ public class Phrase implements Identifiable {
         this.timesSolved = timesSolved;
     }
 
+    public Locale getClueLocale() {
+
+        return clueLocale;
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -106,12 +115,30 @@ public class Phrase implements Identifiable {
         return id == phrase.id && timesSolved == phrase.timesSolved &&
                 Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
                 Objects.equals(attempt, phrase.attempt) &&
-                Objects.equals(lastSolved, phrase.lastSolved);
+                Objects.equals(lastSolved, phrase.lastSolved) &&
+                Objects.equals(clueLocale, phrase.clueLocale) && Objects.equals(
+                solutionLocale, phrase.solutionLocale);
     }
+
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, clue, solution, attempt, lastSolved, timesSolved);
+        return Objects.hash(id, clue, solution, attempt, lastSolved, timesSolved, clueLocale,
+                solutionLocale);
     }
 
+    public void setClueLocale(Locale clueLocale) {
+
+        this.clueLocale = clueLocale;
+    }
+
+    public Locale getSolutionLocale() {
+
+        return solutionLocale;
+    }
+
+    public void setSolutionLocale(Locale solutionLocale) {
+
+        this.solutionLocale = solutionLocale;
+    }
 }
