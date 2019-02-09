@@ -2,8 +2,10 @@ package com.alexkn.syntact.dataaccess.common;
 
 import android.content.Context;
 
-import com.alexkn.syntact.dataaccess.phrase.api.PhraseEntity;
-import com.alexkn.syntact.dataaccess.phrase.api.PhraseDao;
+import com.alexkn.syntact.dataaccess.language.ActiveLanguagePairDao;
+import com.alexkn.syntact.dataaccess.language.ActiveLanguagePairEntity;
+import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
+import com.alexkn.syntact.dataaccess.phrase.PhraseDao;
 import com.alexkn.syntact.dataaccess.util.Converters;
 
 import androidx.annotation.NonNull;
@@ -14,13 +16,14 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {PhraseEntity.class}, version = 3)
+@Database(entities = {PhraseEntity.class, ActiveLanguagePairEntity.class}, version = 3)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase instance;
 
     public abstract PhraseDao phraseDao();
+    public abstract ActiveLanguagePairDao activeLanguagePairDao();
 
     public static AppDatabase getDatabase(final Context context) {
 

@@ -2,7 +2,7 @@ package com.alexkn.syntact.presentation.app;
 
 import android.app.Application;
 
-import com.alexkn.syntact.dataaccess.phrase.impl.PhraseRepositoryImpl;
+import com.alexkn.syntact.dataaccess.phrase.PhraseRepositoryImpl;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 
 import javax.inject.Singleton;

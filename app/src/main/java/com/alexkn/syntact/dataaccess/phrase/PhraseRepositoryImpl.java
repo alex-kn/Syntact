@@ -1,11 +1,9 @@
-package com.alexkn.syntact.dataaccess.phrase.impl;
+package com.alexkn.syntact.dataaccess.phrase;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
-import com.alexkn.syntact.dataaccess.phrase.api.PhraseDao;
-import com.alexkn.syntact.dataaccess.phrase.api.PhraseEntity;
 import com.alexkn.syntact.dataaccess.util.Mapper;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
@@ -59,13 +57,13 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     @Override
     public void insert(Phrase phrase) {
 
-        AsyncTask.execute(() -> phraseDao.insert(Mapper.toEntity(phrase)));
+        AsyncTask.execute(() -> phraseDao.insert(Mapper.toPhraseEntity(phrase)));
     }
 
     @Override
     public void insert(List<Phrase> phrases) {
 
-        AsyncTask.execute(() -> phraseDao.insert(Mapper.toEntity(phrases)));
+        AsyncTask.execute(() -> phraseDao.insert(Mapper.toPhraseEntity(phrases)));
     }
 
     @Override

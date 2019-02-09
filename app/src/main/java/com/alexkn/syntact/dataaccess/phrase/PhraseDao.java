@@ -1,4 +1,4 @@
-package com.alexkn.syntact.dataaccess.phrase.api;
+package com.alexkn.syntact.dataaccess.phrase;
 
 import java.time.Instant;
 import java.util.Collection;
