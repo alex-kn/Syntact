@@ -14,7 +14,7 @@ public interface PhraseRepository {
 
     void updateAttempt(int id, String attempt);
 
-    LiveData<List<Phrase>> getAllPhrases(Locale locale);
+    LiveData<List<Phrase>> findAllPhrases(Locale locale);
 
     void insert(Phrase phrase);
 

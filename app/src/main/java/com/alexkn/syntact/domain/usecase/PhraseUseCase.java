@@ -65,7 +65,7 @@ public class PhraseUseCase {
     public LiveData<List<Phrase>> getPhrases(Locale locale) {
 
         if (phrases == null) {
-            phrases = phraseRepository.getAllPhrases(locale);
+            phrases = phraseRepository.findAllPhrases(locale);
         }
         return phrases;
     }

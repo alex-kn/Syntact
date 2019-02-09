@@ -2,6 +2,7 @@ package com.alexkn.syntact.presentation.app;
 
 import android.app.Application;
 
+import com.alexkn.syntact.domain.usecase.ActiveLanguages;
 import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
 import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
@@ -18,6 +19,7 @@ public interface ApplicationComponent {
     PhraseUseCase phraseUseCase();
     GeneratePhrasesUseCase generatePhraseUseCase();
     GenerateCharactersUseCase generateCharactersUseCase();
+    ActiveLanguages activeLanguages();
 }
 
 

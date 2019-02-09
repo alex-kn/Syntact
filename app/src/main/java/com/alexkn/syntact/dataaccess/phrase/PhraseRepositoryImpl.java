@@ -24,15 +24,12 @@ public class PhraseRepositoryImpl implements PhraseRepository {
 
     private PhraseDao phraseDao;
 
-    private LiveData<List<PhraseEntity>> phrases;
-
     @Inject
     PhraseRepositoryImpl(Application application) {
 
         //TODO pass locale
         AppDatabase database = AppDatabase.getDatabase(application);
         phraseDao = database.phraseDao();
-        phrases = phraseDao.findAll();
     }
 
     @Override
@@ -49,7 +46,7 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
-    public LiveData<List<Phrase>> getAllPhrases(Locale locale) {
+    public LiveData<List<Phrase>> findAllPhrases(Locale locale) {
         return Transformations.map(phraseDao.findAll(locale),
                 input -> input.stream().map(Mapper::toPhrase).collect(Collectors.toList()));
     }
