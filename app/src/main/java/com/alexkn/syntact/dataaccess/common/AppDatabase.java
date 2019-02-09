@@ -23,6 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static volatile AppDatabase instance;
 
     public abstract PhraseDao phraseDao();
+
     public abstract ActiveLanguagePairDao activeLanguagePairDao();
 
     public static AppDatabase getDatabase(final Context context) {
@@ -32,8 +33,8 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (instance == null) {
                     instance = Room
                             .databaseBuilder(context.getApplicationContext(), AppDatabase.class,
-                                    "app_database").fallbackToDestructiveMigration()
-                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3,MIGRATION_3_4).build();
+                                    "app_database")
+                            .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build();
                     //TODO different databases for locales
                 }
             }
@@ -60,11 +61,13 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
-    private static final Migration MIGRATION_3_4 = new Migration(3,4) {
+    private static final Migration MIGRATION_3_4 = new Migration(3, 4) {
 
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            //no migration
+
+            database.execSQL(
+                    "CREATE TABLE IF NOT EXISTS `ActiveLanguagePair` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `languageLeft` TEXT NOT NULL, `languageRight` TEXT NOT NULL)");
         }
     };
 }
