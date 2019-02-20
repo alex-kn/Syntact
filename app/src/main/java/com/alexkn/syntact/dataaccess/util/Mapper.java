@@ -1,8 +1,8 @@
 package com.alexkn.syntact.dataaccess.util;
 
-import com.alexkn.syntact.dataaccess.language.ActiveLanguagePairEntity;
+import com.alexkn.syntact.dataaccess.language.LanguagePairEntity;
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
-import com.alexkn.syntact.domain.model.ActiveLanguagePair;
+import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.model.Phrase;
 
 import java.util.List;
@@ -34,29 +34,29 @@ public class Mapper {
         return phrases.stream().map(Mapper::toPhraseEntity).collect(Collectors.toList());
     }
 
-    public static ActiveLanguagePair toActiveLanguagePair(ActiveLanguagePairEntity entity) {
+    public static LanguagePair toLanguagePair(LanguagePairEntity entity) {
 
-        return new ActiveLanguagePair(entity.getId(), entity.getLanguageLeft(),
-                entity.getLanguageRight());
+        return new LanguagePair(entity.getId(), entity.getLanguageLeft(),
+                entity.getLanguageRight(), entity.getScore());
     }
 
-    public static List<ActiveLanguagePair> toActiveLanguagePair(
-            List<ActiveLanguagePairEntity> entities) {
+    public static List<LanguagePair> toLanguagePair(
+            List<LanguagePairEntity> entities) {
 
-        return entities.stream().map(Mapper::toActiveLanguagePair).collect(Collectors.toList());
+        return entities.stream().map(Mapper::toLanguagePair).collect(Collectors.toList());
     }
 
-    public static ActiveLanguagePairEntity toActiveLanguagePairEntity(
-            ActiveLanguagePair activeLanguagePair) {
+    public static LanguagePairEntity toLanguagePairEntity(
+            LanguagePair languagePair) {
 
-        return new ActiveLanguagePairEntity(activeLanguagePair.getId(),
-                activeLanguagePair.getLanguageLeft(), activeLanguagePair.getLanguageRight());
+        return new LanguagePairEntity(languagePair.getId(),
+                languagePair.getLanguageLeft(), languagePair.getLanguageRight(), languagePair.getScore());
     }
 
-    public static List<ActiveLanguagePairEntity> toActiveLanguagePairEntity(
-            List<ActiveLanguagePair> activeLanguagePairs) {
+    public static List<LanguagePairEntity> toLanguagePairEntity(
+            List<LanguagePair> languagePairs) {
 
-        return activeLanguagePairs.stream().map(Mapper::toActiveLanguagePairEntity)
+        return languagePairs.stream().map(Mapper::toLanguagePairEntity)
                 .collect(Collectors.toList());
     }
 }

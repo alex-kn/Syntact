@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="10"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:textColor="@color/secondaryDark"
         app:layout_constraintBaseline_toBaselineOf="@id/playerLevelLabel"
         app:layout_constraintStart_toEndOf="@+id/playerLevelLabel" />
@@ -98,7 +98,6 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:max="100"
         android:progress="40"
         app:layout_constraintEnd_toStartOf="@+id/guideline5"

@@ -7,8 +7,8 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "ActiveLanguagePair")
-public class ActiveLanguagePairEntity {
+@Entity(tableName = "LanguagePair")
+public class LanguagePairEntity {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
@@ -19,17 +19,31 @@ public class ActiveLanguagePairEntity {
     @NonNull
     private Locale languageRight;
 
-    public ActiveLanguagePairEntity() {
+    @NonNull
+    private int score;
+
+    public LanguagePairEntity() {
 
     }
 
     @Ignore
-    public ActiveLanguagePairEntity(int id, @NonNull Locale languageLeft,
-            @NonNull Locale languageRight) {
+    public LanguagePairEntity(int id, @NonNull Locale languageLeft,
+            @NonNull Locale languageRight, int score) {
 
         this.id = id;
         this.languageLeft = languageLeft;
         this.languageRight = languageRight;
+        this.score = score;
+    }
+
+    public int getScore() {
+
+        return score;
+    }
+
+    public void setScore(int score) {
+
+        this.score = score;
     }
 
     public int getId() {

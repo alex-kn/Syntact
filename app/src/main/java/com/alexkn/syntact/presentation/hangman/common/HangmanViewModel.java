@@ -11,6 +11,7 @@ import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
 import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
 import com.alexkn.syntact.presentation.hangman.board.Letter;
+import com.alexkn.syntact.presentation.view.DaggerViewComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public class HangmanViewModel extends AndroidViewModel {
     public HangmanViewModel(Application application) {
 
         super(application);
-        DaggerHangmanComponent.builder().applicationComponent(
+        DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
 

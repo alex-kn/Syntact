@@ -7,11 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.domain.model.LanguagePair;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,6 +29,9 @@ public class MainMenuFragment extends Fragment {
 
     private View card;
 
+    private LanguagesViewModel viewModel;
+
+
     private RecyclerView languagesList;
 
     @Override
@@ -34,12 +41,15 @@ public class MainMenuFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
         View button = view.findViewById(R.id.startButton);
 
+        viewModel = ViewModelProviders.of(getActivity()).get(LanguagesViewModel.class);
+
+
         this.setAllowEnterTransitionOverlap(true);
         this.setAllowReturnTransitionOverlap(true);
 
         languagesList = view.findViewById(R.id.languagesList);
         languagesList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        languagesList.setAdapter(new LanguageAdapter(Arrays.asList("test"," 233")));
+//        languagesList.setAdapter(new LanguageAdapter(Arrays.asList("test"," 233")));
         languagesList.setHasFixedSize(true);
 
         button.setOnClickListener(this::startGame);
@@ -53,7 +63,7 @@ public class MainMenuFragment extends Fragment {
 
     public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder> {
 
-        private List<String> languages;
+        private List<LanguagePair> languages = new ArrayList<>();
 
         private class LanguageViewHolder extends RecyclerView.ViewHolder {
 
@@ -63,28 +73,23 @@ public class MainMenuFragment extends Fragment {
             }
         }
 
-        // Provide a suitable constructor (depends on the kind of dataset)
-        public LanguageAdapter(List<String> languages) {
+        public LanguageAdapter() {
 
-            this.languages = languages;
         }
 
         @Override
         public LanguageAdapter.LanguageViewHolder onCreateViewHolder(ViewGroup parent,
                 int viewType) {
-            // create a new view
             View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.language_card, parent, false);
             return new LanguageViewHolder(v);
         }
 
-        // Replace the contents of a view (invoked by the layout manager)
         @Override
         public void onBindViewHolder(LanguageViewHolder holder, int position) {
 
         }
 
-        // Return the size of your dataset (invoked by the layout manager)
         @Override
         public int getItemCount() {
 

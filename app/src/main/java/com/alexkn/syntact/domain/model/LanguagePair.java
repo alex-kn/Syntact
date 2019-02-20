@@ -4,7 +4,7 @@ import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.util.Locale;
 
-public class ActiveLanguagePair implements Identifiable {
+public class LanguagePair implements Identifiable {
 
     private int id;
 
@@ -12,15 +12,28 @@ public class ActiveLanguagePair implements Identifiable {
 
     private Locale languageRight;
 
-    public ActiveLanguagePair() {
+    private int score;
+
+    public LanguagePair() {
 
     }
 
-    public ActiveLanguagePair(int id, Locale languageLeft, Locale languageRight) {
+    public LanguagePair(int id, Locale languageLeft, Locale languageRight, int score) {
 
         this.id = id;
         this.languageLeft = languageLeft;
         this.languageRight = languageRight;
+        this.score = score;
+    }
+
+    public int getScore() {
+
+        return score;
+    }
+
+    public void setScore(int score) {
+
+        this.score = score;
     }
 
     public void setId(int id) {
