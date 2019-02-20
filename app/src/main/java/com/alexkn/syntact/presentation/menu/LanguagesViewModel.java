@@ -9,6 +9,7 @@ import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
 import com.alexkn.syntact.presentation.view.DaggerViewComponent;
 
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -30,6 +31,10 @@ public class LanguagesViewModel extends AndroidViewModel {
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
 
+        List<LanguagePair> value = languageManagement.getLanguagePairs().getValue();
+        if (value == null || value.size() < 1) {
+            languageManagement.addLanguage(Locale.getDefault());
+        }
 
     }
 

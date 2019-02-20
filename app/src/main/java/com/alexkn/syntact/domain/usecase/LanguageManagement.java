@@ -24,6 +24,10 @@ public class LanguageManagement {
 
     public void addLanguage(Locale language) {
 
+        LanguagePair activeLanguagePair = new LanguagePair();
+        activeLanguagePair.setLanguageLeft(Locale.GERMAN);
+        activeLanguagePair.setLanguageRight(Locale.ENGLISH);
+        languagePairRepository.insert(activeLanguagePair);
     }
 
     public void removeLanguage(Locale language) {

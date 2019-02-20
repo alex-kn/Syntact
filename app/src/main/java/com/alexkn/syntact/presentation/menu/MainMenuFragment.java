@@ -49,8 +49,11 @@ public class MainMenuFragment extends Fragment {
 
         languagesList = view.findViewById(R.id.languagesList);
         languagesList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-//        languagesList.setAdapter(new LanguageAdapter(Arrays.asList("test"," 233")));
+        LanguageAdapter languageAdapter = new LanguageAdapter();
+        languagesList.setAdapter(languageAdapter);
         languagesList.setHasFixedSize(true);
+
+        viewModel.getLanguagePairs().observe(getViewLifecycleOwner(), languageAdapter::submitList);
 
         button.setOnClickListener(this::startGame);
         return view;
@@ -61,39 +64,5 @@ public class MainMenuFragment extends Fragment {
                 .navigate(R.id.action_mainMenuFragment_to_hangmanBoardFragment);
     }
 
-    public class LanguageAdapter extends RecyclerView.Adapter<LanguageAdapter.LanguageViewHolder> {
 
-        private List<LanguagePair> languages = new ArrayList<>();
-
-        private class LanguageViewHolder extends RecyclerView.ViewHolder {
-
-            LanguageViewHolder(View v) {
-
-                super(v);
-            }
-        }
-
-        public LanguageAdapter() {
-
-        }
-
-        @Override
-        public LanguageAdapter.LanguageViewHolder onCreateViewHolder(ViewGroup parent,
-                int viewType) {
-            View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.language_card, parent, false);
-            return new LanguageViewHolder(v);
-        }
-
-        @Override
-        public void onBindViewHolder(LanguageViewHolder holder, int position) {
-
-        }
-
-        @Override
-        public int getItemCount() {
-
-            return languages.size();
-        }
-    }
 }

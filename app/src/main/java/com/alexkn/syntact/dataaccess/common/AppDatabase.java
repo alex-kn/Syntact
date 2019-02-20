@@ -16,7 +16,7 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {PhraseEntity.class, LanguagePairEntity.class}, version = 5)
+@Database(entities = {PhraseEntity.class, LanguagePairEntity.class}, version = 6)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -35,7 +35,7 @@ public abstract class AppDatabase extends RoomDatabase {
                             .databaseBuilder(context.getApplicationContext(), AppDatabase.class,
                                     "app_database")
                             .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4,
-                                    MIGRATION_4_5).build();
+                                    MIGRATION_4_5,MIGRATION_5_6).fallbackToDestructiveMigration().build();
                     //TODO different databases for locales
                 }
             }
@@ -81,6 +81,13 @@ public abstract class AppDatabase extends RoomDatabase {
                     "ALTER TABLE ActiveLanguagePair ADD COLUMN score INTEGER NOT NULL DEFAULT 0");
             database.execSQL(
                     "ALTER TABLE ActiveLanguagePair RENAME TO LanguagePair");
+
+        }
+    };
+    private static final Migration MIGRATION_5_6 = new Migration(5,6) {
+
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
 
         }
     };

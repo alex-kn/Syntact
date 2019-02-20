@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 public class LanguagePairEntity {
 
     @PrimaryKey(autoGenerate = true)
-    private int id;
+    private Integer id;
 
     @NonNull
     private Locale languageLeft;
@@ -20,15 +20,15 @@ public class LanguagePairEntity {
     private Locale languageRight;
 
     @NonNull
-    private int score;
+    private Integer score;
 
     public LanguagePairEntity() {
 
     }
 
     @Ignore
-    public LanguagePairEntity(int id, @NonNull Locale languageLeft,
-            @NonNull Locale languageRight, int score) {
+    public LanguagePairEntity(Integer id, @NonNull Locale languageLeft,
+            @NonNull Locale languageRight, Integer score) {
 
         this.id = id;
         this.languageLeft = languageLeft;
@@ -36,22 +36,22 @@ public class LanguagePairEntity {
         this.score = score;
     }
 
-    public int getScore() {
+    public Integer getScore() {
 
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Integer score) {
 
         this.score = score;
     }
 
-    public int getId() {
+    public Integer getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
 
         this.id = id;
     }

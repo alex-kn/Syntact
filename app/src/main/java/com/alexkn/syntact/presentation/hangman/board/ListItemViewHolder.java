@@ -6,10 +6,10 @@ import com.alexkn.syntact.domain.common.Identifiable;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-abstract class ListItemViewHolder<T extends Identifiable> extends RecyclerView.ViewHolder {
-    ListItemViewHolder(View v) {
+public abstract class ListItemViewHolder<T extends Identifiable> extends RecyclerView.ViewHolder {
+    public ListItemViewHolder(View v) {
         super(v);
     }
 
-    abstract void bindTo(T entity);
+    public abstract void bindTo(T entity);
 }

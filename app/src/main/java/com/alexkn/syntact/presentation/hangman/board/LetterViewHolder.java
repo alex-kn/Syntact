@@ -28,7 +28,7 @@ class LetterViewHolder extends ListItemViewHolder<Letter> {
         });
     }
 
-    void bindTo(Letter letter) {
+    public void bindTo(Letter letter) {
 
         if (textView != null) {
             textView.setText(letter.getCharacter().toString());
