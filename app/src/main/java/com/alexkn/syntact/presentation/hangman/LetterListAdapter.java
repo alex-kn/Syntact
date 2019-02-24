@@ -1,14 +1,11 @@
-package com.alexkn.syntact.presentation.hangman.board;
+package com.alexkn.syntact.presentation.hangman;
 
 import android.graphics.Point;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.FrameLayout;
-
-import com.alexkn.syntact.R;
 
 import androidx.annotation.NonNull;
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater;

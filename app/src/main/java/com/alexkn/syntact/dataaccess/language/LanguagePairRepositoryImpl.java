@@ -31,21 +31,31 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     @Override
     public void insert(LanguagePair languagePair) {
 
-        AsyncTask.execute(() -> languagePairDao
-                .insert(Mapper.toLanguagePairEntity(languagePair)));
+        AsyncTask.execute(() -> languagePairDao.insert(Mapper.toLanguagePairEntity(languagePair)));
     }
 
     @Override
     public LiveData<List<LanguagePair>> findAllLanguagePairs() {
 
         return Transformations.map(languagePairDao.findAll(),
-                input -> input.stream().map(Mapper::toLanguagePair)
-                        .collect(Collectors.toList()));
+                input -> input.stream().map(Mapper::toLanguagePair).collect(Collectors.toList()));
     }
 
     @Override
     public void updateScore(int id, int newScore) {
 
         AsyncTask.execute(() -> languagePairDao.updateScore(id, newScore));
+    }
+
+    @Override
+    public void incrementScore(int id, int by) {
+        AsyncTask.execute(() -> languagePairDao.incrementScore(id, by));
+
+    }
+
+    @Override
+    public LiveData<LanguagePair> findLanguagePair(int id) {
+
+        return Transformations.map(languagePairDao.find(id), Mapper::toLanguagePair);
     }
 }

@@ -55,13 +55,13 @@ public class MainMenuFragment extends Fragment {
 
         viewModel.getLanguagePairs().observe(getViewLifecycleOwner(), languageAdapter::submitList);
 
-        button.setOnClickListener(this::startGame);
+        button.setOnClickListener(this::newLanguage);
         return view;
     }
 
-    public void startGame(View view) {
-        Navigation.findNavController(view)
-                .navigate(R.id.action_mainMenuFragment_to_hangmanBoardFragment);
+    public void newLanguage(View view) {
+//        Navigation.findNavController(view)
+//                .navigate(R.id.action_mainMenuFragment_to_hangmanBoardFragment);TODO
     }
 
 

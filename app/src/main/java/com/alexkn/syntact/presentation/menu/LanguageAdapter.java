@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.LanguagePair;
-import com.alexkn.syntact.presentation.hangman.board.ListItemAdapter;
+import com.alexkn.syntact.presentation.hangman.ListItemAdapter;
 
 import androidx.annotation.NonNull;
 

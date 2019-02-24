@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.app;
+package com.alexkn.syntact.app;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,7 +6,6 @@ import android.view.View;
 import com.alexkn.syntact.R;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
 
 public class MainActivity extends AppCompatActivity {
 

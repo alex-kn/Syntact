@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman.board;
+package com.alexkn.syntact.presentation.hangman;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,22 +6,16 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.presentation.hangman.common.HangmanViewModel;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.ChangeTransform;
-import androidx.transition.Explode;
-import androidx.transition.TransitionManager;
 
 public class HangmanBoardFragment extends Fragment {
 
@@ -43,6 +37,14 @@ public class HangmanBoardFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_hangman_board, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
+
+        int languagePairId = HangmanBoardFragmentArgs.fromBundle(getArguments())
+                .getLanguagePairId();
+        viewModel.setLanguagePairId(languagePairId);
+
+        TextView scoreLabel = view.findViewById(R.id.boardLangScoreLabel);
+        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
+                languagePair -> scoreLabel.setText(String.valueOf(languagePair.getScore())));
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);

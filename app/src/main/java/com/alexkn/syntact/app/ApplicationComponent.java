@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.app;
+package com.alexkn.syntact.app;
 
 import android.app.Application;
 

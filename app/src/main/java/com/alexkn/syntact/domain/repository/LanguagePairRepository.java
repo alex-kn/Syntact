@@ -14,5 +14,7 @@ public interface LanguagePairRepository {
 
     void updateScore(int id, int newScore);
 
+    void incrementScore(int id, int by);
 
+    LiveData<LanguagePair> findLanguagePair(int id);
 }

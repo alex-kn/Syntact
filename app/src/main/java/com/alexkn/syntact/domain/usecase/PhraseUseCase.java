@@ -27,6 +27,9 @@ public class PhraseUseCase {
     @Inject
     Application application;
 
+    @Inject
+    LanguageScoreManagement languageScoreManagement;
+
     private LiveData<List<Phrase>> phrases;
 
     @Inject
@@ -40,6 +43,7 @@ public class PhraseUseCase {
         String attempt = updateCurrentText(phrase, character);
         if (!attempt.contains(application.getString(R.string.empty))) {
             phraseRepository.updateLastSolved(phrase.getId(), Instant.now());
+//            languageScoreManagement.phraseSolved();//TODO foreign key language pair
         }
         phraseRepository.updateAttempt(phrase.getId(), attempt);
 

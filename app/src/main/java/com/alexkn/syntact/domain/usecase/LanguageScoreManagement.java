@@ -1,5 +1,7 @@
 package com.alexkn.syntact.domain.usecase;
 
+import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
 
 import javax.inject.Inject;
@@ -14,8 +16,10 @@ public class LanguageScoreManagement {
     @Inject
     public LanguageScoreManagement() {
 
-
     }
 
+    public void phraseSolved(int languagePairId, Phrase phrase) {
 
+        languagePairRepository.incrementScore(languagePairId, 10);
+    }
 }

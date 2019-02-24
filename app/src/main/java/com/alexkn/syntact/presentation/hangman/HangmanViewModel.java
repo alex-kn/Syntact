@@ -1,20 +1,23 @@
-package com.alexkn.syntact.presentation.hangman.common;
+package com.alexkn.syntact.presentation.hangman;
 
 import android.app.Application;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.os.Handler;
 
+import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
 import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
+import com.alexkn.syntact.domain.usecase.LanguageManagement;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
-import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
-import com.alexkn.syntact.presentation.hangman.board.Letter;
-import com.alexkn.syntact.presentation.view.DaggerViewComponent;
+import com.alexkn.syntact.presentation.common.DaggerViewComponent;
+
+import org.intellij.lang.annotations.Language;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -35,9 +38,16 @@ public class HangmanViewModel extends AndroidViewModel {
     @Inject
     public GenerateCharactersUseCase generateCharactersUseCase;
 
+    @Inject
+    public LanguageManagement languageManagement;
+
+    private LiveData<LanguagePair> languagePair;
+
     private MutableLiveData<List<Letter>> lettersLeft = new MutableLiveData<>();
 
     private MutableLiveData<List<Letter>> lettersRight = new MutableLiveData<>();
+
+    private int languagePairId;
 
     public HangmanViewModel(Application application) {
 
@@ -45,9 +55,13 @@ public class HangmanViewModel extends AndroidViewModel {
         DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
-
         generatePhrasesUseCase.generatePhrasesAsync();
         loadLetters();
+    }
+
+    public void setLanguagePairId(int languagePairId) {
+
+        this.languagePairId = languagePairId;
     }
 
     private void loadLetters() {
@@ -97,5 +111,10 @@ public class HangmanViewModel extends AndroidViewModel {
     public LiveData<List<Letter>> getLettersRight() {
 
         return lettersRight;
+    }
+
+    public LiveData<LanguagePair> getLanguagePair(){
+
+        return languageManagement.getLanguagePair(languagePairId);
     }
 }

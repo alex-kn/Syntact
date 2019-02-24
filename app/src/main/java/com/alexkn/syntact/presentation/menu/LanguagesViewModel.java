@@ -5,8 +5,8 @@ import android.app.Application;
 import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.usecase.LanguageManagement;
 import com.alexkn.syntact.domain.usecase.LanguageScoreManagement;
-import com.alexkn.syntact.presentation.app.ApplicationComponentProvider;
-import com.alexkn.syntact.presentation.view.DaggerViewComponent;
+import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
 import java.util.Locale;
@@ -19,9 +19,11 @@ import androidx.lifecycle.LiveData;
 
 public class LanguagesViewModel extends AndroidViewModel {
 
-    @Inject public LanguageScoreManagement languageScoreManagement;
+    @Inject
+    public LanguageScoreManagement languageScoreManagement;
 
-    @Inject public LanguageManagement languageManagement;
+    @Inject
+    public LanguageManagement languageManagement;
 
     public LanguagesViewModel(@NonNull Application application) {
 
@@ -30,18 +32,11 @@ public class LanguagesViewModel extends AndroidViewModel {
         DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
-
-        List<LanguagePair> value = languageManagement.getLanguagePairs().getValue();
-        if (value == null || value.size() < 1) {
-            languageManagement.addLanguage(Locale.getDefault());
-        }
-
     }
 
     public LiveData<List<LanguagePair>> getLanguagePairs() {
 
         return languageManagement.getLanguagePairs();
     }
-
 }
 

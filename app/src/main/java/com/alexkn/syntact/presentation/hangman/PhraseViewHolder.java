@@ -1,13 +1,11 @@
-package com.alexkn.syntact.presentation.hangman.board;
+package com.alexkn.syntact.presentation.hangman;
 
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Phrase;
-import com.google.android.material.card.MaterialCardView;
 
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 

@@ -1,9 +1,7 @@
-package com.alexkn.syntact.presentation.hangman.board;
+package com.alexkn.syntact.presentation.hangman;
 
-import android.content.res.ColorStateList;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman.board;
+package com.alexkn.syntact.presentation.hangman;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;

@@ -1,5 +1,7 @@
 package com.alexkn.syntact.dataaccess.language;
 
+import com.alexkn.syntact.domain.model.LanguagePair;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -24,7 +26,12 @@ public interface LanguagePairDao {
     @Query("SELECT * FROM LanguagePair")
     LiveData<List<LanguagePairEntity>> findAll();
 
+    @Query("SELECT * FROM LanguagePair WHERE id = :id LIMIT 1")
+    LiveData<LanguagePairEntity> find(int id);
+
     @Query("UPDATE LanguagePair SET score = :newScore WHERE id = :id")
     void updateScore(int id, int newScore);
 
+    @Query("UPDATE LanguagePair SET score = score + :by WHERE id = :id")
+    void incrementScore(int id, int by);
 }

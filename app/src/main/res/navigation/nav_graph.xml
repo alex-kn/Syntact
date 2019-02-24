@@ -21,7 +21,12 @@
     </fragment>
     <fragment
         android:id="@+id/hangmanBoardFragment"
-        android:name="com.alexkn.syntact.presentation.hangman.board.HangmanBoardFragment"
+        android:name="com.alexkn.syntact.presentation.hangman.HangmanBoardFragment"
         android:label="fragment_hangman_board"
-        tools:layout="@layout/fragment_hangman_board" />
+        tools:layout="@layout/fragment_hangman_board" >
+        <argument
+            android:name="languagePairId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+    </fragment>
 </navigation>

@@ -74,7 +74,6 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         app:layout_anchorGravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lettersViewLeft"
@@ -84,10 +83,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewLeft"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/lettersViewRight"
-        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+        app:layout_constraintEnd_toStartOf="@+id/lettersViewRight" />
 
     <!--<androidx.recyclerview.widget.RecyclerView-->
     <!--android:id="@+id/lettersViewCenter"-->
@@ -102,10 +100,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/lettersViewRight"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topBar" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

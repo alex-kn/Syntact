@@ -12,7 +12,7 @@ import javax.inject.Singleton;
 import androidx.lifecycle.LiveData;
 
 @Singleton
-public class LanguageManagement {
+public class LanguageManagement {//TODO separate into interfaces
 
     @Inject
     LanguagePairRepository languagePairRepository;
@@ -23,15 +23,18 @@ public class LanguageManagement {
     }
 
     public void addLanguage(Locale language) {
-
         LanguagePair activeLanguagePair = new LanguagePair();
-        activeLanguagePair.setLanguageLeft(Locale.GERMAN);
-        activeLanguagePair.setLanguageRight(Locale.ENGLISH);
+        activeLanguagePair.setLanguageLeft(language);
+        activeLanguagePair.setLanguageRight(new Locale(Locale.getDefault().getLanguage()));
         languagePairRepository.insert(activeLanguagePair);
     }
 
     public void removeLanguage(Locale language) {
 
+    }
+
+    public LiveData<LanguagePair> getLanguagePair(int id){
+        return languagePairRepository.findLanguagePair(id);
     }
 
     public LiveData<List<LanguagePair>> getLanguagePairs() {
