@@ -33,21 +33,28 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
-    public void updateLastSolved(int id, Instant lastSolved) {
+    public void updateLastSolved(Long id, Instant lastSolved) {
 
         AsyncTask.execute(() -> phraseDao.updateLastSolved(id, lastSolved));
     }
 
     @Override
-    public void updateAttempt(int id, String attempt) {
+    public void updateAttempt(Long id, String attempt) {
 
         AsyncTask.execute(() -> phraseDao.updateAttempt(id, attempt));
-
     }
 
     @Override
     public LiveData<List<Phrase>> findAllPhrases(Locale locale) {
+
         return Transformations.map(phraseDao.findAll(locale),
+                input -> input.stream().map(Mapper::toPhrase).collect(Collectors.toList()));
+    }
+
+    @Override
+    public LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time) {
+
+        return Transformations.map(phraseDao.findPhrasesForLanguagePairDueBefore(languagePairId, time),
                 input -> input.stream().map(Mapper::toPhrase).collect(Collectors.toList()));
     }
 

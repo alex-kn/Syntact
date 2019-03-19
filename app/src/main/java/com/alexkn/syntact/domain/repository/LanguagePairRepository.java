@@ -12,9 +12,9 @@ public interface LanguagePairRepository {
 
     LiveData<List<LanguagePair>> findAllLanguagePairs();
 
-    void updateScore(int id, int newScore);
+    void updateScore(Long id, int newScore);
 
-    void incrementScore(int id, int by);
+    void incrementScore(Long id, int by);
 
-    LiveData<LanguagePair> findLanguagePair(int id);
+    LiveData<LanguagePair> findLanguagePair(Long id);
 }

@@ -30,8 +30,6 @@ public class PhraseUseCase {
     @Inject
     LanguageScoreManagement languageScoreManagement;
 
-    private LiveData<List<Phrase>> phrases;
-
     @Inject
     PhraseUseCase() { }
 
@@ -66,11 +64,8 @@ public class PhraseUseCase {
                 !StringUtils.containsIgnoreCase(solvablePhrase.getAttempt(), character.toString());
     }
 
-    public LiveData<List<Phrase>> getPhrases(Locale locale) {
+    public LiveData<List<Phrase>> getPhrases(Long languagePairId) {
 
-        if (phrases == null) {
-            phrases = phraseRepository.findAllPhrases(locale);
-        }
-        return phrases;
+            return phraseRepository.findPhrasesForLanguagePairDueBefore(languagePairId, Instant.now());
     }
 }

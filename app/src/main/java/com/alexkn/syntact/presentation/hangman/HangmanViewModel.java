@@ -16,6 +16,7 @@ import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 import org.intellij.lang.annotations.Language;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class HangmanViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Letter>> lettersRight = new MutableLiveData<>();
 
-    private int languagePairId;
+    private Long languagePairId;
 
     public HangmanViewModel(Application application) {
 
@@ -55,27 +56,28 @@ public class HangmanViewModel extends AndroidViewModel {
         DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
-        generatePhrasesUseCase.generatePhrasesAsync();
-        loadLetters();
     }
 
-    public void setLanguagePairId(int languagePairId) {
+    public void setLanguagePairId(Long languagePairId) {
 
         this.languagePairId = languagePairId;
     }
 
-    private void loadLetters() {
+    public void loadPhrases(LanguagePair languagePair) {
+
+        //TODO do for new language
+        generatePhrasesUseCase.generatePhrases(languagePair);
+    }
+
+    public void loadLetters() {
 
         int initialCharacterCount = 12;
-
-        AsyncTask.execute(() -> {
-            lettersLeft.postValue(
-                    generateCharactersUseCase.generateCharacters(initialCharacterCount).stream()
-                            .map(Letter::new).collect(Collectors.toList()));
-            lettersRight.postValue(
-                    generateCharactersUseCase.generateCharacters(initialCharacterCount).stream()
-                            .map(Letter::new).collect(Collectors.toList()));
-        });
+        List<Letter> collect1 = generateCharactersUseCase.generateCharacters(initialCharacterCount)
+                .stream().map(Letter::new).collect(Collectors.toList());
+        List<Letter> collect2 = generateCharactersUseCase.generateCharacters(initialCharacterCount)
+                .stream().map(Letter::new).collect(Collectors.toList());
+        lettersLeft.setValue(collect1);
+        lettersRight.setValue(collect2);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -97,10 +99,9 @@ public class HangmanViewModel extends AndroidViewModel {
         return successful;
     }
 
-    public LiveData<List<Phrase>> getSolvablePhrases() {
+    public LiveData<List<Phrase>> getSolvablePhrases(Long languagePairId) {
 
-        return phraseUseCase.getPhrases(
-                ConfigurationCompat.getLocales(Resources.getSystem().getConfiguration()).get(0));
+        return phraseUseCase.getPhrases(languagePairId);
     }
 
     public LiveData<List<Letter>> getLettersLeft() {
@@ -113,7 +114,7 @@ public class HangmanViewModel extends AndroidViewModel {
         return lettersRight;
     }
 
-    public LiveData<LanguagePair> getLanguagePair(){
+    public LiveData<LanguagePair> getLanguagePair() {
 
         return languageManagement.getLanguagePair(languagePairId);
     }

@@ -18,7 +18,7 @@ public class LanguageScoreManagement {
 
     }
 
-    public void phraseSolved(int languagePairId, Phrase phrase) {
+    public void phraseSolved(Long languagePairId, Phrase phrase) {
 
         languagePairRepository.incrementScore(languagePairId, 10);
     }

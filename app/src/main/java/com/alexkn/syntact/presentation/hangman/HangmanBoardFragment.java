@@ -38,7 +38,7 @@ public class HangmanBoardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_hangman_board, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
 
-        int languagePairId = HangmanBoardFragmentArgs.fromBundle(getArguments())
+        Long languagePairId = HangmanBoardFragmentArgs.fromBundle(getArguments())
                 .getLanguagePairId();
         viewModel.setLanguagePairId(languagePairId);
 
@@ -74,14 +74,15 @@ public class HangmanBoardFragment extends Fragment {
         letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
+        viewModel.getLettersLeft().observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
+        viewModel.getLettersRight()
+                .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
         new Handler().postDelayed(() -> {
-            viewModel.getSolvablePhrases()
+            viewModel.getSolvablePhrases(languagePairId)
                     .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
-            viewModel.getLettersLeft()
-                    .observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
-            viewModel.getLettersRight()
-                    .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
-        }, 200);
+        }, 300);
+
+        new Handler().postDelayed(() -> viewModel.loadLetters(), 400);
         return view;
     }
 

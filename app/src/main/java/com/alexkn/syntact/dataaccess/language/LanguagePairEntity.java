@@ -5,13 +5,14 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "LanguagePair")
+@Entity(tableName = "LanguagePair", indices = @Index("id"))
 public class LanguagePairEntity {
 
     @PrimaryKey(autoGenerate = true)
-    private Integer id;
+    private Long id;
 
     @NonNull
     private Locale languageLeft;
@@ -27,7 +28,7 @@ public class LanguagePairEntity {
     }
 
     @Ignore
-    public LanguagePairEntity(Integer id, @NonNull Locale languageLeft,
+    public LanguagePairEntity(Long id, @NonNull Locale languageLeft,
             @NonNull Locale languageRight, Integer score) {
 
         this.id = id;
@@ -46,12 +47,12 @@ public class LanguagePairEntity {
         this.score = score;
     }
 
-    public Integer getId() {
+    public Long getId() {
 
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
 
         this.id = id;
     }

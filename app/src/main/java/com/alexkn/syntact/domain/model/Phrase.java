@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class Phrase implements Identifiable {
 
-    private int id;
+    private Long id;
 
     private String clue;
 
@@ -18,27 +18,40 @@ public class Phrase implements Identifiable {
 
     private Instant lastSolved;
 
+    private Instant nextDueDate;
+
+    private float easiness;
+
+    private int consecutiveCorrectAnswers;
+
     private int timesSolved;
 
     private Locale clueLocale;
 
     private Locale solutionLocale;
 
-    public Phrase(){
+    private Long languagePairId;
+
+    public Phrase() {
 
     }
 
-    public Phrase(int id, String clue, String solution, String attempt, Instant lastSolved,
-            int timesSolved, Locale clueLocale, Locale solutionLocale) {
+    public Phrase(Long id, String clue, String solution, String attempt, Instant lastSolved,
+            Instant nextDueDate, float easiness, int consecutiveCorrectAnswers, int timesSolved,
+            Locale clueLocale, Locale solutionLocale, Long languagePairId) {
 
         this.id = id;
         this.clue = clue;
         this.solution = solution;
         this.attempt = attempt;
         this.lastSolved = lastSolved;
+        this.nextDueDate = nextDueDate;
+        this.easiness = easiness;
+        this.consecutiveCorrectAnswers = consecutiveCorrectAnswers;
         this.timesSolved = timesSolved;
         this.clueLocale = clueLocale;
         this.solutionLocale = solutionLocale;
+        this.languagePairId = languagePairId;
     }
 
     public String getClue() {
@@ -61,12 +74,12 @@ public class Phrase implements Identifiable {
         this.solution = solution;
     }
 
-    public Integer getId() {
+    public Long getId() {
 
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
 
         this.id = id;
     }
@@ -106,26 +119,7 @@ public class Phrase implements Identifiable {
         return clueLocale;
     }
 
-    @Override
-    public boolean equals(Object o) {
 
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Phrase phrase = (Phrase) o;
-        return id == phrase.id && timesSolved == phrase.timesSolved &&
-                Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
-                Objects.equals(attempt, phrase.attempt) &&
-                Objects.equals(lastSolved, phrase.lastSolved) &&
-                Objects.equals(clueLocale, phrase.clueLocale) && Objects.equals(
-                solutionLocale, phrase.solutionLocale);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, clue, solution, attempt, lastSolved, timesSolved, clueLocale,
-                solutionLocale);
-    }
 
     public void setClueLocale(Locale clueLocale) {
 
@@ -140,5 +134,69 @@ public class Phrase implements Identifiable {
     public void setSolutionLocale(Locale solutionLocale) {
 
         this.solutionLocale = solutionLocale;
+    }
+
+    public Instant getNextDueDate() {
+
+        return nextDueDate;
+    }
+
+    public void setNextDueDate(Instant nextDueDate) {
+
+        this.nextDueDate = nextDueDate;
+    }
+
+    public float getEasiness() {
+
+        return easiness;
+    }
+
+    public void setEasiness(float easiness) {
+
+        this.easiness = easiness;
+    }
+
+    public int getConsecutiveCorrectAnswers() {
+
+        return consecutiveCorrectAnswers;
+    }
+
+    public void setConsecutiveCorrectAnswers(int consecutiveCorrectAnswers) {
+
+        this.consecutiveCorrectAnswers = consecutiveCorrectAnswers;
+    }
+
+    public Long getLanguagePairId() {
+
+        return languagePairId;
+    }
+
+    public void setLanguagePairId(Long languagePairId) {
+
+        this.languagePairId = languagePairId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Phrase phrase = (Phrase) o;
+        return id == phrase.id && Float.compare(phrase.easiness, easiness) == 0 &&
+                consecutiveCorrectAnswers == phrase.consecutiveCorrectAnswers &&
+                timesSolved == phrase.timesSolved && languagePairId == phrase.languagePairId &&
+                Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
+                Objects.equals(attempt, phrase.attempt) &&
+                Objects.equals(lastSolved, phrase.lastSolved) &&
+                Objects.equals(nextDueDate, phrase.nextDueDate) &&
+                Objects.equals(clueLocale, phrase.clueLocale) &&
+                Objects.equals(solutionLocale, phrase.solutionLocale);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, clue, solution, attempt, lastSolved, nextDueDate, easiness,
+                consecutiveCorrectAnswers, timesSolved, clueLocale, solutionLocale, languagePairId);
     }
 }

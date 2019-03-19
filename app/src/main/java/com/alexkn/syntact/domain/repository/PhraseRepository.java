@@ -10,11 +10,13 @@ import androidx.lifecycle.LiveData;
 
 public interface PhraseRepository {
 
-    void updateLastSolved(int id, Instant lastSolved);
+    void updateLastSolved(Long id, Instant lastSolved);
 
-    void updateAttempt(int id, String attempt);
+    void updateAttempt(Long id, String attempt);
 
     LiveData<List<Phrase>> findAllPhrases(Locale locale);
+
+    LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
 
     void insert(Phrase phrase);
 

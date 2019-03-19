@@ -26,7 +26,6 @@
         tools:layout="@layout/fragment_hangman_board" >
         <argument
             android:name="languagePairId"
-            app:argType="integer"
-            android:defaultValue="-1" />
+            app:argType="long" />
     </fragment>
 </navigation>

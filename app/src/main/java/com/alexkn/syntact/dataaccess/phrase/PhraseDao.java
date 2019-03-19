@@ -33,15 +33,18 @@ public interface PhraseDao {
     @Query("SELECT * FROM Phrase ORDER BY lastSolved")
     LiveData<List<PhraseEntity>> findAll();
 
+    @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND languagePairId = :languagePairId ORDER BY lastSolved")
+    LiveData<List<PhraseEntity>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
+
     @Query("SELECT * FROM Phrase WHERE clueLocale = :locale OR solutionLocale = :locale ORDER BY lastSolved")
     LiveData<List<PhraseEntity>> findAll(Locale locale);
 
     @Query("UPDATE Phrase SET lastSolved = :newLastSolved WHERE id = :id")
-    void updateLastSolved(int id, Instant newLastSolved);
+    void updateLastSolved(Long id, Instant newLastSolved);
 
     @Query("DELETE FROM Phrase")
     void deleteAll();
 
     @Query("UPDATE Phrase SET attempt = :newAttempt WHERE id = :id")
-    void updateAttempt(int id, String newAttempt);
+    void updateAttempt(Long id, String newAttempt);
 }

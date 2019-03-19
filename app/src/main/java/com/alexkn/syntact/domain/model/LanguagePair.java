@@ -6,7 +6,7 @@ import java.util.Locale;
 
 public class LanguagePair implements Identifiable {
 
-    private Integer id;
+    private Long id;
 
     private Locale languageLeft;
 
@@ -18,7 +18,7 @@ public class LanguagePair implements Identifiable {
 
     }
 
-    public LanguagePair(Integer id, Locale languageLeft, Locale languageRight, Integer score) {
+    public LanguagePair(Long id, Locale languageLeft, Locale languageRight, Integer score) {
 
         this.id = id;
         this.languageLeft = languageLeft;
@@ -36,7 +36,7 @@ public class LanguagePair implements Identifiable {
         this.score = score;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
 
         this.id = id;
     }
@@ -62,7 +62,7 @@ public class LanguagePair implements Identifiable {
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
 
         return id;
     }

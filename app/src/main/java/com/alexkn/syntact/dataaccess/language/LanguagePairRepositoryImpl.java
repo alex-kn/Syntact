@@ -42,19 +42,19 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     }
 
     @Override
-    public void updateScore(int id, int newScore) {
+    public void updateScore(Long id, int newScore) {
 
         AsyncTask.execute(() -> languagePairDao.updateScore(id, newScore));
     }
 
     @Override
-    public void incrementScore(int id, int by) {
+    public void incrementScore(Long id, int by) {
         AsyncTask.execute(() -> languagePairDao.incrementScore(id, by));
 
     }
 
     @Override
-    public LiveData<LanguagePair> findLanguagePair(int id) {
+    public LiveData<LanguagePair> findLanguagePair(Long id) {
 
         return Transformations.map(languagePairDao.find(id), Mapper::toLanguagePair);
     }

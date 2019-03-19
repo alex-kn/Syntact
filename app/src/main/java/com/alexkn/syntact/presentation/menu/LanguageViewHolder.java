@@ -7,8 +7,6 @@ import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.presentation.hangman.ListItemViewHolder;
 
-import org.jetbrains.annotations.Contract;
-
 import java.util.Locale;
 
 import androidx.navigation.Navigation;
@@ -61,8 +59,7 @@ public class LanguageViewHolder extends ListItemViewHolder<LanguagePair> {
 
     private void startHangman(View view) {
         MainMenuFragmentDirections.ActionMainMenuFragmentToHangmanBoardFragment action = MainMenuFragmentDirections
-                .actionMainMenuFragmentToHangmanBoardFragment();
-        action.setLanguagePairId(languagePair.getId());
+                .actionMainMenuFragmentToHangmanBoardFragment(languagePair.getId());
         Navigation.findNavController(view).navigate(action);
     }
 }

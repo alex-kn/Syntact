@@ -55,13 +55,15 @@ public class MainMenuFragment extends Fragment {
 
         viewModel.getLanguagePairs().observe(getViewLifecycleOwner(), languageAdapter::submitList);
 
-        button.setOnClickListener(this::newLanguage);
+//        button.setOnClickListener(this::newLanguage);
+        button.setOnClickListener(viewModel::populateData);
         return view;
     }
 
     public void newLanguage(View view) {
 //        Navigation.findNavController(view)
 //                .navigate(R.id.action_mainMenuFragment_to_hangmanBoardFragment);TODO
+
     }
 
 

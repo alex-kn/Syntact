@@ -27,11 +27,11 @@ public interface LanguagePairDao {
     LiveData<List<LanguagePairEntity>> findAll();
 
     @Query("SELECT * FROM LanguagePair WHERE id = :id LIMIT 1")
-    LiveData<LanguagePairEntity> find(int id);
+    LiveData<LanguagePairEntity> find(Long id);
 
     @Query("UPDATE LanguagePair SET score = :newScore WHERE id = :id")
-    void updateScore(int id, int newScore);
+    void updateScore(Long id, int newScore);
 
     @Query("UPDATE LanguagePair SET score = score + :by WHERE id = :id")
-    void incrementScore(int id, int by);
+    void incrementScore(Long id, int by);
 }

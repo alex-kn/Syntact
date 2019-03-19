@@ -17,15 +17,17 @@ public class LanguageManagement {//TODO separate into interfaces
     @Inject
     LanguagePairRepository languagePairRepository;
 
+    @Inject GeneratePhrasesUseCase generatePhrasesUseCase;
+
     @Inject
     public LanguageManagement() {
 
     }
 
-    public void addLanguage(Locale language) {
+    public void addLanguage(Locale languageLeft, Locale languageRight) {
         LanguagePair activeLanguagePair = new LanguagePair();
-        activeLanguagePair.setLanguageLeft(language);
-        activeLanguagePair.setLanguageRight(new Locale(Locale.getDefault().getLanguage()));
+        activeLanguagePair.setLanguageLeft(languageLeft);
+        activeLanguagePair.setLanguageRight(languageRight);
         languagePairRepository.insert(activeLanguagePair);
     }
 
@@ -33,7 +35,7 @@ public class LanguageManagement {//TODO separate into interfaces
 
     }
 
-    public LiveData<LanguagePair> getLanguagePair(int id){
+    public LiveData<LanguagePair> getLanguagePair(Long id){
         return languagePairRepository.findLanguagePair(id);
     }
 

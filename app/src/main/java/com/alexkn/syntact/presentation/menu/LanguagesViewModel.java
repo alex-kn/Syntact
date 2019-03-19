@@ -1,8 +1,10 @@
 package com.alexkn.syntact.presentation.menu;
 
 import android.app.Application;
+import android.view.View;
 
 import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.domain.usecase.LanguageManagement;
 import com.alexkn.syntact.domain.usecase.LanguageScoreManagement;
 import com.alexkn.syntact.app.ApplicationComponentProvider;
@@ -20,10 +22,10 @@ import androidx.lifecycle.LiveData;
 public class LanguagesViewModel extends AndroidViewModel {
 
     @Inject
-    public LanguageScoreManagement languageScoreManagement;
+    LanguageScoreManagement languageScoreManagement;
 
     @Inject
-    public LanguageManagement languageManagement;
+    LanguageManagement languageManagement;
 
     public LanguagesViewModel(@NonNull Application application) {
 
@@ -37,6 +39,11 @@ public class LanguagesViewModel extends AndroidViewModel {
     public LiveData<List<LanguagePair>> getLanguagePairs() {
 
         return languageManagement.getLanguagePairs();
+    }
+
+    public void populateData(View view) {
+
+        languageManagement.addLanguage(Locale.ITALIAN, Locale.FRENCH);
     }
 }
 

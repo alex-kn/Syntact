@@ -4,14 +4,15 @@ import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import androidx.annotation.NonNull;
 
 public class Letter implements Identifiable {
 
-    private static final AtomicInteger count = new AtomicInteger(0);
+    private static final AtomicLong count = new AtomicLong(0);
 
-    private final int id;
+    private final Long id;
 
     private Character character;
 
@@ -31,7 +32,7 @@ public class Letter implements Identifiable {
     }
 
     @Override
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
