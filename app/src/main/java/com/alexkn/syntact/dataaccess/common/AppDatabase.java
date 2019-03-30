@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.alexkn.syntact.dataaccess.language.LanguagePairDao;
 import com.alexkn.syntact.dataaccess.language.LanguagePairEntity;
+import com.alexkn.syntact.dataaccess.letter.LetterDao;
+import com.alexkn.syntact.dataaccess.letter.LetterEntity;
 import com.alexkn.syntact.dataaccess.phrase.PhraseDao;
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
 import com.alexkn.syntact.dataaccess.util.Converters;
@@ -16,7 +18,7 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {PhraseEntity.class, LanguagePairEntity.class}, version = 8)
+@Database(entities = {PhraseEntity.class, LanguagePairEntity.class, LetterEntity.class}, version = 9)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -25,6 +27,8 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PhraseDao phraseDao();
 
     public abstract LanguagePairDao languagePairDao();
+
+    public abstract LetterDao letterDao();
 
     public static AppDatabase getDatabase(final Context context) {
 

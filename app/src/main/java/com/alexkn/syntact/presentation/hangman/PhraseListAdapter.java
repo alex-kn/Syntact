@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.Phrase;
 
 import androidx.annotation.NonNull;

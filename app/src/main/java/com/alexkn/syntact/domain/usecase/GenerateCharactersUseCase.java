@@ -1,8 +1,9 @@
 package com.alexkn.syntact.domain.usecase;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
+
+import com.alexkn.syntact.domain.repository.LetterRepository;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.math3.distribution.EnumeratedDistribution;
@@ -13,8 +14,6 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,6 +27,7 @@ public class GenerateCharactersUseCase {
 
     @Inject
     GenerateCharactersUseCase(Application application) {
+
         List<Pair<Character, Double>> letterFrequencyList = new ArrayList<>();
         try {
 
@@ -55,9 +55,10 @@ public class GenerateCharactersUseCase {
         return letterDistribution.sample();
     }
 
-    public List<Character> generateCharacters(int count) {
+    public Character[] generateCharacters(int sampleSize) {
 
-        return Stream.generate(this::generateNewCharacter).limit(count)
-                .collect(Collectors.toList());
+        return letterDistribution.sample(sampleSize, new Character[sampleSize]);
+
+
     }
 }

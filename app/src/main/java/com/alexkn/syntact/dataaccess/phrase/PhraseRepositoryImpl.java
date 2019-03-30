@@ -19,7 +19,6 @@ import javax.inject.Singleton;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
-@Singleton
 public class PhraseRepositoryImpl implements PhraseRepository {
 
     private PhraseDao phraseDao;

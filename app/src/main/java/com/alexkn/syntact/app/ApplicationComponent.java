@@ -6,6 +6,7 @@ import com.alexkn.syntact.domain.usecase.LanguageManagement;
 import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
 import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
 import com.alexkn.syntact.domain.usecase.LanguageScoreManagement;
+import com.alexkn.syntact.domain.usecase.LetterManagement;
 import com.alexkn.syntact.domain.usecase.PhraseUseCase;
 
 import javax.inject.Singleton;
@@ -27,6 +28,8 @@ public interface ApplicationComponent {
     LanguageManagement languageManagement();
 
     LanguageScoreManagement languageScoreManagement();
+
+    LetterManagement letterManagement();
 }
 
 

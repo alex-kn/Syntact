@@ -15,7 +15,7 @@ import androidx.room.Query;
 public interface LanguagePairDao {
 
     @Insert
-    void insert(LanguagePairEntity activeLanguagePairEntity);
+    Long insert(LanguagePairEntity activeLanguagePairEntity);
 
     @Insert
     void insert(Collection<LanguagePairEntity> activeLanguagePairEntities);

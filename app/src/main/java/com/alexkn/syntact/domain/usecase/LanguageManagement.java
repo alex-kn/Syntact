@@ -17,7 +17,7 @@ public class LanguageManagement {//TODO separate into interfaces
     @Inject
     LanguagePairRepository languagePairRepository;
 
-    @Inject GeneratePhrasesUseCase generatePhrasesUseCase;
+    @Inject LetterManagement letterManagement;
 
     @Inject
     public LanguageManagement() {
@@ -28,7 +28,8 @@ public class LanguageManagement {//TODO separate into interfaces
         LanguagePair activeLanguagePair = new LanguagePair();
         activeLanguagePair.setLanguageLeft(languageLeft);
         activeLanguagePair.setLanguageRight(languageRight);
-        languagePairRepository.insert(activeLanguagePair);
+        Long insertedLanguageId = languagePairRepository.insert(activeLanguagePair);
+        letterManagement.generateLetters(insertedLanguageId);
     }
 
     public void removeLanguage(Locale language) {

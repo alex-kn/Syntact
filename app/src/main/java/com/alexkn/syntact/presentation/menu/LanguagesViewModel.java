@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.menu;
 
 import android.app.Application;
+import android.os.AsyncTask;
 import android.view.View;
 
 import com.alexkn.syntact.domain.model.LanguagePair;
@@ -43,7 +44,7 @@ public class LanguagesViewModel extends AndroidViewModel {
 
     public void populateData(View view) {
 
-        languageManagement.addLanguage(Locale.ITALIAN, Locale.FRENCH);
+        AsyncTask.execute(() -> languageManagement.addLanguage(Locale.ITALIAN, Locale.FRENCH));
     }
 }
 

@@ -4,6 +4,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.domain.model.Letter;
 
 import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 

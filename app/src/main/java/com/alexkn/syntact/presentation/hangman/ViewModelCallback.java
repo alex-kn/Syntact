@@ -1,5 +1,6 @@
 package com.alexkn.syntact.presentation.hangman;
 
+import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.Phrase;
 
 public interface ViewModelCallback {

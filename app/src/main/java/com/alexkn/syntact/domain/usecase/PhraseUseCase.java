@@ -45,6 +45,7 @@ public class PhraseUseCase {
         }
         phraseRepository.updateAttempt(phrase.getId(), attempt);
 
+
         return true;
     }
 

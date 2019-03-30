@@ -15,8 +15,6 @@ public class SyntactApplication extends Application implements ApplicationCompon
         applicationComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this)).build();
 
-//        ConfigurationCompat.getLocales(getResources().getConfiguration()).get(0);
-
     }
 
     @Override

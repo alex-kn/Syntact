@@ -3,8 +3,10 @@ package com.alexkn.syntact.app;
 import android.app.Application;
 
 import com.alexkn.syntact.dataaccess.language.LanguagePairRepositoryImpl;
+import com.alexkn.syntact.dataaccess.letter.LetterRepositoryImpl;
 import com.alexkn.syntact.dataaccess.phrase.PhraseRepositoryImpl;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
+import com.alexkn.syntact.domain.repository.LetterRepository;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 
 import javax.inject.Singleton;
@@ -39,8 +41,14 @@ class ApplicationModule {
     @Provides
     @Singleton
     LanguagePairRepository provideActiveLanguagePairRepository(
-            LanguagePairRepositoryImpl activeLanguagePairRepository) {
+            LanguagePairRepositoryImpl languagePairRepository) {
 
-        return activeLanguagePairRepository;
+        return languagePairRepository;
+    }
+
+    @Provides
+    @Singleton
+    LetterRepository provideLetterRepository(LetterRepositoryImpl letterRepository) {
+        return letterRepository;
     }
 }

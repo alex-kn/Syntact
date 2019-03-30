@@ -74,15 +74,16 @@ public class HangmanBoardFragment extends Fragment {
         letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
-        viewModel.getLettersLeft().observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
-        viewModel.getLettersRight()
-                .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
+
         new Handler().postDelayed(() -> {
+            viewModel.getLettersLeft().observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
+            viewModel.getLettersRight()
+                    .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
             viewModel.getSolvablePhrases(languagePairId)
                     .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
         }, 300);
 
-        new Handler().postDelayed(() -> viewModel.loadLetters(), 400);
+//        new Handler().postDelayed(() -> viewModel.loadLetters(), 400);
         return view;
     }
 

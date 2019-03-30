@@ -1,8 +1,10 @@
 package com.alexkn.syntact.dataaccess.util;
 
 import com.alexkn.syntact.dataaccess.language.LanguagePairEntity;
+import com.alexkn.syntact.dataaccess.letter.LetterEntity;
 import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
 import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.Phrase;
 
 import java.util.List;
@@ -14,8 +16,9 @@ public class Mapper {
 
         return new Phrase(entity.getId(), entity.getClue(), entity.getSolution(),
                 entity.getAttempt(), entity.getLastSolved(), entity.getNextDueDate(),
-                entity.getEasiness(), entity.getConsecutiveCorrectAnswers(), entity.getTimesSolved(),
-                entity.getClueLocale(), entity.getSolutionLocale(), entity.getLanguagePairId());
+                entity.getEasiness(), entity.getConsecutiveCorrectAnswers(),
+                entity.getTimesSolved(), entity.getClueLocale(), entity.getSolutionLocale(),
+                entity.getLanguagePairId());
     }
 
     public static List<Phrase> toPhrase(List<PhraseEntity> entities) {
@@ -58,5 +61,27 @@ public class Mapper {
 
         return languagePairs.stream().map(Mapper::toLanguagePairEntity)
                 .collect(Collectors.toList());
+    }
+
+    public static Letter toLetter(LetterEntity entity) {
+
+        return new Letter(entity.getId(), entity.getCharacter(), entity.getLetterColumn(),
+                entity.getLanguagePairId());
+    }
+
+    public static List<Letter> toLetter(List<LetterEntity> entities) {
+
+        return entities.stream().map(Mapper::toLetter).collect(Collectors.toList());
+    }
+
+    public static LetterEntity toLetterEntity(Letter letter) {
+
+        return new LetterEntity(letter.getId(), letter.getCharacter(), letter.getLetterColumn(),
+                letter.getLanguagePairId());
+    }
+
+    public static List<LetterEntity> toLetterEntity(List<Letter> letters) {
+
+        return letters.stream().map(Mapper::toLetterEntity).collect(Collectors.toList());
     }
 }
