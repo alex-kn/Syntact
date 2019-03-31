@@ -25,9 +25,6 @@ public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder>
     @Override
     public PhraseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (inflater == null) {
-            inflater = LayoutInflater.from(parent.getContext());
-        }
         FrameLayout frameLayout = new FrameLayout(parent.getContext());
         frameLayout.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,FrameLayout.LayoutParams.WRAP_CONTENT));
         frameLayout.setBackgroundTintList(parent.getContext().getColorStateList(R.color.hangwords_card_background_color));

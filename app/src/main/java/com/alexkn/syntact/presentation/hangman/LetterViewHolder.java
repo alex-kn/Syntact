@@ -1,5 +1,6 @@
 package com.alexkn.syntact.presentation.hangman;
 
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -14,17 +15,12 @@ class LetterViewHolder extends ListItemViewHolder<Letter> {
 
     private String text = "";
 
-    LetterViewHolder(FrameLayout v) {
+    LetterViewHolder(View v) {
 
         super(v);
+        textView = v.findViewById(R.id.characterTextView);
+        textView.setText(text);
 
-        AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(v.getContext());
-        asyncLayoutInflater.inflate(R.layout.letter_card, v, (view, resid, parent) -> {
-
-            textView = view.findViewById(R.id.characterTextView);
-            v.addView(view);
-            textView.setText(text);
-        });
     }
 
     public void bindTo(Letter letter) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Letter;
 
 import androidx.annotation.NonNull;
@@ -20,11 +21,10 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
     @Override
     public LetterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        if (inflater == null) {
-            inflater = LayoutInflater.from(parent.getContext());
-        }
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.letter_card, parent, false);
 
-        return new LetterViewHolder(new FrameLayout(parent.getContext()));
+        return new LetterViewHolder(view);
     }
 
     @Override

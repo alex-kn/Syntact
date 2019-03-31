@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,28 +29,28 @@ public class GeneratePhrasesUseCase {
     @Inject
     GeneratePhrasesUseCase() {}
 
-    public void generatePhrases(LanguagePair languagePair) {
+    public void generatePhrases(Long languagePairId) {
 
-//        ArrayList<Phrase> phrases = new ArrayList<>();
-//        for (int i = 0; i < 5; i++) {
-//
-//            Phrase phrase = new Phrase();
-//            phrase.setLanguagePairId(languagePair.getId());
-//            String randomString = RandomStringUtils.randomAlphabetic(4);
-//            phrase.setClue(randomString);
-//            phrase.setSolution(randomString);
-//            phrase.setAttempt(StringUtils
-//                    .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
-//
-//            phrase.setConsecutiveCorrectAnswers(0);
-//            phrase.setEasiness(2.5f);
-//            phrase.setNextDueDate(Instant.now());
-//            phrase.setClueLocale(languagePair.getLanguageLeft());
-//            phrase.setSolutionLocale(languagePair.getLanguageRight());
+        ArrayList<Phrase> phrases = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+
+            Phrase phrase = new Phrase();
+            phrase.setLanguagePairId(languagePairId);
+            String randomString = RandomStringUtils.randomAlphabetic(4);
+            phrase.setClue(randomString);
+            phrase.setSolution(randomString);
+            phrase.setAttempt(StringUtils
+                    .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
+
+            phrase.setConsecutiveCorrectAnswers(0);
+            phrase.setEasiness(2.5f);
+            phrase.setNextDueDate(Instant.now());
+            phrase.setClueLocale(Locale.ENGLISH);//TODO
+            phrase.setSolutionLocale(Locale.ENGLISH);
 //            phraseRepository.insert(phrase);
-//            phrases.add(phrase);
-//        }
-//        phraseRepository.insert(phrases);
+            phrases.add(phrase);
+        }
+        phraseRepository.insert(phrases);
     }
 
 

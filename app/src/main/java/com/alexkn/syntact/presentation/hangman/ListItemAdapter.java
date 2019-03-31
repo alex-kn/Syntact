@@ -15,8 +15,6 @@ public abstract class ListItemAdapter<T extends Identifiable, S extends Recycler
 
     private final AsyncListDiffer<T> differ = new AsyncListDiffer<>(this, onDiff());
 
-    protected LayoutInflater inflater;
-
     private DiffUtil.ItemCallback<T> onDiff(){
         return new DiffCallback<>();
     }

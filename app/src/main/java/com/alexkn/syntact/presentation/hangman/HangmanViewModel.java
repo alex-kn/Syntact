@@ -61,7 +61,7 @@ public class HangmanViewModel extends AndroidViewModel {
     public void loadPhrases(LanguagePair languagePair) {
 
         //TODO do for new language
-        generatePhrasesUseCase.generatePhrases(languagePair);
+//        generatePhrasesUseCase.generatePhrases(languagePair);
     }
 
     public boolean solve(Phrase solvablePhrase, Letter letter) {
