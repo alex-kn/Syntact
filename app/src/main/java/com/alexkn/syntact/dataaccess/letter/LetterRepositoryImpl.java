@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -30,9 +29,9 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public LiveData<List<Letter>> find(LetterColumn letterColumn) {
+    public LiveData<List<Letter>> find(Long languagePairId, LetterColumn letterColumn) {
 
-        return Transformations.map(letterDao.find(letterColumn),
+        return Transformations.map(letterDao.find(languagePairId, letterColumn),
                 input -> input.stream().map(Mapper::toLetter).collect(Collectors.toList()));
     }
 

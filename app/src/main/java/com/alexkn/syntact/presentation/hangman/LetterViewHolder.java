@@ -1,13 +1,10 @@
 package com.alexkn.syntact.presentation.hangman;
 
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Letter;
-
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 
 class LetterViewHolder extends ListItemViewHolder<Letter> {
 

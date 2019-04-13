@@ -22,19 +22,15 @@ import androidx.lifecycle.LiveData;
 public class HangmanViewModel extends AndroidViewModel {
 
     @Inject
-    public ManagePhrases managePhrases;
+    ManagePhrases managePhrases;
 
     @Inject
-    public ManageLanguages manageLanguages;
+    ManageLanguages manageLanguages;
 
     @Inject
-    public ManageLetters manageLetters;
-
-    private LiveData<LanguagePair> languagePair;
+    ManageLetters manageLetters;
 
     private Long languagePairId;
-
-    private int initialCharacterCount = 12;
 
     public HangmanViewModel(Application application) {
 
@@ -50,13 +46,7 @@ public class HangmanViewModel extends AndroidViewModel {
         this.languagePairId = languagePairId;
     }
 
-    public void loadPhrases(LanguagePair languagePair) {
-
-        //TODO do for new language
-        //        generatePhrasesUseCase.generatePhrases(languagePair);
-    }
-
-    public boolean solve(Phrase solvablePhrase, Letter letter) {
+    boolean solve(Phrase solvablePhrase, Letter letter) {
 
         boolean successful = managePhrases.makeAttempt(solvablePhrase, letter.getCharacter());
         if (successful) {
@@ -65,22 +55,22 @@ public class HangmanViewModel extends AndroidViewModel {
         return successful;
     }
 
-    public LiveData<List<Phrase>> getSolvablePhrases(Long languagePairId) {
+    LiveData<List<Phrase>> getSolvablePhrases(Long languagePairId) {
 
         return managePhrases.getPhrases(languagePairId);
     }
 
-    public LiveData<List<Letter>> getLettersLeft() {
+    LiveData<List<Letter>> getLettersLeft() {
 
-        return manageLetters.getLetters(LetterColumn.LEFT);
+        return manageLetters.getLetters(languagePairId, LetterColumn.LEFT);
     }
 
-    public LiveData<List<Letter>> getLettersRight() {
+    LiveData<List<Letter>> getLettersRight() {
 
-        return manageLetters.getLetters(LetterColumn.RIGHT);
+        return manageLetters.getLetters(languagePairId, LetterColumn.RIGHT);
     }
 
-    public LiveData<LanguagePair> getLanguagePair() {
+    LiveData<LanguagePair> getLanguagePair() {
 
         return manageLanguages.getLanguagePair(languagePairId);
     }

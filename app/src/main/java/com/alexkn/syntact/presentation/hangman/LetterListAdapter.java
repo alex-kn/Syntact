@@ -14,8 +14,6 @@ import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 
 public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder> {
 
-    private AsyncLayoutInflater asyncLayoutInflater;
-
     @NonNull
     @Override
     public LetterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

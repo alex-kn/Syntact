@@ -56,7 +56,7 @@ public class ManageLetters {
         letterRepository.delete(oldLetter);
     }
 
-    public LiveData<List<Letter>> getLetters(LetterColumn letterColumn){
-        return letterRepository.find(letterColumn);
+    public LiveData<List<Letter>> getLetters(Long languagePairId, LetterColumn letterColumn) {
+        return letterRepository.find(languagePairId, letterColumn);
     }
 }

@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 public interface LetterRepository {
 
-    LiveData<List<Letter>> find(LetterColumn letterColumn);
+    LiveData<List<Letter>> find(Long languagePairId, LetterColumn letterColumn);
 
     void insert(List<Letter> letters);
 

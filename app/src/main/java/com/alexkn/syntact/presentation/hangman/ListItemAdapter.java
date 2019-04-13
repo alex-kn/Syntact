@@ -1,7 +1,5 @@
 package com.alexkn.syntact.presentation.hangman;
 
-import android.view.LayoutInflater;
-
 import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.util.List;
