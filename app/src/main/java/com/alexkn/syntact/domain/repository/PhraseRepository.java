@@ -14,6 +14,8 @@ public interface PhraseRepository {
 
     void updateAttempt(Long id, String attempt);
 
+    void update(Phrase phrase);
+
     LiveData<List<Phrase>> findAllPhrases(Locale locale);
 
     LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);

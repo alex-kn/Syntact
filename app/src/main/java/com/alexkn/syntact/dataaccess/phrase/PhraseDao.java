@@ -30,10 +30,10 @@ public interface PhraseDao {
     @Query("SELECT COUNT(*) FROM Phrase")
     int count();
 
-    @Query("SELECT * FROM Phrase ORDER BY lastSolved")
+    @Query("SELECT * FROM Phrase ORDER BY lastSolved limit(5)")
     LiveData<List<PhraseEntity>> findAll();
 
-    @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND languagePairId = :languagePairId ORDER BY lastSolved")
+    @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND languagePairId = :languagePairId ORDER BY lastSolved LIMIT 10")
     LiveData<List<PhraseEntity>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
 
     @Query("SELECT * FROM Phrase WHERE clueLocale = :locale OR solutionLocale = :locale ORDER BY lastSolved")

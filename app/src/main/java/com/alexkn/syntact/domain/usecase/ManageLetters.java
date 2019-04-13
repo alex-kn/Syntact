@@ -3,6 +3,7 @@ package com.alexkn.syntact.domain.usecase;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.repository.LetterRepository;
+import com.alexkn.syntact.domain.service.LetterGenerator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,22 +16,22 @@ import javax.inject.Singleton;
 import androidx.lifecycle.LiveData;
 
 @Singleton
-public class LetterManagement {
+public class ManageLetters {
 
     @Inject
     LetterRepository letterRepository;
 
     @Inject
-    GenerateCharactersUseCase generateCharactersUseCase;
+    LetterGenerator letterGenerator;
 
     @Inject
-    LetterManagement() {
+    ManageLetters() {
 
     }
 
     public void generateLetters(Long languagePairId) {
 
-        Character[] characters = generateCharactersUseCase.generateCharacters(24);
+        Character[] characters = letterGenerator.generateCharacters(24);
 
         List<Letter> letters = Arrays.stream(characters).map(character -> {
             Letter letter = new Letter();
@@ -46,7 +47,7 @@ public class LetterManagement {
 
     public void replaceLetter(Letter oldLetter) {
 
-        Character character = generateCharactersUseCase.generateNewCharacter();
+        Character character = letterGenerator.generateNewCharacter();
         Letter newLetter = new Letter();
         newLetter.setCharacter(character);
         newLetter.setLanguagePairId(oldLetter.getLanguagePairId());

@@ -7,11 +7,9 @@ import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.Phrase;
-import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
-import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
-import com.alexkn.syntact.domain.usecase.LanguageManagement;
-import com.alexkn.syntact.domain.usecase.LetterManagement;
-import com.alexkn.syntact.domain.usecase.PhraseUseCase;
+import com.alexkn.syntact.domain.usecase.ManageLanguages;
+import com.alexkn.syntact.domain.usecase.ManageLetters;
+import com.alexkn.syntact.domain.usecase.ManagePhrases;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
@@ -24,19 +22,13 @@ import androidx.lifecycle.LiveData;
 public class HangmanViewModel extends AndroidViewModel {
 
     @Inject
-    public PhraseUseCase phraseUseCase;
+    public ManagePhrases managePhrases;
 
     @Inject
-    public GeneratePhrasesUseCase generatePhrasesUseCase;
+    public ManageLanguages manageLanguages;
 
     @Inject
-    public GenerateCharactersUseCase generateCharactersUseCase;
-
-    @Inject
-    public LanguageManagement languageManagement;
-
-    @Inject
-    public LetterManagement letterManagement;
+    public ManageLetters manageLetters;
 
     private LiveData<LanguagePair> languagePair;
 
@@ -61,35 +53,35 @@ public class HangmanViewModel extends AndroidViewModel {
     public void loadPhrases(LanguagePair languagePair) {
 
         //TODO do for new language
-//        generatePhrasesUseCase.generatePhrases(languagePair);
+        //        generatePhrasesUseCase.generatePhrases(languagePair);
     }
 
     public boolean solve(Phrase solvablePhrase, Letter letter) {
 
-        boolean successful = phraseUseCase.solvePhrase(solvablePhrase, letter.getCharacter());
+        boolean successful = managePhrases.makeAttempt(solvablePhrase, letter.getCharacter());
         if (successful) {
-            letterManagement.replaceLetter(letter);
+            manageLetters.replaceLetter(letter);
         }
         return successful;
     }
 
     public LiveData<List<Phrase>> getSolvablePhrases(Long languagePairId) {
 
-        return phraseUseCase.getPhrases(languagePairId);
+        return managePhrases.getPhrases(languagePairId);
     }
 
     public LiveData<List<Letter>> getLettersLeft() {
 
-        return letterManagement.getLetters(LetterColumn.LEFT);
+        return manageLetters.getLetters(LetterColumn.LEFT);
     }
 
     public LiveData<List<Letter>> getLettersRight() {
 
-        return letterManagement.getLetters(LetterColumn.RIGHT);
+        return manageLetters.getLetters(LetterColumn.RIGHT);
     }
 
     public LiveData<LanguagePair> getLanguagePair() {
 
-        return languageManagement.getLanguagePair(languagePairId);
+        return manageLanguages.getLanguagePair(languagePairId);
     }
 }

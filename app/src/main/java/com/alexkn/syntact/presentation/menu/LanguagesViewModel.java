@@ -4,11 +4,9 @@ import android.app.Application;
 import android.os.AsyncTask;
 import android.view.View;
 
-import com.alexkn.syntact.domain.model.LanguagePair;
-import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
-import com.alexkn.syntact.domain.usecase.LanguageManagement;
-import com.alexkn.syntact.domain.usecase.LanguageScoreManagement;
 import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.usecase.ManageLanguages;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
@@ -23,10 +21,7 @@ import androidx.lifecycle.LiveData;
 public class LanguagesViewModel extends AndroidViewModel {
 
     @Inject
-    LanguageScoreManagement languageScoreManagement;
-
-    @Inject
-    LanguageManagement languageManagement;
+    ManageLanguages manageLanguages;
 
     public LanguagesViewModel(@NonNull Application application) {
 
@@ -39,12 +34,12 @@ public class LanguagesViewModel extends AndroidViewModel {
 
     public LiveData<List<LanguagePair>> getLanguagePairs() {
 
-        return languageManagement.getLanguagePairs();
+        return manageLanguages.getLanguagePairs();
     }
 
     public void populateData(View view) {
 
-        AsyncTask.execute(() -> languageManagement.addLanguage(Locale.ITALIAN, Locale.FRENCH));
+        AsyncTask.execute(() -> manageLanguages.addLanguage(Locale.ENGLISH, Locale.GERMAN));
     }
 }
 

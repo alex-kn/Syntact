@@ -2,12 +2,11 @@ package com.alexkn.syntact.app;
 
 import android.app.Application;
 
-import com.alexkn.syntact.domain.usecase.LanguageManagement;
-import com.alexkn.syntact.domain.usecase.GenerateCharactersUseCase;
-import com.alexkn.syntact.domain.usecase.GeneratePhrasesUseCase;
-import com.alexkn.syntact.domain.usecase.LanguageScoreManagement;
-import com.alexkn.syntact.domain.usecase.LetterManagement;
-import com.alexkn.syntact.domain.usecase.PhraseUseCase;
+import com.alexkn.syntact.domain.service.LetterGenerator;
+import com.alexkn.syntact.domain.service.PhraseGenerator;
+import com.alexkn.syntact.domain.usecase.ManageLanguages;
+import com.alexkn.syntact.domain.usecase.ManageLetters;
+import com.alexkn.syntact.domain.usecase.ManagePhrases;
 
 import javax.inject.Singleton;
 
@@ -19,17 +18,15 @@ public interface ApplicationComponent {
 
     Application application();
 
-    PhraseUseCase phraseUseCase();
+    ManagePhrases phraseUseCase();
 
-    GeneratePhrasesUseCase generatePhraseUseCase();
+    PhraseGenerator generatePhraseUseCase();
 
-    GenerateCharactersUseCase generateCharactersUseCase();
+    LetterGenerator generateCharactersUseCase();
 
-    LanguageManagement languageManagement();
+    ManageLanguages languageManagement();
 
-    LanguageScoreManagement languageScoreManagement();
-
-    LetterManagement letterManagement();
+    ManageLetters letterManagement();
 }
 
 

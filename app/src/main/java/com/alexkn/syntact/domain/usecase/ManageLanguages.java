@@ -2,6 +2,7 @@ package com.alexkn.syntact.domain.usecase;
 
 import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
+import com.alexkn.syntact.domain.service.PhraseGenerator;
 
 import java.util.List;
 import java.util.Locale;
@@ -12,19 +13,19 @@ import javax.inject.Singleton;
 import androidx.lifecycle.LiveData;
 
 @Singleton
-public class LanguageManagement {//TODO separate into interfaces
+public class ManageLanguages {
 
     @Inject
     LanguagePairRepository languagePairRepository;
 
     @Inject
-    LetterManagement letterManagement;
+    ManageLetters manageLetters;
 
     @Inject
-    GeneratePhrasesUseCase generatePhrasesUseCase;
+    ManagePhrases managePhrases;
 
     @Inject
-    public LanguageManagement() {
+    ManageLanguages() {
 
     }
 
@@ -34,8 +35,8 @@ public class LanguageManagement {//TODO separate into interfaces
         activeLanguagePair.setLanguageLeft(languageLeft);
         activeLanguagePair.setLanguageRight(languageRight);
         Long insertedLanguageId = languagePairRepository.insert(activeLanguagePair);
-        letterManagement.generateLetters(insertedLanguageId);
-        generatePhrasesUseCase.generatePhrases(insertedLanguageId);
+        manageLetters.generateLetters(insertedLanguageId);
+        managePhrases.generateGermanEnglishPhrases(insertedLanguageId, languageLeft, languageRight);
     }
 
     public void removeLanguage(Locale language) {

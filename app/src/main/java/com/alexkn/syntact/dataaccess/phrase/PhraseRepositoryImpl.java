@@ -44,6 +44,11 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
+    public void update(Phrase phrase) {
+        AsyncTask.execute(() -> phraseDao.update(Mapper.toPhraseEntity(phrase)));
+    }
+
+    @Override
     public LiveData<List<Phrase>> findAllPhrases(Locale locale) {
 
         return Transformations.map(phraseDao.findAll(locale),

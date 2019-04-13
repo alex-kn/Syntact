@@ -81,9 +81,8 @@ public class HangmanBoardFragment extends Fragment {
                     .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
             viewModel.getSolvablePhrases(languagePairId)
                     .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
-        }, 500);
+        }, 300);
 
-//        new Handler().postDelayed(() -> viewModel.loadLetters(), 400);
         return view;
     }
 

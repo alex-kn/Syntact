@@ -1,9 +1,7 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.service;
 
 import android.app.Application;
 import android.util.Log;
-
-import com.alexkn.syntact.domain.repository.LetterRepository;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.math3.distribution.EnumeratedDistribution;
@@ -19,14 +17,14 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class GenerateCharactersUseCase {
+public class LetterGenerator {
 
-    private static final String TAG = GenerateCharactersUseCase.class.getSimpleName();
+    private static final String TAG = LetterGenerator.class.getSimpleName();
 
     private EnumeratedDistribution<Character> letterDistribution;
 
     @Inject
-    GenerateCharactersUseCase(Application application) {
+    LetterGenerator(Application application) {
 
         List<Pair<Character, Double>> letterFrequencyList = new ArrayList<>();
         try {
