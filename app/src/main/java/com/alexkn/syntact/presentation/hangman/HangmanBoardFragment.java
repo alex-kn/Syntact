@@ -35,7 +35,7 @@ public class HangmanBoardFragment extends Fragment {
         this.setAllowEnterTransitionOverlap(true);
         this.setAllowReturnTransitionOverlap(true);
 
-        View view = inflater.inflate(R.layout.fragment_hangman_board, container, false);
+        View view = inflater.inflate(R.layout.hangman_board_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
 
         Long languagePairId = HangmanBoardFragmentArgs.fromBundle(getArguments())

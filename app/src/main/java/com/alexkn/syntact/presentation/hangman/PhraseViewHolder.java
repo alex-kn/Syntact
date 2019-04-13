@@ -28,7 +28,7 @@ public class PhraseViewHolder extends ListItemViewHolder<Phrase> {
 
 
         AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(v.getContext());
-        asyncLayoutInflater.inflate(R.layout.phrase_card, v, (view, resid, parent) -> {
+        asyncLayoutInflater.inflate(R.layout.hangman_phrase_card, v, (view, resid, parent) -> {
 
             view.setOnDragListener(dragListener);
             v.addView(view);

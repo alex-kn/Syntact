@@ -25,7 +25,7 @@ public class MainMenuFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_main_menu, container, false);
+        View view = inflater.inflate(R.layout.menu_fragment, container, false);
         View button = view.findViewById(R.id.addLanguageButton);
 
         viewModel = ViewModelProviders.of(getActivity()).get(LanguagesViewModel.class);

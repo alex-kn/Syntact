@@ -9,7 +9,7 @@
         android:id="@+id/mainMenuFragment"
         android:name="com.alexkn.syntact.presentation.menu.MainMenuFragment"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        tools:layout="@layout/menu_fragment" >
         <action
             android:id="@+id/action_mainMenuFragment_to_hangmanBoardFragment"
             app:destination="@+id/hangmanBoardFragment"
@@ -26,7 +26,7 @@
         android:id="@+id/hangmanBoardFragment"
         android:name="com.alexkn.syntact.presentation.hangman.HangmanBoardFragment"
         android:label="fragment_hangman_board"
-        tools:layout="@layout/fragment_hangman_board" >
+        tools:layout="@layout/hangman_board_fragment" >
         <argument
             android:name="languagePairId"
             app:argType="long" />

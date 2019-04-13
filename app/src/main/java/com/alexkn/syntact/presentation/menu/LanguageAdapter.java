@@ -17,7 +17,7 @@ public class LanguageAdapter extends ListItemAdapter<LanguagePair, LanguageViewH
     public LanguageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.language_card, parent, false);
+                .inflate(R.layout.menu_language_card, parent, false);
 
         return new LanguageViewHolder(view);
     }

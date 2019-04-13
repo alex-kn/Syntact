@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Letter;
@@ -22,7 +21,7 @@ public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder>
     public LetterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.letter_card, parent, false);
+                .inflate(R.layout.hangman_letter_card, parent, false);
 
         return new LetterViewHolder(view);
     }
