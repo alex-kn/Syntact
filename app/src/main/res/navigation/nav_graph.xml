@@ -18,6 +18,9 @@
             app:popEnterAnim="@anim/zoom_enter_pop"
             app:popExitAnim="@anim/zoom_exit_pop"
             app:popUpTo="@+id/mainMenuFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_addLanguageFragment"
+            app:destination="@id/addLanguageFragment" />
     </fragment>
     <fragment
         android:id="@+id/hangmanBoardFragment"
@@ -28,4 +31,9 @@
             android:name="languagePairId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/addLanguageFragment"
+        android:name="com.alexkn.syntact.presentation.addlanguage.AddLanguageFragment"
+        android:label="add_language_fragment"
+        tools:layout="@layout/add_language_fragment" />
 </navigation>

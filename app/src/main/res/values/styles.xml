@@ -13,10 +13,10 @@
         <item name="colorSecondary">@color/secondary</item>
         <item name="android:windowContentTransitions">true</item>
 
-        <item name="colorOnPrimary">@color/lightShades</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
 
-        <item name="android:fontFamily">@font/raleway_light</item>
+        <item name="android:fontFamily">@font/raleway</item>
 
 
         <item name="android:statusBarColor">@color/white</item>

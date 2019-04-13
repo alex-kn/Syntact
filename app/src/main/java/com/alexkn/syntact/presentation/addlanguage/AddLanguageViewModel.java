@@ -1,26 +1,26 @@
-package com.alexkn.syntact.presentation.menu;
+package com.alexkn.syntact.presentation.addlanguage;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.usecase.ManageLanguages;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
-import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
+import androidx.navigation.Navigation;
 
-public class LanguagesViewModel extends AndroidViewModel {
+public class AddLanguageViewModel extends AndroidViewModel {
 
     @Inject
     ManageLanguages manageLanguages;
 
-    public LanguagesViewModel(@NonNull Application application) {
+    public AddLanguageViewModel(@NonNull Application application) {
 
         super(application);
 
@@ -29,9 +29,8 @@ public class LanguagesViewModel extends AndroidViewModel {
                 .inject(this);
     }
 
-    LiveData<List<LanguagePair>> getLanguagePairs() {
+    void addLanguage(Locale languageLeft, Locale languageRight) {
 
-        return manageLanguages.getLanguagePairs();
+        AsyncTask.execute(() -> manageLanguages.addLanguage(languageLeft, languageRight));
     }
 }
-
