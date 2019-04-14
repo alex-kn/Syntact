@@ -27,23 +27,8 @@ public interface PhraseDao {
     @Delete
     void delete(PhraseEntity phraseEntity);
 
-    @Query("SELECT COUNT(*) FROM Phrase")
-    int count();
-
-    @Query("SELECT * FROM Phrase ORDER BY lastSolved limit(5)")
-    LiveData<List<PhraseEntity>> findAll();
-
     @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND languagePairId = :languagePairId ORDER BY lastSolved LIMIT 10")
     LiveData<List<PhraseEntity>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
-
-    @Query("SELECT * FROM Phrase WHERE clueLocale = :locale OR solutionLocale = :locale ORDER BY lastSolved")
-    LiveData<List<PhraseEntity>> findAll(Locale locale);
-
-    @Query("UPDATE Phrase SET lastSolved = :newLastSolved WHERE id = :id")
-    void updateLastSolved(Long id, Instant newLastSolved);
-
-    @Query("DELETE FROM Phrase")
-    void deleteAll();
 
     @Query("UPDATE Phrase SET attempt = :newAttempt WHERE id = :id")
     void updateAttempt(Long id, String newAttempt);

@@ -98,9 +98,10 @@ public class ManagePhrases {
         ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
         phrases.forEach(phrase -> {
             phrase.setLanguagePairId(insertedLanguageId);
-            updateCurrentAttempt(phrase, '?');
-            updateCurrentAttempt(phrase, '.');
-            updateCurrentAttempt(phrase, ',');
+            phrase.setAttempt(updateCurrentAttempt(phrase, '?'));
+            phrase.setAttempt(updateCurrentAttempt(phrase, '.'));
+            phrase.setAttempt(updateCurrentAttempt(phrase, ','));
+            phrase.setAttempt(updateCurrentAttempt(phrase, ' '));
         });
         phraseRepository.insert(phrases);
     }

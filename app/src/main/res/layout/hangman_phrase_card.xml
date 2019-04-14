@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
 
             android:padding="@dimen/default_gap"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
 
         <TextView
             android:id="@+id/solutionTextView"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/default_gap"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1" />
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
