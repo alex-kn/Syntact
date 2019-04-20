@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Syntact</string>
-
-    <string name="title_activity_crossword_puzzle">CrosswordPuzzleActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="empty">_</string>
 
     <string name="active_languages_file_key">com.alexkn.syntact.activelanguages</string>
+    <string name="level_label">LEVEL</string>
+    <string name="streak_label">STREAK</string>
 </resources>

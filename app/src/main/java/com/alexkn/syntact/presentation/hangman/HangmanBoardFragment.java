@@ -6,6 +6,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
@@ -45,6 +47,22 @@ public class HangmanBoardFragment extends Fragment {
         TextView scoreLabel = view.findViewById(R.id.boardLangScoreLabel);
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
                 languagePair -> scoreLabel.setText(String.valueOf(languagePair.getScore())));
+
+        TextView maxScoreLabel = view.findViewById(R.id.boardMaxScoreLabel);
+        viewModel.getMaxScore()
+                .observe(getViewLifecycleOwner(), score -> maxScoreLabel.setText(String.valueOf(score)));
+
+        TextView streakTextView = view.findViewById(R.id.boardStreakValue);
+        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
+                languagePair -> streakTextView.setText(String.valueOf(languagePair.getStreak())));
+
+        ProgressBar progress = view.findViewById(R.id.boardLangProgressBar);
+        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
+                languagePair -> progress.setProgress(languagePair.getScore(), true));
+        viewModel.getMaxScore().observe(getViewLifecycleOwner(), score -> progress.setMax(score));
+
+        Button reloadButton = view.findViewById(R.id.reloadButton);
+        reloadButton.setOnClickListener(v -> viewModel.reloadLetters());
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);

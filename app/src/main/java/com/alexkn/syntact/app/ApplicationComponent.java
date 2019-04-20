@@ -7,6 +7,7 @@ import com.alexkn.syntact.domain.service.PhraseGenerator;
 import com.alexkn.syntact.domain.usecase.ManageLanguages;
 import com.alexkn.syntact.domain.usecase.ManageLetters;
 import com.alexkn.syntact.domain.usecase.ManagePhrases;
+import com.alexkn.syntact.domain.usecase.ManageScore;
 
 import javax.inject.Singleton;
 
@@ -27,6 +28,8 @@ public interface ApplicationComponent {
     ManageLanguages languageManagement();
 
     ManageLetters letterManagement();
+
+    ManageScore manageScore();
 }
 
 

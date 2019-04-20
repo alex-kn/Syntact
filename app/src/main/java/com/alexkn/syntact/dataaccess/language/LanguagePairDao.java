@@ -10,6 +10,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface LanguagePairDao {
@@ -20,14 +21,20 @@ public interface LanguagePairDao {
     @Insert
     void insert(Collection<LanguagePairEntity> activeLanguagePairEntities);
 
-    @Delete
-    void delete(LanguagePairEntity activeLanguagePairEntity);
+    @Query("DELETE FROM LanguagePair where id = :id")
+    void delete(Long id);
+
+    @Update
+    void update(LanguagePairEntity languagePairEntity);
+
+    @Query("SELECT * FROM LanguagePair where id = :id")
+    LanguagePairEntity find(Long id);
 
     @Query("SELECT * FROM LanguagePair")
     LiveData<List<LanguagePairEntity>> findAll();
 
     @Query("SELECT * FROM LanguagePair WHERE id = :id LIMIT 1")
-    LiveData<LanguagePairEntity> find(Long id);
+    LiveData<LanguagePairEntity> findLanguagePair(Long id);
 
     @Query("UPDATE LanguagePair SET score = :newScore WHERE id = :id")
     void updateScore(Long id, int newScore);

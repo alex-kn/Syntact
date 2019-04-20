@@ -34,6 +34,9 @@ public class ManagePhrases {
     PhraseGenerator phraseGenerator;
 
     @Inject
+    ManageScore manageScore;
+
+    @Inject
     ManagePhrases() { }
 
     public boolean makeAttempt(Phrase phrase, Character character) {
@@ -70,6 +73,7 @@ public class ManagePhrases {
                 .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
 
         phraseRepository.update(phrase);
+        manageScore.phraseSolved(phrase);
     }
 
     private String updateCurrentAttempt(Phrase phrase, Character character) {
@@ -93,7 +97,8 @@ public class ManagePhrases {
         return phraseRepository.findPhrasesForLanguagePairDueBefore(languagePairId, Instant.now());
     }
 
-    public void generateGermanEnglishPhrases(Long insertedLanguageId, Locale languageLeft, Locale languageRight) {
+    public void generateGermanEnglishPhrases(Long insertedLanguageId, Locale languageLeft,
+            Locale languageRight) {
 
         ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
         phrases.forEach(phrase -> {

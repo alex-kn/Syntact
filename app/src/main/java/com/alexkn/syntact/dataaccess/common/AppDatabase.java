@@ -18,7 +18,7 @@ import androidx.room.TypeConverters;
 import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {PhraseEntity.class, LanguagePairEntity.class, LetterEntity.class}, version = 9)
+@Database(entities = {PhraseEntity.class, LanguagePairEntity.class, LetterEntity.class}, version = 10)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -39,7 +39,6 @@ public abstract class AppDatabase extends RoomDatabase {
                             .databaseBuilder(context.getApplicationContext(), AppDatabase.class,
                                     "app_database")
                             .fallbackToDestructiveMigration().build();
-                    //TODO different databases for locales
                 }
             }
         }

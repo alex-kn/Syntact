@@ -43,7 +43,7 @@ public class Mapper {
     public static LanguagePair toLanguagePair(LanguagePairEntity entity) {
 
         return new LanguagePair(entity.getId(), entity.getLanguageLeft(), entity.getLanguageRight(),
-                entity.getScore());
+                entity.getScore(), entity.getLevel(), entity.getStreak());
     }
 
     public static List<LanguagePair> toLanguagePair(List<LanguagePairEntity> entities) {
@@ -54,7 +54,8 @@ public class Mapper {
     public static LanguagePairEntity toLanguagePairEntity(LanguagePair languagePair) {
 
         return new LanguagePairEntity(languagePair.getId(), languagePair.getLanguageLeft(),
-                languagePair.getLanguageRight(), languagePair.getScore());
+                languagePair.getLanguageRight(), languagePair.getScore(), languagePair.getLevel(),
+                languagePair.getStreak());
     }
 
     public static List<LanguagePairEntity> toLanguagePairEntity(List<LanguagePair> languagePairs) {

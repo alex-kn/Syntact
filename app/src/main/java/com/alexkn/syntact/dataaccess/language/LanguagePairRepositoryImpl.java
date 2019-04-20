@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
@@ -32,6 +31,23 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     public Long insert(LanguagePair languagePair) {
 
         return languagePairDao.insert(Mapper.toLanguagePairEntity(languagePair));
+    }
+
+    @Override
+    public void delete(Long id) {
+
+        languagePairDao.delete(id);
+    }
+
+    @Override
+    public void update(LanguagePair languagePair) {
+        languagePairDao.update(Mapper.toLanguagePairEntity(languagePair));
+    }
+
+    @Override
+    public LanguagePair find(Long id) {
+
+        return Mapper.toLanguagePair(languagePairDao.find(id));
     }
 
     @Override
@@ -56,6 +72,6 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     @Override
     public LiveData<LanguagePair> findLanguagePair(Long id) {
 
-        return Transformations.map(languagePairDao.find(id), Mapper::toLanguagePair);
+        return Transformations.map(languagePairDao.findLanguagePair(id), Mapper::toLanguagePair);
     }
 }

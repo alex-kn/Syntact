@@ -45,6 +45,12 @@ public class ManageLetters {
         letterRepository.insert(letters);
     }
 
+    public void reloadLetters(Long languagePairId) {
+
+        letterRepository.deleteAllLettersForLanguage(languagePairId);
+        generateLetters(languagePairId);
+    }
+
     public void replaceLetter(Letter oldLetter) {
 
         Character character = letterGenerator.generateNewCharacter();
@@ -57,6 +63,7 @@ public class ManageLetters {
     }
 
     public LiveData<List<Letter>> getLetters(Long languagePairId, LetterColumn letterColumn) {
+
         return letterRepository.find(languagePairId, letterColumn);
     }
 }

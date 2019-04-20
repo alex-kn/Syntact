@@ -8,7 +8,13 @@ import androidx.lifecycle.LiveData;
 
 public interface LanguagePairRepository {
 
-    Long insert(LanguagePair LanguagePair);
+    Long insert(LanguagePair languagePair);
+
+    void delete(Long id);
+
+    void update(LanguagePair languagePair);
+
+    LanguagePair find(Long id);
 
     LiveData<List<LanguagePair>> findAllLanguagePairs();
 

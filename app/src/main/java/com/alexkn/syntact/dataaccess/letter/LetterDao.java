@@ -24,4 +24,7 @@ public interface LetterDao {
 
     @Query("SELECT * FROM Letter WHERE letterColumn = :letterColumn and languagePairId = :languagePairId")
     LiveData<List<LetterEntity>> find(Long languagePairId, LetterColumn letterColumn);
+
+    @Query("DELETE FROM Letter WHERE languagePairId = :languagePairId")
+    void deleteAllLettersForLanguage(Long languagePairId);
 }

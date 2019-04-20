@@ -1,8 +1,10 @@
 package com.alexkn.syntact.domain.usecase;
 
+import androidx.lifecycle.LiveData;
+
 import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
-import com.alexkn.syntact.domain.service.PhraseGenerator;
 
 import java.util.List;
 import java.util.Locale;
@@ -10,10 +12,10 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import androidx.lifecycle.LiveData;
-
 @Singleton
 public class ManageLanguages {
+
+
 
     @Inject
     LanguagePairRepository languagePairRepository;
@@ -34,13 +36,17 @@ public class ManageLanguages {
         LanguagePair activeLanguagePair = new LanguagePair();
         activeLanguagePair.setLanguageLeft(languageLeft);
         activeLanguagePair.setLanguageRight(languageRight);
+        activeLanguagePair.setScore(0);
+        activeLanguagePair.setLevel(0);
+        activeLanguagePair.setStreak(0);
         Long insertedLanguageId = languagePairRepository.insert(activeLanguagePair);
         manageLetters.generateLetters(insertedLanguageId);
         managePhrases.generateGermanEnglishPhrases(insertedLanguageId, languageLeft, languageRight);
     }
 
-    public void removeLanguage(Locale language) {
+    public void removeLanguage(Long id) {
 
+        languagePairRepository.delete(id);
     }
 
     public LiveData<LanguagePair> getLanguagePair(Long id) {
@@ -52,4 +58,5 @@ public class ManageLanguages {
 
         return languagePairRepository.findAllLanguagePairs();
     }
+
 }

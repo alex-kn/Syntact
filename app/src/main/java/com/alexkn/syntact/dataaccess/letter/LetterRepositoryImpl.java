@@ -54,4 +54,9 @@ public class LetterRepositoryImpl implements LetterRepository {
         AsyncTask.execute(() -> letterDao.delete(Mapper.toLetterEntity(letter)));
 
     }
+
+    @Override
+    public void deleteAllLettersForLanguage(Long languagePairId) {
+        letterDao.deleteAllLettersForLanguage(languagePairId);
+    }
 }

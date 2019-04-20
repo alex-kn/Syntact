@@ -1,12 +1,12 @@
 package com.alexkn.syntact.dataaccess.language;
 
-import java.util.Locale;
-
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import java.util.Locale;
 
 @Entity(tableName = "LanguagePair", indices = @Index("id"))
 public class LanguagePairEntity {
@@ -23,18 +23,26 @@ public class LanguagePairEntity {
     @NonNull
     private Integer score;
 
+    @NonNull
+    private Integer level;
+
+    @NonNull
+    private Integer streak;
+
     public LanguagePairEntity() {
 
     }
 
     @Ignore
-    public LanguagePairEntity(Long id, @NonNull Locale languageLeft,
-            @NonNull Locale languageRight, Integer score) {
+    public LanguagePairEntity(Long id, @NonNull Locale languageLeft, @NonNull Locale languageRight,
+            Integer score, @NonNull Integer level, @NonNull Integer streak) {
 
         this.id = id;
         this.languageLeft = languageLeft;
         this.languageRight = languageRight;
         this.score = score;
+        this.level = level;
+        this.streak = streak;
     }
 
     public Integer getScore() {
@@ -77,5 +85,27 @@ public class LanguagePairEntity {
     public void setLanguageRight(@NonNull Locale languageRight) {
 
         this.languageRight = languageRight;
+    }
+
+    @NonNull
+    public Integer getLevel() {
+
+        return level;
+    }
+
+    public void setLevel(@NonNull Integer level) {
+
+        this.level = level;
+    }
+
+    @NonNull
+    public Integer getStreak() {
+
+        return streak;
+    }
+
+    public void setStreak(@NonNull Integer streak) {
+
+        this.streak = streak;
     }
 }

@@ -14,16 +14,23 @@ public class LanguagePair implements Identifiable {
 
     private int score;
 
+    private int level;
+
+    private int streak;
+
     public LanguagePair() {
 
     }
 
-    public LanguagePair(Long id, Locale languageLeft, Locale languageRight, Integer score) {
+    public LanguagePair(Long id, Locale languageLeft, Locale languageRight, Integer score,
+            Integer level, int streak) {
 
         this.id = id;
         this.languageLeft = languageLeft;
         this.languageRight = languageRight;
         this.score = score;
+        this.level = level;
+        this.streak = streak;
     }
 
     public int getScore() {
@@ -65,5 +72,25 @@ public class LanguagePair implements Identifiable {
     public Long getId() {
 
         return id;
+    }
+
+    public Integer getLevel() {
+
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+
+        this.level = level;
+    }
+
+    public int getStreak() {
+
+        return streak;
+    }
+
+    public void setStreak(int streak) {
+
+        this.streak = streak;
     }
 }

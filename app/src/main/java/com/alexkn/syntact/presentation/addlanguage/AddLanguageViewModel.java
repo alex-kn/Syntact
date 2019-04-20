@@ -3,6 +3,9 @@ package com.alexkn.syntact.presentation.addlanguage;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.usecase.ManageLanguages;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
@@ -10,10 +13,6 @@ import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 import java.util.Locale;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.navigation.Navigation;
 
 public class AddLanguageViewModel extends AndroidViewModel {
 

@@ -16,4 +16,6 @@ public interface LetterRepository {
     void insert(Letter letter);
 
     void delete(Letter letter);
+
+    void deleteAllLettersForLanguage(Long languagePairId);
 }

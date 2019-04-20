@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.hangman;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.common.LetterColumn;
@@ -10,6 +11,7 @@ import com.alexkn.syntact.domain.model.Phrase;
 import com.alexkn.syntact.domain.usecase.ManageLanguages;
 import com.alexkn.syntact.domain.usecase.ManageLetters;
 import com.alexkn.syntact.domain.usecase.ManagePhrases;
+import com.alexkn.syntact.domain.usecase.ManageScore;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
 
 public class HangmanViewModel extends AndroidViewModel {
 
@@ -30,6 +33,11 @@ public class HangmanViewModel extends AndroidViewModel {
     @Inject
     ManageLetters manageLetters;
 
+    @Inject
+    ManageScore manageScore;
+
+    private MediatorLiveData<Integer> maxScore = new MediatorLiveData<>();
+
     private Long languagePairId;
 
     public HangmanViewModel(Application application) {
@@ -39,6 +47,9 @@ public class HangmanViewModel extends AndroidViewModel {
         DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
+
+//        maxScore.addSource(getLanguagePair(), languagePair -> maxScore
+//                .setValue(manageScore.calculateMaxForLevel(languagePair.getLevel() + 1)));
     }
 
     public void setLanguagePairId(Long languagePairId) {
@@ -53,6 +64,11 @@ public class HangmanViewModel extends AndroidViewModel {
             manageLetters.replaceLetter(letter);
         }
         return successful;
+    }
+
+    public void reloadLetters() {
+
+        AsyncTask.execute(() -> manageLetters.reloadLetters(languagePairId));
     }
 
     LiveData<List<Phrase>> getSolvablePhrases(Long languagePairId) {
@@ -73,5 +89,10 @@ public class HangmanViewModel extends AndroidViewModel {
     LiveData<LanguagePair> getLanguagePair() {
 
         return manageLanguages.getLanguagePair(languagePairId);
+    }
+
+    LiveData<Integer> getMaxScore() {
+
+        return maxScore;
     }
 }
