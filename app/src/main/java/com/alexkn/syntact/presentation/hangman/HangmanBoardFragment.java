@@ -58,6 +58,12 @@ public class HangmanBoardFragment extends Fragment {
         TextView maxScoreLabel = view.findViewById(R.id.boardMaxScoreLabel);
         viewModel.getMaxScore().observe(getViewLifecycleOwner(),
                 score -> maxScoreLabel.setText(String.valueOf(score)));
+        
+        TextView levelLabel = view.findViewById(R.id.boardLevelValue);
+        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
+                lp -> levelLabel.setText(String.valueOf(lp.getLevel())));
+
+        view.findViewById(R.id.boardLevelValue);
 
         TextView streakTextView = view.findViewById(R.id.boardStreakValue);
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),

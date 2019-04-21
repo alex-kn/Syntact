@@ -15,33 +15,27 @@ public class PhraseViewHolder extends ListItemViewHolder<Phrase> {
 
     private TextView solutionTextView;
 
-
     private String clue;
+
     private String solution;
 
     private View.OnDragListener dragListener;
 
-    PhraseViewHolder(FrameLayout v) {
+    PhraseViewHolder(View v) {
 
         super(v);
         v.setFocusable(false);
 
-
-        AsyncLayoutInflater asyncLayoutInflater = new AsyncLayoutInflater(v.getContext());
-        asyncLayoutInflater.inflate(R.layout.hangman_phrase_card, v, (view, resid, parent) -> {
-
-            view.setOnDragListener(dragListener);
-            v.addView(view);
-            clueTextView = v.findViewById(R.id.clueTextView);
-            solutionTextView = v.findViewById(R.id.solutionTextView);
-            clueTextView.setText(clue);
-            solutionTextView.setText(solution);
-        });
+        clueTextView = v.findViewById(R.id.clueTextView);
+        solutionTextView = v.findViewById(R.id.solutionTextView);
+        clueTextView.setText(clue);
+        solutionTextView.setText(solution);
     }
 
     public void setOnDrag(View.OnDragListener dragListener) {
 
         this.dragListener = dragListener;
+        itemView.setOnDragListener(dragListener);
     }
 
     @Override
