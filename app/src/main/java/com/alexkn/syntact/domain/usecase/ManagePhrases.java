@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.usecase;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Phrase;
@@ -39,19 +40,14 @@ public class ManagePhrases {
     @Inject
     ManagePhrases() { }
 
-    public boolean makeAttempt(Phrase phrase, Character character) {
+    public void makeAttempt(Phrase phrase, Character character) {
 
-        if (!isLetterCorrect(phrase, character)) {
-            return false;
-        }
         String attempt = updateCurrentAttempt(phrase, character);
         if (!attempt.contains(application.getString(R.string.empty))) {
             solvePhrase(phrase);
         } else {
             phraseRepository.updateAttempt(phrase.getId(), attempt);
         }
-
-        return true;
     }
 
     private void solvePhrase(Phrase phrase) {
@@ -86,7 +82,7 @@ public class ManagePhrases {
         return newCurrentText.toString();
     }
 
-    private boolean isLetterCorrect(Phrase solvablePhrase, Character character) {
+    public boolean isLetterCorrect(Phrase solvablePhrase, Character character) {
 
         return StringUtils.containsIgnoreCase(solvablePhrase.getSolution(), character.toString()) &&
                 !StringUtils.containsIgnoreCase(solvablePhrase.getAttempt(), character.toString());

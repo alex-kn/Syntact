@@ -26,7 +26,7 @@ public class ManageScore {
 
         LanguagePair languagePair = languagePairRepository.find(phrase.getLanguagePairId());
         int timesSolved = phrase.getTimesSolved();
-        int score = FIRST_TIME_SOLVE_SCORE / timesSolved;
+        int score = FIRST_TIME_SOLVE_SCORE / (timesSolved + 1);
 
         int newScore = languagePair.getScore() + score;
 

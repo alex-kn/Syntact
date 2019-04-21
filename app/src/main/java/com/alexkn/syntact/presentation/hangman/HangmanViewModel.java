@@ -69,7 +69,8 @@ public class HangmanViewModel extends AndroidViewModel {
 
     boolean solve(Phrase solvablePhrase, Letter letter) {
 
-        boolean successful = managePhrases.makeAttempt(solvablePhrase, letter.getCharacter());
+        boolean successful = managePhrases.isLetterCorrect(solvablePhrase, letter.getCharacter());
+        AsyncTask.execute(() -> managePhrases.makeAttempt(solvablePhrase, letter.getCharacter()));
         if (successful) {
             AsyncTask.execute(() -> manageLetters.replaceLetter(letter));
         }
@@ -77,6 +78,7 @@ public class HangmanViewModel extends AndroidViewModel {
     }
 
     public void reloadLetters() {
+
         manageLetters.reloadLetters(languagePairId);
     }
 
