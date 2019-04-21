@@ -15,12 +15,17 @@ import com.alexkn.syntact.domain.usecase.ManageScore;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HangmanViewModel extends AndroidViewModel {
 
@@ -40,6 +45,14 @@ public class HangmanViewModel extends AndroidViewModel {
 
     private Long languagePairId;
 
+    private LiveData<LanguagePair> languagePair;
+
+    private LiveData<List<Phrase>> phrases;
+
+    private LiveData<List<Letter>> lettersLeft;
+
+    private LiveData<List<Letter>> lettersRight;
+
     public HangmanViewModel(Application application) {
 
         super(application);
@@ -47,9 +60,6 @@ public class HangmanViewModel extends AndroidViewModel {
         DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
-
-//        maxScore.addSource(getLanguagePair(), languagePair -> maxScore
-//                .setValue(manageScore.calculateMaxForLevel(languagePair.getLevel() + 1)));
     }
 
     public void setLanguagePairId(Long languagePairId) {
@@ -61,34 +71,44 @@ public class HangmanViewModel extends AndroidViewModel {
 
         boolean successful = managePhrases.makeAttempt(solvablePhrase, letter.getCharacter());
         if (successful) {
-            manageLetters.replaceLetter(letter);
+            AsyncTask.execute(() -> manageLetters.replaceLetter(letter));
         }
         return successful;
     }
 
     public void reloadLetters() {
-
-        AsyncTask.execute(() -> manageLetters.reloadLetters(languagePairId));
+        manageLetters.reloadLetters(languagePairId);
     }
 
-    LiveData<List<Phrase>> getSolvablePhrases(Long languagePairId) {
+    public void initLanguage(Long languagePairId) {
 
-        return managePhrases.getPhrases(languagePairId);
+        this.languagePairId = languagePairId;
+        languagePair = manageLanguages.getLanguagePair(languagePairId);
+        phrases = managePhrases.getPhrases(languagePairId);
+        lettersLeft = manageLetters.getLetters(languagePairId, LetterColumn.LEFT);
+        lettersRight = manageLetters.getLetters(languagePairId, LetterColumn.RIGHT);
+        maxScore.addSource(languagePair,
+                lp -> maxScore.setValue(manageScore.calculateMaxForLevel(lp.getLevel() + 1)));
+    }
+
+    LiveData<List<Phrase>> getSolvablePhrases() {
+
+        return phrases;
     }
 
     LiveData<List<Letter>> getLettersLeft() {
 
-        return manageLetters.getLetters(languagePairId, LetterColumn.LEFT);
+        return lettersLeft;
     }
 
     LiveData<List<Letter>> getLettersRight() {
 
-        return manageLetters.getLetters(languagePairId, LetterColumn.RIGHT);
+        return lettersRight;
     }
 
     LiveData<LanguagePair> getLanguagePair() {
 
-        return manageLanguages.getLanguagePair(languagePairId);
+        return languagePair;
     }
 
     LiveData<Integer> getMaxScore() {

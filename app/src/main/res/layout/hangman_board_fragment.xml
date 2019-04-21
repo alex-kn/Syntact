@@ -49,7 +49,6 @@
                 android:id="@+id/boardLangScoreLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="125"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintBaseline_toBaselineOf="@+id/boardMaxScoreLabel"
                 app:layout_constraintEnd_toStartOf="@+id/separator" />
@@ -59,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="10"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintBaseline_toBaselineOf="@+id/boardLangScoreLabel"
                 app:layout_constraintEnd_toStartOf="@+id/boardLangScoreLabel" />
@@ -69,7 +67,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="12"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintBaseline_toBaselineOf="@+id/boardStreakLabel"
                 app:layout_constraintStart_toEndOf="@+id/boardStreakLabel" />
@@ -89,7 +86,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="1234"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintBaseline_toBaselineOf="@+id/boardStreakLabel"
                 app:layout_constraintEnd_toEndOf="parent" />
@@ -112,7 +108,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_anchorGravity="top"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/lettersViewLeft"
@@ -124,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toTopOf="@+id/reloadButton"
         app:layout_constraintEnd_toStartOf="@+id/lettersViewRight" />
 
@@ -142,7 +139,7 @@
         android:id="@+id/lettersViewRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toTopOf="@+id/reloadButton"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -150,11 +147,13 @@
         android:id="@+id/reloadButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="Reload"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/lettersViewRight"
-        app:layout_constraintStart_toStartOf="@+id/lettersViewLeft" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/phrasesView" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

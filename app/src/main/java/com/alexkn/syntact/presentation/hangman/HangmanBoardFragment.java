@@ -1,11 +1,14 @@
 package com.alexkn.syntact.presentation.hangman;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,6 +32,10 @@ public class HangmanBoardFragment extends Fragment {
 
     private PhraseListAdapter phraseListAdapter;
 
+    private RecyclerView letterViewLeft;
+
+    private RecyclerView letterViewRight;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -42,15 +49,15 @@ public class HangmanBoardFragment extends Fragment {
 
         Long languagePairId = HangmanBoardFragmentArgs.fromBundle(getArguments())
                 .getLanguagePairId();
-        viewModel.setLanguagePairId(languagePairId);
+        viewModel.initLanguage(languagePairId);
 
         TextView scoreLabel = view.findViewById(R.id.boardLangScoreLabel);
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
                 languagePair -> scoreLabel.setText(String.valueOf(languagePair.getScore())));
 
         TextView maxScoreLabel = view.findViewById(R.id.boardMaxScoreLabel);
-        viewModel.getMaxScore()
-                .observe(getViewLifecycleOwner(), score -> maxScoreLabel.setText(String.valueOf(score)));
+        viewModel.getMaxScore().observe(getViewLifecycleOwner(),
+                score -> maxScoreLabel.setText(String.valueOf(score)));
 
         TextView streakTextView = view.findViewById(R.id.boardStreakValue);
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
@@ -60,9 +67,6 @@ public class HangmanBoardFragment extends Fragment {
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
                 languagePair -> progress.setProgress(languagePair.getScore(), true));
         viewModel.getMaxScore().observe(getViewLifecycleOwner(), score -> progress.setMax(score));
-
-        Button reloadButton = view.findViewById(R.id.reloadButton);
-        reloadButton.setOnClickListener(v -> viewModel.reloadLetters());
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);
@@ -75,8 +79,8 @@ public class HangmanBoardFragment extends Fragment {
                 .registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);
 
-        RecyclerView letterViewLeft = view.findViewById(R.id.lettersViewLeft);
-        RecyclerView letterViewRight = view.findViewById(R.id.lettersViewRight);
+        letterViewLeft = view.findViewById(R.id.lettersViewLeft);
+        letterViewRight = view.findViewById(R.id.lettersViewRight);
 
         LinearLayoutManager linearLayoutManager1 = new UnscrollableLinearLayoutManager(
                 getContext());
@@ -92,14 +96,14 @@ public class HangmanBoardFragment extends Fragment {
         letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
-        new Handler().postDelayed(() -> {
-            viewModel.getLettersLeft()
-                    .observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
-            viewModel.getLettersRight()
-                    .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
-            viewModel.getSolvablePhrases(languagePairId)
-                    .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
-        }, 300);
+        viewModel.getLettersLeft().observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
+        viewModel.getLettersRight()
+                .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
+        viewModel.getSolvablePhrases()
+                .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
+
+        Button reloadButton = view.findViewById(R.id.reloadButton);
+        reloadButton.setOnClickListener(v -> new ReloadLettersTask().execute());
 
         return view;
     }
@@ -135,6 +139,23 @@ public class HangmanBoardFragment extends Fragment {
         public boolean canScrollVertically() {
 
             return false;
+        }
+    }
+
+    private class ReloadLettersTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            viewModel.reloadLetters();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+
+            letterViewLeft.scheduleLayoutAnimation();
+            letterViewRight.scheduleLayoutAnimation();
         }
     }
 }

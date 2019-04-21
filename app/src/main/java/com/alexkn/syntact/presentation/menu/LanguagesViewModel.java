@@ -17,6 +17,8 @@ import androidx.lifecycle.LiveData;
 
 public class LanguagesViewModel extends AndroidViewModel {
 
+    private final LiveData<List<LanguagePair>> languagePairs;
+
     @Inject
     ManageLanguages manageLanguages;
 
@@ -27,11 +29,13 @@ public class LanguagesViewModel extends AndroidViewModel {
         DaggerViewComponent.builder().applicationComponent(
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
+
+        languagePairs = manageLanguages.getLanguagePairs();
     }
 
     LiveData<List<LanguagePair>> getLanguagePairs() {
 
-        return manageLanguages.getLanguagePairs();
+        return languagePairs;
     }
 }
 
