@@ -3,6 +3,7 @@ package com.alexkn.syntact.domain.repository;
 import com.alexkn.syntact.domain.model.LanguagePair;
 
 import java.util.List;
+import java.util.Locale;
 
 import androidx.lifecycle.LiveData;
 
@@ -15,6 +16,8 @@ public interface LanguagePairRepository {
     void update(LanguagePair languagePair);
 
     LanguagePair find(Long id);
+
+    boolean languagePairExists(Locale left, Locale right);
 
     LiveData<List<LanguagePair>> findAllLanguagePairs();
 

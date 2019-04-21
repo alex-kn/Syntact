@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.domain.model.LanguagePair;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -35,7 +36,8 @@ public class MainMenuFragment extends Fragment {
 
         languagesList = view.findViewById(R.id.languagesList);
         languagesList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        LanguageAdapter languageAdapter = new LanguageAdapter();
+        LanguageAdapter languageAdapter = new LanguageAdapter(
+                languagePair -> viewModel.deleteLanguage(languagePair));
         languagesList.setAdapter(languageAdapter);
         languagesList.setHasFixedSize(true);
 

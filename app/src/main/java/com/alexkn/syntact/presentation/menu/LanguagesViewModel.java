@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.menu;
 
 import android.app.Application;
+import android.os.AsyncTask;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.LanguagePair;
@@ -31,6 +32,11 @@ public class LanguagesViewModel extends AndroidViewModel {
                 .inject(this);
 
         languagePairs = manageLanguages.getLanguagePairs();
+    }
+
+    public void deleteLanguage(LanguagePair languagePair) {
+
+        AsyncTask.execute(() -> manageLanguages.removeLanguage(languagePair.getId()));
     }
 
     LiveData<List<LanguagePair>> getLanguagePairs() {

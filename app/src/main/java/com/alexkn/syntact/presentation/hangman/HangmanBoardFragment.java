@@ -72,7 +72,7 @@ public class HangmanBoardFragment extends Fragment {
         ProgressBar progress = view.findViewById(R.id.boardLangProgressBar);
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
                 languagePair -> progress.setProgress(languagePair.getScore(), true));
-        viewModel.getMaxScore().observe(getViewLifecycleOwner(), score -> progress.setMax(score));
+        viewModel.getMaxScore().observe(getViewLifecycleOwner(), progress::setMax);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);

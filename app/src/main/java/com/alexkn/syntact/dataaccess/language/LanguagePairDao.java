@@ -4,6 +4,7 @@ import com.alexkn.syntact.domain.model.LanguagePair;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -26,6 +27,9 @@ public interface LanguagePairDao {
 
     @Update
     void update(LanguagePairEntity languagePairEntity);
+
+    @Query("SELECT EXISTS(SELECT 1 FROM languagepair WHERE languageLeft = :left AND languageRight = :right)")
+    boolean languagePairExists(Locale left, Locale right);
 
     @Query("SELECT * FROM LanguagePair where id = :id")
     LanguagePairEntity find(Long id);

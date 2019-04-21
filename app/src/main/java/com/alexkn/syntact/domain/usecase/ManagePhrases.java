@@ -13,6 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.IntStream;
@@ -93,17 +94,19 @@ public class ManagePhrases {
         return phraseRepository.findPhrasesForLanguagePairDueBefore(languagePairId, Instant.now());
     }
 
-    public void generateGermanEnglishPhrases(Long insertedLanguageId, Locale languageLeft,
-            Locale languageRight) {
+    public void initializePhrases(Long insertedLanguageId, Locale languageLeft, Locale languageRight) {
 
-        ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
-        phrases.forEach(phrase -> {
-            phrase.setLanguagePairId(insertedLanguageId);
-            phrase.setAttempt(updateCurrentAttempt(phrase, '?'));
-            phrase.setAttempt(updateCurrentAttempt(phrase, '.'));
-            phrase.setAttempt(updateCurrentAttempt(phrase, ','));
-            phrase.setAttempt(updateCurrentAttempt(phrase, ' '));
-        });
-        phraseRepository.insert(phrases);
+        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
+
+        if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
+            ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
+            phrases.forEach(phrase -> {
+                phrase.setLanguagePairId(insertedLanguageId);
+                specialCharacters.forEach(character -> {
+                    phrase.setAttempt(updateCurrentAttempt(phrase, character));
+                });
+            });
+            phraseRepository.insert(phrases);
+        }
     }
 }

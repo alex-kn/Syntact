@@ -9,6 +9,7 @@ import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import javax.inject.Inject;
@@ -41,6 +42,7 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
 
     @Override
     public void update(LanguagePair languagePair) {
+
         languagePairDao.update(Mapper.toLanguagePairEntity(languagePair));
     }
 
@@ -48,6 +50,12 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     public LanguagePair find(Long id) {
 
         return Mapper.toLanguagePair(languagePairDao.find(id));
+    }
+
+    @Override
+    public boolean languagePairExists(Locale left, Locale right) {
+
+        return languagePairDao.languagePairExists(left, right);
     }
 
     @Override
@@ -65,8 +73,8 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
 
     @Override
     public void incrementScore(Long id, int by) {
-        AsyncTask.execute(() -> languagePairDao.incrementScore(id, by));
 
+        AsyncTask.execute(() -> languagePairDao.incrementScore(id, by));
     }
 
     @Override
