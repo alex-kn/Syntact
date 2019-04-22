@@ -36,6 +36,8 @@ public class HangmanBoardFragment extends Fragment {
 
     private RecyclerView letterViewRight;
 
+    private ProgressBar progress;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -56,8 +58,9 @@ public class HangmanBoardFragment extends Fragment {
                 languagePair -> scoreLabel.setText(String.valueOf(languagePair.getScore())));
 
         TextView maxScoreLabel = view.findViewById(R.id.boardMaxScoreLabel);
-        viewModel.getMaxScore().observe(getViewLifecycleOwner(),
-                score -> maxScoreLabel.setText(String.valueOf(score)));
+        viewModel.getLanguagePair().observe(getViewLifecycleOwner(), languagePair -> maxScoreLabel
+                .setText(String.valueOf(
+                        viewModel.calculateMaxScoreForLevel(languagePair.getLevel() + 1))));
 
         TextView levelLabel = view.findViewById(R.id.boardLevelValue);
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
@@ -69,10 +72,12 @@ public class HangmanBoardFragment extends Fragment {
         viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
                 languagePair -> streakTextView.setText(String.valueOf(languagePair.getStreak())));
 
-        ProgressBar progress = view.findViewById(R.id.boardLangProgressBar);
-        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
-                languagePair -> progress.setProgress(languagePair.getScore(), true));
-        viewModel.getMaxScore().observe(getViewLifecycleOwner(), progress::setMax);
+        progress = view.findViewById(R.id.boardLangProgressBar);
+        progress.setMax(100);
+        viewModel.getLanguagePair().observe(getViewLifecycleOwner(), languagePair -> {
+            updateProgressBar(languagePair.getScore(),
+                    viewModel.calculateMaxScoreForLevel(languagePair.getLevel() + 1));
+        });
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);
@@ -112,6 +117,11 @@ public class HangmanBoardFragment extends Fragment {
         reloadButton.setOnClickListener(v -> new ReloadLettersTask().execute());
 
         return view;
+    }
+
+    private void updateProgressBar(int current, int max) {
+
+        progress.setProgress(current / max * 100);
     }
 
     private static class PhraseAdapterDataObserver extends RecyclerView.AdapterDataObserver {

@@ -14,6 +14,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.IntStream;
@@ -94,7 +95,8 @@ public class ManagePhrases {
         return phraseRepository.findPhrasesForLanguagePairDueBefore(languagePairId, Instant.now());
     }
 
-    public void initializePhrases(Long insertedLanguageId, Locale languageLeft, Locale languageRight) {
+    public void initializePhrases(Long insertedLanguageId, Locale languageLeft,
+            Locale languageRight) {
 
         List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
 
@@ -102,10 +104,10 @@ public class ManagePhrases {
             ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
             phrases.forEach(phrase -> {
                 phrase.setLanguagePairId(insertedLanguageId);
-                specialCharacters.forEach(character -> {
-                    phrase.setAttempt(updateCurrentAttempt(phrase, character));
-                });
+                specialCharacters.forEach(
+                        character -> phrase.setAttempt(updateCurrentAttempt(phrase, character)));
             });
+            Collections.shuffle(phrases);
             phraseRepository.insert(phrases);
         }
     }

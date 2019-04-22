@@ -41,7 +41,7 @@ public class ManageLanguages {
         activeLanguagePair.setLevel(0);
         activeLanguagePair.setStreak(0);
         Long insertedLanguageId = languagePairRepository.insert(activeLanguagePair);
-        manageLetters.generateLetters(insertedLanguageId);
+        manageLetters.initializeLetters(insertedLanguageId);
         managePhrases.initializePhrases(insertedLanguageId, languageLeft, languageRight);
     }
 

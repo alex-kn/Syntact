@@ -89,8 +89,11 @@ public class HangmanViewModel extends AndroidViewModel {
         phrases = managePhrases.getPhrases(languagePairId);
         lettersLeft = manageLetters.getLetters(languagePairId, LetterColumn.LEFT);
         lettersRight = manageLetters.getLetters(languagePairId, LetterColumn.RIGHT);
-        maxScore.addSource(languagePair,
-                lp -> maxScore.setValue(manageScore.calculateMaxForLevel(lp.getLevel() + 1)));
+    }
+
+    public int calculateMaxScoreForLevel(int level) {
+
+        return manageScore.calculateMaxForLevel(level);
     }
 
     LiveData<List<Phrase>> getSolvablePhrases() {
@@ -111,10 +114,5 @@ public class HangmanViewModel extends AndroidViewModel {
     LiveData<LanguagePair> getLanguagePair() {
 
         return languagePair;
-    }
-
-    LiveData<Integer> getMaxScore() {
-
-        return maxScore;
     }
 }

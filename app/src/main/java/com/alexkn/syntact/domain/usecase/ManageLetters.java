@@ -6,6 +6,8 @@ import com.alexkn.syntact.domain.repository.LetterRepository;
 import com.alexkn.syntact.domain.service.LetterGenerator;
 
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -24,21 +26,30 @@ public class ManageLetters {
     @Inject
     LetterGenerator letterGenerator;
 
+    @Inject ManageScore manageScore;
+
     @Inject
     ManageLetters() {
 
     }
 
-    public void generateLetters(Long languagePairId) {
+    public void initializeLetters(Long languagePairId) {
 
-        Character[] characters = letterGenerator.generateCharacters(24);
+        int sampleSize = 10;
+        Character[] characters = letterGenerator.generateCharacters(sampleSize);
+        LinkedList<LetterColumn> columns = new LinkedList<>();
+        LetterColumn[] left = new LetterColumn[sampleSize/2];
+        LetterColumn[] right = new LetterColumn[sampleSize/2];
+        Arrays.fill(left, LetterColumn.LEFT);
+        Arrays.fill(right, LetterColumn.RIGHT);
+        columns.addAll(Arrays.asList(left));
+        columns.addAll(Arrays.asList(right));
 
         List<Letter> letters = Arrays.stream(characters).map(character -> {
             Letter letter = new Letter();
             letter.setCharacter(character);
             letter.setLanguagePairId(languagePairId);
-            LetterColumn value = LetterColumn.values()[new Random()
-                    .nextInt(LetterColumn.values().length)];
+            LetterColumn value = columns.pop();
             letter.setLetterColumn(value);
             return letter;
         }).collect(Collectors.toList());
@@ -48,7 +59,8 @@ public class ManageLetters {
     public void reloadLetters(Long languagePairId) {
 
         letterRepository.deleteAllLettersForLanguage(languagePairId);
-        generateLetters(languagePairId);
+        manageScore.resetStreak(languagePairId);
+        initializeLetters(languagePairId);
     }
 
     public void replaceLetter(Letter oldLetter) {
