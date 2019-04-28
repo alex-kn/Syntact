@@ -3,7 +3,7 @@ package com.alexkn.syntact.domain.service;
 import android.app.Application;
 import android.util.Log;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.IOUtil;
 import org.apache.commons.math3.distribution.EnumeratedDistribution;
 import org.apache.commons.math3.util.Pair;
 import org.json.JSONArray;
@@ -31,7 +31,7 @@ public class LetterGenerator {
 
             try (InputStream open = application.getAssets().open("letterfrequencies.json")) {
 
-                String s = IOUtils.toString(open, "UTF-8");
+                String s = IOUtil.toString(open, "UTF-8");
                 JSONArray letters = new JSONArray(s);
                 for (int i = 0; i < letters.length(); i++) {
                     JSONObject jsonObject = letters.getJSONObject(i);

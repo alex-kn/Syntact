@@ -6,7 +6,7 @@ import android.util.Log;
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Phrase;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.IOUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -38,7 +38,7 @@ public class PhraseGenerator {
 
             try (InputStream open = application.getAssets().open("phrases_german_english.json")) {
 
-                String s = IOUtils.toString(open, "UTF-8");
+                String s = IOUtil.toString(open, "UTF-8");
                 JSONArray frequencyList = new JSONArray(s);
                 for (int i = 0; i < frequencyList.length(); i++) {
                     JSONObject jsonObject = frequencyList.getJSONObject(i);
