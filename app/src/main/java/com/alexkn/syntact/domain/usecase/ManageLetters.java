@@ -35,7 +35,7 @@ public class ManageLetters {
 
     public void initializeLetters(Long languagePairId) {
 
-        int sampleSize = 10;
+        int sampleSize = 14;
         Character[] characters = letterGenerator.generateCharacters(sampleSize);
         LinkedList<LetterColumn> columns = new LinkedList<>();
         LetterColumn[] left = new LetterColumn[sampleSize/2];

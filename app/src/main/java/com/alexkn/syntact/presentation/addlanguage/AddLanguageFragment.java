@@ -24,9 +24,6 @@ public class AddLanguageFragment extends Fragment {
 
     private AddLanguageViewModel viewModel;
 
-    private Locale[] languages = new Locale[]{Locale.GERMAN, Locale.ENGLISH, Locale.FRENCH,
-            Locale.ITALIAN};
-
     private View addButton;
 
     private Spinner leftSpinner;
@@ -38,6 +35,7 @@ public class AddLanguageFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.add_language_fragment, container, false);
+        viewModel = ViewModelProviders.of(getActivity()).get(AddLanguageViewModel.class);
 
         addButton = view.findViewById(R.id.addButton);
         leftSpinner = view.findViewById(R.id.langaugeLeftSpinner);
@@ -45,9 +43,10 @@ public class AddLanguageFragment extends Fragment {
 
         Context context = Objects.requireNonNull(getContext());
         ArrayAdapter<Locale> adapterLeft = new ArrayAdapter<>(context, R.layout.add_language_spinner_label,
-                languages);
+                viewModel.getAvailableLanguagePairs());
         ArrayAdapter<Locale> adapterRight = new ArrayAdapter<>(context, R.layout.add_language_spinner_label,
-                languages);
+                viewModel.getAvailableLanguagePairs());
+
         leftSpinner.setAdapter(adapterLeft);
         rightSpinner.setAdapter(adapterRight);
 

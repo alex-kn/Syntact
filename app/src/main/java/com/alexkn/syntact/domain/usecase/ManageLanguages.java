@@ -1,12 +1,17 @@
 package com.alexkn.syntact.domain.usecase;
 
+import androidx.core.util.Pair;
 import androidx.lifecycle.LiveData;
 
+import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -24,9 +29,10 @@ public class ManageLanguages {
     ManagePhrases managePhrases;
 
     @Inject
-    ManageLanguages() {
+    Property property;
 
-    }
+    @Inject
+    ManageLanguages() { }
 
     public void addLanguage(Locale languageLeft, Locale languageRight) {
 
@@ -43,6 +49,13 @@ public class ManageLanguages {
         Long insertedLanguageId = languagePairRepository.insert(activeLanguagePair);
         manageLetters.initializeLetters(insertedLanguageId);
         managePhrases.initializePhrases(insertedLanguageId, languageLeft, languageRight);
+    }
+
+    public List<Locale> getAvailableLanguagePairs() {
+
+        String[] languages = property.get("available-languages").split(",");
+        return Arrays.stream(languages).map(Locale::new)
+                .collect(Collectors.toList());
     }
 
     public void removeLanguage(Long id) {

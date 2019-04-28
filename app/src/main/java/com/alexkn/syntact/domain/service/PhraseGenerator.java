@@ -14,6 +14,8 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
@@ -63,5 +65,9 @@ public class PhraseGenerator {
         }
         return phrases;
 
+    }
+
+    public List<Phrase> generatePhrasesForLocale(Locale left, Locale right) {
+        return Collections.emptyList();
     }
 }
