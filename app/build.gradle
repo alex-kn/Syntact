@@ -39,15 +39,15 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha1'
-    implementation 'org.apache.commons:commons-lang3:3.7'
+    implementation 'org.apache.commons:commons-lang3:3.9'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
     implementation 'com.google.android.material:material:1.1.0-alpha05'
-    implementation "androidx.room:room-runtime:2.1.0-alpha04"
-    implementation 'com.google.dagger:dagger:2.19'
-    implementation 'org.apache.commons:commons-math3:3.3'
-    implementation "commons-io:commons-io:2.6"
+    implementation 'androidx.room:room-runtime:2.1.0-alpha07'
+    implementation 'com.google.dagger:dagger:2.22.1'
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'commons-io:commons-io:20030203.000550'
 
     implementation "android.arch.navigation:navigation-fragment:1.0.0"
     implementation "android.arch.navigation:navigation-ui:1.0.0"
@@ -56,11 +56,11 @@ dependencies {
 
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
-    annotationProcessor "androidx.room:room-compiler:2.1.0-alpha04"
-    annotationProcessor "com.google.dagger:dagger-compiler:2.19"
+    annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha07'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    testImplementation 'junit:junit:4.13-beta-2'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha04'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha04'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
 }
