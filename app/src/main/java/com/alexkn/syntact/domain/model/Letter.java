@@ -1,37 +1,38 @@
 package com.alexkn.syntact.domain.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.alexkn.syntact.domain.common.Identifiable;
 import com.alexkn.syntact.domain.common.LetterColumn;
 
 import java.util.Objects;
 
-import androidx.annotation.NonNull;
+import static androidx.room.ForeignKey.CASCADE;
 
+@Entity(indices = {@Index("id"), @Index("languagePairId")},
+        foreignKeys = @ForeignKey(entity = LanguagePair.class, parentColumns = "id",
+                childColumns = "languagePairId", onDelete = CASCADE))
 public class Letter implements Identifiable {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
 
+    @NonNull
     private Character character;
 
+    @NonNull
     private LetterColumn letterColumn;
 
     private Long languagePairId;
 
-    public Letter(){
-
-    }
-
-    public Letter(Long id, Character character, LetterColumn letterColumn, Long languagePairId) {
-
-        this.id = id;
-        this.character = character;
-        this.letterColumn = letterColumn;
-        this.languagePairId = languagePairId;
-    }
-
     @NonNull
     @Override
     public String toString() {
+
         return character.toString();
     }
 
@@ -46,22 +47,24 @@ public class Letter implements Identifiable {
         this.id = id;
     }
 
+    @NonNull
     public Character getCharacter() {
 
         return character;
     }
 
-    public void setCharacter(Character character) {
+    public void setCharacter(@NonNull Character character) {
 
         this.character = character;
     }
 
+    @NonNull
     public LetterColumn getLetterColumn() {
 
         return letterColumn;
     }
 
-    public void setLetterColumn(LetterColumn letterColumn) {
+    public void setLetterColumn(@NonNull LetterColumn letterColumn) {
 
         this.letterColumn = letterColumn;
     }
@@ -82,7 +85,7 @@ public class Letter implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Letter letter = (Letter) o;
-        return Objects.equals(id, letter.id) && Objects.equals(character, letter.character) &&
+        return Objects.equals(id, letter.id) && character.equals(letter.character) &&
                 letterColumn == letter.letterColumn &&
                 Objects.equals(languagePairId, letter.languagePairId);
     }

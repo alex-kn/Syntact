@@ -3,19 +3,16 @@ package com.alexkn.syntact.dataaccess.letter;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
-import com.alexkn.syntact.dataaccess.util.Mapper;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.repository.LetterRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 
 public class LetterRepositoryImpl implements LetterRepository {
 
@@ -31,27 +28,26 @@ public class LetterRepositoryImpl implements LetterRepository {
     @Override
     public LiveData<List<Letter>> find(Long languagePairId, LetterColumn letterColumn) {
 
-        return Transformations.map(letterDao.find(languagePairId, letterColumn),
-                input -> input.stream().map(Mapper::toLetter).collect(Collectors.toList()));
+        return letterDao.find(languagePairId, letterColumn);
     }
 
     @Override
     public void insert(List<Letter> letters) {
 
-        AsyncTask.execute(() -> letterDao.insert(Mapper.toLetterEntity(letters)));
+        AsyncTask.execute(() -> letterDao.insert(letters));
     }
 
     @Override
     public void insert(Letter letter) {
 
-        AsyncTask.execute(() -> letterDao.insert(Mapper.toLetterEntity(letter)));
+        AsyncTask.execute(() -> letterDao.insert(letter));
 
     }
 
     @Override
     public void delete(Letter letter) {
 
-        AsyncTask.execute(() -> letterDao.delete(Mapper.toLetterEntity(letter)));
+        AsyncTask.execute(() -> letterDao.delete(letter));
 
     }
 

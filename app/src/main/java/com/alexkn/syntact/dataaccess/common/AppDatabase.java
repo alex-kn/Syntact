@@ -2,23 +2,20 @@ package com.alexkn.syntact.dataaccess.common;
 
 import android.content.Context;
 
-import com.alexkn.syntact.dataaccess.language.LanguagePairDao;
-import com.alexkn.syntact.dataaccess.language.LanguagePairEntity;
-import com.alexkn.syntact.dataaccess.letter.LetterDao;
-import com.alexkn.syntact.dataaccess.letter.LetterEntity;
-import com.alexkn.syntact.dataaccess.phrase.PhraseDao;
-import com.alexkn.syntact.dataaccess.phrase.PhraseEntity;
-import com.alexkn.syntact.dataaccess.util.Converters;
-
-import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
-import androidx.room.migration.Migration;
-import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {PhraseEntity.class, LanguagePairEntity.class, LetterEntity.class}, version = 10)
+import com.alexkn.syntact.dataaccess.language.LanguagePairDao;
+import com.alexkn.syntact.dataaccess.letter.LetterDao;
+import com.alexkn.syntact.dataaccess.phrase.PhraseDao;
+import com.alexkn.syntact.dataaccess.util.Converters;
+import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Letter;
+import com.alexkn.syntact.domain.model.Phrase;
+
+@Database(entities = {Phrase.class, LanguagePair.class, Letter.class}, version = 10)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 

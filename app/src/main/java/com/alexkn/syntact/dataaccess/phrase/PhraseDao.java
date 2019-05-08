@@ -1,10 +1,5 @@
 package com.alexkn.syntact.dataaccess.phrase;
 
-import java.time.Instant;
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
@@ -12,23 +7,29 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.alexkn.syntact.domain.model.Phrase;
+
+import java.time.Instant;
+import java.util.Collection;
+import java.util.List;
+
 @Dao
 public interface PhraseDao {
 
     @Insert
-    void insert(PhraseEntity phraseEntity);
+    void insert(Phrase phrase);
 
     @Insert
-    void insert(Collection<PhraseEntity> phraseEntities);
+    void insert(Collection<Phrase> phraseEntities);
 
     @Update
-    void update(PhraseEntity phraseEntity);
+    void update(Phrase phrase);
 
     @Delete
-    void delete(PhraseEntity phraseEntity);
+    void delete(Phrase phrase);
 
     @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND languagePairId = :languagePairId ORDER BY lastSolved LIMIT 10")
-    LiveData<List<PhraseEntity>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
+    LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
 
     @Query("UPDATE Phrase SET attempt = :newAttempt WHERE id = :id")
     void updateAttempt(Long id, String newAttempt);

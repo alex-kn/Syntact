@@ -1,79 +1,59 @@
 package com.alexkn.syntact.domain.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
 
+import static androidx.room.ForeignKey.CASCADE;
+
+@Entity(indices = {@Index("id"), @Index("languagePairId")},
+        foreignKeys = @ForeignKey(entity = LanguagePair.class, parentColumns = "id",
+                childColumns = "languagePairId", onDelete = CASCADE))
 public class Phrase implements Identifiable {
 
+    @PrimaryKey(autoGenerate = true)
     private Long id;
 
+    @NonNull
     private String clue;
 
+    @NonNull
     private String solution;
 
+    @NonNull
     private String attempt;
 
     private Instant lastSolved;
 
+    @NonNull
     private Instant nextDueDate;
 
-    private float easiness;
+    @NonNull
+    private Float easiness;
 
-    private int consecutiveCorrectAnswers;
+    @NonNull
+    private Integer consecutiveCorrectAnswers;
 
-    private int timesSolved;
+    @NonNull
+    private Integer timesSolved;
 
+    @NonNull
     private Locale clueLocale;
 
+    @NonNull
     private Locale solutionLocale;
 
     private Long languagePairId;
 
-    public Phrase() {
-
-    }
-
-    public Phrase(Long id, String clue, String solution, String attempt, Instant lastSolved,
-            Instant nextDueDate, float easiness, int consecutiveCorrectAnswers, int timesSolved,
-            Locale clueLocale, Locale solutionLocale, Long languagePairId) {
-
-        this.id = id;
-        this.clue = clue;
-        this.solution = solution;
-        this.attempt = attempt;
-        this.lastSolved = lastSolved;
-        this.nextDueDate = nextDueDate;
-        this.easiness = easiness;
-        this.consecutiveCorrectAnswers = consecutiveCorrectAnswers;
-        this.timesSolved = timesSolved;
-        this.clueLocale = clueLocale;
-        this.solutionLocale = solutionLocale;
-        this.languagePairId = languagePairId;
-    }
-
-    public String getClue() {
-
-        return clue;
-    }
-
-    public void setClue(String clue) {
-
-        this.clue = clue;
-    }
-
-    public String getSolution() {
-
-        return solution;
-    }
-
-    public void setSolution(String solution) {
-
-        this.solution = solution;
-    }
-
+    @Override
     public Long getId() {
 
         return id;
@@ -84,12 +64,35 @@ public class Phrase implements Identifiable {
         this.id = id;
     }
 
+    @NonNull
+    public String getClue() {
+
+        return clue;
+    }
+
+    public void setClue(@NonNull String clue) {
+
+        this.clue = clue;
+    }
+
+    @NonNull
+    public String getSolution() {
+
+        return solution;
+    }
+
+    public void setSolution(@NonNull String solution) {
+
+        this.solution = solution;
+    }
+
+    @NonNull
     public String getAttempt() {
 
         return attempt;
     }
 
-    public void setAttempt(String attempt) {
+    public void setAttempt(@NonNull String attempt) {
 
         this.attempt = attempt;
     }
@@ -104,66 +107,70 @@ public class Phrase implements Identifiable {
         this.lastSolved = lastSolved;
     }
 
-    public int getTimesSolved() {
-
-        return timesSolved;
-    }
-
-    public void setTimesSolved(int timesSolved) {
-
-        this.timesSolved = timesSolved;
-    }
-
-    public Locale getClueLocale() {
-
-        return clueLocale;
-    }
-
-
-
-    public void setClueLocale(Locale clueLocale) {
-
-        this.clueLocale = clueLocale;
-    }
-
-    public Locale getSolutionLocale() {
-
-        return solutionLocale;
-    }
-
-    public void setSolutionLocale(Locale solutionLocale) {
-
-        this.solutionLocale = solutionLocale;
-    }
-
+    @NonNull
     public Instant getNextDueDate() {
 
         return nextDueDate;
     }
 
-    public void setNextDueDate(Instant nextDueDate) {
+    public void setNextDueDate(@NonNull Instant nextDueDate) {
 
         this.nextDueDate = nextDueDate;
     }
 
-    public float getEasiness() {
+    @NonNull
+    public Float getEasiness() {
 
         return easiness;
     }
 
-    public void setEasiness(float easiness) {
+    public void setEasiness(@NonNull Float easiness) {
 
         this.easiness = easiness;
     }
 
-    public int getConsecutiveCorrectAnswers() {
+    @NonNull
+    public Integer getConsecutiveCorrectAnswers() {
 
         return consecutiveCorrectAnswers;
     }
 
-    public void setConsecutiveCorrectAnswers(int consecutiveCorrectAnswers) {
+    public void setConsecutiveCorrectAnswers(@NonNull Integer consecutiveCorrectAnswers) {
 
         this.consecutiveCorrectAnswers = consecutiveCorrectAnswers;
+    }
+
+    @NonNull
+    public Integer getTimesSolved() {
+
+        return timesSolved;
+    }
+
+    public void setTimesSolved(@NonNull Integer timesSolved) {
+
+        this.timesSolved = timesSolved;
+    }
+
+    @NonNull
+    public Locale getClueLocale() {
+
+        return clueLocale;
+    }
+
+    public void setClueLocale(@NonNull Locale clueLocale) {
+
+        this.clueLocale = clueLocale;
+    }
+
+    @NonNull
+    public Locale getSolutionLocale() {
+
+        return solutionLocale;
+    }
+
+    public void setSolutionLocale(@NonNull Locale solutionLocale) {
+
+        this.solutionLocale = solutionLocale;
     }
 
     public Long getLanguagePairId() {
@@ -182,15 +189,14 @@ public class Phrase implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Phrase phrase = (Phrase) o;
-        return id == phrase.id && Float.compare(phrase.easiness, easiness) == 0 &&
-                consecutiveCorrectAnswers == phrase.consecutiveCorrectAnswers &&
-                timesSolved == phrase.timesSolved && languagePairId == phrase.languagePairId &&
-                Objects.equals(clue, phrase.clue) && Objects.equals(solution, phrase.solution) &&
-                Objects.equals(attempt, phrase.attempt) &&
+        return Objects.equals(id, phrase.id) && clue.equals(phrase.clue) &&
+                solution.equals(phrase.solution) && attempt.equals(phrase.attempt) &&
                 Objects.equals(lastSolved, phrase.lastSolved) &&
-                Objects.equals(nextDueDate, phrase.nextDueDate) &&
-                Objects.equals(clueLocale, phrase.clueLocale) &&
-                Objects.equals(solutionLocale, phrase.solutionLocale);
+                nextDueDate.equals(phrase.nextDueDate) && easiness.equals(phrase.easiness) &&
+                consecutiveCorrectAnswers.equals(phrase.consecutiveCorrectAnswers) &&
+                timesSolved.equals(phrase.timesSolved) && clueLocale.equals(phrase.clueLocale) &&
+                solutionLocale.equals(phrase.solutionLocale) &&
+                Objects.equals(languagePairId, phrase.languagePairId);
     }
 
     @Override

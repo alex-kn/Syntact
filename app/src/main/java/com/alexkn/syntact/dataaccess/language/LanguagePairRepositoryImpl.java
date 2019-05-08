@@ -3,19 +3,16 @@ package com.alexkn.syntact.dataaccess.language;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.LiveData;
+
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
-import com.alexkn.syntact.dataaccess.util.Mapper;
 import com.alexkn.syntact.domain.model.LanguagePair;
 import com.alexkn.syntact.domain.repository.LanguagePairRepository;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Transformations;
 
 public class LanguagePairRepositoryImpl implements LanguagePairRepository {
 
@@ -31,7 +28,7 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     @Override
     public Long insert(LanguagePair languagePair) {
 
-        return languagePairDao.insert(Mapper.toLanguagePairEntity(languagePair));
+        return languagePairDao.insert(languagePair);
     }
 
     @Override
@@ -43,13 +40,13 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     @Override
     public void update(LanguagePair languagePair) {
 
-        languagePairDao.update(Mapper.toLanguagePairEntity(languagePair));
+        languagePairDao.update(languagePair);
     }
 
     @Override
     public LanguagePair find(Long id) {
 
-        return Mapper.toLanguagePair(languagePairDao.find(id));
+        return languagePairDao.find(id);
     }
 
     @Override
@@ -61,8 +58,7 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     @Override
     public LiveData<List<LanguagePair>> findAllLanguagePairs() {
 
-        return Transformations.map(languagePairDao.findAll(),
-                input -> input.stream().map(Mapper::toLanguagePair).collect(Collectors.toList()));
+        return languagePairDao.findAll();
     }
 
     @Override
@@ -80,6 +76,6 @@ public class LanguagePairRepositoryImpl implements LanguagePairRepository {
     @Override
     public LiveData<LanguagePair> findLanguagePair(Long id) {
 
-        return Transformations.map(languagePairDao.findLanguagePair(id), Mapper::toLanguagePair);
+        return languagePairDao.findLanguagePair(id);
     }
 }
