@@ -1,9 +1,11 @@
 package com.alexkn.syntact.presentation.hangman;
 
 import android.content.Context;
+import android.media.FaceDetector;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.transition.ChangeBounds;
+import androidx.transition.ChangeTransform;
+import androidx.transition.Fade;
+import androidx.transition.Slide;
+import androidx.transition.Transition;
+import androidx.transition.TransitionInflater;
+import androidx.transition.TransitionManager;
+import androidx.transition.Visibility;
 
 public class HangmanBoardFragment extends Fragment {
 
@@ -114,7 +124,7 @@ public class HangmanBoardFragment extends Fragment {
                 .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
 
         Button reloadButton = view.findViewById(R.id.reloadButton);
-        reloadButton.setOnClickListener(v -> new ReloadLettersTask().execute());
+        reloadButton.setOnClickListener(v -> AsyncTask.execute(viewModel::reloadLetters));
 
         return view;
     }
@@ -158,20 +168,4 @@ public class HangmanBoardFragment extends Fragment {
         }
     }
 
-    private class ReloadLettersTask extends AsyncTask<Void, Void, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            viewModel.reloadLetters();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            letterViewLeft.scheduleLayoutAnimation();
-            letterViewRight.scheduleLayoutAnimation();
-        }
-    }
 }
