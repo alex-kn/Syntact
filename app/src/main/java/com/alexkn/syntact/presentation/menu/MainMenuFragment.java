@@ -27,7 +27,7 @@ public class MainMenuFragment extends Fragment {
             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
-        View button = view.findViewById(R.id.addLanguageButton);
+//        View button = view.findViewById(R.id.addLanguageButton);
 
         viewModel = ViewModelProviders.of(getActivity()).get(LanguagesViewModel.class);
 
@@ -42,7 +42,7 @@ public class MainMenuFragment extends Fragment {
         languagesList.setHasFixedSize(true);
 
         viewModel.getLanguagePairs().observe(getViewLifecycleOwner(), languageAdapter::submitList);
-        button.setOnClickListener(this::newLanguage);
+//        button.setOnClickListener(this::newLanguage);
 
         return view;
     }

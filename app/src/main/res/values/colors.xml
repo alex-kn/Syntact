@@ -1,37 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
-    <!--<color name="primary">#26C6DA</color>-->
-    <!--<color name="primaryLight">#B2EBF2</color>-->
-    <!--<color name="primaryDark">#0097A7</color>-->
+    <!--Color-->
 
-    <color name="primary">#F9A825</color>
-    <color name="primaryLight">#FDD835</color>
-    <color name="primaryDark">#F57F17</color>
+    <!--Material uses an organized approach to applying color by providing a set of attributes -->
+    <!--which define the color of generalized UI elements such as backgrounds, surfaces, type -->
+    <!--and icons. Using these attributes throughout your app makes it easy to change a single -->
+    <!--color, or the entire theme, and have those changes cascade through the interface.-->
 
+    <!--Color is customized by overriding Material Components color attributes with custom -->
+    <!--color values. In this project, your theme’s color attributes are already overridden -->
+    <!--with default values defined in this file, color.xml.  Change any of the values in -->
+    <!--this file to see changes applied across all elements of your app.-->
 
-    <color name="secondary">#FF7043</color>
-    <color name="secondaryDark">#FB8C00</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000</color>
-    <color name="almostWhite">#F2FAFA</color>
+    <!--LIGHT COLOR THEME-->
 
-    <color name="lightShades">#F5F5F4</color>
-    <color name="lightAccent">#7B8C8C</color>
-    <color name="main">#EECE73</color>
-    <color name="darkAccent">#7F7353</color>
-    <color name="darkShades">#473742</color>
+    <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
+    <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
+    <!--selection controls.-->
+    <color name="color_primary">#6200ee</color>
+    <color name="color_primary_variant">#3700b3</color>
+    <color name="color_secondary">#03dac6</color>
+    <color name="color_secondary_variant">#018786</color>
 
-    <!--<color name="lightShades">#EDD8CC</color>-->
-    <!--<color name="lightAccent">#F49693</color>-->
-    <!--<color name="main">#EE8281</color>-->
-    <!--<color name="darkAccent">#C76D69</color>-->
-    <!--<color name="darkShades">#833A46</color>-->
+    <!--colorBackground appears behind scrollable content and is used for the default window-->
+    <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
+    <!--and menus. colorError is used to indicate an error state for components such as-->
+    <!--text fields.-->
+    <color name="color_background">#ffffff</color>
+    <color name="color_surface">#ffffff</color>
+    <color name="color_error">#b00020</color>
 
-    <color name="success">#59a36a</color>
-    <color name="warning">#dd983e</color>
-    <color name="danger">#f44336</color>
-    <color name="info">#563574</color>
-
+    <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
+    <!--on which they appear.-->
+    <color name="color_on_primary">#ffffff</color>
+    <color name="color_on_secondary">#000000</color>
+    <color name="color_on_background">#000000</color>
+    <color name="color_on_surface">#000000</color>
+    <color name="color_on_error">#ffffff</color>
 
 </resources>

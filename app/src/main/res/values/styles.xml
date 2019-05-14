@@ -1,45 +1,28 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light">
+    <!--Components-->
 
-
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-
-
-        <!--<item name="colorPrimaryVariant">@color/primaryLight</item>-->
-        <item name="colorSecondary">@color/secondary</item>
-        <item name="android:windowContentTransitions">true</item>
-
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorOnSecondary">@color/white</item>
-
-        <item name="android:fontFamily">@font/raleway</item>
-
-
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
-
-        <item name="android:textColorPrimary">@color/darkShades</item>
+    <!--Bottom Sheets-->
+    <style name="ThemeOverlay.MyTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.MyTheme.BottomSheet.Modal</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/Widget.MyTheme.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@android:color/transparent</item>
+    </style>
+    <style name="Widget.MyTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="shapeAppearanceOverlay">?shapeAppearanceLargeComponent</item>
     </style>
 
-    <style name="SyntactButtonStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
-        <item name="android:textStyle">bold</item>
+    <!--Navigation Drawer-->
+    <style name="Widget.MyTheme.NavigationView" parent="Widget.MaterialComponents.NavigationView">
+        <item name="itemTextAppearance">?textAppearanceBody2</item>
     </style>
-
-    <style name="TopCardStyle" parent="Widget.MaterialComponents.CardView">
-
-        <!--<item name="strokeWidth">1dp</item>-->
-        <!--<item name="strokeColor">@color/lightShades</item>-->
-        <item name="cardCornerRadius">0dp</item>
-        <item name="cardElevation">16dp</item>
-        <!--<item name="android:strokeColor">@color/darkShades</item>-->
-        <!--<item name="android:strokeWidth">4</item>-->
-        <!--<item name="android:strokeAlpha">1</item>-->
-
-    </style>
-
+    
+    <!--Toolbar-->
+    <style name="Widget.MyTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary"/>
 
 </resources>

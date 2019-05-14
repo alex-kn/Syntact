@@ -32,7 +32,9 @@ public class ManageLanguages {
     Property property;
 
     @Inject
-    ManageLanguages() { }
+    ManageLanguages() {
+
+    }
 
     public void addLanguage(Locale languageLeft, Locale languageRight) {
 
