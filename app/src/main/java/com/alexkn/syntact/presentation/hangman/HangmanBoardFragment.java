@@ -63,32 +63,6 @@ public class HangmanBoardFragment extends Fragment {
                 .getLanguagePairId();
         viewModel.initLanguage(languagePairId);
 
-        TextView scoreLabel = view.findViewById(R.id.boardLangScoreLabel);
-        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
-                languagePair -> scoreLabel.setText(String.valueOf(languagePair.getScore())));
-
-        TextView maxScoreLabel = view.findViewById(R.id.boardMaxScoreLabel);
-        viewModel.getLanguagePair().observe(getViewLifecycleOwner(), languagePair -> maxScoreLabel
-                .setText(String.valueOf(
-                        viewModel.calculateMaxScoreForLevel(languagePair.getLevel() + 1))));
-
-        TextView levelLabel = view.findViewById(R.id.boardLevelValue);
-        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
-                lp -> levelLabel.setText(String.valueOf(lp.getLevel())));
-
-        view.findViewById(R.id.boardLevelValue);
-
-        TextView streakTextView = view.findViewById(R.id.boardStreakValue);
-        viewModel.getLanguagePair().observe(getViewLifecycleOwner(),
-                languagePair -> streakTextView.setText(String.valueOf(languagePair.getStreak())));
-
-        progress = view.findViewById(R.id.boardLangProgressBar);
-        progress.setMax(100);
-        viewModel.getLanguagePair().observe(getViewLifecycleOwner(), languagePair -> {
-            updateProgressBar(languagePair.getScore(),
-                    viewModel.calculateMaxScoreForLevel(languagePair.getLevel() + 1));
-        });
-
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new UnscrollableLinearLayoutManager(getContext());

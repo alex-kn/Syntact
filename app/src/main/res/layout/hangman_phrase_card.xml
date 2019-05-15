@@ -27,7 +27,7 @@
             android:id="@+id/solutionTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autoSizeStepGranularity="8dp"
+            android:autoSizeStepGranularity="4dp"
             android:autoSizeTextType="uniform"
             android:maxLines="2"
             android:padding="@dimen/default_gap"
