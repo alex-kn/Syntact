@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.alexkn.syntact.domain.service.LetterGenerator;
 import com.alexkn.syntact.domain.service.PhraseGenerator;
-import com.alexkn.syntact.domain.usecase.ManageLanguages;
+import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.ManageLetters;
 import com.alexkn.syntact.domain.usecase.ManagePhrases;
 import com.alexkn.syntact.domain.usecase.ManageScore;
@@ -25,7 +25,7 @@ public interface ApplicationComponent {
 
     LetterGenerator generateCharactersUseCase();
 
-    ManageLanguages languageManagement();
+    ManageBuckets languageManagement();
 
     ManageLetters letterManagement();
 

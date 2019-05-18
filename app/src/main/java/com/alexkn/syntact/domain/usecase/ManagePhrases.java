@@ -1,7 +1,6 @@
 package com.alexkn.syntact.domain.usecase;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Phrase;
@@ -71,7 +70,6 @@ public class ManagePhrases {
                 .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
 
         phraseRepository.update(phrase);
-        manageScore.phraseSolved(phrase);
     }
 
     private String updateCurrentAttempt(Phrase phrase, Character character) {
@@ -90,9 +88,9 @@ public class ManagePhrases {
                 !StringUtils.containsIgnoreCase(solvablePhrase.getAttempt(), character.toString());
     }
 
-    public LiveData<List<Phrase>> getPhrases(Long languagePairId) {
+    public LiveData<List<Phrase>> getPhrases(Long bucketId) {
 
-        return phraseRepository.findPhrasesForLanguagePairDueBefore(languagePairId, Instant.now());
+        return phraseRepository.findPhrasesForBucketDueBefore(bucketId, Instant.now());
     }
 
     public void initializePhrases(Long insertedLanguageId, Locale languageLeft,
@@ -103,7 +101,7 @@ public class ManagePhrases {
         if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
             ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
             phrases.forEach(phrase -> {
-                phrase.setLanguagePairId(insertedLanguageId);
+                phrase.setBucketId(insertedLanguageId);
                 specialCharacters.forEach(
                         character -> phrase.setAttempt(updateCurrentAttempt(phrase, character)));
             });

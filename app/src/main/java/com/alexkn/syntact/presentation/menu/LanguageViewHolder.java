@@ -4,54 +4,38 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.presentation.hangman.ListItemViewHolder;
 
 import java.util.Locale;
 
 import androidx.navigation.Navigation;
 
-public class LanguageViewHolder extends ListItemViewHolder<LanguagePair> {
+public class LanguageViewHolder extends ListItemViewHolder<Bucket> {
 
-    private final TextView scoreLabel;
 
     private final TextView languageLabel;
 
-    private final TextView levelLabel;
-
     private final View startButton;
 
-    private final View statsButton;
-
-    LanguagePair languagePair;
+    Bucket bucket;
 
     LanguageViewHolder(View v) {
 
         super(v);
-        scoreLabel = v.findViewById(R.id.langScoreLabel);
-        levelLabel = v.findViewById(R.id.langLevelLabel);
         languageLabel = v.findViewById(R.id.langLabel);
-
         startButton = v.findViewById(R.id.langStartButton);
-        statsButton = v.findViewById(R.id.langStatsButton);
     }
 
     @Override
-    public void bindTo(LanguagePair languagePair) {
+    public void bindTo(Bucket bucket) {
 
-        this.languagePair = languagePair;
+        this.bucket = bucket;
 
-        String language;
-        if (Locale.getDefault().getLanguage()
-                .equals(languagePair.getLanguageLeft().getLanguage())) {
-            language = languagePair.getLanguageRight().getDisplayLanguage();
-        } else {
-            language = languagePair.getLanguageLeft().getDisplayLanguage();
-        }
-        languageLabel.setText(language);
+           String languageFrom = bucket.getLanguageLeft().getDisplayLanguage();
+            String languageTo = bucket.getLanguageRight().getDisplayLanguage();
 
-        scoreLabel.setText(String.valueOf(languagePair.getScore()));
-        levelLabel.setText(String.valueOf(languagePair.getScore()/100));
+        languageLabel.setText(languageFrom + " - " + languageTo);
 
         startButton.setOnClickListener(this::startHangman);
 
@@ -59,7 +43,7 @@ public class LanguageViewHolder extends ListItemViewHolder<LanguagePair> {
 
     private void startHangman(View view) {
         MainMenuFragmentDirections.ActionMainMenuFragmentToHangmanBoardFragment action = MainMenuFragmentDirections
-                .actionMainMenuFragmentToHangmanBoardFragment(languagePair.getId());
+                .actionMainMenuFragmentToHangmanBoardFragment(bucket.getId());
         Navigation.findNavController(view).navigate(action);
     }
 }

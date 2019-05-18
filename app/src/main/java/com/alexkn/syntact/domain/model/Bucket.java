@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 @Entity(indices = @Index("id"))
-public class LanguagePair implements Identifiable {
+public class Bucket implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
@@ -23,10 +23,7 @@ public class LanguagePair implements Identifiable {
     private Locale languageRight;
 
     @NonNull
-    private Integer score;
-
-    @NonNull
-    private Integer level;
+    private Integer dailyAverage;
 
     @NonNull
     private Integer streak;
@@ -65,25 +62,14 @@ public class LanguagePair implements Identifiable {
     }
 
     @NonNull
-    public Integer getScore() {
+    public Integer getDailyAverage() {
 
-        return score;
+        return dailyAverage;
     }
 
-    public void setScore(@NonNull Integer score) {
+    public void setDailyAverage(@NonNull Integer dailyAverage) {
 
-        this.score = score;
-    }
-
-    @NonNull
-    public Integer getLevel() {
-
-        return level;
-    }
-
-    public void setLevel(@NonNull Integer level) {
-
-        this.level = level;
+        this.dailyAverage = dailyAverage;
     }
 
     @NonNull
@@ -102,15 +88,15 @@ public class LanguagePair implements Identifiable {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        LanguagePair that = (LanguagePair) o;
+        Bucket that = (Bucket) o;
         return Objects.equals(id, that.id) && languageLeft.equals(that.languageLeft) &&
-                languageRight.equals(that.languageRight) && score.equals(that.score) &&
-                level.equals(that.level) && streak.equals(that.streak);
+                languageRight.equals(that.languageRight) &&
+                dailyAverage.equals(that.dailyAverage) && streak.equals(that.streak);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, languageLeft, languageRight, score, level, streak);
+        return Objects.hash(id, languageLeft, languageRight, dailyAverage, streak);
     }
 }

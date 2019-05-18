@@ -13,7 +13,7 @@ public interface PhraseRepository {
 
     void update(Phrase phrase);
 
-    LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
+    LiveData<List<Phrase>> findPhrasesForBucketDueBefore(Long bucketId, Instant time);
 
     void insert(Phrase phrase);
 

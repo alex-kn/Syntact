@@ -5,13 +5,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.presentation.hangman.ListItemAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LanguageAdapter extends ListItemAdapter<LanguagePair, LanguageViewHolder> {
+public class LanguageAdapter extends ListItemAdapter<Bucket, LanguageViewHolder> {
 
     private ViewModelCallback viewModelCallback;
 
@@ -32,8 +32,8 @@ public class LanguageAdapter extends ListItemAdapter<LanguagePair, LanguageViewH
 
             int adapterPosition = viewHolder.getAdapterPosition();
             if (adapterPosition != RecyclerView.NO_POSITION) {
-                LanguagePair languagePair = getList().get(adapterPosition);
-                viewModelCallback.delete(languagePair);
+                Bucket bucket = getList().get(adapterPosition);
+                viewModelCallback.delete(bucket);
             }
             return true;
         });

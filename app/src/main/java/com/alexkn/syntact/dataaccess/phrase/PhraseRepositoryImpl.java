@@ -38,10 +38,10 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
-    public LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId,
+    public LiveData<List<Phrase>> findPhrasesForBucketDueBefore(Long bucketId,
             Instant time) {
 
-        return phraseDao.findPhrasesForLanguagePairDueBefore(languagePairId, time);
+        return phraseDao.findPhrasesForBucketDueBefore(bucketId, time);
     }
 
     @Override

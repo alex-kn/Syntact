@@ -43,9 +43,9 @@ public class AddLanguageFragment extends Fragment {
 
         Context context = Objects.requireNonNull(getContext());
         ArrayAdapter<Locale> adapterLeft = new ArrayAdapter<>(context, R.layout.add_language_spinner_label,
-                viewModel.getAvailableLanguagePairs());
+                viewModel.getAvailableBuckets());
         ArrayAdapter<Locale> adapterRight = new ArrayAdapter<>(context, R.layout.add_language_spinner_label,
-                viewModel.getAvailableLanguagePairs());
+                viewModel.getAvailableBuckets());
 
         leftSpinner.setAdapter(adapterLeft);
         rightSpinner.setAdapter(adapterRight);

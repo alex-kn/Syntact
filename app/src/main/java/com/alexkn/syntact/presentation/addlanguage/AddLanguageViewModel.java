@@ -4,27 +4,24 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
-import androidx.core.util.Pair;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.usecase.ManageLanguages;
+import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
 public class AddLanguageViewModel extends AndroidViewModel {
 
-    private final List<Locale> availableLanguagePairs;
+    private final List<Locale> availableBuckets;
 
     @Inject
-    ManageLanguages manageLanguages;
+    ManageBuckets manageBuckets;
 
     private MutableLiveData<List<Locale>> availableLocalesLeft = new MutableLiveData<>();
 
@@ -38,18 +35,18 @@ public class AddLanguageViewModel extends AndroidViewModel {
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
 
-        availableLanguagePairs = manageLanguages.getAvailableLanguagePairs();
+        availableBuckets = manageBuckets.getAvailableBuckets();
 
 
     }
 
     void addLanguage(Locale languageLeft, Locale languageRight) {
 
-        AsyncTask.execute(() -> manageLanguages.addLanguage(languageLeft, languageRight));
+        AsyncTask.execute(() -> manageBuckets.addBucket(languageLeft, languageRight));
     }
 
-    public List<Locale> getAvailableLanguagePairs() {
+    public List<Locale> getAvailableBuckets() {
 
-        return availableLanguagePairs;
+        return availableBuckets;
     }
 }

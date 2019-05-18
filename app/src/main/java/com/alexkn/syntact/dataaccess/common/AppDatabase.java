@@ -7,15 +7,15 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.alexkn.syntact.dataaccess.language.LanguagePairDao;
+import com.alexkn.syntact.dataaccess.bucket.BucketDao;
 import com.alexkn.syntact.dataaccess.letter.LetterDao;
 import com.alexkn.syntact.dataaccess.phrase.PhraseDao;
 import com.alexkn.syntact.dataaccess.util.Converters;
-import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.Phrase;
 
-@Database(entities = {Phrase.class, LanguagePair.class, Letter.class}, version = 10)
+@Database(entities = {Phrase.class, Bucket.class, Letter.class}, version = 11)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -23,7 +23,7 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract PhraseDao phraseDao();
 
-    public abstract LanguagePairDao languagePairDao();
+    public abstract BucketDao bucketDao();
 
     public abstract LetterDao letterDao();
 

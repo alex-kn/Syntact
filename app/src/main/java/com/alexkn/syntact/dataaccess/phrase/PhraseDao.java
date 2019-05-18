@@ -28,8 +28,8 @@ public interface PhraseDao {
     @Delete
     void delete(Phrase phrase);
 
-    @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND languagePairId = :languagePairId ORDER BY lastSolved LIMIT 10")
-    LiveData<List<Phrase>> findPhrasesForLanguagePairDueBefore(Long languagePairId, Instant time);
+    @Query("SELECT * FROM Phrase WHERE nextDueDate < :time AND bucketId = :bucketId ORDER BY lastSolved LIMIT 10")
+    LiveData<List<Phrase>> findPhrasesForBucketDueBefore(Long bucketId, Instant time);
 
     @Query("UPDATE Phrase SET attempt = :newAttempt WHERE id = :id")
     void updateAttempt(Long id, String newAttempt);

@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 public interface LetterRepository {
 
-    LiveData<List<Letter>> find(Long languagePairId, LetterColumn letterColumn);
+    LiveData<List<Letter>> find(Long bucketId, LetterColumn letterColumn);
 
     void insert(List<Letter> letters);
 
@@ -17,5 +17,5 @@ public interface LetterRepository {
 
     void delete(Letter letter);
 
-    void deleteAllLettersForLanguage(Long languagePairId);
+    void deleteAllLettersForLanguage(Long bucketId);
 }

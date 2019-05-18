@@ -14,9 +14,9 @@ import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(indices = {@Index("id"), @Index("languagePairId")},
-        foreignKeys = @ForeignKey(entity = LanguagePair.class, parentColumns = "id",
-                childColumns = "languagePairId", onDelete = CASCADE))
+@Entity(indices = {@Index("id"), @Index("bucketId")},
+        foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
+                childColumns = "bucketId", onDelete = CASCADE))
 public class Phrase implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
@@ -51,7 +51,7 @@ public class Phrase implements Identifiable {
     @NonNull
     private Locale solutionLocale;
 
-    private Long languagePairId;
+    private Long bucketId;
 
     @Override
     public Long getId() {
@@ -173,14 +173,14 @@ public class Phrase implements Identifiable {
         this.solutionLocale = solutionLocale;
     }
 
-    public Long getLanguagePairId() {
+    public Long getBucketId() {
 
-        return languagePairId;
+        return bucketId;
     }
 
-    public void setLanguagePairId(Long languagePairId) {
+    public void setBucketId(Long bucketId) {
 
-        this.languagePairId = languagePairId;
+        this.bucketId = bucketId;
     }
 
     @Override
@@ -196,13 +196,13 @@ public class Phrase implements Identifiable {
                 consecutiveCorrectAnswers.equals(phrase.consecutiveCorrectAnswers) &&
                 timesSolved.equals(phrase.timesSolved) && clueLocale.equals(phrase.clueLocale) &&
                 solutionLocale.equals(phrase.solutionLocale) &&
-                Objects.equals(languagePairId, phrase.languagePairId);
+                Objects.equals(bucketId, phrase.bucketId);
     }
 
     @Override
     public int hashCode() {
 
         return Objects.hash(id, clue, solution, attempt, lastSolved, nextDueDate, easiness,
-                consecutiveCorrectAnswers, timesSolved, clueLocale, solutionLocale, languagePairId);
+                consecutiveCorrectAnswers, timesSolved, clueLocale, solutionLocale, bucketId);
     }
 }

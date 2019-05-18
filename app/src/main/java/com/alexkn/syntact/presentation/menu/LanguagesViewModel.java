@@ -4,7 +4,7 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.usecase.ManageLanguages;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
@@ -19,7 +19,7 @@ import androidx.lifecycle.LiveData;
 
 public class LanguagesViewModel extends AndroidViewModel {
 
-    private final LiveData<List<LanguagePair>> languagePairs;
+    private final LiveData<List<Bucket>> languagePairs;
 
     @Inject
     ManageLanguages manageLanguages;
@@ -36,12 +36,12 @@ public class LanguagesViewModel extends AndroidViewModel {
         languagePairs = manageLanguages.getLanguagePairs();
     }
 
-    public void deleteLanguage(LanguagePair languagePair) {
+    public void deleteLanguage(Bucket bucket) {
 
-        AsyncTask.execute(() -> manageLanguages.removeLanguage(languagePair.getId()));
+        AsyncTask.execute(() -> manageLanguages.removeLanguage(bucket.getId()));
     }
 
-    LiveData<List<LanguagePair>> getLanguagePairs() {
+    LiveData<List<Bucket>> getLanguagePairs() {
 
         return languagePairs;
     }

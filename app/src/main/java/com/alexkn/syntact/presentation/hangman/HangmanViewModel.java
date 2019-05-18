@@ -5,27 +5,22 @@ import android.os.AsyncTask;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.common.LetterColumn;
-import com.alexkn.syntact.domain.model.LanguagePair;
+import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.Phrase;
-import com.alexkn.syntact.domain.usecase.ManageLanguages;
+import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.ManageLetters;
 import com.alexkn.syntact.domain.usecase.ManagePhrases;
 import com.alexkn.syntact.domain.usecase.ManageScore;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import javax.inject.Inject;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class HangmanViewModel extends AndroidViewModel {
 
@@ -33,7 +28,7 @@ public class HangmanViewModel extends AndroidViewModel {
     ManagePhrases managePhrases;
 
     @Inject
-    ManageLanguages manageLanguages;
+    ManageBuckets manageBuckets;
 
     @Inject
     ManageLetters manageLetters;
@@ -43,9 +38,9 @@ public class HangmanViewModel extends AndroidViewModel {
 
     private MediatorLiveData<Integer> maxScore = new MediatorLiveData<>();
 
-    private Long languagePairId;
+    private Long bucketId;
 
-    private LiveData<LanguagePair> languagePair;
+    private LiveData<Bucket> bucket;
 
     private LiveData<List<Phrase>> phrases;
 
@@ -62,9 +57,9 @@ public class HangmanViewModel extends AndroidViewModel {
                 .inject(this);
     }
 
-    public void setLanguagePairId(Long languagePairId) {
+    public void setBucketId(Long bucketId) {
 
-        this.languagePairId = languagePairId;
+        this.bucketId = bucketId;
     }
 
     boolean solve(Phrase solvablePhrase, Letter letter) {
@@ -79,16 +74,16 @@ public class HangmanViewModel extends AndroidViewModel {
 
     public void reloadLetters() {
 
-        manageLetters.reloadLetters(languagePairId);
+        manageLetters.reloadLetters(bucketId);
     }
 
-    public void initLanguage(Long languagePairId) {
+    public void initLanguage(Long bucketId) {
 
-        this.languagePairId = languagePairId;
-        languagePair = manageLanguages.getLanguagePair(languagePairId);
-        phrases = managePhrases.getPhrases(languagePairId);
-        lettersLeft = manageLetters.getLetters(languagePairId, LetterColumn.LEFT);
-        lettersRight = manageLetters.getLetters(languagePairId, LetterColumn.RIGHT);
+        this.bucketId = bucketId;
+        bucket = manageBuckets.getBucket(bucketId);
+        phrases = managePhrases.getPhrases(bucketId);
+        lettersLeft = manageLetters.getLetters(bucketId, LetterColumn.LEFT);
+        lettersRight = manageLetters.getLetters(bucketId, LetterColumn.RIGHT);
     }
 
     public int calculateMaxScoreForLevel(int level) {
@@ -111,8 +106,8 @@ public class HangmanViewModel extends AndroidViewModel {
         return lettersRight;
     }
 
-    LiveData<LanguagePair> getLanguagePair() {
+    LiveData<Bucket> getBucket() {
 
-        return languagePair;
+        return bucket;
     }
 }

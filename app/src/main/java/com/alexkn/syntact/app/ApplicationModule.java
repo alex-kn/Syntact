@@ -2,10 +2,10 @@ package com.alexkn.syntact.app;
 
 import android.app.Application;
 
-import com.alexkn.syntact.dataaccess.language.LanguagePairRepositoryImpl;
+import com.alexkn.syntact.dataaccess.bucket.BucketRepositoryImpl;
 import com.alexkn.syntact.dataaccess.letter.LetterRepositoryImpl;
 import com.alexkn.syntact.dataaccess.phrase.PhraseRepositoryImpl;
-import com.alexkn.syntact.domain.repository.LanguagePairRepository;
+import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.LetterRepository;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 
@@ -40,10 +40,10 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    LanguagePairRepository provideActiveLanguagePairRepository(
-            LanguagePairRepositoryImpl languagePairRepository) {
+    BucketRepository provideActiveBucketRepository(
+            BucketRepositoryImpl bucketRepository) {
 
-        return languagePairRepository;
+        return bucketRepository;
     }
 
     @Provides

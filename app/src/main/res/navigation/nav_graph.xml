@@ -28,7 +28,7 @@
         android:label="fragment_hangman_board"
         tools:layout="@layout/hangman_board_fragment" >
         <argument
-            android:name="languagePairId"
+            android:name="bucketId"
             app:argType="long" />
     </fragment>
     <fragment

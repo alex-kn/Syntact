@@ -13,9 +13,9 @@ import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(indices = {@Index("id"), @Index("languagePairId")},
-        foreignKeys = @ForeignKey(entity = LanguagePair.class, parentColumns = "id",
-                childColumns = "languagePairId", onDelete = CASCADE))
+@Entity(indices = {@Index("id"), @Index("bucketId")},
+        foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
+                childColumns = "bucketId", onDelete = CASCADE))
 public class Letter implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
@@ -27,7 +27,7 @@ public class Letter implements Identifiable {
     @NonNull
     private LetterColumn letterColumn;
 
-    private Long languagePairId;
+    private Long bucketId;
 
     @NonNull
     @Override
@@ -69,14 +69,14 @@ public class Letter implements Identifiable {
         this.letterColumn = letterColumn;
     }
 
-    public Long getLanguagePairId() {
+    public Long getBucketId() {
 
-        return languagePairId;
+        return bucketId;
     }
 
-    public void setLanguagePairId(Long languagePairId) {
+    public void setBucketId(Long bucketId) {
 
-        this.languagePairId = languagePairId;
+        this.bucketId = bucketId;
     }
 
     @Override
@@ -87,13 +87,13 @@ public class Letter implements Identifiable {
         Letter letter = (Letter) o;
         return Objects.equals(id, letter.id) && character.equals(letter.character) &&
                 letterColumn == letter.letterColumn &&
-                Objects.equals(languagePairId, letter.languagePairId);
+                Objects.equals(bucketId, letter.bucketId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, character, letterColumn, languagePairId);
+        return Objects.hash(id, character, letterColumn, bucketId);
     }
 }
 

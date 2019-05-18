@@ -59,9 +59,9 @@ public class HangmanBoardFragment extends Fragment {
         View view = inflater.inflate(R.layout.hangman_board_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
 
-        Long languagePairId = HangmanBoardFragmentArgs.fromBundle(getArguments())
-                .getLanguagePairId();
-        viewModel.initLanguage(languagePairId);
+        Long bucketId = HangmanBoardFragmentArgs.fromBundle(getArguments())
+                .getBucketId();
+        viewModel.initLanguage(bucketId);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
         cardsView.setHasFixedSize(true);
@@ -69,7 +69,6 @@ public class HangmanBoardFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         phraseListAdapter = new PhraseListAdapter(viewModel::solve);
-        cardsView.setItemAnimator(new PhraseItemAnimator());
         phraseListAdapter
                 .registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);

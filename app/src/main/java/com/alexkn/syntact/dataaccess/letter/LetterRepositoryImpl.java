@@ -26,9 +26,9 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public LiveData<List<Letter>> find(Long languagePairId, LetterColumn letterColumn) {
+    public LiveData<List<Letter>> find(Long bucketId, LetterColumn letterColumn) {
 
-        return letterDao.find(languagePairId, letterColumn);
+        return letterDao.find(bucketId, letterColumn);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
-    public void deleteAllLettersForLanguage(Long languagePairId) {
-        letterDao.deleteAllLettersForLanguage(languagePairId);
+    public void deleteAllLettersForLanguage(Long bucketId) {
+        letterDao.deleteAllLettersForLanguage(bucketId);
     }
 }
