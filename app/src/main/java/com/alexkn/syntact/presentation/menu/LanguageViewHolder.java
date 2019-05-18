@@ -13,18 +13,14 @@ import androidx.navigation.Navigation;
 
 public class LanguageViewHolder extends ListItemViewHolder<Bucket> {
 
-
     private final TextView languageLabel;
 
-    private final View startButton;
-
-    Bucket bucket;
+    private Bucket bucket;
 
     LanguageViewHolder(View v) {
 
         super(v);
         languageLabel = v.findViewById(R.id.langLabel);
-        startButton = v.findViewById(R.id.langStartButton);
     }
 
     @Override
@@ -32,16 +28,16 @@ public class LanguageViewHolder extends ListItemViewHolder<Bucket> {
 
         this.bucket = bucket;
 
-           String languageFrom = bucket.getLanguageLeft().getDisplayLanguage();
-            String languageTo = bucket.getLanguageRight().getDisplayLanguage();
+        String languageFrom = bucket.getLanguageLeft().getDisplayLanguage();
+        String languageTo = bucket.getLanguageRight().getDisplayLanguage();
 
         languageLabel.setText(languageFrom + " - " + languageTo);
 
-        startButton.setOnClickListener(this::startHangman);
-
+        itemView.setOnClickListener(this::startHangman);
     }
 
     private void startHangman(View view) {
+
         MainMenuFragmentDirections.ActionMainMenuFragmentToHangmanBoardFragment action = MainMenuFragmentDirections
                 .actionMainMenuFragmentToHangmanBoardFragment(bucket.getId());
         Navigation.findNavController(view).navigate(action);

@@ -32,7 +32,7 @@ public class PhraseGenerator {
     @Inject
     PhraseGenerator() {}
 
-    public ArrayList<Phrase> generateGermanEnglishPhrases() {
+    public List<Phrase> generateGermanEnglishPhrases() {
 
         ArrayList<Phrase> phrases = new ArrayList<>();
 
@@ -49,13 +49,14 @@ public class PhraseGenerator {
                     Phrase phrase = new Phrase();
                     phrase.setClue(clue);
                     phrase.setSolution(solution);
-                    phrase.setAttempt(StringUtils
-                            .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
+                    phrase.setAttempt(StringUtils.repeat(application.getString(R.string.empty),
+                            phrase.getSolution().length()));
                     phrase.setConsecutiveCorrectAnswers(0);
                     phrase.setEasiness(2.5f);
                     phrase.setNextDueDate(Instant.now());
                     phrase.setClueLocale(Locale.GERMAN);
                     phrase.setSolutionLocale(Locale.ENGLISH);
+                    phrase.setTimesSolved(0);
                     phrases.add(phrase);
                 }
             }
@@ -64,10 +65,10 @@ public class PhraseGenerator {
             Log.e(TAG, "GenerateCharactersUseCase: Error reading JSON", e);
         }
         return phrases;
-
     }
 
     public List<Phrase> generatePhrasesForLocale(Locale left, Locale right) {
+
         return Collections.emptyList();
     }
 }

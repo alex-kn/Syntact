@@ -23,10 +23,6 @@ public class AddLanguageViewModel extends AndroidViewModel {
     @Inject
     ManageBuckets manageBuckets;
 
-    private MutableLiveData<List<Locale>> availableLocalesLeft = new MutableLiveData<>();
-
-    private MutableLiveData<List<Locale>> availableLocalesRight = new MutableLiveData<>();
-
     public AddLanguageViewModel(@NonNull Application application) {
 
         super(application);

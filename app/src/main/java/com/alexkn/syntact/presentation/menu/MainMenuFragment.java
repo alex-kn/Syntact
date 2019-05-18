@@ -9,6 +9,7 @@ import com.alexkn.syntact.R;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -26,7 +27,7 @@ public class MainMenuFragment extends Fragment {
             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
-//        View button = view.findViewById(R.id.addLanguageButton);
+        View button = view.findViewById(R.id.newBucketFab);
 
         viewModel = ViewModelProviders.of(getActivity()).get(LanguagesViewModel.class);
 
@@ -41,7 +42,7 @@ public class MainMenuFragment extends Fragment {
         languagesList.setHasFixedSize(true);
 
         viewModel.getBuckets().observe(getViewLifecycleOwner(), languageAdapter::submitList);
-//        button.setOnClickListener(this::newLanguage);
+        button.setOnClickListener(this::newLanguage);
 
         return view;
     }
