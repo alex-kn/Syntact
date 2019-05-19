@@ -4,7 +4,9 @@ import android.app.Application;
 import android.util.Log;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.model.Clue;
+import com.alexkn.syntact.domain.model.Solution;
+import com.alexkn.syntact.domain.model.SolvableItem;
 
 import org.apache.commons.io.IOUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -32,9 +34,9 @@ public class PhraseGenerator {
     @Inject
     PhraseGenerator() {}
 
-    public List<Phrase> generateGermanEnglishPhrases() {
+    public List<SolvableItem> generateGermanEnglishPhrases() {
 
-        ArrayList<Phrase> phrases = new ArrayList<>();
+        ArrayList<SolvableItem> solvableItems = new ArrayList<>();
 
         try {
 
@@ -44,30 +46,37 @@ public class PhraseGenerator {
                 JSONArray frequencyList = new JSONArray(s);
                 for (int i = 0; i < frequencyList.length(); i++) {
                     JSONObject jsonObject = frequencyList.getJSONObject(i);
-                    String clue = jsonObject.getString("clue");
-                    String solution = jsonObject.getString("solution");
-                    Phrase phrase = new Phrase();
-                    phrase.setClue(clue);
-                    phrase.setSolution(solution);
-                    phrase.setAttempt(StringUtils.repeat(application.getString(R.string.empty),
-                            phrase.getSolution().length()));
-                    phrase.setConsecutiveCorrectAnswers(0);
-                    phrase.setEasiness(2.5f);
-                    phrase.setNextDueDate(Instant.now());
-                    phrase.setClueLocale(Locale.GERMAN);
-                    phrase.setSolutionLocale(Locale.ENGLISH);
-                    phrase.setTimesSolved(0);
-                    phrases.add(phrase);
+                    String clueText = jsonObject.getString("clue");
+                    String solutionText = jsonObject.getString("solution");
+                    SolvableItem solvableItem = new SolvableItem();
+
+                    Clue clue = new Clue();
+                    clue.setText(clueText);
+                    clue.setLanguage(Locale.GERMAN);
+                    Solution solution = new Solution();
+                    solution.setText(solutionText);
+                    solution.setLanguage(Locale.ENGLISH);
+
+                    solvableItem.setClue(clue);
+                    solvableItem.setSolution(solution);
+                    solvableItem.setAttempt(StringUtils
+                            .repeat(application.getString(R.string.empty),
+                                    solutionText.length()));
+                    solvableItem.setConsecutiveCorrectAnswers(0);
+                    solvableItem.setEasiness(2.5f);
+                    solvableItem.setNextDueDate(Instant.now());
+                    solvableItem.setTimesSolved(0);
+                    solvableItems.add(solvableItem);
                 }
             }
         } catch (Exception e) {
 
             Log.e(TAG, "GenerateCharactersUseCase: Error reading JSON", e);
         }
-        return phrases;
+        return solvableItems;
     }
 
-    public List<Phrase> generatePhrasesForLocale(Locale left, Locale right) {
+    public List<SolvableItem> generatePhrasesForLocale(Locale left, Locale right) {
 
         return Collections.emptyList();
     }

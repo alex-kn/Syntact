@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -17,16 +18,10 @@ import static androidx.room.ForeignKey.CASCADE;
 @Entity(indices = {@Index("id"), @Index("bucketId")},
         foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
                 childColumns = "bucketId", onDelete = CASCADE))
-public class Phrase implements Identifiable {
+public class SolvableItem implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
-
-    @NonNull
-    private String clue;
-
-    @NonNull
-    private String solution;
 
     @NonNull
     private String attempt;
@@ -45,11 +40,13 @@ public class Phrase implements Identifiable {
     @NonNull
     private Integer timesSolved;
 
+    @Embedded(prefix = "clue_")
     @NonNull
-    private Locale clueLocale;
+    private Clue clue;
 
+    @Embedded(prefix = "solution_")
     @NonNull
-    private Locale solutionLocale;
+    private Solution solution;
 
     private Long bucketId;
 
@@ -62,28 +59,6 @@ public class Phrase implements Identifiable {
     public void setId(Long id) {
 
         this.id = id;
-    }
-
-    @NonNull
-    public String getClue() {
-
-        return clue;
-    }
-
-    public void setClue(@NonNull String clue) {
-
-        this.clue = clue;
-    }
-
-    @NonNull
-    public String getSolution() {
-
-        return solution;
-    }
-
-    public void setSolution(@NonNull String solution) {
-
-        this.solution = solution;
     }
 
     @NonNull
@@ -152,25 +127,25 @@ public class Phrase implements Identifiable {
     }
 
     @NonNull
-    public Locale getClueLocale() {
+    public Clue getClue() {
 
-        return clueLocale;
+        return clue;
     }
 
-    public void setClueLocale(@NonNull Locale clueLocale) {
+    public void setClue(@NonNull Clue clue) {
 
-        this.clueLocale = clueLocale;
+        this.clue = clue;
     }
 
     @NonNull
-    public Locale getSolutionLocale() {
+    public Solution getSolution() {
 
-        return solutionLocale;
+        return solution;
     }
 
-    public void setSolutionLocale(@NonNull Locale solutionLocale) {
+    public void setSolution(@NonNull Solution solution) {
 
-        this.solutionLocale = solutionLocale;
+        this.solution = solution;
     }
 
     public Long getBucketId() {
@@ -188,21 +163,20 @@ public class Phrase implements Identifiable {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Phrase phrase = (Phrase) o;
-        return Objects.equals(id, phrase.id) && clue.equals(phrase.clue) &&
-                solution.equals(phrase.solution) && attempt.equals(phrase.attempt) &&
-                Objects.equals(lastSolved, phrase.lastSolved) &&
-                nextDueDate.equals(phrase.nextDueDate) && easiness.equals(phrase.easiness) &&
-                consecutiveCorrectAnswers.equals(phrase.consecutiveCorrectAnswers) &&
-                timesSolved.equals(phrase.timesSolved) && clueLocale.equals(phrase.clueLocale) &&
-                solutionLocale.equals(phrase.solutionLocale) &&
-                Objects.equals(bucketId, phrase.bucketId);
+        SolvableItem that = (SolvableItem) o;
+        return Objects.equals(id, that.id) && attempt.equals(that.attempt) &&
+                Objects.equals(lastSolved, that.lastSolved) &&
+                nextDueDate.equals(that.nextDueDate) && easiness.equals(that.easiness) &&
+                consecutiveCorrectAnswers.equals(that.consecutiveCorrectAnswers) &&
+                timesSolved.equals(that.timesSolved) && clue.equals(that.clue) &&
+                solution.equals(that.solution) && Objects.equals(bucketId, that.bucketId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, clue, solution, attempt, lastSolved, nextDueDate, easiness,
-                consecutiveCorrectAnswers, timesSolved, clueLocale, solutionLocale, bucketId);
+        return Objects
+                .hash(id, attempt, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers,
+                        timesSolved, clue, solution, bucketId);
     }
 }

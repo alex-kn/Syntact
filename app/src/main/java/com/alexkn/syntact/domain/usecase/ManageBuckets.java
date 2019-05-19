@@ -36,13 +36,7 @@ public class ManageBuckets {
 
     public void addBucket(Locale languageLeft, Locale languageRight) {
 
-        if (bucketRepository.bucketExists(languageLeft, languageRight)) {
-            return;
-        }
-
         Bucket activeBucket = new Bucket();
-        activeBucket.setLanguageLeft(languageLeft);
-        activeBucket.setLanguageRight(languageRight);
         activeBucket.setStreak(0);
         activeBucket.setDailyAverage(0);
         Long insertedLanguageId = bucketRepository.insert(activeBucket);

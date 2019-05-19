@@ -2,6 +2,7 @@ package com.alexkn.syntact.presentation.addlanguage;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,8 @@ import android.widget.Spinner;
 
 import com.alexkn.syntact.R;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -19,16 +22,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AddLanguageFragment extends Fragment {
+
+    private static final String TAG = AddLanguageFragment.class.getSimpleName();
 
     private AddLanguageViewModel viewModel;
 
     private View addButton;
 
-    private Spinner leftSpinner;
+    private Locale selectedSourceLanguage;
 
-    private Spinner rightSpinner;
+    private Locale selectedTargetLanguage;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -37,25 +44,27 @@ public class AddLanguageFragment extends Fragment {
         View view = inflater.inflate(R.layout.add_language_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(AddLanguageViewModel.class);
 
-        addButton = view.findViewById(R.id.addButton);
-        leftSpinner = view.findViewById(R.id.langaugeLeftSpinner);
-        rightSpinner = view.findViewById(R.id.langaugeRightSpinner);
+        addButton = view.findViewById(R.id.addBucketButton);
 
-        Context context = Objects.requireNonNull(getContext());
-        ArrayAdapter<Locale> adapterLeft = new ArrayAdapter<>(context, R.layout.add_language_spinner_label,
-                viewModel.getAvailableBuckets());
-        ArrayAdapter<Locale> adapterRight = new ArrayAdapter<>(context, R.layout.add_language_spinner_label,
-                viewModel.getAvailableBuckets());
+        List<Locale> languages = viewModel.getAvailableBuckets();
+        List<List<Locale>> dataset = Arrays.asList(languages, languages);
+        selectedTargetLanguage = languages.get(0);
+        selectedSourceLanguage = languages.get(0);
 
-        leftSpinner.setAdapter(adapterLeft);
-        rightSpinner.setAdapter(adapterRight);
-
-        AdapterView.OnItemSelectedListener listener = new OnLanguageSelectedItemListener();
-        leftSpinner.setOnItemSelectedListener(listener);
-        rightSpinner.setOnItemSelectedListener(listener);
+        RecyclerView recyclerView = view.findViewById(R.id.bucketOptionRecyclerView);
+        recyclerView.setLayoutManager(
+                new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
+        recyclerView.setAdapter(new BucketOptionsAdapter(dataset, (integer, locale) -> {
+            if (integer == 0) {
+                selectedSourceLanguage = locale;
+            } else if (integer == 1) {
+                selectedTargetLanguage = locale;
+            }
+        }));
 
         addButton.setOnClickListener(v -> {
-            viewModel.addLanguage((Locale) leftSpinner.getSelectedItem(), (Locale) rightSpinner.getSelectedItem());
+
+            viewModel.addLanguage(selectedSourceLanguage, selectedTargetLanguage);
             Navigation.findNavController(view).popBackStack();
         });
 
@@ -67,27 +76,5 @@ public class AddLanguageFragment extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
         viewModel = ViewModelProviders.of(this).get(AddLanguageViewModel.class);
-    }
-
-    private class OnLanguageSelectedItemListener implements AdapterView.OnItemSelectedListener {
-
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            checkValidLanguages();
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-            checkValidLanguages();
-        }
-
-        private void checkValidLanguages() {
-
-            Locale localeLeft = (Locale) leftSpinner.getSelectedItem();
-            Locale localeRight = (Locale) rightSpinner.getSelectedItem();
-            addButton.setEnabled(!localeLeft.equals(localeRight));
-        }
     }
 }

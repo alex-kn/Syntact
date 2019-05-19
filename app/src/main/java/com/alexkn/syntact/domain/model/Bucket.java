@@ -17,12 +17,6 @@ public class Bucket implements Identifiable {
     private Long id;
 
     @NonNull
-    private Locale languageLeft;
-
-    @NonNull
-    private Locale languageRight;
-
-    @NonNull
     private Integer dailyAverage;
 
     @NonNull
@@ -37,28 +31,6 @@ public class Bucket implements Identifiable {
     public void setId(Long id) {
 
         this.id = id;
-    }
-
-    @NonNull
-    public Locale getLanguageLeft() {
-
-        return languageLeft;
-    }
-
-    public void setLanguageLeft(@NonNull Locale languageLeft) {
-
-        this.languageLeft = languageLeft;
-    }
-
-    @NonNull
-    public Locale getLanguageRight() {
-
-        return languageRight;
-    }
-
-    public void setLanguageRight(@NonNull Locale languageRight) {
-
-        this.languageRight = languageRight;
     }
 
     @NonNull
@@ -88,15 +60,14 @@ public class Bucket implements Identifiable {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Bucket that = (Bucket) o;
-        return Objects.equals(id, that.id) && languageLeft.equals(that.languageLeft) &&
-                languageRight.equals(that.languageRight) &&
-                dailyAverage.equals(that.dailyAverage) && streak.equals(that.streak);
+        Bucket bucket = (Bucket) o;
+        return Objects.equals(id, bucket.id) && dailyAverage.equals(bucket.dailyAverage) &&
+                streak.equals(bucket.streak);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, languageLeft, languageRight, dailyAverage, streak);
+        return Objects.hash(id, dailyAverage, streak);
     }
 }

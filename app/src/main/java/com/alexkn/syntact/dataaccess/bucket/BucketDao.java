@@ -27,9 +27,6 @@ public interface BucketDao {
     @Update
     void update(Bucket bucket);
 
-    @Query("SELECT EXISTS(SELECT 1 FROM Bucket WHERE languageLeft = :left AND languageRight = :right)")
-    boolean bucketExists(Locale left, Locale right);
-
     @Query("SELECT * FROM Bucket where id = :id")
     Bucket find(Long id);
 

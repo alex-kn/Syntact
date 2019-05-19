@@ -28,10 +28,7 @@ public class LanguageViewHolder extends ListItemViewHolder<Bucket> {
 
         this.bucket = bucket;
 
-        String languageFrom = bucket.getLanguageLeft().getDisplayLanguage();
-        String languageTo = bucket.getLanguageRight().getDisplayLanguage();
-
-        languageLabel.setText(languageFrom + " - " + languageTo);
+        languageLabel.setText("Bucket");
 
         itemView.setOnClickListener(this::startHangman);
     }

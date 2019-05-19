@@ -1,9 +1,9 @@
 package com.alexkn.syntact.presentation.hangman;
 
 import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.model.SolvableItem;
 
 public interface ViewModelCallback {
 
-    boolean handleDrop(Phrase solvablePhrase, Letter letter);
+    boolean handleDrop(SolvableItem solvableSolvableItem, Letter letter);
 }

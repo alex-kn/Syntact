@@ -7,7 +7,7 @@ import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.ManageLetters;
 import com.alexkn.syntact.domain.usecase.ManagePhrases;
@@ -36,13 +36,11 @@ public class HangmanViewModel extends AndroidViewModel {
     @Inject
     ManageScore manageScore;
 
-    private MediatorLiveData<Integer> maxScore = new MediatorLiveData<>();
-
     private Long bucketId;
 
     private LiveData<Bucket> bucket;
 
-    private LiveData<List<Phrase>> phrases;
+    private LiveData<List<SolvableItem>> phrases;
 
     private LiveData<List<Letter>> lettersLeft;
 
@@ -62,10 +60,10 @@ public class HangmanViewModel extends AndroidViewModel {
         this.bucketId = bucketId;
     }
 
-    boolean solve(Phrase solvablePhrase, Letter letter) {
+    boolean solve(SolvableItem solvableSolvableItem, Letter letter) {
 
-        boolean successful = managePhrases.isLetterCorrect(solvablePhrase, letter.getCharacter());
-        AsyncTask.execute(() -> managePhrases.makeAttempt(solvablePhrase, letter.getCharacter()));
+        boolean successful = managePhrases.isLetterCorrect(solvableSolvableItem, letter.getCharacter());
+        AsyncTask.execute(() -> managePhrases.makeAttempt(solvableSolvableItem, letter.getCharacter()));
         if (successful) {
             AsyncTask.execute(() -> manageLetters.replaceLetter(letter));
         }
@@ -91,7 +89,7 @@ public class HangmanViewModel extends AndroidViewModel {
         return manageScore.calculateMaxForLevel(level);
     }
 
-    LiveData<List<Phrase>> getSolvablePhrases() {
+    LiveData<List<SolvableItem>> getSolvablePhrases() {
 
         return phrases;
     }

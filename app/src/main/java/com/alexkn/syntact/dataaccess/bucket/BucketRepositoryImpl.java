@@ -50,12 +50,6 @@ public class BucketRepositoryImpl implements BucketRepository {
     }
 
     @Override
-    public boolean bucketExists(Locale left, Locale right) {
-
-        return bucketDao.bucketExists(left, right);
-    }
-
-    @Override
     public LiveData<List<Bucket>> findAllBuckets() {
 
         return bucketDao.findAll();

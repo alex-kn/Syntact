@@ -3,7 +3,7 @@ package com.alexkn.syntact.domain.usecase;
 import android.app.Application;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 import com.alexkn.syntact.domain.service.PhraseGenerator;
 
@@ -41,54 +41,55 @@ public class ManagePhrases {
     @Inject
     ManagePhrases() { }
 
-    public void makeAttempt(Phrase phrase, Character character) {
+    public void makeAttempt(SolvableItem solvableItem, Character character) {
 
-        String attempt = updateCurrentAttempt(phrase, character);
+        String attempt = updateCurrentAttempt(solvableItem, character);
         if (!attempt.contains(application.getString(R.string.empty))) {
-            solvePhrase(phrase);
+            solvePhrase(solvableItem);
         } else {
-            phraseRepository.updateAttempt(phrase.getId(), attempt);
+            phraseRepository.updateAttempt(solvableItem.getId(), attempt);
         }
     }
 
-    private void solvePhrase(Phrase phrase) {
+    private void solvePhrase(SolvableItem solvableItem) {
 
         int performanceRating = 3;
-        float easiness = phrase.getEasiness();
+        float easiness = solvableItem.getEasiness();
         easiness += -0.80 + 0.28 * performanceRating + 0.02 * performanceRating * performanceRating;
 
-        int consecutiveCorrectAnswers = phrase.getConsecutiveCorrectAnswers() + 1;
+        int consecutiveCorrectAnswers = solvableItem.getConsecutiveCorrectAnswers() + 1;
 
         double daysToAdd = 6 * Math.pow(easiness, consecutiveCorrectAnswers - 1d);
         Instant nextDueDate = Instant.now().plus(Math.round(daysToAdd), ChronoUnit.DAYS);
 
-        phrase.setEasiness(easiness);
-        phrase.setConsecutiveCorrectAnswers(consecutiveCorrectAnswers);
-        phrase.setNextDueDate(nextDueDate);
-        phrase.setLastSolved(Instant.now());
-        phrase.setAttempt(StringUtils
-                .repeat(application.getString(R.string.empty), phrase.getSolution().length()));
+        solvableItem.setEasiness(easiness);
+        solvableItem.setConsecutiveCorrectAnswers(consecutiveCorrectAnswers);
+        solvableItem.setNextDueDate(nextDueDate);
+        solvableItem.setLastSolved(Instant.now());
+        solvableItem.setAttempt(StringUtils
+                .repeat(application.getString(R.string.empty), solvableItem.getSolution().getText().length()));
 
-        phraseRepository.update(phrase);
+        phraseRepository.update(solvableItem);
     }
 
-    private String updateCurrentAttempt(Phrase phrase, Character character) {
+    private String updateCurrentAttempt(SolvableItem solvableItem, Character character) {
 
-        String solution = phrase.getSolution();
+        String solution = solvableItem.getSolution().getText();
+
         IntStream indices = IntStream.range(0, solution.length()).filter(i -> StringUtils
                 .equalsIgnoreCase(character.toString(), String.valueOf(solution.charAt(i))));
-        StringBuilder newCurrentText = new StringBuilder(phrase.getAttempt());
+        StringBuilder newCurrentText = new StringBuilder(solvableItem.getAttempt());
         indices.forEach(i -> newCurrentText.setCharAt(i, character));
         return newCurrentText.toString();
     }
 
-    public boolean isLetterCorrect(Phrase solvablePhrase, Character character) {
+    public boolean isLetterCorrect(SolvableItem solvableSolvableItem, Character character) {
 
-        return StringUtils.containsIgnoreCase(solvablePhrase.getSolution(), character.toString()) &&
-                !StringUtils.containsIgnoreCase(solvablePhrase.getAttempt(), character.toString());
+        return StringUtils.containsIgnoreCase(solvableSolvableItem.getSolution().getText(), character.toString()) &&
+                !StringUtils.containsIgnoreCase(solvableSolvableItem.getAttempt(), character.toString());
     }
 
-    public LiveData<List<Phrase>> getPhrases(Long bucketId) {
+    public LiveData<List<SolvableItem>> getPhrases(Long bucketId) {
 
         return phraseRepository.findPhrasesForBucketDueBefore(bucketId, Instant.now());
     }
@@ -99,14 +100,14 @@ public class ManagePhrases {
         List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
 
         if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
-            ArrayList<Phrase> phrases = phraseGenerator.generateGermanEnglishPhrases();
-            phrases.forEach(phrase -> {
+            List<SolvableItem> solvableItems = phraseGenerator.generateGermanEnglishPhrases();
+            solvableItems.forEach(phrase -> {
                 phrase.setBucketId(insertedLanguageId);
                 specialCharacters.forEach(
                         character -> phrase.setAttempt(updateCurrentAttempt(phrase, character)));
             });
-            Collections.shuffle(phrases);
-            phraseRepository.insert(phrases);
+            Collections.shuffle(solvableItems);
+            phraseRepository.insert(solvableItems);
         }
     }
 }

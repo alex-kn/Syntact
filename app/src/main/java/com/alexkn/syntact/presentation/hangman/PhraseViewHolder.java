@@ -1,15 +1,12 @@
 package com.alexkn.syntact.presentation.hangman;
 
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.model.SolvableItem;
 
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
-
-public class PhraseViewHolder extends ListItemViewHolder<Phrase> {
+public class PhraseViewHolder extends ListItemViewHolder<SolvableItem> {
 
     private TextView clueTextView;
 
@@ -39,15 +36,15 @@ public class PhraseViewHolder extends ListItemViewHolder<Phrase> {
     }
 
     @Override
-    public void bindTo(Phrase phrase) {
+    public void bindTo(SolvableItem solvableItem) {
 
         if (clueTextView != null) {
-            clueTextView.setText(phrase.getClue());
+            clueTextView.setText(solvableItem.getClue().getText());
         }
         if (solutionTextView != null) {
-            solutionTextView.setText(phrase.getAttempt());
+            solutionTextView.setText(solvableItem.getAttempt());
         }
-        clue = phrase.getClue();
-        solution = phrase.getAttempt();
+        clue = solvableItem.getClue().getText();
+        solution = solvableItem.getAttempt();
     }
 }

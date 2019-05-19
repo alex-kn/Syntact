@@ -17,8 +17,6 @@ public interface BucketRepository {
 
     Bucket find(Long id);
 
-    boolean bucketExists(Locale left, Locale right);
-
     LiveData<List<Bucket>> findAllBuckets();
 
     LiveData<Bucket> findBucket(Long id);

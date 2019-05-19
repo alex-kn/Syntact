@@ -4,16 +4,15 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.Phrase;
+import com.alexkn.syntact.domain.model.SolvableItem;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder> {
+public class PhraseListAdapter extends ListItemAdapter<SolvableItem, PhraseViewHolder> {
 
     private ViewModelCallback viewModelCallback;
 
@@ -35,26 +34,13 @@ public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder>
                 int adapterPosition = viewHolder.getAdapterPosition();
                 Letter letter = (Letter) event.getLocalState();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    Phrase solvablePhrase = this.getList().get(adapterPosition);
-                    return viewModelCallback.handleDrop(solvablePhrase, letter);
+                    SolvableItem solvableSolvableItem = this.getList().get(adapterPosition);
+                    return viewModelCallback.handleDrop(solvableSolvableItem, letter);
                 }
             }
             v.invalidate();
             return true;
         });
-
-        //        viewHolder.itemView.setOnDragListener((v, event) -> {
-        //            if (event.getAction() == DragEvent.ACTION_DROP) {
-        //                int adapterPosition = viewHolder.getAdapterPosition();
-        //                Letter letter = (Letter) event.getLocalState();
-        //                if (adapterPosition != RecyclerView.NO_POSITION) {
-        //                    Phrase solvablePhrase = this.getList().get(adapterPosition);
-        //                    return viewModelCallback.handleDrop(solvablePhrase, letter);
-        //                }
-        //            }
-        //            v.invalidate();
-        //            return true;
-        //        });
 
         return viewHolder;
     }
@@ -62,8 +48,8 @@ public class PhraseListAdapter extends ListItemAdapter<Phrase, PhraseViewHolder>
     @Override
     public void onBindViewHolder(@NonNull PhraseViewHolder holder, int position) {
 
-        Phrase phrase = getList().get(position);
-        holder.bindTo(phrase);
+        SolvableItem solvableItem = getList().get(position);
+        holder.bindTo(solvableItem);
     }
 }
 
