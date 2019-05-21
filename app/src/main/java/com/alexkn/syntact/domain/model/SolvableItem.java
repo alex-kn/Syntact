@@ -23,6 +23,8 @@ public class SolvableItem implements Identifiable {
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
+    private Long phraseId;
+
     @NonNull
     private String attempt;
 
@@ -158,14 +160,25 @@ public class SolvableItem implements Identifiable {
         this.bucketId = bucketId;
     }
 
+
+    public Long getPhraseId() {
+
+        return phraseId;
+    }
+
+    public void setPhraseId(Long phraseId) {
+
+        this.phraseId = phraseId;
+    }
+
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SolvableItem that = (SolvableItem) o;
-        return Objects.equals(id, that.id) && attempt.equals(that.attempt) &&
-                Objects.equals(lastSolved, that.lastSolved) &&
+        return Objects.equals(id, that.id) && Objects.equals(phraseId, that.phraseId) &&
+                attempt.equals(that.attempt) && Objects.equals(lastSolved, that.lastSolved) &&
                 nextDueDate.equals(that.nextDueDate) && easiness.equals(that.easiness) &&
                 consecutiveCorrectAnswers.equals(that.consecutiveCorrectAnswers) &&
                 timesSolved.equals(that.timesSolved) && clue.equals(that.clue) &&
@@ -175,8 +188,7 @@ public class SolvableItem implements Identifiable {
     @Override
     public int hashCode() {
 
-        return Objects
-                .hash(id, attempt, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers,
-                        timesSolved, clue, solution, bucketId);
+        return Objects.hash(id, phraseId, attempt, lastSolved, nextDueDate, easiness,
+                consecutiveCorrectAnswers, timesSolved, clue, solution, bucketId);
     }
 }

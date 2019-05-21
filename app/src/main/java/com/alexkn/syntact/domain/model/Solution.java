@@ -12,6 +12,16 @@ public class Solution {
 
     private Locale language;
 
+    public Solution() {
+
+    }
+
+    public Solution(@NonNull String text, Locale language) {
+
+        this.text = text;
+        this.language = language;
+    }
+
     @NonNull
     public String getText() {
 

@@ -18,10 +18,4 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
-
-    public void startGame(View view) {
-
-//        Intent intent = new Intent(this, HangmanActivity.class);
-//        startActivity(intent);
-    }
 }

@@ -12,6 +12,16 @@ public class Clue {
 
     private Locale language;
 
+    public Clue() {
+
+    }
+
+    public Clue(@NonNull String text, Locale language) {
+
+        this.text = text;
+        this.language = language;
+    }
+
     @NonNull
     public String getText() {
 

@@ -3,19 +3,18 @@ package com.alexkn.syntact.presentation.menu;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 public class LanguagesViewModel extends AndroidViewModel {
 
@@ -32,7 +31,6 @@ public class LanguagesViewModel extends AndroidViewModel {
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
 
-        AsyncTask.execute(() -> manageBuckets.addBucket(Locale.GERMAN, Locale.CHINESE));
         buckets = manageBuckets.getBuckets();
     }
 

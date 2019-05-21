@@ -8,11 +8,16 @@ import com.alexkn.syntact.dataaccess.phrase.PhraseRepositoryImpl;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.LetterRepository;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
+import com.alexkn.syntact.restservice.SyntactService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 class ApplicationModule {
@@ -22,6 +27,18 @@ class ApplicationModule {
     public ApplicationModule(SyntactApplication syntactApplication) {
 
         this.syntactApplication = syntactApplication;
+    }
+
+    @Singleton
+    @Provides
+    SyntactService provideSyntactService() {
+
+        Gson gson = new GsonBuilder().setLenient().create();
+
+        return new Retrofit.Builder()
+                .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/")
+                .addConverterFactory(GsonConverterFactory.create(gson)).build()
+                .create(SyntactService.class);
     }
 
     @Provides

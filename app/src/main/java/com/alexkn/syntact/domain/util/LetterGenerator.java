@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.service;
+package com.alexkn.syntact.domain.util;
 
 import android.app.Application;
 import android.util.Log;

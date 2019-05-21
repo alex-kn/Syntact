@@ -2,8 +2,8 @@ package com.alexkn.syntact.app;
 
 import android.app.Application;
 
-import com.alexkn.syntact.domain.service.LetterGenerator;
-import com.alexkn.syntact.domain.service.PhraseGenerator;
+import com.alexkn.syntact.domain.util.LetterGenerator;
+import com.alexkn.syntact.domain.util.PhraseGenerator;
 import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.ManageLetters;
 import com.alexkn.syntact.domain.usecase.ManagePhrases;
@@ -30,6 +30,8 @@ public interface ApplicationComponent {
     ManageLetters letterManagement();
 
     ManageScore manageScore();
+
+    Property property();
 }
 
 

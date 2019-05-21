@@ -3,7 +3,7 @@ package com.alexkn.syntact.domain.usecase;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.repository.LetterRepository;
-import com.alexkn.syntact.domain.service.LetterGenerator;
+import com.alexkn.syntact.domain.util.LetterGenerator;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -33,7 +33,7 @@ public class ManageLetters {
 
     public void initializeLetters(Long bucketId) {
 
-        int sampleSize = 14;
+        int sampleSize = 16;
         Character[] characters = letterGenerator.generateCharacters(sampleSize);
         LinkedList<LetterColumn> columns = new LinkedList<>();
         LetterColumn[] left = new LetterColumn[sampleSize/2];

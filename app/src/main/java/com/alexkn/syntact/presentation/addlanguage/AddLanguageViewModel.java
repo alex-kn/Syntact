@@ -5,16 +5,22 @@ import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
+import com.alexkn.syntact.restservice.PhraseResponse;
+import com.alexkn.syntact.restservice.SyntactService;
 
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddLanguageViewModel extends AndroidViewModel {
 
@@ -32,9 +38,8 @@ public class AddLanguageViewModel extends AndroidViewModel {
                 .inject(this);
 
         availableBuckets = manageBuckets.getAvailableBuckets();
-
-
     }
+
 
     void addLanguage(Locale languageLeft, Locale languageRight) {
 
