@@ -70,7 +70,7 @@ public class PhraseGenerator {
         solvableTranslation2.setSolution(translationText);
         solvableTranslation2.setClue(phraseText);
         solvableTranslation2.setAttempt(StringUtils
-                .repeat(application.getString(R.string.empty), phraseText.length()));
+                .repeat(application.getString(R.string.empty), translationText.length()));
 
         solvableTranslation2.setBucketId(bucketId);
         solvableTranslation2.setConsecutiveCorrectAnswers(0);

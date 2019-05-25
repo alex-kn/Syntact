@@ -2,6 +2,7 @@ package com.alexkn.syntact.domain.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -10,7 +11,12 @@ import com.alexkn.syntact.domain.common.Identifiable;
 import java.util.Locale;
 import java.util.Objects;
 
-@Entity(indices = @Index("id"))
+import static androidx.room.ForeignKey.SET_NULL;
+
+//        (indices = {@Index("id"), @Index("templateId")},
+//        foreignKeys = @ForeignKey(entity = Template.class, parentColumns = "id",
+//                childColumns = "templateId", onDelete = SET_NULL))
+@Entity
 public class Bucket implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
@@ -27,6 +33,8 @@ public class Bucket implements Identifiable {
 
     @NonNull
     private Locale userLanguage;
+
+    private Integer templateId;
 
     @Override
     public Long getId() {
@@ -83,6 +91,16 @@ public class Bucket implements Identifiable {
         this.userLanguage = userLanguage;
     }
 
+    public Integer getTemplateId() {
+
+        return templateId;
+    }
+
+    public void setTemplateId(Integer templateId) {
+
+        this.templateId = templateId;
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -91,12 +109,12 @@ public class Bucket implements Identifiable {
         Bucket bucket = (Bucket) o;
         return Objects.equals(id, bucket.id) && dailyAverage.equals(bucket.dailyAverage) &&
                 streak.equals(bucket.streak) && language.equals(bucket.language) &&
-                userLanguage.equals(bucket.userLanguage);
+                userLanguage.equals(bucket.userLanguage) && templateId.equals(bucket.templateId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, dailyAverage, streak, language, userLanguage);
+        return Objects.hash(id, dailyAverage, streak, language, userLanguage, templateId);
     }
 }

@@ -11,5 +11,6 @@ public interface SyntactService {
 
     @GET("phrases")
     Call<List<PhraseResponse>> getPhrases(@Header("Authorization") String token,
-            @Query("sourceLang") String sourceLanguageCode, @Query("targetLang") String targetLanguageCode);
+            @Query("sourceLang") String sourceLanguageCode,
+            @Query("targetLang") String targetLanguageCode, @Query("template") Integer template);
 }

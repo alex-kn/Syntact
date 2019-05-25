@@ -1,0 +1,249 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 15,
+    "identityHash": "6a80c6259fbf1adc8818fe418f02a8cb",
+    "entities": [
+      {
+        "tableName": "SolvableTranslation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clue` TEXT NOT NULL, `solution` TEXT NOT NULL, `attempt` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `phraseId` INTEGER, `lastSolved` INTEGER, `nextDueDate` INTEGER NOT NULL, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `bucketId` INTEGER, FOREIGN KEY(`bucketId`) REFERENCES `Bucket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "clue",
+            "columnName": "clue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solution",
+            "columnName": "solution",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attempt",
+            "columnName": "attempt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "phraseId",
+            "columnName": "phraseId",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastSolved",
+            "columnName": "lastSolved",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "nextDueDate",
+            "columnName": "nextDueDate",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "easiness",
+            "columnName": "easiness",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "consecutiveCorrectAnswers",
+            "columnName": "consecutiveCorrectAnswers",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timesSolved",
+            "columnName": "timesSolved",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bucketId",
+            "columnName": "bucketId",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_SolvableTranslation_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE  INDEX `index_SolvableTranslation_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_SolvableTranslation_bucketId",
+            "unique": false,
+            "columnNames": [
+              "bucketId"
+            ],
+            "createSql": "CREATE  INDEX `index_SolvableTranslation_bucketId` ON `${TABLE_NAME}` (`bucketId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Bucket",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "bucketId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "Bucket",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `dailyAverage` INTEGER NOT NULL, `streak` INTEGER NOT NULL, `language` TEXT NOT NULL, `userLanguage` TEXT NOT NULL, `template` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dailyAverage",
+            "columnName": "dailyAverage",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "streak",
+            "columnName": "streak",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "language",
+            "columnName": "language",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "userLanguage",
+            "columnName": "userLanguage",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "template",
+            "columnName": "template",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Bucket_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE  INDEX `index_Bucket_id` ON `${TABLE_NAME}` (`id`)"
+          }
+        ],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "Letter",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `character` INTEGER NOT NULL, `letterColumn` TEXT NOT NULL, `bucketId` INTEGER, FOREIGN KEY(`bucketId`) REFERENCES `Bucket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "character",
+            "columnName": "character",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "letterColumn",
+            "columnName": "letterColumn",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bucketId",
+            "columnName": "bucketId",
+            "affinity": "INTEGER",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [
+          {
+            "name": "index_Letter_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE  INDEX `index_Letter_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_Letter_bucketId",
+            "unique": false,
+            "columnNames": [
+              "bucketId"
+            ],
+            "createSql": "CREATE  INDEX `index_Letter_bucketId` ON `${TABLE_NAME}` (`bucketId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Bucket",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "bucketId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "views": [],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"6a80c6259fbf1adc8818fe418f02a8cb\")"
+    ]
+  }
+}

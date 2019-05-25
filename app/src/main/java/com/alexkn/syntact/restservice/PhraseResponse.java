@@ -9,7 +9,7 @@ public class PhraseResponse {
 
     private String text;
 
-    private Integer difficulty;
+    private Integer template;
 
     private List<Translation> translations;
 
@@ -35,14 +35,14 @@ public class PhraseResponse {
         this.text = text;
     }
 
-    public Integer getDifficulty() {
+    public Integer getTemplate() {
 
-        return difficulty;
+        return template;
     }
 
-    public void setDifficulty(Integer difficulty) {
+    public void setTemplate(Integer template) {
 
-        this.difficulty = difficulty;
+        this.template = template;
     }
 
     public List<Translation> getTranslations() {

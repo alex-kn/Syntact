@@ -48,6 +48,7 @@ public class CreateBucket {
 
     public void addBucket(Locale language) {
 
+        int templateId = 1;
         Locale sourceLanguage = Locale.getDefault();
 
         Bucket bucket = new Bucket();
@@ -55,6 +56,7 @@ public class CreateBucket {
         bucket.setDailyAverage(0);
         bucket.setLanguage(language);
         bucket.setUserLanguage(sourceLanguage);
+        bucket.setTemplateId(templateId);
 
         Long bucketId = bucketRepository.insert(bucket);
         manageLetters.initializeLetters(bucketId);
@@ -63,7 +65,7 @@ public class CreateBucket {
         String targetlang = language.getLanguage();
         String srcLang = sourceLanguage.getLanguage();
 
-        syntactService.getPhrases(token, srcLang, targetlang)
+        syntactService.getPhrases(token, srcLang, targetlang, templateId)
                 .enqueue(new Callback<List<PhraseResponse>>() {
 
                     @Override
@@ -91,7 +93,5 @@ public class CreateBucket {
                         Log.e(TAG, "onFailure: Error receiving phrases", t);
                     }
                 });
-
-        //        managePhrases.initializePhrases(insertedLanguageId, languageLeft, languageRight);
     }
 }
