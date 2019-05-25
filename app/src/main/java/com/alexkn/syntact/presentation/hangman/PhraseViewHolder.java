@@ -5,8 +5,9 @@ import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.model.SolvableTranslation;
 
-public class PhraseViewHolder extends ListItemViewHolder<SolvableItem> {
+public class PhraseViewHolder extends ListItemViewHolder<SolvableTranslation> {
 
     private TextView clueTextView;
 
@@ -36,15 +37,15 @@ public class PhraseViewHolder extends ListItemViewHolder<SolvableItem> {
     }
 
     @Override
-    public void bindTo(SolvableItem solvableItem) {
+    public void bindTo(SolvableTranslation solvableTranslation) {
 
         if (clueTextView != null) {
-            clueTextView.setText(solvableItem.getClue().getText());
+            clueTextView.setText(solvableTranslation.getClue());
         }
         if (solutionTextView != null) {
-            solutionTextView.setText(solvableItem.getAttempt());
+            solutionTextView.setText(solvableTranslation.getAttempt());
         }
-        clue = solvableItem.getClue().getText();
-        solution = solvableItem.getAttempt();
+        clue = solvableTranslation.getClue();
+        solution = solvableTranslation.getAttempt();
     }
 }

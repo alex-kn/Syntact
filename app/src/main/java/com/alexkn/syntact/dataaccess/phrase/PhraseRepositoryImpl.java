@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
 import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 
 import java.time.Instant;
@@ -32,27 +33,27 @@ public class PhraseRepositoryImpl implements PhraseRepository {
     }
 
     @Override
-    public void update(SolvableItem solvableItem) {
+    public void update(SolvableTranslation solvableTranslation) {
 
-        AsyncTask.execute(() -> phraseDao.update(solvableItem));
+        AsyncTask.execute(() -> phraseDao.update(solvableTranslation));
     }
 
     @Override
-    public LiveData<List<SolvableItem>> findPhrasesForBucketDueBefore(Long bucketId,
+    public LiveData<List<SolvableTranslation>> findPhrasesForBucketDueBefore(Long bucketId,
             Instant time) {
 
         return phraseDao.findPhrasesForBucketDueBefore(bucketId, time);
     }
 
     @Override
-    public void insert(SolvableItem solvableItem) {
+    public void insert(SolvableTranslation solvableTranslation) {
 
-        AsyncTask.execute(() -> phraseDao.insert(solvableItem));
+        AsyncTask.execute(() -> phraseDao.insert(solvableTranslation));
     }
 
     @Override
-    public void insert(List<SolvableItem> solvableItems) {
+    public void insert(List<SolvableTranslation> solvableTranslations) {
 
-        AsyncTask.execute(() -> phraseDao.insert(solvableItems));
+        AsyncTask.execute(() -> phraseDao.insert(solvableTranslations));
     }
 }

@@ -6,22 +6,14 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+import com.alexkn.syntact.dataaccess.common.BaseDao;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
 
 import java.util.List;
 
 @Dao
-public interface LetterDao {
-
-    @Insert
-    void insert(List<Letter> letterEntities);
-
-    @Insert
-    void insert(Letter letter);
-
-    @Delete
-    void delete(Letter letter);
+public interface LetterDao  extends BaseDao<Letter> {
 
     @Query("SELECT * FROM Letter WHERE letterColumn = :letterColumn and bucketId = :bucketId")
     LiveData<List<Letter>> find(Long bucketId, LetterColumn letterColumn);

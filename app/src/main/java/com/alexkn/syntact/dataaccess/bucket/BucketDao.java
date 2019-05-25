@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.alexkn.syntact.dataaccess.common.BaseDao;
 import com.alexkn.syntact.domain.model.Bucket;
 
 import java.util.Collection;
@@ -13,19 +14,10 @@ import java.util.List;
 import java.util.Locale;
 
 @Dao
-public interface BucketDao {
-
-    @Insert
-    Long insert(Bucket activeBucket);
-
-    @Insert
-    void insert(Collection<Bucket> activeBucketEntities);
+public interface BucketDao extends BaseDao<Bucket> {
 
     @Query("DELETE FROM Bucket where id = :id")
     void delete(Long id);
-
-    @Update
-    void update(Bucket bucket);
 
     @Query("SELECT * FROM Bucket where id = :id")
     Bucket find(Long id);

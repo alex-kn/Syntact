@@ -1,7 +1,6 @@
 package com.alexkn.syntact.domain.model;
 
 import androidx.annotation.NonNull;
-import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -10,23 +9,16 @@ import androidx.room.PrimaryKey;
 import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.time.Instant;
-import java.util.Locale;
 import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(indices = {@Index("id"), @Index("bucketId")},
-        foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
-                childColumns = "bucketId", onDelete = CASCADE))
-public class SolvableItem implements Identifiable {
+public abstract class SolvableItem implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
     private Long phraseId;
-
-    @NonNull
-    private String attempt;
 
     private Instant lastSolved;
 
@@ -42,14 +34,6 @@ public class SolvableItem implements Identifiable {
     @NonNull
     private Integer timesSolved;
 
-    @Embedded(prefix = "clue_")
-    @NonNull
-    private Clue clue;
-
-    @Embedded(prefix = "solution_")
-    @NonNull
-    private Solution solution;
-
     private Long bucketId;
 
     @Override
@@ -61,17 +45,6 @@ public class SolvableItem implements Identifiable {
     public void setId(Long id) {
 
         this.id = id;
-    }
-
-    @NonNull
-    public String getAttempt() {
-
-        return attempt;
-    }
-
-    public void setAttempt(@NonNull String attempt) {
-
-        this.attempt = attempt;
     }
 
     public Instant getLastSolved() {
@@ -128,28 +101,6 @@ public class SolvableItem implements Identifiable {
         this.timesSolved = timesSolved;
     }
 
-    @NonNull
-    public Clue getClue() {
-
-        return clue;
-    }
-
-    public void setClue(@NonNull Clue clue) {
-
-        this.clue = clue;
-    }
-
-    @NonNull
-    public Solution getSolution() {
-
-        return solution;
-    }
-
-    public void setSolution(@NonNull Solution solution) {
-
-        this.solution = solution;
-    }
-
     public Long getBucketId() {
 
         return bucketId;
@@ -159,7 +110,6 @@ public class SolvableItem implements Identifiable {
 
         this.bucketId = bucketId;
     }
-
 
     public Long getPhraseId() {
 
@@ -178,17 +128,17 @@ public class SolvableItem implements Identifiable {
         if (o == null || getClass() != o.getClass()) return false;
         SolvableItem that = (SolvableItem) o;
         return Objects.equals(id, that.id) && Objects.equals(phraseId, that.phraseId) &&
-                attempt.equals(that.attempt) && Objects.equals(lastSolved, that.lastSolved) &&
+                Objects.equals(lastSolved, that.lastSolved) &&
                 nextDueDate.equals(that.nextDueDate) && easiness.equals(that.easiness) &&
                 consecutiveCorrectAnswers.equals(that.consecutiveCorrectAnswers) &&
-                timesSolved.equals(that.timesSolved) && clue.equals(that.clue) &&
-                solution.equals(that.solution) && Objects.equals(bucketId, that.bucketId);
+                timesSolved.equals(that.timesSolved) && Objects.equals(bucketId, that.bucketId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, phraseId, attempt, lastSolved, nextDueDate, easiness,
-                consecutiveCorrectAnswers, timesSolved, clue, solution, bucketId);
+        return Objects
+                .hash(id, phraseId, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers,
+                        timesSolved, bucketId);
     }
 }

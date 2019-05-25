@@ -22,6 +22,12 @@ public class Bucket implements Identifiable {
     @NonNull
     private Integer streak;
 
+    @NonNull
+    private Locale language;
+
+    @NonNull
+    private Locale userLanguage;
+
     @Override
     public Long getId() {
 
@@ -55,6 +61,28 @@ public class Bucket implements Identifiable {
         this.streak = streak;
     }
 
+    @NonNull
+    public Locale getLanguage() {
+
+        return language;
+    }
+
+    public void setLanguage(@NonNull Locale language) {
+
+        this.language = language;
+    }
+
+    @NonNull
+    public Locale getUserLanguage() {
+
+        return userLanguage;
+    }
+
+    public void setUserLanguage(@NonNull Locale userLanguage) {
+
+        this.userLanguage = userLanguage;
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -62,12 +90,13 @@ public class Bucket implements Identifiable {
         if (o == null || getClass() != o.getClass()) return false;
         Bucket bucket = (Bucket) o;
         return Objects.equals(id, bucket.id) && dailyAverage.equals(bucket.dailyAverage) &&
-                streak.equals(bucket.streak);
+                streak.equals(bucket.streak) && language.equals(bucket.language) &&
+                userLanguage.equals(bucket.userLanguage);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, dailyAverage, streak);
+        return Objects.hash(id, dailyAverage, streak, language, userLanguage);
     }
 }

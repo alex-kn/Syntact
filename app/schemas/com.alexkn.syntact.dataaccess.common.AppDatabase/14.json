@@ -1,13 +1,31 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 13,
-    "identityHash": "88a9151816fb16a17483644c74eab05f",
+    "version": 14,
+    "identityHash": "0974fc95c1a5b27a15a59348aaa9aea8",
     "entities": [
       {
-        "tableName": "SolvableItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `phraseId` INTEGER, `lastSolved` INTEGER, `nextDueDate` INTEGER NOT NULL, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `bucketId` INTEGER)",
+        "tableName": "SolvableTranslation",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`clue` TEXT NOT NULL, `solution` TEXT NOT NULL, `attempt` TEXT NOT NULL, `id` INTEGER PRIMARY KEY AUTOINCREMENT, `phraseId` INTEGER, `lastSolved` INTEGER, `nextDueDate` INTEGER NOT NULL, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `bucketId` INTEGER, FOREIGN KEY(`bucketId`) REFERENCES `Bucket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "clue",
+            "columnName": "clue",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "solution",
+            "columnName": "solution",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "attempt",
+            "columnName": "attempt",
+            "affinity": "TEXT",
+            "notNull": true
+          },
           {
             "fieldPath": "id",
             "columnName": "id",
@@ -63,8 +81,37 @@
           ],
           "autoGenerate": true
         },
-        "indices": [],
-        "foreignKeys": []
+        "indices": [
+          {
+            "name": "index_SolvableTranslation_id",
+            "unique": false,
+            "columnNames": [
+              "id"
+            ],
+            "createSql": "CREATE  INDEX `index_SolvableTranslation_id` ON `${TABLE_NAME}` (`id`)"
+          },
+          {
+            "name": "index_SolvableTranslation_bucketId",
+            "unique": false,
+            "columnNames": [
+              "bucketId"
+            ],
+            "createSql": "CREATE  INDEX `index_SolvableTranslation_bucketId` ON `${TABLE_NAME}` (`bucketId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "Bucket",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "bucketId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
       },
       {
         "tableName": "Bucket",
@@ -190,7 +237,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"88a9151816fb16a17483644c74eab05f\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"0974fc95c1a5b27a15a59348aaa9aea8\")"
     ]
   }
 }

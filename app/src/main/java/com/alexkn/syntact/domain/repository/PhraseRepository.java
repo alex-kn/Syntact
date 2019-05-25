@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.repository;
 
 import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.model.SolvableTranslation;
 
 import java.time.Instant;
 import java.util.List;
@@ -11,11 +12,11 @@ public interface PhraseRepository {
 
     void updateAttempt(Long id, String attempt);
 
-    void update(SolvableItem solvableItem);
+    void update(SolvableTranslation solvableTranslation);
 
-    LiveData<List<SolvableItem>> findPhrasesForBucketDueBefore(Long bucketId, Instant time);
+    LiveData<List<SolvableTranslation>> findPhrasesForBucketDueBefore(Long bucketId, Instant time);
 
-    void insert(SolvableItem solvableItem);
+    void insert(SolvableTranslation solvableTranslation);
 
-    void insert(List<SolvableItem> solvableItems);
+    void insert(List<SolvableTranslation> solvableTranslations);
 }

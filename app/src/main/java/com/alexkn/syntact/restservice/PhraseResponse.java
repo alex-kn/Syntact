@@ -13,6 +13,8 @@ public class PhraseResponse {
 
     private List<Translation> translations;
 
+    private Locale language;
+
     public Long getId() {
 
         return id;
@@ -51,6 +53,16 @@ public class PhraseResponse {
     public void setTranslations(List<Translation> translations) {
 
         this.translations = translations;
+    }
+
+    public Locale getLanguage() {
+
+        return language;
+    }
+
+    public void setLanguage(Locale language) {
+
+        this.language = language;
     }
 
     public class Translation {

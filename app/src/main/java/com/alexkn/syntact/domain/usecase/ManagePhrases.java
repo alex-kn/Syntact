@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 import com.alexkn.syntact.domain.util.PhraseGenerator;
 
@@ -40,7 +41,7 @@ public class ManagePhrases {
     @Inject
     ManagePhrases() { }
 
-    public void makeAttempt(SolvableItem solvableItem, Character character) {
+    public void makeAttempt(SolvableTranslation solvableItem, Character character) {
 
         String attempt = updateCurrentAttempt(solvableItem, character);
         if (!attempt.contains(application.getString(R.string.empty))) {
@@ -50,7 +51,7 @@ public class ManagePhrases {
         }
     }
 
-    private void solvePhrase(SolvableItem solvableItem) {
+    private void solvePhrase(SolvableTranslation solvableItem) {
 
         int performanceRating = 3;
         float easiness = solvableItem.getEasiness();
@@ -66,14 +67,14 @@ public class ManagePhrases {
         solvableItem.setNextDueDate(nextDueDate);
         solvableItem.setLastSolved(Instant.now());
         solvableItem.setAttempt(StringUtils.repeat(application.getString(R.string.empty),
-                solvableItem.getSolution().getText().length()));
+                solvableItem.getSolution().length()));
 
         phraseRepository.update(solvableItem);
     }
 
-    private String updateCurrentAttempt(SolvableItem solvableItem, Character character) {
+    private String updateCurrentAttempt(SolvableTranslation solvableItem, Character character) {
 
-        String solution = solvableItem.getSolution().getText();
+        String solution = solvableItem.getSolution();
 
         IntStream indices = IntStream.range(0, solution.length()).filter(i -> StringUtils
                 .equalsIgnoreCase(character.toString(), String.valueOf(solution.charAt(i))));
@@ -82,19 +83,19 @@ public class ManagePhrases {
         return newCurrentText.toString();
     }
 
-    public boolean isLetterCorrect(SolvableItem solvableSolvableItem, Character character) {
+    public boolean isLetterCorrect(SolvableTranslation solvableSolvableItem, Character character) {
 
-        return StringUtils.containsIgnoreCase(solvableSolvableItem.getSolution().getText(),
+        return StringUtils.containsIgnoreCase(solvableSolvableItem.getSolution(),
                 character.toString()) && !StringUtils
                 .containsIgnoreCase(solvableSolvableItem.getAttempt(), character.toString());
     }
 
-    public LiveData<List<SolvableItem>> getPhrases(Long bucketId) {
+    public LiveData<List<SolvableTranslation>> getPhrases(Long bucketId) {
 
         return phraseRepository.findPhrasesForBucketDueBefore(bucketId, Instant.now());
     }
 
-    public void saveSolvableItems(List<SolvableItem> solvableItems) {
+    public void saveSolvableItems(List<SolvableTranslation> solvableItems) {
 
         List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
 
@@ -110,7 +111,7 @@ public class ManagePhrases {
         List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
 
         if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
-            List<SolvableItem> solvableItems = phraseGenerator.generateGermanEnglishPhrases();
+            List<SolvableTranslation> solvableItems = phraseGenerator.generateGermanEnglishPhrases();
             solvableItems.forEach(phrase -> phrase.setBucketId(insertedLanguageId));
             saveSolvableItems(solvableItems);
         }

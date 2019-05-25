@@ -7,30 +7,19 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.dataaccess.common.BaseDao;
+import com.alexkn.syntact.domain.model.SolvableTranslation;
 
 import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 
 @Dao
-public interface PhraseDao {
+public interface PhraseDao extends BaseDao<SolvableTranslation> {
 
-    @Insert
-    void insert(SolvableItem solvableItem);
+    @Query("SELECT * FROM SolvableTranslation WHERE nextDueDate < :time AND bucketId = :bucketId ORDER BY lastSolved LIMIT 10")
+    LiveData<List<SolvableTranslation>> findPhrasesForBucketDueBefore(Long bucketId, Instant time);
 
-    @Insert
-    void insert(Collection<SolvableItem> solvableItemEntities);
-
-    @Update
-    void update(SolvableItem solvableItem);
-
-    @Delete
-    void delete(SolvableItem solvableItem);
-
-    @Query("SELECT * FROM SolvableItem WHERE nextDueDate < :time AND bucketId = :bucketId ORDER BY lastSolved LIMIT 10")
-    LiveData<List<SolvableItem>> findPhrasesForBucketDueBefore(Long bucketId, Instant time);
-
-    @Query("UPDATE SolvableItem SET attempt = :newAttempt WHERE id = :id")
+    @Query("UPDATE SolvableTranslation SET attempt = :newAttempt WHERE id = :id")
     void updateAttempt(Long id, String newAttempt);
 }

@@ -7,6 +7,7 @@ import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.Solution;
 import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.restservice.PhraseResponse;
 
 import org.apache.commons.io.IOUtil;
@@ -21,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -36,41 +38,56 @@ public class PhraseGenerator {
     @Inject
     PhraseGenerator() {}
 
-    public List<SolvableItem> createSolvabeItems(Long bucketId,
+    public List<SolvableTranslation> createSolvabeItems(Long bucketId,
             List<PhraseResponse> phraseResponses) {
 
         return phraseResponses.stream()
-                .map(phraseResponse -> createSolvableItem(bucketId, phraseResponse))
+                .flatMap(phraseResponse -> createSolvableTranslation(bucketId, phraseResponse))
                 .collect(Collectors.toList());
     }
 
-    private SolvableItem createSolvableItem(Long bucketId, PhraseResponse phrase) {
+    private Stream<SolvableTranslation> createSolvableTranslation(Long bucketId, PhraseResponse phrase) {
 
-        SolvableItem solvableItem = new SolvableItem();
+        SolvableTranslation solvableTranslation1 = new SolvableTranslation();
 
         String phraseText = phrase.getText();
         String translationText = phrase.getTranslations().get(0).getText();
-        Locale translationLanguage = phrase.getTranslations().get(0).getLanguage();
-        solvableItem.setSolution(new Solution(phraseText, Locale.ENGLISH));
-        solvableItem.setClue(new Clue(translationText, translationLanguage));
-        solvableItem.setAttempt(StringUtils
+
+        solvableTranslation1.setSolution(phraseText);
+        solvableTranslation1.setClue(translationText);
+        solvableTranslation1.setAttempt(StringUtils
                 .repeat(application.getString(R.string.empty), phraseText.length()));
 
-        solvableItem.setBucketId(bucketId);
-        solvableItem.setConsecutiveCorrectAnswers(0);
-        solvableItem.setEasiness(2.5f);
-        solvableItem.setNextDueDate(Instant.now());
-        solvableItem.setTimesSolved(0);
-        solvableItem.setPhraseId(phrase.getId());
-        return solvableItem;
+        solvableTranslation1.setBucketId(bucketId);
+        solvableTranslation1.setConsecutiveCorrectAnswers(0);
+        solvableTranslation1.setEasiness(2.5f);
+        solvableTranslation1.setNextDueDate(Instant.now());
+        solvableTranslation1.setTimesSolved(0);
+        solvableTranslation1.setPhraseId(phrase.getId());
+
+        SolvableTranslation solvableTranslation2 = new SolvableTranslation();
+
+        solvableTranslation2.setSolution(translationText);
+        solvableTranslation2.setClue(phraseText);
+        solvableTranslation2.setAttempt(StringUtils
+                .repeat(application.getString(R.string.empty), phraseText.length()));
+
+        solvableTranslation2.setBucketId(bucketId);
+        solvableTranslation2.setConsecutiveCorrectAnswers(0);
+        solvableTranslation2.setEasiness(2.5f);
+        solvableTranslation2.setNextDueDate(Instant.now());
+        solvableTranslation2.setTimesSolved(0);
+        solvableTranslation2.setPhraseId(phrase.getId());
+
+        return Stream.of(solvableTranslation1, solvableTranslation2);
     }
 
-    public List<SolvableItem> generateGermanEnglishPhrases() {
+    public List<SolvableTranslation> generateGermanEnglishPhrases() {
 
-        ArrayList<SolvableItem> solvableItems = new ArrayList<>();
+        ArrayList<SolvableTranslation> solvableItems = new ArrayList<>();
 
         try {
-
+            //todo remove
             try (InputStream open = application.getAssets().open("phrases_german_english.json")) {
 
                 String s = IOUtil.toString(open, "UTF-8");
@@ -79,7 +96,7 @@ public class PhraseGenerator {
                     JSONObject jsonObject = frequencyList.getJSONObject(i);
                     String clueText = jsonObject.getString("clue");
                     String solutionText = jsonObject.getString("solution");
-                    SolvableItem solvableItem = new SolvableItem();
+                    SolvableTranslation solvableItem = new SolvableTranslation();
 
                     Clue clue = new Clue();
                     clue.setText(clueText);
@@ -88,8 +105,8 @@ public class PhraseGenerator {
                     solution.setText(solutionText);
                     solution.setLanguage(Locale.ENGLISH);
 
-                    solvableItem.setClue(clue);
-                    solvableItem.setSolution(solution);
+                    solvableItem.setClue(clueText);
+                    solvableItem.setSolution(solutionText);
                     solvableItem.setAttempt(StringUtils
                             .repeat(application.getString(R.string.empty), solutionText.length()));
                     solvableItem.setConsecutiveCorrectAnswers(0);

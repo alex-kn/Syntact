@@ -1,21 +1,15 @@
 package com.alexkn.syntact.presentation.addlanguage;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.alexkn.syntact.R;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,9 +27,7 @@ public class AddLanguageFragment extends Fragment {
 
     private View addButton;
 
-    private Locale selectedSourceLanguage;
-
-    private Locale selectedTargetLanguage;
+    private Locale selectedLanguage;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -47,24 +39,21 @@ public class AddLanguageFragment extends Fragment {
         addButton = view.findViewById(R.id.addBucketButton);
 
         List<Locale> languages = viewModel.getAvailableBuckets();
-        List<List<Locale>> dataset = Arrays.asList(languages, languages);
-        selectedTargetLanguage = languages.get(0);
-        selectedSourceLanguage = languages.get(0);
+        List<List<Locale>> dataset = Arrays.asList(languages);
+        selectedLanguage = languages.get(0);
 
         RecyclerView recyclerView = view.findViewById(R.id.bucketOptionRecyclerView);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
         recyclerView.setAdapter(new BucketOptionsAdapter(dataset, (integer, locale) -> {
             if (integer == 0) {
-                selectedSourceLanguage = locale;
-            } else if (integer == 1) {
-                selectedTargetLanguage = locale;
+                selectedLanguage = locale;
             }
         }));
 
         addButton.setOnClickListener(v -> {
 
-            viewModel.addLanguage(selectedSourceLanguage, selectedTargetLanguage);
+            viewModel.addLanguage(selectedLanguage);
             Navigation.findNavController(view).popBackStack();
         });
 
