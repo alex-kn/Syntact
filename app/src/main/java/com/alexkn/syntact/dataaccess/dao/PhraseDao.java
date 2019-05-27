@@ -1,17 +1,13 @@
-package com.alexkn.syntact.dataaccess.phrase;
+package com.alexkn.syntact.dataaccess.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.alexkn.syntact.dataaccess.common.BaseDao;
+import com.alexkn.syntact.dataaccess.dao.base.BaseDao;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
 
 @Dao

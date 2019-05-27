@@ -1,4 +1,4 @@
-package com.alexkn.syntact.dataaccess.phrase;
+package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -6,7 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
-import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.dataaccess.dao.PhraseDao;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 

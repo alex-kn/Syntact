@@ -5,10 +5,13 @@ import android.util.Log;
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
+import com.alexkn.syntact.domain.model.Template;
 import com.alexkn.syntact.domain.repository.BucketRepository;
+import com.alexkn.syntact.domain.repository.TemplateRepository;
 import com.alexkn.syntact.domain.util.PhraseGenerator;
 import com.alexkn.syntact.restservice.PhraseResponse;
 import com.alexkn.syntact.restservice.SyntactService;
+import com.alexkn.syntact.restservice.TemplateResponse;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +19,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,9 +50,10 @@ public class CreateBucket {
     @Inject
     CreateBucket() {}
 
+
     public void addBucket(Locale language) {
 
-        int templateId = 1;
+        int templateId = 1;//TODO parameter
         Locale sourceLanguage = Locale.getDefault();
 
         Bucket bucket = new Bucket();

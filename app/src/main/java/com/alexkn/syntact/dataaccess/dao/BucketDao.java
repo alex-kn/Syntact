@@ -1,17 +1,13 @@
-package com.alexkn.syntact.dataaccess.bucket;
+package com.alexkn.syntact.dataaccess.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Update;
 
-import com.alexkn.syntact.dataaccess.common.BaseDao;
+import com.alexkn.syntact.dataaccess.dao.base.BaseDao;
 import com.alexkn.syntact.domain.model.Bucket;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 
 @Dao
 public interface BucketDao extends BaseDao<Bucket> {

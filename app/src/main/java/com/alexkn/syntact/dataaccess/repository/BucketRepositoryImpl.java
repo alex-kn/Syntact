@@ -1,16 +1,15 @@
-package com.alexkn.syntact.dataaccess.bucket;
+package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
+import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 

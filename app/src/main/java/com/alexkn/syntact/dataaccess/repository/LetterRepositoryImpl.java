@@ -1,4 +1,4 @@
-package com.alexkn.syntact.dataaccess.letter;
+package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
+import com.alexkn.syntact.dataaccess.dao.LetterDao;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.repository.LetterRepository;

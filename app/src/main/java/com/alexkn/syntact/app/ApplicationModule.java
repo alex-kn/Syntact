@@ -2,12 +2,14 @@ package com.alexkn.syntact.app;
 
 import android.app.Application;
 
-import com.alexkn.syntact.dataaccess.bucket.BucketRepositoryImpl;
-import com.alexkn.syntact.dataaccess.letter.LetterRepositoryImpl;
-import com.alexkn.syntact.dataaccess.phrase.PhraseRepositoryImpl;
+import com.alexkn.syntact.dataaccess.repository.BucketRepositoryImpl;
+import com.alexkn.syntact.dataaccess.repository.LetterRepositoryImpl;
+import com.alexkn.syntact.dataaccess.repository.PhraseRepositoryImpl;
+import com.alexkn.syntact.dataaccess.repository.TemplateRepositoryImpl;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.LetterRepository;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
+import com.alexkn.syntact.domain.repository.TemplateRepository;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -33,7 +35,7 @@ class ApplicationModule {
     @Provides
     SyntactService provideSyntactService() {
 
-        Gson gson = new GsonBuilder().setLenient().create();
+        Gson gson = new GsonBuilder().create();
 
         return new Retrofit.Builder()
                 .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/")
@@ -57,8 +59,7 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    BucketRepository provideActiveBucketRepository(
-            BucketRepositoryImpl bucketRepository) {
+    BucketRepository provideActiveBucketRepository(BucketRepositoryImpl bucketRepository) {
 
         return bucketRepository;
     }
@@ -66,6 +67,14 @@ class ApplicationModule {
     @Provides
     @Singleton
     LetterRepository provideLetterRepository(LetterRepositoryImpl letterRepository) {
+
         return letterRepository;
+    }
+
+    @Provides
+    @Singleton
+    TemplateRepository provideTemplateRepository(TemplateRepositoryImpl templateRepository) {
+
+        return templateRepository;
     }
 }

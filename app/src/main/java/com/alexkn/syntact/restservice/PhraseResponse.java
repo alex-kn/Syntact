@@ -9,8 +9,6 @@ public class PhraseResponse {
 
     private String text;
 
-    private Integer template;
-
     private List<Translation> translations;
 
     private Locale language;
@@ -35,15 +33,6 @@ public class PhraseResponse {
         this.text = text;
     }
 
-    public Integer getTemplate() {
-
-        return template;
-    }
-
-    public void setTemplate(Integer template) {
-
-        this.template = template;
-    }
 
     public List<Translation> getTranslations() {
 

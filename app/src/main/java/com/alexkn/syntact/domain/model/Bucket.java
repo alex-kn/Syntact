@@ -13,10 +13,10 @@ import java.util.Objects;
 
 import static androidx.room.ForeignKey.SET_NULL;
 
-//        (indices = {@Index("id"), @Index("templateId")},
-//        foreignKeys = @ForeignKey(entity = Template.class, parentColumns = "id",
-//                childColumns = "templateId", onDelete = SET_NULL))
 @Entity
+        (indices = {@Index("id"), @Index("templateId")},
+        foreignKeys = @ForeignKey(entity = Template.class, parentColumns = "id",
+                childColumns = "templateId", onDelete = SET_NULL))
 public class Bucket implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)

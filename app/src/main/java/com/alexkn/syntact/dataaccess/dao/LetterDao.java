@@ -1,12 +1,10 @@
-package com.alexkn.syntact.dataaccess.letter;
+package com.alexkn.syntact.dataaccess.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.alexkn.syntact.dataaccess.common.BaseDao;
+import com.alexkn.syntact.dataaccess.dao.base.BaseDao;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
 
