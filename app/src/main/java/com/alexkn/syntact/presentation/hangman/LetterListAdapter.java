@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Letter;
+import com.alexkn.syntact.presentation.common.ListItemAdapter;
 
 import androidx.annotation.NonNull;
-import androidx.asynclayoutinflater.view.AsyncLayoutInflater;
 
 public class LetterListAdapter extends ListItemAdapter<Letter, LetterViewHolder> {
 

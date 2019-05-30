@@ -4,8 +4,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
+import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 
 public class PhraseViewHolder extends ListItemViewHolder<SolvableTranslation> {
 

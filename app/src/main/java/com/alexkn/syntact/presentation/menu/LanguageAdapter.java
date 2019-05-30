@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.presentation.hangman.ListItemAdapter;
+import com.alexkn.syntact.presentation.common.ListItemAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman;
+package com.alexkn.syntact.presentation.common;
 
 import com.alexkn.syntact.domain.common.Identifiable;
 

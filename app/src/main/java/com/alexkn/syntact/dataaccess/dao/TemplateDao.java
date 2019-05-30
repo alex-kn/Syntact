@@ -7,6 +7,8 @@ import androidx.room.Query;
 import com.alexkn.syntact.dataaccess.dao.base.BaseDao;
 import com.alexkn.syntact.domain.model.Template;
 
+import java.util.List;
+
 @Dao
 public interface TemplateDao extends BaseDao<Template> {
 
@@ -14,5 +16,5 @@ public interface TemplateDao extends BaseDao<Template> {
     boolean exists(Long id);
 
     @Query("SELECT * FROM Template")
-    LiveData<Template> findAll();
+    LiveData<List<Template>> findAll();
 }

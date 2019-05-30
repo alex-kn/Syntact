@@ -51,9 +51,8 @@ public class CreateBucket {
     CreateBucket() {}
 
 
-    public void addBucket(Locale language) {
+    public void addBucket(Locale language, int templateId) {
 
-        int templateId = 1;//TODO parameter
         Locale sourceLanguage = Locale.getDefault();
 
         Bucket bucket = new Bucket();

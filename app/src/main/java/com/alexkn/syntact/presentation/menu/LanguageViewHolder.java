@@ -5,9 +5,7 @@ import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.presentation.hangman.ListItemViewHolder;
-
-import java.util.Locale;
+import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 
 import androidx.navigation.Navigation;
 

@@ -40,7 +40,7 @@ public class AddLanguageViewModel extends AndroidViewModel {
 
     void addLanguage(Locale language) {
 
-        AsyncTask.execute(() -> createBucket.addBucket(language));
+        AsyncTask.execute(() -> createBucket.addBucket(language,1 ));
     }
 
     public List<Locale> getAvailableBuckets() {

@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Letter;
+import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 
 class LetterViewHolder extends ListItemViewHolder<Letter> {
 

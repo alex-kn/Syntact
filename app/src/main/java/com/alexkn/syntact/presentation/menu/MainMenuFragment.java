@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.alexkn.syntact.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -27,7 +29,16 @@ public class MainMenuFragment extends Fragment {
             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.menu_fragment, container, false);
-        View button = view.findViewById(R.id.newBucketFab);
+        FloatingActionButton button = view.findViewById(R.id.newBucketFab);
+
+        FloatingActionButton tempButton = view.findViewById(R.id.tempTemplateNavFab);
+
+        tempButton.setOnClickListener(v -> {
+
+            NavDirections navDirections = MainMenuFragmentDirections
+                    .actionMainMenuFragmentToTemplateFragment();
+            Navigation.findNavController(view).navigate(navDirections);
+        });
 
         viewModel = ViewModelProviders.of(getActivity()).get(LanguagesViewModel.class);
 

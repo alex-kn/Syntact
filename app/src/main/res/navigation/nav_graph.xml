@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_addLanguageFragment"
             app:destination="@id/addLanguageFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_templateFragment"
+            app:destination="@id/templateFragment" />
     </fragment>
     <fragment
         android:id="@+id/hangmanBoardFragment"
@@ -36,4 +39,18 @@
         android:name="com.alexkn.syntact.presentation.addlanguage.AddLanguageFragment"
         android:label="add_language_fragment"
         tools:layout="@layout/add_language_fragment" />
+    <fragment
+        android:id="@+id/templateFragment"
+        android:name="com.alexkn.syntact.presentation.template.create.TemplateFragment"
+        android:label="template_fragment"
+        tools:layout="@layout/template_fragment" >
+        <action
+            android:id="@+id/action_templateFragment_to_templateCreateFragment"
+            app:destination="@id/templateCreateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/templateCreateFragment"
+        android:name="com.alexkn.syntact.presentation.template.list.TemplateCreateFragment"
+        android:label="template_create_fragment"
+        tools:layout="@layout/template_create_fragment" />
 </navigation>

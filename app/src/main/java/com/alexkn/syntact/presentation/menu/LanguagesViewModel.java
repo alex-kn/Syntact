@@ -18,10 +18,10 @@ import javax.inject.Inject;
 
 public class LanguagesViewModel extends AndroidViewModel {
 
-    private final LiveData<List<Bucket>> buckets;
 
     @Inject
     ManageBuckets manageBuckets;
+    private final LiveData<List<Bucket>> buckets;
 
     public LanguagesViewModel(@NonNull Application application) {
 

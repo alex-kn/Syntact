@@ -4,12 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.alexkn.syntact.domain.common.Identifiable;
 import com.alexkn.syntact.domain.common.TemplateType;
 
 import java.util.Objects;
 
 @Entity
-public class Template {
+public class Template implements Identifiable {
 
     @PrimaryKey
     private Long id;

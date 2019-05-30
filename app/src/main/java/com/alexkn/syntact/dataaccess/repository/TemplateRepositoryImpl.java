@@ -10,6 +10,7 @@ import com.alexkn.syntact.domain.model.Template;
 import com.alexkn.syntact.domain.repository.TemplateRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -55,7 +56,7 @@ public class TemplateRepositoryImpl implements TemplateRepository {
     }
 
     @Override
-    public LiveData<Template> findAll() {
+    public LiveData<List<Template>> findAll() {
 
         return templateDao.findAll();
     }
