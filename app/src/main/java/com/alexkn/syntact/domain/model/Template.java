@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey;
 import com.alexkn.syntact.domain.common.Identifiable;
 import com.alexkn.syntact.domain.common.TemplateType;
 
+import java.util.Locale;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +21,8 @@ public class Template implements Identifiable {
 
     @NonNull
     private TemplateType templateType;
+
+    @NonNull private Locale language;
 
     @NonNull
     public Long getId() {
@@ -54,19 +57,30 @@ public class Template implements Identifiable {
         this.templateType = templateType;
     }
 
+    @NonNull
+    public Locale getLanguage() {
+
+        return language;
+    }
+
+    public void setLanguage(@NonNull Locale language) {
+
+        this.language = language;
+    }
+
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Template template = (Template) o;
-        return id.equals(template.id) && name.equals(template.name) &&
-                templateType == template.templateType;
+        return Objects.equals(id, template.id) && name.equals(template.name) &&
+                templateType == template.templateType && language.equals(template.language);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, templateType);
+        return Objects.hash(id, name, templateType, language);
     }
 }

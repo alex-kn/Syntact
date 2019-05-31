@@ -26,7 +26,6 @@ public class CreateTemplate {
 
     private static final String TAG = CreateTemplate.class.getSimpleName();
 
-
     @Inject
     Property property;
 
@@ -35,8 +34,9 @@ public class CreateTemplate {
 
     @Inject
     TemplateRepository templateRepository;
+
     @Inject
-    CreateTemplate(){}
+    CreateTemplate() {}
 
     public void createFromPhoto() {
 
@@ -50,7 +50,7 @@ public class CreateTemplate {
 
         for (String word : words) {
             PhraseResponse phrase = new PhraseResponse();
-            phrase.setLanguage(Locale.getDefault());
+            phrase.setLanguage(new Locale(Locale.getDefault().getLanguage()));
             phrase.setText(word);
             phrases.add(phrase);
         }
@@ -59,34 +59,35 @@ public class CreateTemplate {
         template.setTemplateType(TemplateType.CUSTOM);
         template.setName(name);
         template.setPhrases(phrases);
+        template.setLanguage(new Locale(Locale.getDefault().getLanguage()));
+
         Log.i(TAG, "Creating new template " + name + " with " + words.length + " words");
-        syntactService.postTemplate(token, template).enqueue(new Callback<List<TemplateResponse>>() {
+        syntactService.postTemplate(token, template)
+                .enqueue(new Callback<List<TemplateResponse>>() {
 
-            @Override
-            public void onResponse(Call<List<TemplateResponse>> call,
-                    Response<List<TemplateResponse>> response) {
+                    @Override
+                    public void onResponse(Call<List<TemplateResponse>> call,
+                            Response<List<TemplateResponse>> response) {
 
-
-                if (!response.isSuccessful()){
-                    List<TemplateResponse> body = response.body();
-                    Log.i(TAG, "Creation of template "+ name +" successful");
-                    ArrayList<Template> templates = new ArrayList<>();
-                    for (TemplateResponse templateResponse : body) {
-                        Template entity = new Template();
-                        entity.setName(templateResponse.getName());
-                        entity.setTemplateType(template.getTemplateType());
-                        entity.setId(templateResponse.getId());
-                        templates.add(entity);
+                        if (!response.isSuccessful()) {
+                            List<TemplateResponse> body = response.body();
+                            Log.i(TAG, "Creation of template " + name + " successful");
+                            ArrayList<Template> templates = new ArrayList<>();
+                            for (TemplateResponse templateResponse : body) {
+                                Template entity = new Template();
+                                entity.setName(templateResponse.getName());
+                                entity.setTemplateType(template.getTemplateType());
+                                entity.setId(templateResponse.getId());
+                                templates.add(entity);
+                            }
+                            templateRepository.insert(templates);
+                        }
                     }
-                    templateRepository.insert(templates);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<List<TemplateResponse>> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<List<TemplateResponse>> call, Throwable t) {
 
-            }
-        });
-
+                    }
+                });
     }
 }

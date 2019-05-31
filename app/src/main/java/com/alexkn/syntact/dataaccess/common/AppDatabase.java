@@ -17,7 +17,8 @@ import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.model.Template;
 
-@Database(entities = {SolvableTranslation.class, Bucket.class, Letter.class, Template.class}, version = 17)
+@Database(entities = {SolvableTranslation.class, Bucket.class, Letter.class, Template.class},
+        version = 18)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -38,13 +39,10 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (instance == null) {
                     instance = Room
                             .databaseBuilder(context.getApplicationContext(), AppDatabase.class,
-                                    "app_database")
-                            .fallbackToDestructiveMigration().build();
+                                    "app_database").fallbackToDestructiveMigration().build();
                 }
             }
         }
         return instance;
     }
-
-
 }

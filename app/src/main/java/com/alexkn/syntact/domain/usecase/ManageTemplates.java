@@ -68,6 +68,7 @@ public class ManageTemplates {
                 template.setId(templateResponse.getId());
                 template.setName(templateResponse.getName());
                 template.setTemplateType(templateResponse.getTemplateType());
+                template.setLanguage(templateResponse.getLanguage());
 
                 if (templateRepository.exists(template.getId())) {
                     templateRepository.update(template);

@@ -21,7 +21,7 @@ public interface SyntactService {
     @GET("templates")
     Call<List<TemplateResponse>> getTemplates(@Header("Authorization") String token);
 
-    @POST("templates")
+    @POST("templates/")
     Call<List<TemplateResponse>>  postTemplate(@Header("Authorization") String token,
             @Body TemplateResponse templateResponse);
 }

@@ -18,6 +18,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.alexkn.syntact.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 public class TemplateFragment extends Fragment {
 
     private TemplateViewModel viewModel;
@@ -55,4 +61,5 @@ public class TemplateFragment extends Fragment {
                 .actionTemplateFragmentToTemplateCreateFragment();
         Navigation.findNavController(view).navigate(navDirections);
     }
+
 }
