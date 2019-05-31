@@ -26,7 +26,7 @@ public class PlayMenuFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.menu_fragment, container, false);
+        View view = inflater.inflate(R.layout.play_menu_fragment, container, false);
         FloatingActionButton button = view.findViewById(R.id.newBucketFab);
 
         FloatingActionButton tempButton = view.findViewById(R.id.tempTemplateNavFab);

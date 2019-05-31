@@ -27,7 +27,7 @@ public class PhraseListAdapter extends ListItemAdapter<SolvableTranslation, Phra
     public PhraseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.hangman_phrase_card, parent, false);
+                .inflate(R.layout.board_item_card, parent, false);
         PhraseViewHolder viewHolder = new PhraseViewHolder(view);
 
         viewHolder.setOnDrag((v, event) -> {

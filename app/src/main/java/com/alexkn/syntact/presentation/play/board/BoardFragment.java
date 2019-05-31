@@ -42,7 +42,7 @@ public class BoardFragment extends Fragment {
         this.setAllowEnterTransitionOverlap(true);
         this.setAllowReturnTransitionOverlap(true);
 
-        View view = inflater.inflate(R.layout.hangman_board_fragment, container, false);
+        View view = inflater.inflate(R.layout.board_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(BoardViewModel.class);
 
         Long bucketId = BoardFragmentArgs.fromBundle(getArguments()).getBucketId();

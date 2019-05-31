@@ -25,7 +25,7 @@ public class PlayableBucketAdapter extends ListItemAdapter<Bucket, PlayableBucke
     public PlayableBucketViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.menu_language_card, parent, false);
+                .inflate(R.layout.play_bucket_card, parent, false);
 
         PlayableBucketViewHolder viewHolder = new PlayableBucketViewHolder(view);
         view.setOnLongClickListener(v -> {

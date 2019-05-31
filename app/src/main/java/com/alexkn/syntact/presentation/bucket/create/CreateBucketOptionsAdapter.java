@@ -36,7 +36,7 @@ public class CreateBucketOptionsAdapter
     public BucketOptionsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.add_language_choose_parent, parent, false);
+                .inflate(R.layout.bucket_create_choose_parent, parent, false);
 
         return new BucketOptionsViewHolder(view);
     }

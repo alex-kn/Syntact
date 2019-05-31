@@ -33,7 +33,7 @@ public class CreateBucketFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.add_language_fragment, container, false);
+        View view = inflater.inflate(R.layout.bucket_create_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(CreateBucketViewModel.class);
 
         addButton = view.findViewById(R.id.addBucketButton);

@@ -28,7 +28,7 @@ public class ChooseLanguageAdapter
     public ChooseLanguageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.add_language_choose_child, parent, false);
+                .inflate(R.layout.bucket_create_choose_child, parent, false);
 
         return new ChooseLanguageViewHolder(view);
     }

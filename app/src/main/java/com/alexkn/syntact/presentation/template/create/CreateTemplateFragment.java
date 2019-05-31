@@ -30,7 +30,7 @@ public class CreateTemplateFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.create_template_fragment, container, false);
+        View view = inflater.inflate(R.layout.template_create_fragment, container, false);
         viewModel = ViewModelProviders.of(this).get(CreateTemplateViewModel.class);
 
         wordsTextView = view.findViewById(R.id.createTemplateEditText);

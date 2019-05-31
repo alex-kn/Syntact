@@ -2,7 +2,7 @@
 <merge xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    tools:showIn="@layout/menu_fragment">
+    tools:showIn="@layout/play_menu_fragment">
 
 
     <ImageView
