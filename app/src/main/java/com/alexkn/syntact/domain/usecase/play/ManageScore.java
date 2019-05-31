@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.usecase.play;
 
 import com.alexkn.syntact.domain.repository.BucketRepository;
 

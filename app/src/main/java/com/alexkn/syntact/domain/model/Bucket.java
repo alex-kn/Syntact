@@ -32,6 +32,9 @@ public class Bucket implements Identifiable {
     private Locale language;
 
     @NonNull
+    private Boolean ready;
+
+    @NonNull
     private Locale userLanguage;
 
     private Integer templateId;
@@ -81,6 +84,17 @@ public class Bucket implements Identifiable {
     }
 
     @NonNull
+    public Boolean getReady() {
+
+        return ready;
+    }
+
+    public void setReady(@NonNull Boolean ready) {
+
+        this.ready = ready;
+    }
+
+    @NonNull
     public Locale getUserLanguage() {
 
         return userLanguage;
@@ -109,12 +123,13 @@ public class Bucket implements Identifiable {
         Bucket bucket = (Bucket) o;
         return Objects.equals(id, bucket.id) && dailyAverage.equals(bucket.dailyAverage) &&
                 streak.equals(bucket.streak) && language.equals(bucket.language) &&
-                userLanguage.equals(bucket.userLanguage) && templateId.equals(bucket.templateId);
+                ready.equals(bucket.ready) && userLanguage.equals(bucket.userLanguage) &&
+                Objects.equals(templateId, bucket.templateId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, dailyAverage, streak, language, userLanguage, templateId);
+        return Objects.hash(id, dailyAverage, streak, language, ready, userLanguage, templateId);
     }
 }

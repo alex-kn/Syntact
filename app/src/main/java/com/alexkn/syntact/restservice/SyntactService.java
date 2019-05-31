@@ -1,14 +1,15 @@
 package com.alexkn.syntact.restservice;
 
-import com.alexkn.syntact.domain.repository.TemplateRepository;
-
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface SyntactService {
@@ -22,6 +23,14 @@ public interface SyntactService {
     Call<List<TemplateResponse>> getTemplates(@Header("Authorization") String token);
 
     @POST("templates/")
-    Call<List<TemplateResponse>>  postTemplate(@Header("Authorization") String token,
+    Call<List<TemplateResponse>> postTemplate(@Header("Authorization") String token,
             @Body TemplateResponse templateResponse);
+
+    @POST("translate-template")
+    Call<ResponseBody> translateTemplate(@Header("Authorization") String token,
+            @Query("targetLang") String targetLanguage, @Query("templateId") Integer templateId);
+
+    @GET("templates/{id}")
+    Call<TemplateResponse> getTemplate(@Header("Authorization") String token,
+            @Path("id") int templateId);
 }

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.usecase.bucket;
 
 import androidx.lifecycle.LiveData;
 

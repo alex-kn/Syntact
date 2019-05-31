@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.NumberPicker;
 
 import com.alexkn.syntact.R;
 
@@ -51,9 +52,13 @@ public class CreateBucketFragment extends Fragment {
             }
         }));
 
+        NumberPicker np = view.findViewById(R.id.numberPicker);
+        np.setMinValue(0);
+        np.setMaxValue(10);
+
         addButton.setOnClickListener(v -> {
 
-            viewModel.addLanguage(selectedLanguage);
+            viewModel.addBucket(selectedLanguage, np.getValue());
             Navigation.findNavController(view).popBackStack();
         });
 

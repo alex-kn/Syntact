@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.usecase.play;
 
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Letter;
@@ -24,7 +24,8 @@ public class ManageLetters {
     @Inject
     LetterGenerator letterGenerator;
 
-    @Inject ManageScore manageScore;
+    @Inject
+    ManageScore manageScore;
 
     @Inject
     ManageLetters() {
@@ -36,8 +37,8 @@ public class ManageLetters {
         int sampleSize = 16;
         Character[] characters = letterGenerator.generateCharacters(sampleSize);
         LinkedList<LetterColumn> columns = new LinkedList<>();
-        LetterColumn[] left = new LetterColumn[sampleSize/2];
-        LetterColumn[] right = new LetterColumn[sampleSize/2];
+        LetterColumn[] left = new LetterColumn[sampleSize / 2];
+        LetterColumn[] right = new LetterColumn[sampleSize / 2];
         Arrays.fill(left, LetterColumn.LEFT);
         Arrays.fill(right, LetterColumn.RIGHT);
         columns.addAll(Arrays.asList(left));

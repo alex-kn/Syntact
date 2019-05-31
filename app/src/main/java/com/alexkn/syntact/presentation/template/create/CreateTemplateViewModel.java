@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.usecase.CreateTemplate;
+import com.alexkn.syntact.domain.usecase.template.CreateTemplate;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import javax.inject.Inject;

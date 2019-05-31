@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.usecase.ManageBuckets;
+import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;

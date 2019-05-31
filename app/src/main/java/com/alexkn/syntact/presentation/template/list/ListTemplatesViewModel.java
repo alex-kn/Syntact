@@ -9,8 +9,8 @@ import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Template;
-import com.alexkn.syntact.domain.usecase.CreateTemplate;
-import com.alexkn.syntact.domain.usecase.ManageTemplates;
+import com.alexkn.syntact.domain.usecase.template.CreateTemplate;
+import com.alexkn.syntact.domain.usecase.template.ManageTemplates;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;

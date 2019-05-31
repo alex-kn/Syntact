@@ -26,7 +26,7 @@ public class ListTemplatesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.list_templates_fragment, container, false);
+        View view = inflater.inflate(R.layout.template_list_fragment, container, false);
         RecyclerView templateList = view.findViewById(R.id.templateList);
         templateList.setLayoutManager(new LinearLayoutManager(getContext()));
 

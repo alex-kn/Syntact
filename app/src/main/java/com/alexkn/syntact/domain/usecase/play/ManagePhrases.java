@@ -1,9 +1,8 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.usecase.play;
 
 import android.app.Application;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.repository.PhraseRepository;
 import com.alexkn.syntact.domain.util.PhraseGenerator;

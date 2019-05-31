@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.usecase.template;
 
 import android.util.Log;
 
@@ -9,6 +9,8 @@ import com.alexkn.syntact.domain.repository.TemplateRepository;
 import com.alexkn.syntact.restservice.PhraseResponse;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.TemplateResponse;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,13 +53,13 @@ public class CreateTemplate {
         for (String word : words) {
             PhraseResponse phrase = new PhraseResponse();
             phrase.setLanguage(new Locale(Locale.getDefault().getLanguage()));
-            phrase.setText(word);
+            phrase.setText(StringUtils.capitalize(word));
             phrases.add(phrase);
         }
 
         TemplateResponse template = new TemplateResponse();
         template.setTemplateType(TemplateType.CUSTOM);
-        template.setName(name);
+        template.setName(name.trim());
         template.setPhrases(phrases);
         template.setLanguage(new Locale(Locale.getDefault().getLanguage()));
 

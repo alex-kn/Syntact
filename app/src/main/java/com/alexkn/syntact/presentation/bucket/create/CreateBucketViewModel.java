@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.usecase.CreateBucket;
-import com.alexkn.syntact.domain.usecase.ManageBuckets;
+import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
+import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
@@ -38,9 +38,9 @@ public class CreateBucketViewModel extends AndroidViewModel {
     }
 
 
-    void addLanguage(Locale language) {
+    void addBucket(Locale language, int templateId) {
 
-        AsyncTask.execute(() -> createBucket.addBucket(language,1 ));
+        AsyncTask.execute(() -> createBucket.addBucket(language,templateId ));
     }
 
     public List<Locale> getAvailableBuckets() {

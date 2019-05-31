@@ -43,7 +43,7 @@
         android:id="@+id/templateFragment"
         android:name="com.alexkn.syntact.presentation.template.list.ListTemplatesFragment"
         android:label="template_fragment"
-        tools:layout="@layout/list_templates_fragment" >
+        tools:layout="@layout/template_list_fragment" >
         <action
             android:id="@+id/action_templateFragment_to_templateCreateFragment"
             app:destination="@id/templateCreateFragment" />

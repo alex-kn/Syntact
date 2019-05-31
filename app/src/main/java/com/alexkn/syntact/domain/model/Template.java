@@ -19,6 +19,8 @@ public class Template implements Identifiable {
     @NonNull
     private String name;
 
+    private String description;
+
     @NonNull
     private TemplateType templateType;
 
@@ -44,6 +46,16 @@ public class Template implements Identifiable {
     public void setName(@NonNull String name) {
 
         this.name = name;
+    }
+
+    public String getDescription() {
+
+        return description;
+    }
+
+    public void setDescription(String description) {
+
+        this.description = description;
     }
 
     @NonNull
@@ -75,12 +87,13 @@ public class Template implements Identifiable {
         if (o == null || getClass() != o.getClass()) return false;
         Template template = (Template) o;
         return Objects.equals(id, template.id) && name.equals(template.name) &&
+                Objects.equals(description, template.description) &&
                 templateType == template.templateType && language.equals(template.language);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, templateType, language);
+        return Objects.hash(id, name, description, templateType, language);
     }
 }

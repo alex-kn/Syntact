@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.usecase;
+package com.alexkn.syntact.domain.usecase.template;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -69,6 +69,7 @@ public class ManageTemplates {
                 template.setName(templateResponse.getName());
                 template.setTemplateType(templateResponse.getTemplateType());
                 template.setLanguage(templateResponse.getLanguage());
+                template.setDescription(templateResponse.getDescription());
 
                 if (templateRepository.exists(template.getId())) {
                     templateRepository.update(template);
