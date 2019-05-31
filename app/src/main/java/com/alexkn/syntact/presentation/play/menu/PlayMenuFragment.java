@@ -1,26 +1,24 @@
-package com.alexkn.syntact.presentation.menu;
+package com.alexkn.syntact.presentation.play.menu;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
-import com.alexkn.syntact.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MainMenuFragment extends Fragment {
+import com.alexkn.syntact.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-    private LanguagesViewModel viewModel;
+public class PlayMenuFragment extends Fragment {
+
+    private PlayMenuViewModel viewModel;
 
     private RecyclerView languagesList;
 
@@ -35,24 +33,24 @@ public class MainMenuFragment extends Fragment {
 
         tempButton.setOnClickListener(v -> {
 
-            NavDirections navDirections = MainMenuFragmentDirections
+            NavDirections navDirections = PlayMenuFragmentDirections
                     .actionMainMenuFragmentToTemplateFragment();
             Navigation.findNavController(view).navigate(navDirections);
         });
 
-        viewModel = ViewModelProviders.of(getActivity()).get(LanguagesViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(PlayMenuViewModel.class);
 
         this.setAllowEnterTransitionOverlap(true);
         this.setAllowReturnTransitionOverlap(true);
 
         languagesList = view.findViewById(R.id.languagesList);
         languagesList.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        LanguageAdapter languageAdapter = new LanguageAdapter(
+        PlayableBucketAdapter playableBucketAdapter = new PlayableBucketAdapter(
                 bucket -> viewModel.deleteLanguage(bucket));
-        languagesList.setAdapter(languageAdapter);
+        languagesList.setAdapter(playableBucketAdapter);
         languagesList.setHasFixedSize(true);
 
-        viewModel.getBuckets().observe(getViewLifecycleOwner(), languageAdapter::submitList);
+        viewModel.getBuckets().observe(getViewLifecycleOwner(), playableBucketAdapter::submitList);
         button.setOnClickListener(this::newLanguage);
 
         return view;
@@ -60,7 +58,7 @@ public class MainMenuFragment extends Fragment {
 
     private void newLanguage(View view) {
 
-        NavDirections navDirections = MainMenuFragmentDirections
+        NavDirections navDirections = PlayMenuFragmentDirections
                 .actionMainMenuFragmentToAddLanguageFragment();
         Navigation.findNavController(view).navigate(navDirections);
     }

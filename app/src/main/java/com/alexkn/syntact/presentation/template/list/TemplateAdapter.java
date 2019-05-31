@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.template.create;
+package com.alexkn.syntact.presentation.template.list;
 
 import android.view.LayoutInflater;
 import android.view.View;

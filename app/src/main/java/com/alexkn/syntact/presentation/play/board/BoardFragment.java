@@ -1,19 +1,13 @@
-package com.alexkn.syntact.presentation.hangman;
+package com.alexkn.syntact.presentation.play.board;
 
 import android.content.Context;
-import android.media.FaceDetector;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.alexkn.syntact.R;
 
@@ -23,18 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.transition.ChangeBounds;
-import androidx.transition.ChangeTransform;
-import androidx.transition.Fade;
-import androidx.transition.Slide;
-import androidx.transition.Transition;
-import androidx.transition.TransitionInflater;
-import androidx.transition.TransitionManager;
-import androidx.transition.Visibility;
 
-public class HangmanBoardFragment extends Fragment {
+public class BoardFragment extends Fragment {
 
-    private HangmanViewModel viewModel;
+    private BoardViewModel viewModel;
 
     private LetterListAdapter letterListAdapter2;
 
@@ -57,10 +43,9 @@ public class HangmanBoardFragment extends Fragment {
         this.setAllowReturnTransitionOverlap(true);
 
         View view = inflater.inflate(R.layout.hangman_board_fragment, container, false);
-        viewModel = ViewModelProviders.of(getActivity()).get(HangmanViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(BoardViewModel.class);
 
-        Long bucketId = HangmanBoardFragmentArgs.fromBundle(getArguments())
-                .getBucketId();
+        Long bucketId = BoardFragmentArgs.fromBundle(getArguments()).getBucketId();
         viewModel.initLanguage(bucketId);
 
         RecyclerView cardsView = view.findViewById(R.id.phrasesView);
@@ -140,5 +125,4 @@ public class HangmanBoardFragment extends Fragment {
             return false;
         }
     }
-
 }

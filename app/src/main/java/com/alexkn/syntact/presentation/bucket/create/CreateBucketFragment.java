@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.addlanguage;
+package com.alexkn.syntact.presentation.bucket.create;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,11 +19,11 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class AddLanguageFragment extends Fragment {
+public class CreateBucketFragment extends Fragment {
 
-    private static final String TAG = AddLanguageFragment.class.getSimpleName();
+    private static final String TAG = CreateBucketFragment.class.getSimpleName();
 
-    private AddLanguageViewModel viewModel;
+    private CreateBucketViewModel viewModel;
 
     private View addButton;
 
@@ -34,7 +34,7 @@ public class AddLanguageFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.add_language_fragment, container, false);
-        viewModel = ViewModelProviders.of(getActivity()).get(AddLanguageViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(CreateBucketViewModel.class);
 
         addButton = view.findViewById(R.id.addBucketButton);
 
@@ -45,7 +45,7 @@ public class AddLanguageFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.bucketOptionRecyclerView);
         recyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false));
-        recyclerView.setAdapter(new BucketOptionsAdapter(dataset, (integer, locale) -> {
+        recyclerView.setAdapter(new CreateBucketOptionsAdapter(dataset, (integer, locale) -> {
             if (integer == 0) {
                 selectedLanguage = locale;
             }
@@ -64,6 +64,6 @@ public class AddLanguageFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(AddLanguageViewModel.class);
+        viewModel = ViewModelProviders.of(this).get(CreateBucketViewModel.class);
     }
 }

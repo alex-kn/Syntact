@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.menu;
+package com.alexkn.syntact.presentation.play.menu;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,23 +11,23 @@ import com.alexkn.syntact.presentation.common.ListItemAdapter;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class LanguageAdapter extends ListItemAdapter<Bucket, LanguageViewHolder> {
+public class PlayableBucketAdapter extends ListItemAdapter<Bucket, PlayableBucketViewHolder> {
 
     private ViewModelCallback viewModelCallback;
 
-    public LanguageAdapter(ViewModelCallback viewModelCallback) {
+    public PlayableBucketAdapter(ViewModelCallback viewModelCallback) {
 
         this.viewModelCallback = viewModelCallback;
     }
 
     @NonNull
     @Override
-    public LanguageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public PlayableBucketViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.menu_language_card, parent, false);
 
-        LanguageViewHolder viewHolder = new LanguageViewHolder(view);
+        PlayableBucketViewHolder viewHolder = new PlayableBucketViewHolder(view);
         view.setOnLongClickListener(v -> {
 
             int adapterPosition = viewHolder.getAdapterPosition();
@@ -42,7 +42,7 @@ public class LanguageAdapter extends ListItemAdapter<Bucket, LanguageViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(@NonNull LanguageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PlayableBucketViewHolder holder, int position) {
 
         holder.bindTo(getList().get(position));
     }

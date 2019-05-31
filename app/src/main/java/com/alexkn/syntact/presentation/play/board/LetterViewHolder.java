@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman;
+package com.alexkn.syntact.presentation.play.board;
 
 import android.view.View;
 import android.widget.TextView;

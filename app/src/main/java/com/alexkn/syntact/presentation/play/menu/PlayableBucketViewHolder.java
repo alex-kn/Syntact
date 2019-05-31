@@ -1,21 +1,21 @@
-package com.alexkn.syntact.presentation.menu;
+package com.alexkn.syntact.presentation.play.menu;
 
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.navigation.Navigation;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 
-import androidx.navigation.Navigation;
-
-public class LanguageViewHolder extends ListItemViewHolder<Bucket> {
+public class PlayableBucketViewHolder extends ListItemViewHolder<Bucket> {
 
     private final TextView languageLabel;
 
     private Bucket bucket;
 
-    LanguageViewHolder(View v) {
+    PlayableBucketViewHolder(View v) {
 
         super(v);
         languageLabel = v.findViewById(R.id.langLabel);
@@ -33,7 +33,7 @@ public class LanguageViewHolder extends ListItemViewHolder<Bucket> {
 
     private void startHangman(View view) {
 
-        MainMenuFragmentDirections.ActionMainMenuFragmentToHangmanBoardFragment action = MainMenuFragmentDirections
+        PlayMenuFragmentDirections.ActionMainMenuFragmentToHangmanBoardFragment action = PlayMenuFragmentDirections
                 .actionMainMenuFragmentToHangmanBoardFragment(bucket.getId());
         Navigation.findNavController(view).navigate(action);
     }

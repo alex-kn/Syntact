@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.addlanguage;
+package com.alexkn.syntact.presentation.bucket.create;
 
 import android.view.LayoutInflater;
 import android.view.View;

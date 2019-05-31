@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman;
+package com.alexkn.syntact.presentation.play.board;
 
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.SolvableItem;

@@ -1,32 +1,29 @@
-package com.alexkn.syntact.presentation.addlanguage;
+package com.alexkn.syntact.presentation.play.menu;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.domain.usecase.CreateBucket;
+import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.usecase.ManageBuckets;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
-public class AddLanguageViewModel extends AndroidViewModel {
+public class PlayMenuViewModel extends AndroidViewModel {
 
-    private final List<Locale> availableBuckets;
 
     @Inject
     ManageBuckets manageBuckets;
+    private final LiveData<List<Bucket>> buckets;
 
-    @Inject
-    CreateBucket createBucket;
-
-    public AddLanguageViewModel(@NonNull Application application) {
+    public PlayMenuViewModel(@NonNull Application application) {
 
         super(application);
 
@@ -34,17 +31,17 @@ public class AddLanguageViewModel extends AndroidViewModel {
                 ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
 
-        availableBuckets = manageBuckets.getAvailableBuckets();
+        buckets = manageBuckets.getBuckets();
     }
 
+    public void deleteLanguage(Bucket bucket) {
 
-    void addLanguage(Locale language) {
-
-        AsyncTask.execute(() -> createBucket.addBucket(language,1 ));
+        AsyncTask.execute(() -> manageBuckets.removeLanguage(bucket.getId()));
     }
 
-    public List<Locale> getAvailableBuckets() {
+    LiveData<List<Bucket>> getBuckets() {
 
-        return availableBuckets;
+        return buckets;
     }
 }
+

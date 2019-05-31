@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman;
+package com.alexkn.syntact.presentation.play.board;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -23,7 +23,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-public class HangmanViewModel extends AndroidViewModel {
+public class BoardViewModel extends AndroidViewModel {
 
     @Inject
     ManagePhrases managePhrases;
@@ -47,7 +47,7 @@ public class HangmanViewModel extends AndroidViewModel {
 
     private LiveData<List<Letter>> lettersRight;
 
-    public HangmanViewModel(Application application) {
+    public BoardViewModel(Application application) {
 
         super(application);
 

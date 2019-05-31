@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.hangman;
+package com.alexkn.syntact.presentation.play.board;
 
 import android.graphics.Point;
 import android.view.LayoutInflater;

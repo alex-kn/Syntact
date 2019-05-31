@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/mainMenuFragment"
-        android:name="com.alexkn.syntact.presentation.menu.MainMenuFragment"
+        android:name="com.alexkn.syntact.presentation.play.menu.PlayMenuFragment"
         android:label="fragment_main_menu"
         tools:layout="@layout/menu_fragment" >
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/hangmanBoardFragment"
-        android:name="com.alexkn.syntact.presentation.hangman.HangmanBoardFragment"
+        android:name="com.alexkn.syntact.presentation.play.board.BoardFragment"
         android:label="fragment_hangman_board"
         tools:layout="@layout/hangman_board_fragment" >
         <argument
@@ -36,21 +36,21 @@
     </fragment>
     <fragment
         android:id="@+id/addLanguageFragment"
-        android:name="com.alexkn.syntact.presentation.addlanguage.AddLanguageFragment"
+        android:name="com.alexkn.syntact.presentation.bucket.create.CreateBucketFragment"
         android:label="add_language_fragment"
         tools:layout="@layout/add_language_fragment" />
     <fragment
         android:id="@+id/templateFragment"
-        android:name="com.alexkn.syntact.presentation.template.create.TemplateFragment"
+        android:name="com.alexkn.syntact.presentation.template.list.ListTemplatesFragment"
         android:label="template_fragment"
-        tools:layout="@layout/template_fragment" >
+        tools:layout="@layout/list_template_fragment" >
         <action
             android:id="@+id/action_templateFragment_to_templateCreateFragment"
             app:destination="@id/templateCreateFragment" />
     </fragment>
     <fragment
         android:id="@+id/templateCreateFragment"
-        android:name="com.alexkn.syntact.presentation.template.list.TemplateCreateFragment"
+        android:name="com.alexkn.syntact.presentation.template.create.CreateTemplateFragment"
         android:label="template_create_fragment"
-        tools:layout="@layout/template_create_fragment" />
+        tools:layout="@layout/create_template_fragment" />
 </navigation>

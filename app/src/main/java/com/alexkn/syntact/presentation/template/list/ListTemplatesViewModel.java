@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.template.create;
+package com.alexkn.syntact.presentation.template.list;
 
 import android.app.Application;
 import android.os.AsyncTask;
@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class TemplateViewModel extends AndroidViewModel {
+public class ListTemplatesViewModel extends AndroidViewModel {
 
     @Inject
     CreateTemplate createTemplate;
@@ -27,7 +27,7 @@ public class TemplateViewModel extends AndroidViewModel {
 
     private final LiveData<List<Template>> templates;
 
-    public TemplateViewModel(@NonNull Application application) {
+    public ListTemplatesViewModel(@NonNull Application application) {
 
         super(application);
 

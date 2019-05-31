@@ -1,11 +1,11 @@
 package com.alexkn.syntact.presentation.common;
 
 import com.alexkn.syntact.app.ApplicationComponent;
-import com.alexkn.syntact.presentation.addlanguage.AddLanguageViewModel;
-import com.alexkn.syntact.presentation.hangman.HangmanViewModel;
-import com.alexkn.syntact.presentation.menu.LanguagesViewModel;
-import com.alexkn.syntact.presentation.template.create.TemplateViewModel;
-import com.alexkn.syntact.presentation.template.list.TemplateCreateViewModel;
+import com.alexkn.syntact.presentation.bucket.create.CreateBucketViewModel;
+import com.alexkn.syntact.presentation.play.board.BoardViewModel;
+import com.alexkn.syntact.presentation.play.menu.PlayMenuViewModel;
+import com.alexkn.syntact.presentation.template.list.ListTemplatesViewModel;
+import com.alexkn.syntact.presentation.template.create.CreateTemplateViewModel;
 
 import dagger.Component;
 
@@ -13,13 +13,13 @@ import dagger.Component;
 @ActivityScope
 public interface ViewComponent {
 
-    void inject(HangmanViewModel hangmanBoardViewModel);
+    void inject(BoardViewModel hangmanBoardViewModel);
 
-    void inject(LanguagesViewModel languagesViewModel);
+    void inject(PlayMenuViewModel playMenuViewModel);
 
-    void inject(AddLanguageViewModel addLanguageViewModel);
+    void inject(CreateBucketViewModel createBucketViewModel);
 
-    void inject(TemplateViewModel templateViewModel);
+    void inject(ListTemplatesViewModel listTemplatesViewModel);
 
-    void inject(TemplateCreateViewModel templateCreateViewModel);
+    void inject(CreateTemplateViewModel createTemplateViewModel);
 }

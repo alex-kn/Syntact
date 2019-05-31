@@ -1,6 +1,5 @@
-package com.alexkn.syntact.presentation.addlanguage;
+package com.alexkn.syntact.presentation.bucket.create;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,20 +7,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.alexkn.syntact.R;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-public class BucketOptionsAdapter
-        extends RecyclerView.Adapter<BucketOptionsAdapter.BucketOptionsViewHolder> {
+public class CreateBucketOptionsAdapter
+        extends RecyclerView.Adapter<CreateBucketOptionsAdapter.BucketOptionsViewHolder> {
 
     private List<List<Locale>> dataset;
 
@@ -29,7 +25,7 @@ public class BucketOptionsAdapter
 
     private RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
 
-    public BucketOptionsAdapter(List<List<Locale>> dataset, BiConsumer<Integer, Locale> callback) {
+    public CreateBucketOptionsAdapter(List<List<Locale>> dataset, BiConsumer<Integer, Locale> callback) {
 
         this.callback = callback;
         this.dataset = dataset;

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.template.list;
+package com.alexkn.syntact.presentation.template.create;
 
 import androidx.lifecycle.ViewModelProviders;
 
@@ -19,9 +19,9 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import org.apache.commons.lang3.StringUtils;
 
-public class TemplateCreateFragment extends Fragment {
+public class CreateTemplateFragment extends Fragment {
 
-    private TemplateCreateViewModel viewModel;
+    private CreateTemplateViewModel viewModel;
 
     private EditText wordsTextView;
     private EditText nameTextView;
@@ -30,8 +30,8 @@ public class TemplateCreateFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.template_create_fragment, container, false);
-        viewModel = ViewModelProviders.of(this).get(TemplateCreateViewModel.class);
+        View view = inflater.inflate(R.layout.create_template_fragment, container, false);
+        viewModel = ViewModelProviders.of(this).get(CreateTemplateViewModel.class);
 
         wordsTextView = view.findViewById(R.id.createTemplateEditText);
         nameTextView = view.findViewById(R.id.nameEditText);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/collapsing_toolbar"
-    tools:context=".presentation.menu.MainMenuFragment">
+    tools:context=".presentation.play.menu.PlayMenuFragment">
 
     <include layout="@layout/top_bar" />
 
