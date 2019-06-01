@@ -32,11 +32,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     buildToolsVersion '28.0.3'
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha05'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta1'
     implementation 'org.apache.commons:commons-lang3:3.9'
@@ -44,10 +46,9 @@ dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-beta01'
     implementation 'com.google.android.material:material:1.1.0-alpha07'
-    implementation 'androidx.room:room-runtime:2.1.0-rc01'
-    implementation 'com.google.dagger:dagger:2.22.1'
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation 'commons-io:commons-io:20030203.000550'
+
 
     implementation 'com.squareup.retrofit2:retrofit:2.1.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
@@ -59,8 +60,15 @@ dependencies {
 
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
-    annotationProcessor 'androidx.room:room-compiler:2.1.0-rc01'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.22.1'
+    def room_version = "2.1.0-rc01"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    def dagger_version = "2.20"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
 
     testImplementation 'junit:junit:4.13-beta-2'
     androidTestImplementation 'androidx.test:runner:1.2.0'

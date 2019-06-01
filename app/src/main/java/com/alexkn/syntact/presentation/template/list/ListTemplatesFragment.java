@@ -35,6 +35,8 @@ public class ListTemplatesFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(ListTemplatesViewModel.class);
 
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.templateRefreshLayout);
+        swipeRefreshLayout.setProgressBackgroundColorSchemeResource(R.color.color_surface);
+        swipeRefreshLayout.setColorSchemeResources(R.color.color_primary, R.color.color_secondary);
 
         viewModel.getTemplates().observe(getViewLifecycleOwner(), data -> {
             adapter.submitList(data);

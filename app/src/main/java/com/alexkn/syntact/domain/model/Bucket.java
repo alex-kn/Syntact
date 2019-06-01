@@ -6,6 +6,7 @@ import androidx.room.ForeignKey;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
+import com.alexkn.syntact.domain.common.GameMode;
 import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.util.Locale;
@@ -33,6 +34,9 @@ public class Bucket implements Identifiable {
 
     @NonNull
     private Boolean ready;
+
+    @NonNull
+    private GameMode gameMode;
 
     @NonNull
     private Locale userLanguage;
@@ -95,6 +99,17 @@ public class Bucket implements Identifiable {
     }
 
     @NonNull
+    public GameMode getGameMode() {
+
+        return gameMode;
+    }
+
+    public void setGameMode(@NonNull GameMode gameMode) {
+
+        this.gameMode = gameMode;
+    }
+
+    @NonNull
     public Locale getUserLanguage() {
 
         return userLanguage;
@@ -123,13 +138,15 @@ public class Bucket implements Identifiable {
         Bucket bucket = (Bucket) o;
         return Objects.equals(id, bucket.id) && dailyAverage.equals(bucket.dailyAverage) &&
                 streak.equals(bucket.streak) && language.equals(bucket.language) &&
-                ready.equals(bucket.ready) && userLanguage.equals(bucket.userLanguage) &&
+                ready.equals(bucket.ready) && gameMode == bucket.gameMode &&
+                userLanguage.equals(bucket.userLanguage) &&
                 Objects.equals(templateId, bucket.templateId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, dailyAverage, streak, language, ready, userLanguage, templateId);
+        return Objects.hash(id, dailyAverage, streak, language, ready, gameMode, userLanguage,
+                templateId);
     }
 }

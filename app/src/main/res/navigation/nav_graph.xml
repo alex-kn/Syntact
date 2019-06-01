@@ -24,6 +24,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_templateFragment"
             app:destination="@id/templateFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_listBucketsFragment"
+            app:destination="@id/listBucketsFragment" />
     </fragment>
     <fragment
         android:id="@+id/hangmanBoardFragment"
@@ -53,4 +56,9 @@
         android:name="com.alexkn.syntact.presentation.template.create.CreateTemplateFragment"
         android:label="template_create_fragment"
         tools:layout="@layout/template_create_fragment" />
+    <fragment
+        android:id="@+id/listBucketsFragment"
+        android:name="com.alexkn.syntact.presentation.bucket.list.ListBucketsFragment"
+        android:label="bucket_list_fragment"
+        tools:layout="@layout/bucket_list_fragment" />
 </navigation>

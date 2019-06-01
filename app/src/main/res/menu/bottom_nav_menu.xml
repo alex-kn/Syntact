@@ -7,7 +7,7 @@
         android:title="Play" />
 
     <item
-        android:id="@+id/bucketFragment"
+        android:id="@+id/listBucketsFragment"
         android:icon="@drawable/ic_done_black_24dp"
         android:title="Buckets" />
 

@@ -2,6 +2,7 @@ package com.alexkn.syntact.presentation.common;
 
 import com.alexkn.syntact.app.ApplicationComponent;
 import com.alexkn.syntact.presentation.bucket.create.CreateBucketViewModel;
+import com.alexkn.syntact.presentation.bucket.list.ListBucketsViewModel;
 import com.alexkn.syntact.presentation.play.board.BoardViewModel;
 import com.alexkn.syntact.presentation.play.menu.PlayMenuViewModel;
 import com.alexkn.syntact.presentation.template.list.ListTemplatesViewModel;
@@ -22,4 +23,6 @@ public interface ViewComponent {
     void inject(ListTemplatesViewModel listTemplatesViewModel);
 
     void inject(CreateTemplateViewModel createTemplateViewModel);
+
+    void inject(ListBucketsViewModel listBucketsViewModel);
 }

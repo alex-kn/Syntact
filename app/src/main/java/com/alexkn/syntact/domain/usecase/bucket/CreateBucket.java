@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.alexkn.syntact.app.Property;
+import com.alexkn.syntact.domain.common.GameMode;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.repository.BucketRepository;
@@ -111,6 +112,7 @@ public class CreateBucket {
         bucket.setUserLanguage(sourceLanguage);
         bucket.setTemplateId(templateId);
         bucket.setReady(false);
+        bucket.setGameMode(GameMode.DRAG);
 
         Long bucketId = bucketRepository.insert(bucket);
         manageLetters.initializeLetters(bucketId);

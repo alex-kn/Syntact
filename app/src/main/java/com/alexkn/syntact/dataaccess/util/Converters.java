@@ -1,5 +1,6 @@
 package com.alexkn.syntact.dataaccess.util;
 
+import com.alexkn.syntact.domain.common.GameMode;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.common.TemplateType;
 
@@ -56,6 +57,18 @@ public class Converters {
     public static String toString(TemplateType templateType) {
 
         return templateType == null ? null : templateType.name();
+    }
+
+    @TypeConverter
+    public static GameMode toGameMode(String value) {
+
+        return value == null ? null : GameMode.valueOf(value);
+    }
+
+    @TypeConverter
+    public static String toString(GameMode gameMode) {
+
+        return gameMode == null ? null : gameMode.name();
     }
 }
 

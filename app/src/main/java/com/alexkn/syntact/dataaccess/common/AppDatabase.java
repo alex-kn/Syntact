@@ -18,7 +18,7 @@ import com.alexkn.syntact.domain.model.SolvableTranslation;
 import com.alexkn.syntact.domain.model.Template;
 
 @Database(entities = {SolvableTranslation.class, Bucket.class, Letter.class, Template.class},
-        version = 20)
+        version = 21)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
