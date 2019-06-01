@@ -15,6 +15,7 @@ import com.alexkn.syntact.restservice.PhraseResponse;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.TemplateResponse;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,46 +60,35 @@ public class CreateBucket {
         String srcLang = bucket.getUserLanguage().getLanguage();
         Integer templateId = bucket.getTemplateId();
 
-        syntactService.getPhrases(token, srcLang, targetlang, templateId)
-                .enqueue(new Callback<List<PhraseResponse>>() {
+        try {
+            Response<List<PhraseResponse>> response = syntactService
+                    .getPhrases(token, srcLang, targetlang, templateId).execute();
+            if (response.isSuccessful()) {
+                List<PhraseResponse> body = response.body();
 
-                    @Override
-                    public void onResponse(Call<List<PhraseResponse>> call,
-                            Response<List<PhraseResponse>> response) {
+                if (body.stream().anyMatch(resp -> resp.getTranslations().isEmpty())) {
+                    Log.i(TAG, "Translations not yet ready");
+                }
 
-                        if (response.isSuccessful()) {
-                            List<PhraseResponse> body = response.body();
+                List<SolvableTranslation> solvabeItems = phraseGenerator
+                        .createSolvabeItems(bucketid, body);
 
-                            if (body.stream().anyMatch(resp -> resp.getTranslations().isEmpty())) {
-                                Log.i(TAG, "Translations not yet ready");
-                            }
+                Log.i(TAG, body.size() + " phrases fetched with " + solvabeItems.size() +
+                        " translations");
 
-                            List<SolvableTranslation> solvabeItems = phraseGenerator
-                                    .createSolvabeItems(bucketid, body);
-
-                            Log.i(TAG,
-                                    body.size() + " phrases fetched with " + solvabeItems.size() +
-                                            " translations");
-
-                            bucket.setReady(true);
-                            AsyncTask.execute(() -> {
-                                bucketRepository.update(bucket);
-                                managePhrases.saveSolvableItems(solvabeItems);
-                            });
-
-                            Log.i(TAG,
-                                    "onResponse: " + solvabeItems.size() + " new solvable items");
-                        } else {
-                            Log.e(TAG, "onResponse: Error receiving phrases");
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<PhraseResponse>> call, Throwable t) {
-
-                        Log.e(TAG, "onFailure: Error receiving phrases", t);
-                    }
+                bucket.setReady(true);
+                AsyncTask.execute(() -> {
+                    bucketRepository.update(bucket);
+                    managePhrases.saveSolvableItems(solvabeItems);
                 });
+
+                Log.i(TAG, "onResponse: " + solvabeItems.size() + " new solvable items");
+            } else {
+                Log.e(TAG, "onResponse: Error receiving phrases");
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "checkBucketReadiness: ", e);
+        }
     }
 
     public void addBucket(Locale language, int templateId) {
@@ -121,24 +111,16 @@ public class CreateBucket {
         String targetlang = language.getLanguage();
         String srcLang = sourceLanguage.getLanguage();
 
-        syntactService.translateTemplate(token, language.getLanguage(), templateId)
-                .enqueue(new Callback<ResponseBody>() {
+        try {
+            Response<ResponseBody> response = syntactService
+                    .translateTemplate(token, language.getLanguage(), templateId).execute();
+            if (response.isSuccessful()) {
 
-                    @Override
-                    public void onResponse(Call<ResponseBody> call,
-                            Response<ResponseBody> response) {
-
-                        if (response.isSuccessful()) {
-
-                            Log.i(TAG, "Translation complete");
-                            checkBucketReadiness(bucketId, bucket);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                    }
-                });
+                Log.i(TAG, "Translation complete");
+                checkBucketReadiness(bucketId, bucket);
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "addBucket: ", e);
+        }
     }
 }

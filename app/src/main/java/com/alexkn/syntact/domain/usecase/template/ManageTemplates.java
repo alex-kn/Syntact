@@ -11,6 +11,7 @@ import com.alexkn.syntact.domain.repository.TemplateRepository;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.TemplateResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -41,21 +42,13 @@ public class ManageTemplates {
 
         String token = "Token " + property.get("api-auth-token");
 
-        syntactService.getTemplates(token).enqueue(new Callback<List<TemplateResponse>>() {
-
-            @Override
-            public void onResponse(Call<List<TemplateResponse>> call,
-                    Response<List<TemplateResponse>> response) {
-
-                AsyncTask.execute(() -> handleTemplateResponse(response));
-            }
-
-            @Override
-            public void onFailure(Call<List<TemplateResponse>> call, Throwable t) {
-
-                Log.e(TAG, "onFailure: Error receiving templates", t);
-            }
-        });
+        try {
+            Response<List<TemplateResponse>> response = syntactService.getTemplates(token)
+                    .execute();
+            AsyncTask.execute(() -> handleTemplateResponse(response));
+        } catch (IOException e) {
+            Log.e(TAG, "loadTemplates: ", e);
+        }
     }
 
     private void handleTemplateResponse(Response<List<TemplateResponse>> response) {
@@ -82,7 +75,7 @@ public class ManageTemplates {
         }
     }
 
-    public LiveData<List<Template>> getTemplates(){
+    public LiveData<List<Template>> getTemplates() {
 
         return templateRepository.findAll();
     }

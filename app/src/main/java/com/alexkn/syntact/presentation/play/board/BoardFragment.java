@@ -39,9 +39,6 @@ public class BoardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
             @Nullable Bundle savedInstanceState) {
 
-        this.setAllowEnterTransitionOverlap(true);
-        this.setAllowReturnTransitionOverlap(true);
-
         View view = inflater.inflate(R.layout.board_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(BoardViewModel.class);
 

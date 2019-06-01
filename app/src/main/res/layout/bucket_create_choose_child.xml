@@ -30,9 +30,10 @@
             android:id="@+id/chooseLanguageTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#77000000"
+            android:background="@color/color_surface"
+            android:alpha="0.5"
             android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MyTheme.Caption"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
             app:layout_constraintBottom_toBottomOf="@id/chooseLanguageImage"
             app:layout_constraintEnd_toEndOf="@id/chooseLanguageImage"
             app:layout_constraintStart_toStartOf="@id/chooseLanguageImage" />

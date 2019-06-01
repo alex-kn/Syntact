@@ -54,7 +54,7 @@ public class ListTemplatesFragment extends Fragment {
     private void newTemplate(View view) {
 
         NavDirections navDirections = ListTemplatesFragmentDirections
-                .actionTemplateFragmentToTemplateCreateFragment();
+                .actionListTemplatesFragmentToCreateTemplateFragment();
         Navigation.findNavController(view).navigate(navDirections);
     }
 }

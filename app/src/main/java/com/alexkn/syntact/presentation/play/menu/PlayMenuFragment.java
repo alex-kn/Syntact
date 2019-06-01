@@ -27,16 +27,6 @@ public class PlayMenuFragment extends Fragment {
             Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.play_menu_fragment, container, false);
-        FloatingActionButton button = view.findViewById(R.id.newBucketFab);
-
-        FloatingActionButton tempButton = view.findViewById(R.id.tempTemplateNavFab);
-
-        tempButton.setOnClickListener(v -> {
-
-            NavDirections navDirections = PlayMenuFragmentDirections
-                    .actionMainMenuFragmentToTemplateFragment();
-            Navigation.findNavController(view).navigate(navDirections);
-        });
 
         viewModel = ViewModelProviders.of(getActivity()).get(PlayMenuViewModel.class);
 
@@ -51,15 +41,7 @@ public class PlayMenuFragment extends Fragment {
         languagesList.setHasFixedSize(true);
 
         viewModel.getBuckets().observe(getViewLifecycleOwner(), playableBucketAdapter::submitList);
-        button.setOnClickListener(this::newLanguage);
 
         return view;
-    }
-
-    private void newLanguage(View view) {
-
-        NavDirections navDirections = PlayMenuFragmentDirections
-                .actionMainMenuFragmentToAddLanguageFragment();
-        Navigation.findNavController(view).navigate(navDirections);
     }
 }

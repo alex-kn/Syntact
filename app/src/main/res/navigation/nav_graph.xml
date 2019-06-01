@@ -3,62 +3,63 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/mainMenuFragment">
-
+    app:startDestination="@id/playMenuFragment">
     <fragment
-        android:id="@+id/mainMenuFragment"
-        android:name="com.alexkn.syntact.presentation.play.menu.PlayMenuFragment"
-        android:label="fragment_main_menu"
-        tools:layout="@layout/play_menu_fragment" >
-        <action
-            android:id="@+id/action_mainMenuFragment_to_hangmanBoardFragment"
-            app:destination="@+id/hangmanBoardFragment"
-            app:enterAnim="@anim/zoom_enter"
-            app:exitAnim="@anim/zoom_exit"
-            app:popEnterAnim="@anim/zoom_enter_pop"
-            app:popExitAnim="@anim/zoom_exit_pop"
-            app:popUpTo="@+id/mainMenuFragment" />
-        <action
-            android:id="@+id/action_mainMenuFragment_to_addLanguageFragment"
-            app:destination="@id/addLanguageFragment" />
-        <action
-            android:id="@+id/action_mainMenuFragment_to_templateFragment"
-            app:destination="@id/templateFragment" />
-        <action
-            android:id="@+id/action_mainMenuFragment_to_listBucketsFragment"
-            app:destination="@id/listBucketsFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/hangmanBoardFragment"
+        android:id="@+id/boardFragment"
         android:name="com.alexkn.syntact.presentation.play.board.BoardFragment"
-        android:label="fragment_hangman_board"
-        tools:layout="@layout/board_fragment" >
+        android:label="board_fragment"
+        tools:layout="@layout/board_fragment">
         <argument
             android:name="bucketId"
             app:argType="long" />
     </fragment>
     <fragment
-        android:id="@+id/addLanguageFragment"
+        android:id="@+id/createBucketFragment"
         android:name="com.alexkn.syntact.presentation.bucket.create.CreateBucketFragment"
-        android:label="add_language_fragment"
+        android:label="bucket_create_fragment"
         tools:layout="@layout/bucket_create_fragment" />
-    <fragment
-        android:id="@+id/templateFragment"
-        android:name="com.alexkn.syntact.presentation.template.list.ListTemplatesFragment"
-        android:label="template_fragment"
-        tools:layout="@layout/template_list_fragment" >
-        <action
-            android:id="@+id/action_templateFragment_to_templateCreateFragment"
-            app:destination="@id/templateCreateFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/templateCreateFragment"
-        android:name="com.alexkn.syntact.presentation.template.create.CreateTemplateFragment"
-        android:label="template_create_fragment"
-        tools:layout="@layout/template_create_fragment" />
     <fragment
         android:id="@+id/listBucketsFragment"
         android:name="com.alexkn.syntact.presentation.bucket.list.ListBucketsFragment"
         android:label="bucket_list_fragment"
-        tools:layout="@layout/bucket_list_fragment" />
+        tools:layout="@layout/bucket_list_fragment">
+        <action
+            android:id="@+id/action_listBucketsFragment_to_createBucketFragment"
+            app:destination="@id/createBucketFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/playMenuFragment"
+        android:name="com.alexkn.syntact.presentation.play.menu.PlayMenuFragment"
+        android:label="play_menu_fragment"
+        tools:layout="@layout/play_menu_fragment">
+        <action
+            android:id="@+id/action_playMenuFragment_to_boardFragment"
+            app:destination="@id/boardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createTemplateFragment"
+        android:name="com.alexkn.syntact.presentation.template.create.CreateTemplateFragment"
+        android:label="template_create_fragment"
+        tools:layout="@layout/template_create_fragment" />
+    <fragment
+        android:id="@+id/listTemplatesFragment"
+        android:name="com.alexkn.syntact.presentation.template.list.ListTemplatesFragment"
+        android:label="template_list_fragment"
+        tools:layout="@layout/template_list_fragment">
+        <action
+            android:id="@+id/action_listTemplatesFragment_to_createTemplateFragment"
+            app:destination="@id/createTemplateFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>

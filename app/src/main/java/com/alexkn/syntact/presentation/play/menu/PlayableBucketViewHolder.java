@@ -33,8 +33,8 @@ public class PlayableBucketViewHolder extends ListItemViewHolder<Bucket> {
 
     private void startHangman(View view) {
 
-        PlayMenuFragmentDirections.ActionMainMenuFragmentToHangmanBoardFragment action = PlayMenuFragmentDirections
-                .actionMainMenuFragmentToHangmanBoardFragment(bucket.getId());
+        PlayMenuFragmentDirections.ActionPlayMenuFragmentToBoardFragment action = PlayMenuFragmentDirections
+                .actionPlayMenuFragmentToBoardFragment(bucket.getId());
         Navigation.findNavController(view).navigate(action);
     }
 }
