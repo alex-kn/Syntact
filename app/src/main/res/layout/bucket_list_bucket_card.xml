@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
-            name="language"
+            name="bucket"
+            type="com.alexkn.syntact.domain.model.Bucket" />
+        <variable
+            name="solved"
             type="String" />
+
+        <variable
+            name="total"
+            type="String" />
+
+        <variable
+            name="average"
+            type="String" />
+
+        <variable
+            name="flag"
+            type="android.graphics.drawable.Drawable" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
@@ -14,23 +31,109 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_gap"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:focusable="true">
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="16dp">
 
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:adjustViewBounds="true"
+                android:src="@{flag}"
+                app:layout_constraintBottom_toBottomOf="@+id/bucketNameLabel"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/fr" />
+
+<!--            <TextView-->
+<!--                android:id="@+id/languageLabel"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@{bucket.language.getDisplayLanguage()}"-->
+<!--                android:textAppearance="@style/TextAppearance.MyTheme.Overline"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                tools:text="Spanish" />-->
+
             <TextView
-                android:id="@+id/languageLabel"
+                android:id="@+id/averageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{language}"
+                android:layout_marginTop="8dp"
+                android:text="@{average}"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bucketNameLabel"
+                tools:text="2.7" />
+
+            <TextView
+                android:id="@+id/bucketNameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@{bucket.language.getDisplayLanguage()}"
+                tools:text="Basic Bucket" />
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Daily Average"
+                android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                app:layout_constraintBaseline_toBaselineOf="@+id/averageLabel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Solved"
+                android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                app:layout_constraintBaseline_toBaselineOf="@+id/solvedLabel"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="/"
+                android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
+                app:layout_constraintEnd_toStartOf="@+id/textView8" />
+
+            <TextView
+                android:id="@+id/solvedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
+                app:layout_constraintEnd_toStartOf="@+id/textView7"
+                android:text="@{solved}"
+                tools:text="348" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:text="@{total}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/averageLabel"
+                tools:text="677" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </com.google.android.material.card.MaterialCardView>
 </layout>

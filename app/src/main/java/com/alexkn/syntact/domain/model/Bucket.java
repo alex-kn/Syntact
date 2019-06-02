@@ -9,6 +9,7 @@ import androidx.room.PrimaryKey;
 import com.alexkn.syntact.domain.common.GameMode;
 import com.alexkn.syntact.domain.common.Identifiable;
 
+import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -24,9 +25,6 @@ public class Bucket implements Identifiable {
     private Long id;
 
     @NonNull
-    private Integer dailyAverage;
-
-    @NonNull
     private Integer streak;
 
     @NonNull
@@ -37,6 +35,12 @@ public class Bucket implements Identifiable {
 
     @NonNull
     private GameMode gameMode;
+
+    @NonNull
+    private Instant created;
+
+    @NonNull
+    private Integer totalSolvedCount;
 
     @NonNull
     private Locale userLanguage;
@@ -52,17 +56,6 @@ public class Bucket implements Identifiable {
     public void setId(Long id) {
 
         this.id = id;
-    }
-
-    @NonNull
-    public Integer getDailyAverage() {
-
-        return dailyAverage;
-    }
-
-    public void setDailyAverage(@NonNull Integer dailyAverage) {
-
-        this.dailyAverage = dailyAverage;
     }
 
     @NonNull
@@ -110,6 +103,28 @@ public class Bucket implements Identifiable {
     }
 
     @NonNull
+    public Instant getCreated() {
+
+        return created;
+    }
+
+    public void setCreated(@NonNull Instant created) {
+
+        this.created = created;
+    }
+
+    @NonNull
+    public Integer getTotalSolvedCount() {
+
+        return totalSolvedCount;
+    }
+
+    public void setTotalSolvedCount(@NonNull Integer totalSolvedCount) {
+
+        this.totalSolvedCount = totalSolvedCount;
+    }
+
+    @NonNull
     public Locale getUserLanguage() {
 
         return userLanguage;
@@ -136,9 +151,10 @@ public class Bucket implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bucket bucket = (Bucket) o;
-        return Objects.equals(id, bucket.id) && dailyAverage.equals(bucket.dailyAverage) &&
-                streak.equals(bucket.streak) && language.equals(bucket.language) &&
-                ready.equals(bucket.ready) && gameMode == bucket.gameMode &&
+        return Objects.equals(id, bucket.id) && streak.equals(bucket.streak) &&
+                language.equals(bucket.language) && ready.equals(bucket.ready) &&
+                gameMode == bucket.gameMode && created.equals(bucket.created) &&
+                totalSolvedCount.equals(bucket.totalSolvedCount) &&
                 userLanguage.equals(bucket.userLanguage) &&
                 Objects.equals(templateId, bucket.templateId);
     }
@@ -146,7 +162,7 @@ public class Bucket implements Identifiable {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, dailyAverage, streak, language, ready, gameMode, userLanguage,
-                templateId);
+        return Objects.hash(id, streak, language, ready, gameMode, created, totalSolvedCount,
+                userLanguage, templateId);
     }
 }

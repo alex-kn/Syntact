@@ -6,15 +6,29 @@
     android:layout_height="match_parent"
     tools:context=".presentation.bucket.list.ListBucketsFragment">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+       android:layout_margin="16dp"
+        android:text="Buckets"
+        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </TextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/bucketList"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         android:layoutAnimation="@anim/layout_animation_fall_down"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
     </androidx.recyclerview.widget.RecyclerView>
 

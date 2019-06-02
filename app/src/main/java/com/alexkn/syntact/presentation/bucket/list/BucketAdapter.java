@@ -1,18 +1,28 @@
 package com.alexkn.syntact.presentation.bucket.list;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.databinding.DataBindingUtil;
-import androidx.databinding.ViewDataBinding;
+import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.databinding.BucketListBucketCardBinding;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.presentation.common.ListItemAdapter;
 import com.alexkn.syntact.presentation.common.ListItemViewHolder;
+
+import java.time.Instant;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class BucketAdapter extends ListItemAdapter<Bucket, BucketAdapter.BucketViewHolder> {
 
@@ -23,6 +33,10 @@ public class BucketAdapter extends ListItemAdapter<Bucket, BucketAdapter.BucketV
         BucketListBucketCardBinding dataBinding = DataBindingUtil
                 .inflate(LayoutInflater.from(parent.getContext()), R.layout.bucket_list_bucket_card,
                         parent, false);
+
+        Drawable drawable = ResourcesCompat.getDrawable(parent.getResources(), R.drawable.fr, null);
+        dataBinding.setFlag(drawable);
+
 
         return new BucketViewHolder(dataBinding);
     }
@@ -36,7 +50,7 @@ public class BucketAdapter extends ListItemAdapter<Bucket, BucketAdapter.BucketV
 
     static class BucketViewHolder extends ListItemViewHolder<Bucket> {
 
-        private final BucketListBucketCardBinding binding;
+        final BucketListBucketCardBinding binding;
 
         public BucketViewHolder(BucketListBucketCardBinding dataBinding) {
 
@@ -45,9 +59,15 @@ public class BucketAdapter extends ListItemAdapter<Bucket, BucketAdapter.BucketV
         }
 
         @Override
-        public void bindTo(Bucket entity) {
+        public void bindTo(Bucket bucket) {
 
-            binding.setLanguage(entity.getLanguage().getDisplayLanguage());
+            Instant created = bucket.getCreated();
+            long days = DAYS.between(created, Instant.now());
+            double average = ((double) bucket.getTotalSolvedCount()) / days;
+            binding.setAverage(Double.toString(average));
+            binding.setSolved(bucket.getTotalSolvedCount().toString());
+            binding.setTotal("698");
+            binding.setBucket(bucket);
         }
     }
 }

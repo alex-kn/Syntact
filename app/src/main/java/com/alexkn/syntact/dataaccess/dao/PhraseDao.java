@@ -18,4 +18,7 @@ public interface PhraseDao extends BaseDao<SolvableTranslation> {
 
     @Query("UPDATE SolvableTranslation SET attempt = :newAttempt WHERE id = :id")
     void updateAttempt(Long id, String newAttempt);
+
+    @Query("SELECT SUM(timesSolved) FROM SolvableTranslation where bucketId = :bucketId")
+    LiveData<Integer> getSumOfTimesSolved(Long bucketId);
 }

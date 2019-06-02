@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.repository;
 
 import com.alexkn.syntact.domain.model.Bucket;
+import com.alexkn.syntact.domain.model.views.BucketWithStats;
 
 import java.util.List;
 import java.util.Locale;
@@ -20,4 +21,6 @@ public interface BucketRepository {
     LiveData<List<Bucket>> findAllBuckets();
 
     LiveData<Bucket> findBucket(Long id);
+
+    BucketWithStats findBucketWithStats(Long id);
 }

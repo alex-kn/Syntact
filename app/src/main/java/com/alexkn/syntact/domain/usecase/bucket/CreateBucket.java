@@ -16,6 +16,7 @@ import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.TemplateResponse;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 
@@ -97,12 +98,13 @@ public class CreateBucket {
 
         Bucket bucket = new Bucket();
         bucket.setStreak(0);
-        bucket.setDailyAverage(0);
+        bucket.setCreated(Instant.now());
         bucket.setLanguage(language);
         bucket.setUserLanguage(sourceLanguage);
         bucket.setTemplateId(templateId);
         bucket.setReady(false);
         bucket.setGameMode(GameMode.DRAG);
+        bucket.setTotalSolvedCount(0);
 
         Long bucketId = bucketRepository.insert(bucket);
         manageLetters.initializeLetters(bucketId);

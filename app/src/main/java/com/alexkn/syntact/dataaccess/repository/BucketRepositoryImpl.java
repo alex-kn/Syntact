@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
 import com.alexkn.syntact.domain.model.Bucket;
+import com.alexkn.syntact.domain.model.views.BucketWithStats;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 
 import java.util.List;
@@ -58,5 +59,11 @@ public class BucketRepositoryImpl implements BucketRepository {
     public LiveData<Bucket> findBucket(Long id) {
 
         return bucketDao.findBucket(id);
+    }
+
+    @Override
+    public BucketWithStats findBucketWithStats(Long id) {
+
+        return bucketDao.findBucketWithStats(id);
     }
 }
