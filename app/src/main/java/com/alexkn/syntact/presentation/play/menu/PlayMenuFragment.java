@@ -30,9 +30,6 @@ public class PlayMenuFragment extends Fragment {
 
         viewModel = ViewModelProviders.of(getActivity()).get(PlayMenuViewModel.class);
 
-        this.setAllowEnterTransitionOverlap(true);
-        this.setAllowReturnTransitionOverlap(true);
-
         languagesList = view.findViewById(R.id.languagesList);
         languagesList.setLayoutManager(new LinearLayoutManager(this.getContext()));
         PlayableBucketAdapter playableBucketAdapter = new PlayableBucketAdapter(

@@ -5,15 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
-import com.alexkn.syntact.presentation.common.ListItemAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class PhraseListAdapter extends ListItemAdapter<SolvableTranslation, PhraseViewHolder> {
+import com.alexkn.syntact.R;
+import com.alexkn.syntact.domain.model.Letter;
+import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
+import com.alexkn.syntact.presentation.common.ListItemAdapter;
+
+public class PhraseListAdapter extends ListItemAdapter<SolvableTranslationCto, PhraseViewHolder> {
 
     private ViewModelCallback viewModelCallback;
 
@@ -35,7 +35,8 @@ public class PhraseListAdapter extends ListItemAdapter<SolvableTranslation, Phra
                 int adapterPosition = viewHolder.getAdapterPosition();
                 Letter letter = (Letter) event.getLocalState();
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    SolvableTranslation solvableTranslation = this.getList().get(adapterPosition);
+                    SolvableTranslationCto solvableTranslation = this.getList()
+                            .get(adapterPosition);
                     return viewModelCallback.handleDrop(solvableTranslation, letter);
                 }
             }
@@ -49,7 +50,7 @@ public class PhraseListAdapter extends ListItemAdapter<SolvableTranslation, Phra
     @Override
     public void onBindViewHolder(@NonNull PhraseViewHolder holder, int position) {
 
-        SolvableTranslation solvableTranslation = getList().get(position);
+        SolvableTranslationCto solvableTranslation = getList().get(position);
         holder.bindTo(solvableTranslation);
     }
 }

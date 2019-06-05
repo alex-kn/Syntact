@@ -1,26 +1,17 @@
 package com.alexkn.syntact.domain.repository;
 
-import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.views.BucketWithStats;
-
-import java.util.List;
-import java.util.Locale;
-
 import androidx.lifecycle.LiveData;
 
-public interface BucketRepository {
+import com.alexkn.syntact.domain.model.Bucket;
+import com.alexkn.syntact.domain.repository.base.BaseRepository;
 
-    Long insert(Bucket bucket);
+import java.util.List;
 
-    void delete(Long id);
-
-    void update(Bucket bucket);
+public interface BucketRepository extends BaseRepository<Bucket> {
 
     Bucket find(Long id);
 
     LiveData<List<Bucket>> findAllBuckets();
 
     LiveData<Bucket> findBucket(Long id);
-
-    BucketWithStats findBucketWithStats(Long id);
 }

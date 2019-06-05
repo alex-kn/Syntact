@@ -11,8 +11,4 @@
         android:icon="@drawable/ic_done_black_24dp"
         android:title="Buckets" />
 
-    <item
-        android:id="@+id/listTemplatesFragment"
-        android:icon="@drawable/ic_done_black_24dp"
-        android:title="Templates" />
 </menu>

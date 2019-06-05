@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.Index;
@@ -13,8 +14,7 @@ import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(indices = {@Index("id"), @Index("bucketId")},
-        foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
+@Entity(foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
                 childColumns = "bucketId", onDelete = CASCADE))
 public class Letter implements Identifiable {
 
@@ -27,6 +27,7 @@ public class Letter implements Identifiable {
     @NonNull
     private LetterColumn letterColumn;
 
+    @ColumnInfo(index = true)
     private Long bucketId;
 
     @NonNull

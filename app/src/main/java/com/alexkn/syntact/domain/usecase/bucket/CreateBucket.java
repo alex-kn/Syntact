@@ -1,32 +1,31 @@
 package com.alexkn.syntact.domain.usecase.bucket;
 
-import android.os.AsyncTask;
+import android.app.Application;
 import android.util.Log;
 
+import com.alexkn.syntact.R;
 import com.alexkn.syntact.app.Property;
-import com.alexkn.syntact.domain.common.GameMode;
+import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
+import com.alexkn.syntact.domain.model.Clue;
+import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
+import com.alexkn.syntact.domain.repository.ClueRepository;
+import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManagePhrases;
-import com.alexkn.syntact.domain.util.PhraseGenerator;
-import com.alexkn.syntact.restservice.PhraseResponse;
+import com.alexkn.syntact.restservice.Phrase;
 import com.alexkn.syntact.restservice.SyntactService;
-import com.alexkn.syntact.restservice.TemplateResponse;
 
-import java.io.IOException;
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @Singleton
 public class CreateBucket {
@@ -35,6 +34,15 @@ public class CreateBucket {
 
     @Inject
     BucketRepository bucketRepository;
+
+    @Inject
+    AttemptRepository attemptRepository;
+
+    @Inject
+    ClueRepository clueRepository;
+
+    @Inject
+    SolvableItemRepository solvableItemRepository;
 
     @Inject
     ManageLetters manageLetters;
@@ -49,80 +57,60 @@ public class CreateBucket {
     SyntactService syntactService;
 
     @Inject
-    PhraseGenerator phraseGenerator;
+    Application application;
 
     @Inject
     CreateBucket() {}
-
-    public void checkBucketReadiness(Long bucketid, Bucket bucket) {
-
-        String token = "Token " + property.get("api-auth-token");
-        String targetlang = bucket.getLanguage().getLanguage();
-        String srcLang = bucket.getUserLanguage().getLanguage();
-        Integer templateId = bucket.getTemplateId();
-
-        try {
-            Response<List<PhraseResponse>> response = syntactService
-                    .getPhrases(token, srcLang, targetlang, templateId).execute();
-            if (response.isSuccessful()) {
-                List<PhraseResponse> body = response.body();
-
-                if (body.stream().anyMatch(resp -> resp.getTranslations().isEmpty())) {
-                    Log.i(TAG, "Translations not yet ready");
-                }
-
-                List<SolvableTranslation> solvabeItems = phraseGenerator
-                        .createSolvabeItems(bucketid, body);
-
-                Log.i(TAG, body.size() + " phrases fetched with " + solvabeItems.size() +
-                        " translations");
-
-                bucket.setReady(true);
-                AsyncTask.execute(() -> {
-                    bucketRepository.update(bucket);
-                    managePhrases.saveSolvableItems(solvabeItems);
-                });
-
-                Log.i(TAG, "onResponse: " + solvabeItems.size() + " new solvable items");
-            } else {
-                Log.e(TAG, "onResponse: Error receiving phrases");
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "checkBucketReadiness: ", e);
-        }
-    }
 
     public void addBucket(Locale language, int templateId) {
 
         Locale sourceLanguage = Locale.getDefault();
 
         Bucket bucket = new Bucket();
-        bucket.setStreak(0);
-        bucket.setCreated(Instant.now());
+        bucket.setCreatedAt(Instant.now());
         bucket.setLanguage(language);
         bucket.setUserLanguage(sourceLanguage);
-        bucket.setTemplateId(templateId);
-        bucket.setReady(false);
-        bucket.setGameMode(GameMode.DRAG);
-        bucket.setTotalSolvedCount(0);
-
-        Long bucketId = bucketRepository.insert(bucket);
-        manageLetters.initializeLetters(bucketId);
 
         String token = "Token " + property.get("api-auth-token");
-        String targetlang = language.getLanguage();
-        String srcLang = sourceLanguage.getLanguage();
 
-        try {
-            Response<ResponseBody> response = syntactService
-                    .translateTemplate(token, language.getLanguage(), templateId).execute();
-            if (response.isSuccessful()) {
+        Long bucketId = bucketRepository
+                .insert(bucket);//TODO post bucket to API, get id from backend
+        manageLetters.initializeLetters(bucketId);
 
-                Log.i(TAG, "Translation complete");
-                checkBucketReadiness(bucketId, bucket);
-            }
-        } catch (IOException e) {
-            Log.e(TAG, "addBucket: ", e);
-        }
+        //TODO fetch phrases
+    }
+
+    private void createSolvabeItems(Long bucketId, List<Phrase> phraseRespons) {
+
+        phraseRespons.forEach(phrase -> createSolvableItem(bucketId, phrase));
+    }
+
+    private void createSolvableItem(Long bucketId, Phrase phrase) {
+
+        SolvableItem solvableItem = new SolvableItem();
+        Attempt attempt = new Attempt();
+        Clue clue = new Clue();
+
+        solvableItem.setId(phrase.getId());
+        attempt.setSolvableItemId(phrase.getId());
+        clue.setSolvableItemId(phrase.getId());
+        solvableItem.setBucketId(bucketId);
+
+        solvableItem.setConsecutiveCorrectAnswers(0);
+        solvableItem.setEasiness(2.5f);
+        solvableItem.setNextDueDate(Instant.now());
+        solvableItem.setTimesSolved(0);
+
+        solvableItem.setText(phrase.getText());
+
+        attempt.setText(StringUtils
+                .repeat(application.getString(R.string.empty), phrase.getText().length()));
+
+        clue.setText(phrase.getTranslations().get(0).getText());
+
+        solvableItemRepository.insert(solvableItem);
+        clueRepository.insert(clue);
+        attemptRepository.insert(attempt);
+        Log.i(TAG, "createSolvableItem: Item created - " + phrase.getText());
     }
 }

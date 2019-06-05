@@ -7,31 +7,34 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.alexkn.syntact.dataaccess.dao.AttemptDao;
 import com.alexkn.syntact.dataaccess.dao.BucketDao;
+import com.alexkn.syntact.dataaccess.dao.ClueDao;
 import com.alexkn.syntact.dataaccess.dao.LetterDao;
-import com.alexkn.syntact.dataaccess.dao.PhraseDao;
-import com.alexkn.syntact.dataaccess.dao.TemplateDao;
+import com.alexkn.syntact.dataaccess.dao.SolvableItemDao;
 import com.alexkn.syntact.dataaccess.util.Converters;
+import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Bucket;
+import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
-import com.alexkn.syntact.domain.model.Template;
-import com.alexkn.syntact.domain.model.views.BucketWithStats;
+import com.alexkn.syntact.domain.model.SolvableItem;
 
-@Database(entities = {SolvableTranslation.class, Bucket.class, Letter.class, Template.class},
-        views = {BucketWithStats.class}, version = 23)
+@Database(entities = {SolvableItem.class, Bucket.class, Letter.class, Clue.class, Attempt.class},
+        version = 25)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase instance;
 
-    public abstract PhraseDao phraseDao();
+    public abstract SolvableItemDao solvableItemDao();
 
     public abstract BucketDao bucketDao();
 
     public abstract LetterDao letterDao();
 
-    public abstract TemplateDao templateDao();
+    public abstract ClueDao clueDao();
+
+    public abstract AttemptDao attemptDao();
 
     public static AppDatabase getDatabase(final Context context) {
 

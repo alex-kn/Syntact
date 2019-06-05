@@ -6,33 +6,45 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.alexkn.syntact.domain.common.Identifiable;
+
 import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
 @Entity(foreignKeys = @ForeignKey(entity = SolvableItem.class, parentColumns = "id",
-        childColumns = "clueSolvableItemId", onDelete = CASCADE))
-public class Clue {
+        childColumns = "attemptSolvableItemId", onDelete = CASCADE))
+public class Attempt implements Identifiable {
 
-    @PrimaryKey
-    @ColumnInfo(name = "clueId")
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "attemptId")
     private Long id;
 
     @NonNull
-    @ColumnInfo(name = "clueText")
+    @ColumnInfo(name = "attemptText")
     private String text;
 
     @NonNull
-    @ColumnInfo(name = "clueSolvableItemId", index = true)
+    @ColumnInfo(name = "attemptSolvableItemId", index = true)
     private Long solvableItemId;
 
-    @NonNull
+    @Override
+    public Long getId() {
+
+        return id;
+    }
+
+    public void setId(Long id) {
+
+        this.id = id;
+    }
+
     public String getText() {
 
         return text;
     }
 
-    public void setText(@NonNull String text) {
+    public void setText(String text) {
 
         this.text = text;
     }
@@ -48,25 +60,14 @@ public class Clue {
         this.solvableItemId = solvableItemId;
     }
 
-    public Long getId() {
-
-
-        return id;
-    }
-
-    public void setId(Long id) {
-
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Clue clue = (Clue) o;
-        return Objects.equals(id, clue.id) && text.equals(clue.text) &&
-                solvableItemId.equals(clue.solvableItemId);
+        Attempt attempt = (Attempt) o;
+        return Objects.equals(id, attempt.id) && text.equals(attempt.text) &&
+                solvableItemId.equals(attempt.solvableItemId);
     }
 
     @Override

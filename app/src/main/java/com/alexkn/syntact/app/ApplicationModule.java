@@ -2,14 +2,16 @@ package com.alexkn.syntact.app;
 
 import android.app.Application;
 
+import com.alexkn.syntact.dataaccess.repository.AttemptRepositoryImpl;
 import com.alexkn.syntact.dataaccess.repository.BucketRepositoryImpl;
+import com.alexkn.syntact.dataaccess.repository.ClueRepositoryImpl;
 import com.alexkn.syntact.dataaccess.repository.LetterRepositoryImpl;
-import com.alexkn.syntact.dataaccess.repository.PhraseRepositoryImpl;
-import com.alexkn.syntact.dataaccess.repository.TemplateRepositoryImpl;
+import com.alexkn.syntact.dataaccess.repository.SolvableItemRepositoryImpl;
+import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
+import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.LetterRepository;
-import com.alexkn.syntact.domain.repository.PhraseRepository;
-import com.alexkn.syntact.domain.repository.TemplateRepository;
+import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,9 +54,10 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    PhraseRepository providePhraseRepository(PhraseRepositoryImpl phraseRepository) {
+    SolvableItemRepository provideSolvableItemRepository(
+            SolvableItemRepositoryImpl solvableItemRepository) {
 
-        return phraseRepository;
+        return solvableItemRepository;
     }
 
     @Provides
@@ -73,8 +76,15 @@ class ApplicationModule {
 
     @Provides
     @Singleton
-    TemplateRepository provideTemplateRepository(TemplateRepositoryImpl templateRepository) {
+    ClueRepository provideClueRepository(ClueRepositoryImpl clueRepository) {
 
-        return templateRepository;
+        return clueRepository;
+    }
+
+    @Provides
+    @Singleton
+    AttemptRepository provideAttemptRepository(AttemptRepositoryImpl attemptRepository) {
+
+        return attemptRepository;
     }
 }

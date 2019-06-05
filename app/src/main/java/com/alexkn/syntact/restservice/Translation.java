@@ -1,34 +1,33 @@
-package com.alexkn.syntact.domain.model;
+package com.alexkn.syntact.restservice;
 
-import androidx.annotation.NonNull;
-
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class Solution {
+public class Translation {
 
-    @NonNull
+    private Long id;
+
     private String text;
 
     private Locale language;
 
-    public Solution() {
+    public Long getId() {
 
+        return id;
     }
 
-    public Solution(@NonNull String text, Locale language) {
+    public void setId(Long id) {
 
-        this.text = text;
-        this.language = language;
+        this.id = id;
     }
 
-    @NonNull
     public String getText() {
 
         return text;
     }
 
-    public void setText(@NonNull String text) {
+    public void setText(String text) {
 
         this.text = text;
     }
@@ -48,13 +47,14 @@ public class Solution {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Solution solution = (Solution) o;
-        return text.equals(solution.text) && Objects.equals(language, solution.language);
+        Translation that = (Translation) o;
+        return Objects.equals(id, that.id) && Objects.equals(text, that.text) &&
+                Objects.equals(language, that.language);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(text, language);
+        return Objects.hash(id, text, language);
     }
 }

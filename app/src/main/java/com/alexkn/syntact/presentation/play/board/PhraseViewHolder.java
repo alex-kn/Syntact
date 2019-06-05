@@ -4,18 +4,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
+import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 
-public class PhraseViewHolder extends ListItemViewHolder<SolvableTranslation> {
+public class PhraseViewHolder extends ListItemViewHolder<SolvableTranslationCto> {
 
     private TextView clueTextView;
 
     private TextView solutionTextView;
-
-    private String clue;
-
-    private String solution;
 
     private View.OnDragListener dragListener;
 
@@ -26,8 +22,6 @@ public class PhraseViewHolder extends ListItemViewHolder<SolvableTranslation> {
 
         clueTextView = v.findViewById(R.id.clueTextView);
         solutionTextView = v.findViewById(R.id.solutionTextView);
-        clueTextView.setText(clue);
-        solutionTextView.setText(solution);
     }
 
     public void setOnDrag(View.OnDragListener dragListener) {
@@ -37,15 +31,9 @@ public class PhraseViewHolder extends ListItemViewHolder<SolvableTranslation> {
     }
 
     @Override
-    public void bindTo(SolvableTranslation solvableTranslation) {
+    public void bindTo(SolvableTranslationCto solvableTranslation) {
 
-        if (clueTextView != null) {
-            clueTextView.setText(solvableTranslation.getClue());
-        }
-        if (solutionTextView != null) {
-            solutionTextView.setText(solvableTranslation.getAttempt());
-        }
-        clue = solvableTranslation.getClue();
-        solution = solvableTranslation.getAttempt();
+        clueTextView.setText(solvableTranslation.getClue().getText());
+        solutionTextView.setText(solvableTranslation.getAttempt().getText());
     }
 }

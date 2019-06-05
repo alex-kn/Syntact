@@ -52,7 +52,7 @@ public class BucketAdapter extends ListItemAdapter<Bucket, BucketAdapter.BucketV
 
         final BucketListBucketCardBinding binding;
 
-        public BucketViewHolder(BucketListBucketCardBinding dataBinding) {
+        BucketViewHolder(BucketListBucketCardBinding dataBinding) {
 
             super(dataBinding.getRoot());
             this.binding = dataBinding;
@@ -61,11 +61,11 @@ public class BucketAdapter extends ListItemAdapter<Bucket, BucketAdapter.BucketV
         @Override
         public void bindTo(Bucket bucket) {
 
-            Instant created = bucket.getCreated();
-            long days = DAYS.between(created, Instant.now());
-            double average = ((double) bucket.getTotalSolvedCount()) / days;
-            binding.setAverage(Double.toString(average));
-            binding.setSolved(bucket.getTotalSolvedCount().toString());
+            Instant created = bucket.getCreatedAt();
+//            long days = DAYS.between(created, Instant.now());TODO
+//            double average = ((double) bucket.getTotalSolvedCount()) / days;
+//            binding.setAverage(Double.toString(average));
+//            binding.setSolved(bucket.getTotalSolvedCount().toString());
             binding.setTotal("698");
             binding.setBucket(bucket);
         }

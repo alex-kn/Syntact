@@ -4,12 +4,12 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
+import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.views.BucketWithStats;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,15 +32,21 @@ public class BucketRepositoryImpl implements BucketRepository {
     }
 
     @Override
-    public void delete(Long id) {
+    public void insert(Collection<Bucket> t) {
 
-        bucketDao.delete(id);
+        bucketDao.insert(t);
     }
 
     @Override
     public void update(Bucket bucket) {
 
         bucketDao.update(bucket);
+    }
+
+    @Override
+    public void delete(Bucket bucket) {
+
+        bucketDao.delete(bucket);
     }
 
     @Override
@@ -61,9 +67,4 @@ public class BucketRepositoryImpl implements BucketRepository {
         return bucketDao.findBucket(id);
     }
 
-    @Override
-    public BucketWithStats findBucketWithStats(Long id) {
-
-        return bucketDao.findBucketWithStats(id);
-    }
 }

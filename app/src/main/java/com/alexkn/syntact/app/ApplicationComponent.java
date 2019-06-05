@@ -3,14 +3,11 @@ package com.alexkn.syntact.app;
 import android.app.Application;
 
 import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
-import com.alexkn.syntact.domain.usecase.template.CreateTemplate;
-import com.alexkn.syntact.domain.usecase.template.ManageTemplates;
-import com.alexkn.syntact.domain.util.LetterGenerator;
-import com.alexkn.syntact.domain.util.PhraseGenerator;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManagePhrases;
 import com.alexkn.syntact.domain.usecase.play.ManageScore;
+import com.alexkn.syntact.domain.util.LetterGenerator;
 
 import javax.inject.Singleton;
 
@@ -24,13 +21,7 @@ public interface ApplicationComponent {
 
     ManagePhrases phraseUseCase();
 
-    PhraseGenerator generatePhraseUseCase();
-
     CreateBucket createBucket();
-
-    CreateTemplate createTemplate();
-
-    ManageTemplates manageTemplates();
 
     LetterGenerator generateCharactersUseCase();
 

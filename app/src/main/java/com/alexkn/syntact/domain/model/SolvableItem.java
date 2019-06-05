@@ -1,9 +1,9 @@
 package com.alexkn.syntact.domain.model;
 
 import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.alexkn.syntact.domain.common.Identifiable;
@@ -13,12 +13,16 @@ import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-public abstract class SolvableItem implements Identifiable {
+@Entity(foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
+        childColumns = "bucketId", onDelete = CASCADE))
+public class SolvableItem implements Identifiable {
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private Long id;
 
-    private Long phraseId;
+    @NonNull
+    @ColumnInfo(name = "solvableItemText")
+    private String text;
 
     private Instant lastSolved;
 
@@ -34,9 +38,9 @@ public abstract class SolvableItem implements Identifiable {
     @NonNull
     private Integer timesSolved;
 
+    @NonNull
     private Long bucketId;
 
-    @Override
     public Long getId() {
 
         return id;
@@ -45,6 +49,17 @@ public abstract class SolvableItem implements Identifiable {
     public void setId(Long id) {
 
         this.id = id;
+    }
+
+    @NonNull
+    public String getText() {
+
+        return text;
+    }
+
+    public void setText(@NonNull String text) {
+
+        this.text = text;
     }
 
     public Instant getLastSolved() {
@@ -101,24 +116,15 @@ public abstract class SolvableItem implements Identifiable {
         this.timesSolved = timesSolved;
     }
 
+    @NonNull
     public Long getBucketId() {
 
         return bucketId;
     }
 
-    public void setBucketId(Long bucketId) {
+    public void setBucketId(@NonNull Long bucketId) {
 
         this.bucketId = bucketId;
-    }
-
-    public Long getPhraseId() {
-
-        return phraseId;
-    }
-
-    public void setPhraseId(Long phraseId) {
-
-        this.phraseId = phraseId;
     }
 
     @Override
@@ -127,18 +133,17 @@ public abstract class SolvableItem implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SolvableItem that = (SolvableItem) o;
-        return Objects.equals(id, that.id) && Objects.equals(phraseId, that.phraseId) &&
+        return Objects.equals(id, that.id) && text.equals(that.text) &&
                 Objects.equals(lastSolved, that.lastSolved) &&
                 nextDueDate.equals(that.nextDueDate) && easiness.equals(that.easiness) &&
                 consecutiveCorrectAnswers.equals(that.consecutiveCorrectAnswers) &&
-                timesSolved.equals(that.timesSolved) && Objects.equals(bucketId, that.bucketId);
+                timesSolved.equals(that.timesSolved) && bucketId.equals(that.bucketId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects
-                .hash(id, phraseId, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers,
-                        timesSolved, bucketId);
+        return Objects.hash(id, text, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers,
+                timesSolved, bucketId);
     }
 }

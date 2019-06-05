@@ -2,55 +2,69 @@ package com.alexkn.syntact.domain.usecase.play;
 
 import android.app.Application;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MediatorLiveData;
+
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
-import com.alexkn.syntact.domain.repository.PhraseRepository;
-import com.alexkn.syntact.domain.util.PhraseGenerator;
+import com.alexkn.syntact.domain.model.SolvableItem;
+import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
+import com.alexkn.syntact.domain.repository.AttemptRepository;
+import com.alexkn.syntact.domain.repository.ClueRepository;
+import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import androidx.lifecycle.LiveData;
-
 @Singleton
 public class ManagePhrases {
 
     @Inject
-    PhraseRepository phraseRepository;
+    SolvableItemRepository solvableItemRepository;
+
+    @Inject
+    AttemptRepository attemptRepository;
+
+    @Inject
+    ClueRepository clueRepository;
 
     @Inject
     Application application;
 
     @Inject
-    PhraseGenerator phraseGenerator;
-
-    @Inject
     ManageScore manageScore;
 
+    private MediatorLiveData<List<SolvableTranslationCto>> solvableTranslations;
+
     @Inject
-    ManagePhrases() { }
+    ManagePhrases() {
 
-    public void makeAttempt(SolvableTranslation solvableItem, Character character) {
+    }
 
-        String attempt = updateCurrentAttempt(solvableItem, character);
+    public LiveData<List<SolvableTranslationCto>> getSolvableTranslations(Long bucketId) {
+
+        return solvableItemRepository.getSolvableTranslationsDueBefore(bucketId, Instant.now());
+    }
+
+    public void makeAttempt(SolvableTranslationCto solvableTranslation, Character character) {
+
+        String attempt = updateCurrentAttempt(solvableTranslation, character);
         if (!attempt.contains(application.getString(R.string.empty))) {
-            solvePhrase(solvableItem);
+            solvePhrase(solvableTranslation);
         } else {
-            phraseRepository.updateAttempt(solvableItem.getId(), attempt);
+            attemptRepository.updateAttempt(solvableTranslation.getId(), attempt);//TODO
         }
     }
 
-    private void solvePhrase(SolvableTranslation solvableItem) {
+    private void solvePhrase(SolvableTranslationCto solvableTranslation) {
+
+        SolvableItem solvableItem = solvableTranslation.getSolvableItem();
 
         int performanceRating = 3;
         float easiness = solvableItem.getEasiness();
@@ -65,54 +79,55 @@ public class ManagePhrases {
         solvableItem.setConsecutiveCorrectAnswers(consecutiveCorrectAnswers);
         solvableItem.setNextDueDate(nextDueDate);
         solvableItem.setLastSolved(Instant.now());
-        solvableItem.setAttempt(StringUtils.repeat(application.getString(R.string.empty),
-                solvableItem.getSolution().length()));
+        attemptRepository.updateAttempt(solvableItem.getId(), StringUtils
+                .repeat(application.getString(R.string.empty), solvableItem.getText().length()));
 
-        phraseRepository.update(solvableItem);
+        solvableItemRepository.update(solvableItem);
     }
 
-    private String updateCurrentAttempt(SolvableTranslation solvableItem, Character character) {
+    private String updateCurrentAttempt(SolvableTranslationCto solvableTranslation,
+            Character character) {
 
-        String solution = solvableItem.getSolution();
+        SolvableItem solvableItem = solvableTranslation.getSolvableItem();
+
+        String solution = solvableItem.getText();
 
         IntStream indices = IntStream.range(0, solution.length()).filter(i -> StringUtils
                 .equalsIgnoreCase(character.toString(), String.valueOf(solution.charAt(i))));
-        StringBuilder newCurrentText = new StringBuilder(solvableItem.getAttempt());
+        StringBuilder newCurrentText = new StringBuilder(
+                solvableTranslation.getAttempt().getText());
         indices.forEach(i -> newCurrentText.setCharAt(i, character));
         return newCurrentText.toString();
     }
 
-    public boolean isLetterCorrect(SolvableTranslation solvableSolvableItem, Character character) {
+    public boolean isLetterCorrect(SolvableTranslationCto solvableTranslation,
+            Character character) {
 
-        return StringUtils.containsIgnoreCase(solvableSolvableItem.getSolution(),
+        return StringUtils.containsIgnoreCase(solvableTranslation.getSolvableItem().getText(),
                 character.toString()) && !StringUtils
-                .containsIgnoreCase(solvableSolvableItem.getAttempt(), character.toString());
+                .containsIgnoreCase(solvableTranslation.getAttempt().getText(),
+                        character.toString());
     }
 
-    public LiveData<List<SolvableTranslation>> getPhrases(Long bucketId) {
-
-        return phraseRepository.findPhrasesForBucketDueBefore(bucketId, Instant.now());
-    }
-
-    public void saveSolvableItems(List<SolvableTranslation> solvableItems) {
-
-        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
-
-        solvableItems.forEach(solvableItem -> specialCharacters.forEach(character -> solvableItem
-                .setAttempt(updateCurrentAttempt(solvableItem, character))));
-        Collections.shuffle(solvableItems);
-        phraseRepository.insert(solvableItems);
-    }
-
-    public void initializePhrases(Long insertedLanguageId, Locale languageLeft,
-            Locale languageRight) {
-
-        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
-
-        if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
-            List<SolvableTranslation> solvableItems = phraseGenerator.generateGermanEnglishPhrases();
-            solvableItems.forEach(phrase -> phrase.setBucketId(insertedLanguageId));
-            saveSolvableItems(solvableItems);
-        }
-    }
+//    public void saveSolvableItems(List<SolvableItem> solvableItems) {
+//
+//        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
+//
+//        solvableItems.forEach(solvableItem -> specialCharacters.forEach(character -> solvableItem
+//                .setAttempt(updateCurrentAttempt(solvableItem, character))));
+//        Collections.shuffle(solvableItems);
+//        solvableItemRepository.insert(solvableItems);
+//    }
+//
+//    public void initializePhrases(Long insertedLanguageId, Locale languageLeft,
+//            Locale languageRight) {
+//
+//        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
+//
+//        if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
+//            List<SolvableItem> solvableItems = phraseGenerator.generateGermanEnglishPhrases();
+//            solvableItems.forEach(phrase -> phrase.setBucketId(insertedLanguageId));
+//            saveSolvableItems(solvableItems);
+//        }
+//    }
 }

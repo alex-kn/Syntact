@@ -16,36 +16,19 @@ import java.util.Objects;
 import static androidx.room.ForeignKey.SET_NULL;
 
 @Entity
-        (indices = {@Index("id"), @Index("templateId")},
-        foreignKeys = @ForeignKey(entity = Template.class, parentColumns = "id",
-                childColumns = "templateId", onDelete = SET_NULL))
 public class Bucket implements Identifiable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;
 
     @NonNull
-    private Integer streak;
-
-    @NonNull
     private Locale language;
 
     @NonNull
-    private Boolean ready;
-
-    @NonNull
-    private GameMode gameMode;
-
-    @NonNull
-    private Instant created;
-
-    @NonNull
-    private Integer totalSolvedCount;
+    private Instant createdAt;
 
     @NonNull
     private Locale userLanguage;
-
-    private Integer templateId;
 
     @Override
     public Long getId() {
@@ -56,17 +39,6 @@ public class Bucket implements Identifiable {
     public void setId(Long id) {
 
         this.id = id;
-    }
-
-    @NonNull
-    public Integer getStreak() {
-
-        return streak;
-    }
-
-    public void setStreak(@NonNull Integer streak) {
-
-        this.streak = streak;
     }
 
     @NonNull
@@ -81,47 +53,14 @@ public class Bucket implements Identifiable {
     }
 
     @NonNull
-    public Boolean getReady() {
+    public Instant getCreatedAt() {
 
-        return ready;
+        return createdAt;
     }
 
-    public void setReady(@NonNull Boolean ready) {
+    public void setCreatedAt(@NonNull Instant createdAt) {
 
-        this.ready = ready;
-    }
-
-    @NonNull
-    public GameMode getGameMode() {
-
-        return gameMode;
-    }
-
-    public void setGameMode(@NonNull GameMode gameMode) {
-
-        this.gameMode = gameMode;
-    }
-
-    @NonNull
-    public Instant getCreated() {
-
-        return created;
-    }
-
-    public void setCreated(@NonNull Instant created) {
-
-        this.created = created;
-    }
-
-    @NonNull
-    public Integer getTotalSolvedCount() {
-
-        return totalSolvedCount;
-    }
-
-    public void setTotalSolvedCount(@NonNull Integer totalSolvedCount) {
-
-        this.totalSolvedCount = totalSolvedCount;
+        this.createdAt = createdAt;
     }
 
     @NonNull
@@ -135,34 +74,19 @@ public class Bucket implements Identifiable {
         this.userLanguage = userLanguage;
     }
 
-    public Integer getTemplateId() {
-
-        return templateId;
-    }
-
-    public void setTemplateId(Integer templateId) {
-
-        this.templateId = templateId;
-    }
-
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bucket bucket = (Bucket) o;
-        return Objects.equals(id, bucket.id) && streak.equals(bucket.streak) &&
-                language.equals(bucket.language) && ready.equals(bucket.ready) &&
-                gameMode == bucket.gameMode && created.equals(bucket.created) &&
-                totalSolvedCount.equals(bucket.totalSolvedCount) &&
-                userLanguage.equals(bucket.userLanguage) &&
-                Objects.equals(templateId, bucket.templateId);
+        return Objects.equals(id, bucket.id) && language.equals(bucket.language) &&
+                createdAt.equals(bucket.createdAt) && userLanguage.equals(bucket.userLanguage);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, streak, language, ready, gameMode, created, totalSolvedCount,
-                userLanguage, templateId);
+        return Objects.hash(id, language, createdAt, userLanguage);
     }
 }

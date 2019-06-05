@@ -6,7 +6,6 @@ import androidx.room.Query;
 
 import com.alexkn.syntact.dataaccess.dao.base.BaseDao;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.views.BucketWithStats;
 
 import java.util.List;
 
@@ -24,7 +23,4 @@ public interface BucketDao extends BaseDao<Bucket> {
 
     @Query("SELECT * FROM Bucket WHERE id = :id LIMIT 1")
     LiveData<Bucket> findBucket(Long id);
-
-    @Query("SELECT * FROM BucketWithStats WHERE id = :id LIMIT 1")
-    BucketWithStats findBucketWithStats(Long id);
 }

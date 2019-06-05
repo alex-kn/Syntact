@@ -3,11 +3,14 @@ package com.alexkn.syntact.presentation.play.board;
 import android.app.Application;
 import android.os.AsyncTask;
 
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
+
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
+import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManagePhrases;
@@ -17,9 +20,6 @@ import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.LiveData;
 
 public class BoardViewModel extends AndroidViewModel {
 
@@ -39,7 +39,7 @@ public class BoardViewModel extends AndroidViewModel {
 
     private LiveData<Bucket> bucket;
 
-    private LiveData<List<SolvableTranslation>> phrases;
+    private LiveData<List<SolvableTranslationCto>> phrases;
 
     private LiveData<List<Letter>> lettersLeft;
 
@@ -59,10 +59,12 @@ public class BoardViewModel extends AndroidViewModel {
         this.bucketId = bucketId;
     }
 
-    boolean solve(SolvableTranslation solvableTranslation, Letter letter) {
+    boolean solve(SolvableTranslationCto solvableTranslation, Letter letter) {
 
-        boolean successful = managePhrases.isLetterCorrect(solvableTranslation, letter.getCharacter());
-        AsyncTask.execute(() -> managePhrases.makeAttempt(solvableTranslation, letter.getCharacter()));
+        boolean successful = managePhrases
+                .isLetterCorrect(solvableTranslation, letter.getCharacter());
+        AsyncTask.execute(
+                () -> managePhrases.makeAttempt(solvableTranslation, letter.getCharacter()));
         if (successful) {
             AsyncTask.execute(() -> manageLetters.replaceLetter(letter));
         }
@@ -78,7 +80,7 @@ public class BoardViewModel extends AndroidViewModel {
 
         this.bucketId = bucketId;
         bucket = manageBuckets.getBucket(bucketId);
-        phrases = managePhrases.getPhrases(bucketId);
+        phrases = managePhrases.getSolvableTranslations(bucketId);
         lettersLeft = manageLetters.getLetters(bucketId, LetterColumn.LEFT);
         lettersRight = manageLetters.getLetters(bucketId, LetterColumn.RIGHT);
     }
@@ -88,7 +90,7 @@ public class BoardViewModel extends AndroidViewModel {
         return manageScore.calculateMaxForLevel(level);
     }
 
-    LiveData<List<SolvableTranslation>> getSolvablePhrases() {
+    LiveData<List<SolvableTranslationCto>> getSolvablePhrases() {
 
         return phrases;
     }

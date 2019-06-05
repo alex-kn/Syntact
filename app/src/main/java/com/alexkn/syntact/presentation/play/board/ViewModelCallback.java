@@ -1,10 +1,9 @@
 package com.alexkn.syntact.presentation.play.board;
 
 import com.alexkn.syntact.domain.model.Letter;
-import com.alexkn.syntact.domain.model.SolvableItem;
-import com.alexkn.syntact.domain.model.SolvableTranslation;
+import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 
 public interface ViewModelCallback {
 
-    boolean handleDrop(SolvableTranslation solvableTranslation, Letter letter);
+    boolean handleDrop(SolvableTranslationCto solvableTranslation, Letter letter);
 }
