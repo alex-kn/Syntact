@@ -16,6 +16,8 @@ import com.alexkn.syntact.restservice.SyntactService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.concurrent.Executors;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -39,7 +41,7 @@ class ApplicationModule {
 
         Gson gson = new GsonBuilder().create();
 
-        return new Retrofit.Builder()
+        return new Retrofit.Builder().callbackExecutor(Executors.newSingleThreadExecutor())
                 .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson)).build()
                 .create(SyntactService.class);

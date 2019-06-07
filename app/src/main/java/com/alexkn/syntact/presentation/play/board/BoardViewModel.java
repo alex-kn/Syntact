@@ -13,7 +13,7 @@ import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
-import com.alexkn.syntact.domain.usecase.play.ManagePhrases;
+import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
 import com.alexkn.syntact.domain.usecase.play.ManageScore;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
@@ -24,7 +24,7 @@ import javax.inject.Inject;
 public class BoardViewModel extends AndroidViewModel {
 
     @Inject
-    ManagePhrases managePhrases;
+    ManageSolvableItems manageSolvableItems;
 
     @Inject
     ManageBuckets manageBuckets;
@@ -49,8 +49,7 @@ public class BoardViewModel extends AndroidViewModel {
 
         super(application);
 
-        DaggerViewComponent.builder().applicationComponent(
-                ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
+        DaggerViewComponent.builder().applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
     }
 
@@ -61,10 +60,8 @@ public class BoardViewModel extends AndroidViewModel {
 
     boolean solve(SolvableTranslationCto solvableTranslation, Letter letter) {
 
-        boolean successful = managePhrases
-                .isLetterCorrect(solvableTranslation, letter.getCharacter());
-        AsyncTask.execute(
-                () -> managePhrases.makeAttempt(solvableTranslation, letter.getCharacter()));
+        boolean successful = manageSolvableItems.isLetterCorrect(solvableTranslation, letter.getCharacter());
+        AsyncTask.execute(() -> manageSolvableItems.makeAttempt(solvableTranslation, letter.getCharacter()));
         if (successful) {
             AsyncTask.execute(() -> manageLetters.replaceLetter(letter));
         }
@@ -80,9 +77,19 @@ public class BoardViewModel extends AndroidViewModel {
 
         this.bucketId = bucketId;
         bucket = manageBuckets.getBucket(bucketId);
-        phrases = managePhrases.getSolvableTranslations(bucketId);
+        phrases = manageSolvableItems.getSolvableTranslations(bucketId);
         lettersLeft = manageLetters.getLetters(bucketId, LetterColumn.LEFT);
         lettersRight = manageLetters.getLetters(bucketId, LetterColumn.RIGHT);
+
+        bucket.observeForever(this::triggerPhrasesFetch);
+    }
+
+    public void triggerPhrasesFetch(Bucket bucket) {
+
+        if (bucket != null) {
+        AsyncTask.execute(() -> manageSolvableItems.fetchSolvableItems(bucket));
+
+        }
     }
 
     public int calculateMaxScoreForLevel(int level) {

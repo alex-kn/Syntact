@@ -20,7 +20,7 @@ import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.SolvableItem;
 
 @Database(entities = {SolvableItem.class, Bucket.class, Letter.class, Clue.class, Attempt.class},
-        version = 25)
+        version = 26)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 

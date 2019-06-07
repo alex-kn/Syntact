@@ -30,6 +30,8 @@ public class Bucket implements Identifiable {
     @NonNull
     private Locale userLanguage;
 
+    @NonNull private String phrasesUrl;
+
     @Override
     public Long getId() {
 
@@ -74,6 +76,17 @@ public class Bucket implements Identifiable {
         this.userLanguage = userLanguage;
     }
 
+    @NonNull
+    public String getPhrasesUrl() {
+
+        return phrasesUrl;
+    }
+
+    public void setPhrasesUrl(@NonNull String phrasesUrl) {
+
+        this.phrasesUrl = phrasesUrl;
+    }
+
     @Override
     public boolean equals(Object o) {
 
@@ -81,12 +94,13 @@ public class Bucket implements Identifiable {
         if (o == null || getClass() != o.getClass()) return false;
         Bucket bucket = (Bucket) o;
         return Objects.equals(id, bucket.id) && language.equals(bucket.language) &&
-                createdAt.equals(bucket.createdAt) && userLanguage.equals(bucket.userLanguage);
+                createdAt.equals(bucket.createdAt) && userLanguage.equals(bucket.userLanguage) &&
+                phrasesUrl.equals(bucket.phrasesUrl);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, language, createdAt, userLanguage);
+        return Objects.hash(id, language, createdAt, userLanguage, phrasesUrl);
     }
 }

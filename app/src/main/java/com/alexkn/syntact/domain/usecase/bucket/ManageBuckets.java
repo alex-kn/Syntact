@@ -26,15 +26,15 @@ public class ManageBuckets {
     @Inject
     ManageBuckets() {}
 
-    public List<Locale> getAvailableBuckets() {
+    public List<Locale> getAvailableLanguages() {
 
         String[] languages = property.get("available-languages").split(",");
         return Arrays.stream(languages).map(Locale::new).collect(Collectors.toList());
     }
 
-    public void removeLanguage(Long id) {
+    public void removeLanguage(Bucket bucket) {
 
-        //        bucketRepository.delete(id);TODO
+        bucketRepository.delete(bucket);
     }
 
     public LiveData<Bucket> getBucket(Long id) {

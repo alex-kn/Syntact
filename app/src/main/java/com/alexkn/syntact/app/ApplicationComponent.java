@@ -5,7 +5,7 @@ import android.app.Application;
 import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
-import com.alexkn.syntact.domain.usecase.play.ManagePhrases;
+import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
 import com.alexkn.syntact.domain.usecase.play.ManageScore;
 import com.alexkn.syntact.domain.util.LetterGenerator;
 
@@ -19,7 +19,7 @@ public interface ApplicationComponent {
 
     Application application();
 
-    ManagePhrases phraseUseCase();
+    ManageSolvableItems phraseUseCase();
 
     CreateBucket createBucket();
 

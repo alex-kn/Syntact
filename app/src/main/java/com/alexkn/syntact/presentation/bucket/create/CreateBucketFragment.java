@@ -58,7 +58,7 @@ public class CreateBucketFragment extends Fragment {
 
         addButton.setOnClickListener(v -> {
 
-            viewModel.addBucket(selectedLanguage, np.getValue());
+            viewModel.addBucket(selectedLanguage, null);//TODO
             Navigation.findNavController(view).popBackStack();
         });
 

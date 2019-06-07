@@ -57,4 +57,9 @@ public class SolvableItemRepositoryImpl implements SolvableItemRepository {
 
         return solvableItemDao.getSolvableTranslationsDueBefore(bucketId, time);
     }
+
+    @Override
+    public Long getMaxId(Long bucketId) {
+        return solvableItemDao.getMaxId(bucketId);
+    }
 }

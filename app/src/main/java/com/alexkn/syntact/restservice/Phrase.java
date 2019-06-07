@@ -1,6 +1,7 @@
 package com.alexkn.syntact.restservice;
 
-import java.util.List;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Locale;
 
 public class Phrase {
@@ -10,6 +11,9 @@ public class Phrase {
     private String text;
 
     private Locale language;
+
+    @SerializedName("translations")
+    private String translationsUrl;
 
     public Long getId() {
 
@@ -39,5 +43,15 @@ public class Phrase {
     public void setLanguage(Locale language) {
 
         this.language = language;
+    }
+
+    public String getTranslationsUrl() {
+
+        return translationsUrl;
+    }
+
+    public void setTranslationsUrl(String translationsUrl) {
+
+        this.translationsUrl = translationsUrl;
     }
 }

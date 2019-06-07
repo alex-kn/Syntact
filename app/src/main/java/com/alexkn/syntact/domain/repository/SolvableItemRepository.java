@@ -12,4 +12,6 @@ import java.util.List;
 public interface SolvableItemRepository extends BaseRepository<SolvableItem> {
 
     LiveData<List<SolvableTranslationCto>> getSolvableTranslationsDueBefore(Long bucketId, Instant time);
+
+    Long getMaxId(Long bucketId);
 }

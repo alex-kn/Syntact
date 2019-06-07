@@ -18,17 +18,16 @@ import javax.inject.Inject;
 
 public class PlayMenuViewModel extends AndroidViewModel {
 
-
     @Inject
     ManageBuckets manageBuckets;
+
     private final LiveData<List<Bucket>> buckets;
 
     public PlayMenuViewModel(@NonNull Application application) {
 
         super(application);
 
-        DaggerViewComponent.builder().applicationComponent(
-                ((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
+        DaggerViewComponent.builder().applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
 
         buckets = manageBuckets.getBuckets();
@@ -36,7 +35,7 @@ public class PlayMenuViewModel extends AndroidViewModel {
 
     public void deleteLanguage(Bucket bucket) {
 
-        AsyncTask.execute(() -> manageBuckets.removeLanguage(bucket.getId()));
+        AsyncTask.execute(() -> manageBuckets.removeLanguage(bucket));
     }
 
     LiveData<List<Bucket>> getBuckets() {

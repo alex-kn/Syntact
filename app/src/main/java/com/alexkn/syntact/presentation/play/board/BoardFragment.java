@@ -76,7 +76,9 @@ public class BoardFragment extends Fragment {
         viewModel.getLettersRight()
                 .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
         viewModel.getSolvablePhrases()
-                .observe(getViewLifecycleOwner(), phraseListAdapter::submitList);
+                .observe(getViewLifecycleOwner(), data -> {
+                    phraseListAdapter.submitList(data);
+                });
 
         Button reloadButton = view.findViewById(R.id.reloadButton);
         reloadButton.setOnClickListener(v -> AsyncTask.execute(viewModel::reloadLetters));

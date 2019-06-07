@@ -41,20 +41,4 @@ public class Translation {
 
         this.language = language;
     }
-
-    @Override
-    public boolean equals(Object o) {
-
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Translation that = (Translation) o;
-        return Objects.equals(id, that.id) && Objects.equals(text, that.text) &&
-                Objects.equals(language, that.language);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(id, text, language);
-    }
 }
