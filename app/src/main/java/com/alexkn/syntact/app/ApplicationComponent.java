@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
+import com.alexkn.syntact.domain.usecase.play.FetchPhrasesWorker;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
 import com.alexkn.syntact.domain.usecase.play.ManageScore;
@@ -32,6 +33,8 @@ public interface ApplicationComponent {
     ManageScore manageScore();
 
     Property property();
+
+    void inject(FetchPhrasesWorker fetchPhrasesWorker);
 }
 
 

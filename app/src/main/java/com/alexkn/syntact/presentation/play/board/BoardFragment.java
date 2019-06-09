@@ -36,8 +36,7 @@ public class BoardFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.board_fragment, container, false);
         viewModel = ViewModelProviders.of(getActivity()).get(BoardViewModel.class);
@@ -51,34 +50,32 @@ public class BoardFragment extends Fragment {
         linearLayoutManager.setReverseLayout(true);
         cardsView.setLayoutManager(linearLayoutManager);
         phraseListAdapter = new PhraseListAdapter(viewModel::solve);
-        phraseListAdapter
-                .registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
+        phraseListAdapter.registerAdapterDataObserver(new PhraseAdapterDataObserver(linearLayoutManager));
         cardsView.setAdapter(phraseListAdapter);
 
         letterViewLeft = view.findViewById(R.id.lettersViewLeft);
         letterViewRight = view.findViewById(R.id.lettersViewRight);
 
-        LinearLayoutManager linearLayoutManager1 = new UnscrollableLinearLayoutManager(
-                getContext());
+        LinearLayoutManager linearLayoutManager1 = new UnscrollableLinearLayoutManager(getContext());
         linearLayoutManager1.setReverseLayout(true);
         letterViewLeft.setLayoutManager(linearLayoutManager1);
         letterListAdapter1 = new LetterListAdapter();
         letterViewLeft.setAdapter(letterListAdapter1);
 
-        LinearLayoutManager linearLayoutManager2 = new UnscrollableLinearLayoutManager(
-                getContext());
+        LinearLayoutManager linearLayoutManager2 = new UnscrollableLinearLayoutManager(getContext());
         linearLayoutManager2.setReverseLayout(true);
         letterViewRight.setLayoutManager(linearLayoutManager2);
         letterListAdapter2 = new LetterListAdapter();
         letterViewRight.setAdapter(letterListAdapter2);
 
         viewModel.getLettersLeft().observe(getViewLifecycleOwner(), letterListAdapter1::submitList);
-        viewModel.getLettersRight()
-                .observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
-        viewModel.getSolvablePhrases()
-                .observe(getViewLifecycleOwner(), data -> {
-                    phraseListAdapter.submitList(data);
-                });
+        viewModel.getLettersRight().observe(getViewLifecycleOwner(), letterListAdapter2::submitList);
+        viewModel.getSolvablePhrases().observe(getViewLifecycleOwner(), data -> {
+            phraseListAdapter.submitList(data);
+            if (data.size() < 4) {
+                viewModel.triggerPhrasesFetch();
+            }
+        });
 
         Button reloadButton = view.findViewById(R.id.reloadButton);
         reloadButton.setOnClickListener(v -> AsyncTask.execute(viewModel::reloadLetters));
@@ -95,8 +92,7 @@ public class BoardFragment extends Fragment {
 
         private final LinearLayoutManager linearLayoutManager;
 
-        PhraseAdapterDataObserver(
-                LinearLayoutManager linearLayoutManager) {this.linearLayoutManager = linearLayoutManager;}
+        PhraseAdapterDataObserver(LinearLayoutManager linearLayoutManager) {this.linearLayoutManager = linearLayoutManager;}
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {

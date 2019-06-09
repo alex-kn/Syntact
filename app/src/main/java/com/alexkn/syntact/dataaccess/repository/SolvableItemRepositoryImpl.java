@@ -40,6 +40,12 @@ public class SolvableItemRepositoryImpl implements SolvableItemRepository {
     }
 
     @Override
+    public SolvableItem find(Long id) {
+
+        return solvableItemDao.find(id);
+    }
+
+    @Override
     public Long insert(SolvableItem solvableTranslation) {
 
         return solvableItemDao.insert(solvableTranslation);

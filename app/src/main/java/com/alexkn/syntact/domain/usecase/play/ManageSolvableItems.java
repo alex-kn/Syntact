@@ -6,6 +6,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+import androidx.work.Worker;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.app.Property;
@@ -15,6 +20,7 @@ import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.repository.AttemptRepository;
+import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.restservice.Phrase;
@@ -23,6 +29,7 @@ import com.alexkn.syntact.restservice.Translation;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -53,6 +60,9 @@ public class ManageSolvableItems {
     Application application;
 
     @Inject
+    BucketRepository bucketRepository;
+
+    @Inject
     ManageScore manageScore;
 
     @Inject
@@ -73,78 +83,13 @@ public class ManageSolvableItems {
         return solvableItemRepository.getSolvableTranslationsDueBefore(bucketId, Instant.now());
     }
 
-    public void fetchSolvableItems(Bucket bucket) {
+    public void fetchSolvableItems(long bucketId) {
 
-        String token = "Token " + property.get("api-auth-token");
+        Data data = new Data.Builder().putLong("bucketId", bucketId).putLong("timestamp",Instant.now().toEpochMilli()).build();
 
-        Long minFetchId = solvableItemRepository.getMaxId(bucket.getId());
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(FetchPhrasesWorker.class).setInputData(data).build();
+        WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker.class.getName(), ExistingWorkPolicy.KEEP, workRequest);
 
-        Log.i(TAG, "Fetching phrases with ids above " + minFetchId);
-
-        syntactService.getPhrases(token, bucket.getPhrasesUrl(), minFetchId).enqueue(new Callback<List<Phrase>>() {
-
-            @Override
-            public void onResponse(@NonNull Call<List<Phrase>> call, @NonNull Response<List<Phrase>> response) {
-
-                if (response.isSuccessful()) {
-                    List<Phrase> phrases = response.body();
-                    if (phrases != null) {
-                        Log.i(TAG, phrases.size() + " phrases fetched");
-                        for (Phrase phrase : phrases) {
-                            SolvableItem solvableItem = new SolvableItem();
-                            solvableItem.setText(phrase.getText());
-                            solvableItem.setBucketId(bucket.getId());
-                            solvableItem.setId(phrase.getId());
-                            solvableItem.setConsecutiveCorrectAnswers(0);
-                            solvableItem.setEasiness(2.5f);
-                            solvableItem.setNextDueDate(Instant.now());
-                            solvableItem.setTimesSolved(0);
-                            solvableItemRepository.insert(solvableItem);
-
-                            Attempt attempt = new Attempt();
-                            attempt.setSolvableItemId(phrase.getId());
-                            attempt.setText(phrase.getText().replaceAll("[a-zA-Z]", "_"));
-                            attemptRepository.insert(attempt);
-
-                            Log.i(TAG, "Fetched Phrase " + phrase.getText() + ". Fetching translation...");
-
-                            syntactService.getTranslations(token, phrase.getTranslationsUrl(), bucket.getLanguage().getLanguage())
-                                    .enqueue(new Callback<List<Translation>>() {
-
-                                        @Override
-                                        public void onResponse(@NonNull Call<List<Translation>> call, @NonNull Response<List<Translation>> response) {
-
-                                            if (response.isSuccessful() && response.body() != null) {
-                                                if (response.body().size() > 1) {
-                                                    Log.i(TAG, "Multiple Translations not yet supported, using first translation and discard others");
-                                                }
-                                                Translation translation = response.body().get(0);
-
-                                                Clue clue = new Clue();
-                                                clue.setSolvableItemId(phrase.getId());
-                                                clue.setText(translation.getText());
-                                                clue.setId(translation.getId());
-                                                clueRepository.insert(clue);
-                                                Log.i(TAG, "Inserted Clue for Phrase " + phrase.getText());
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(@NonNull Call<List<Translation>> call, @NonNull Throwable t) {
-
-                                            Log.e(TAG, "onFailure: FAIL", t);
-                                        }
-                                    });
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<List<Phrase>> call, @NonNull Throwable t) {
-
-            }
-        });
     }
 
     public void makeAttempt(SolvableTranslationCto solvableTranslation, Character character) {

@@ -80,16 +80,12 @@ public class BoardViewModel extends AndroidViewModel {
         phrases = manageSolvableItems.getSolvableTranslations(bucketId);
         lettersLeft = manageLetters.getLetters(bucketId, LetterColumn.LEFT);
         lettersRight = manageLetters.getLetters(bucketId, LetterColumn.RIGHT);
-
-        bucket.observeForever(this::triggerPhrasesFetch);
     }
 
-    public void triggerPhrasesFetch(Bucket bucket) {
+    public void triggerPhrasesFetch() {
 
-        if (bucket != null) {
-        AsyncTask.execute(() -> manageSolvableItems.fetchSolvableItems(bucket));
+        AsyncTask.execute(() -> manageSolvableItems.fetchSolvableItems(bucketId));
 
-        }
     }
 
     public int calculateMaxScoreForLevel(int level) {

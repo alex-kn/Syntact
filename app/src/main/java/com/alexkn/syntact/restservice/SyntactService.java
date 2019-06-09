@@ -19,7 +19,8 @@ public interface SyntactService {
     Call<List<Template>> getTemplates(@Header("Authorization") String token);
 
     @GET("templates/{id}/phrases/")
-    Call<List<Phrase>> getPhrases(@Header("Authorization") String token, @Path("id") Long templateId, @Query("minid") long minid);
+    Call<List<Phrase>> getPhrases(@Header("Authorization") String token, @Path("id") Long templateId, @Query("minid") long minid,
+            @Query("limit") int limit);
 
     @GET("phrases/{id}/translations/")
     Call<List<Translation>> getTranslations(@Header("Authorization") String token, @Path("id") Long phraseId, @Query("lang") String lang);
@@ -28,7 +29,7 @@ public interface SyntactService {
     Call<List<Translation>> getTranslations(@Header("Authorization") String token, @Url String url, @Query("lang") String lang);
 
     @GET
-    Call<List<Phrase>> getPhrases(@Header("Authorization") String token, @Url String url, @Query("minid") long minid);
+    Call<List<Phrase>> getPhrases(@Header("Authorization") String token, @Url String url, @Query("minid") long minid, @Query("limit") int limit);
 
     @POST("phrases/")
     Call<List<Phrase>> postPhrases(@Header("Authorization") String token);

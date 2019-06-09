@@ -11,4 +11,7 @@ public interface AttemptDao extends BaseDao<Attempt> {
 
     @Query("UPDATE Attempt SET attemptText = :attempt WHERE attemptSolvableItemId = :solvableItemId")
     void updateAttempt(Long solvableItemId, String attempt);
+
+    @Query("SELECT * FROM attempt where attemptId = :id")
+    Attempt find(Long id);
 }

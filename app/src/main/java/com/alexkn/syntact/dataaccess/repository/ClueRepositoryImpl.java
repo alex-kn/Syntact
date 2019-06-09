@@ -45,4 +45,10 @@ public class ClueRepositoryImpl implements ClueRepository {
 
         clueDao.delete(clue);
     }
+
+    @Override
+    public Clue find(Long id) {
+
+        return clueDao.find(id);
+    }
 }

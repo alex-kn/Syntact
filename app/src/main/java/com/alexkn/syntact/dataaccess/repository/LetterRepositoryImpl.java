@@ -57,6 +57,12 @@ public class LetterRepositoryImpl implements LetterRepository {
     }
 
     @Override
+    public Letter find(Long id) {
+
+        return letterDao.find(id);
+    }
+
+    @Override
     public void deleteAllLettersForLanguage(Long bucketId) {
 
         letterDao.deleteAllLettersForLanguage(bucketId);

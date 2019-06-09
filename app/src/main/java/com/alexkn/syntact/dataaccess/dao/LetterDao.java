@@ -18,4 +18,7 @@ public interface LetterDao  extends BaseDao<Letter> {
 
     @Query("DELETE FROM Letter WHERE bucketId = :bucketId")
     void deleteAllLettersForLanguage(Long bucketId);
+
+    @Query("SELECT * FROM Letter where id = :id")
+    Letter find(Long id);
 }

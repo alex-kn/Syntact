@@ -47,6 +47,12 @@ public class AttemptRepositoryImpl implements AttemptRepository {
     }
 
     @Override
+    public Attempt find(Long id) {
+
+        return attemptDao.find(id);
+    }
+
+    @Override
     public void updateAttempt(Long solvableItemId, String attempt) {
 
         attemptDao.updateAttempt(solvableItemId, attempt);
