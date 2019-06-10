@@ -2,18 +2,13 @@ package com.alexkn.syntact.domain.model;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import com.alexkn.syntact.domain.common.GameMode;
 import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.time.Instant;
 import java.util.Locale;
 import java.util.Objects;
-
-import static androidx.room.ForeignKey.SET_NULL;
 
 @Entity
 public class Bucket implements Identifiable {
@@ -30,7 +25,11 @@ public class Bucket implements Identifiable {
     @NonNull
     private Locale userLanguage;
 
-    @NonNull private String phrasesUrl;
+    @NonNull
+    private String phrasesUrl;
+
+    @NonNull
+    private Integer itemCount;
 
     @Override
     public Long getId() {
@@ -87,20 +86,30 @@ public class Bucket implements Identifiable {
         this.phrasesUrl = phrasesUrl;
     }
 
+    @NonNull
+    public Integer getItemCount() {
+
+        return itemCount;
+    }
+
+    public void setItemCount(@NonNull Integer itemCount) {
+
+        this.itemCount = itemCount;
+    }
+
     @Override
     public boolean equals(Object o) {
 
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bucket bucket = (Bucket) o;
-        return Objects.equals(id, bucket.id) && language.equals(bucket.language) &&
-                createdAt.equals(bucket.createdAt) && userLanguage.equals(bucket.userLanguage) &&
-                phrasesUrl.equals(bucket.phrasesUrl);
+        return Objects.equals(id, bucket.id) && language.equals(bucket.language) && createdAt.equals(bucket.createdAt) &&
+                userLanguage.equals(bucket.userLanguage) && phrasesUrl.equals(bucket.phrasesUrl) && itemCount.equals(bucket.itemCount);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, language, createdAt, userLanguage, phrasesUrl);
+        return Objects.hash(id, language, createdAt, userLanguage, phrasesUrl, itemCount);
     }
 }

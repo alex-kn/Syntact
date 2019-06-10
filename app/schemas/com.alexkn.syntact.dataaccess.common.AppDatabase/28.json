@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 26,
-    "identityHash": "938a677d804c86bf2ac32dac77543d0a",
+    "version": 28,
+    "identityHash": "ffc29f479d6fbe8ced44f3cbfd61a64e",
     "entities": [
       {
         "tableName": "SolvableItem",
@@ -297,12 +297,12 @@
     "views": [
       {
         "viewName": "BucketDetail",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT b.id, b.language, b.createdAt,b.itemCount,count(s.id) as solvedCount FROM solvableitem s  JOIN bucket b  ON s.bucketId = b.id WHERE timesSolved > 0 GROUP BY b.id"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT b.id, b.language, b.createdAt,b.itemCount, (SELECT count(*) FROM solvableitem s JOIN bucket b  ON s.bucketId = b.id WHERE s.timesSolved > 0) as solvedCount FROM Bucket b;"
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '938a677d804c86bf2ac32dac77543d0a')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'ffc29f479d6fbe8ced44f3cbfd61a64e')"
     ]
   }
 }

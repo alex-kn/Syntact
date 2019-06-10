@@ -8,17 +8,10 @@
 
         <variable
             name="bucket"
-            type="com.alexkn.syntact.domain.model.Bucket" />
-        <variable
-            name="solved"
-            type="String" />
+            type="com.alexkn.syntact.domain.model.views.BucketDetail" />
 
         <variable
-            name="total"
-            type="String" />
-
-        <variable
-            name="average"
+            name="dailyAverage"
             type="String" />
 
         <variable
@@ -31,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_gap"
         android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        android:focusable="true">
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,22 +44,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@drawable/fr" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/languageLabel"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@{bucket.language.getDisplayLanguage()}"-->
-<!--                android:textAppearance="@style/TextAppearance.MyTheme.Overline"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                tools:text="Spanish" />-->
+            <!--            <TextView-->
+            <!--                android:id="@+id/languageLabel"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="@{bucket.language.getDisplayLanguage()}"-->
+            <!--                android:textAppearance="@style/TextAppearance.MyTheme.Overline"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                tools:text="Spanish" />-->
 
             <TextView
                 android:id="@+id/averageLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{average}"
+                android:text="@{dailyAverage}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/bucketNameLabel"
@@ -76,10 +69,10 @@
                 android:id="@+id/bucketNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{bucket.language.getDisplayLanguage()}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{bucket.language.getDisplayLanguage()}"
                 tools:text="Basic Bucket" />
 
             <TextView
@@ -114,18 +107,18 @@
                 android:id="@+id/solvedLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="@{bucket.getSolvedCount().toString()}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
                 app:layout_constraintEnd_toStartOf="@+id/textView7"
-                android:text="@{solved}"
                 tools:text="348" />
 
             <TextView
                 android:id="@+id/textView8"
-                android:text="@{total}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:text="@{bucket.getItemCount().toString()}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/averageLabel"

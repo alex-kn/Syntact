@@ -83,9 +83,9 @@ public class ManageSolvableItems {
         return solvableItemRepository.getSolvableTranslationsDueBefore(bucketId, Instant.now());
     }
 
-    public void fetchSolvableItems(long bucketId) {
+    public void fetchSolvableItems(long bucketId, Instant startTime) {
 
-        Data data = new Data.Builder().putLong("bucketId", bucketId).putLong("timestamp",Instant.now().toEpochMilli()).build();
+        Data data = new Data.Builder().putLong("bucketId", bucketId).putLong("timestamp",startTime.toEpochMilli()).build();
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(FetchPhrasesWorker.class).setInputData(data).build();
         WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker.class.getName(), ExistingWorkPolicy.KEEP, workRequest);

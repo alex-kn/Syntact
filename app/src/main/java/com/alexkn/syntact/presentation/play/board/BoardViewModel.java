@@ -17,11 +17,14 @@ import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
 import com.alexkn.syntact.domain.usecase.play.ManageScore;
 import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
+import java.time.Instant;
 import java.util.List;
 
 import javax.inject.Inject;
 
 public class BoardViewModel extends AndroidViewModel {
+
+    private final Instant startTime;
 
     @Inject
     ManageSolvableItems manageSolvableItems;
@@ -51,6 +54,9 @@ public class BoardViewModel extends AndroidViewModel {
 
         DaggerViewComponent.builder().applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
                 .inject(this);
+
+        this.startTime = Instant.now();
+
     }
 
     public void setBucketId(Long bucketId) {
@@ -84,7 +90,7 @@ public class BoardViewModel extends AndroidViewModel {
 
     public void triggerPhrasesFetch() {
 
-        AsyncTask.execute(() -> manageSolvableItems.fetchSolvableItems(bucketId));
+        AsyncTask.execute(() -> manageSolvableItems.fetchSolvableItems(bucketId, startTime));
 
     }
 
@@ -112,4 +118,5 @@ public class BoardViewModel extends AndroidViewModel {
 
         return bucket;
     }
+
 }

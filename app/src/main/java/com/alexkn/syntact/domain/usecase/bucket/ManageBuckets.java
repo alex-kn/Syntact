@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Bucket;
+import com.alexkn.syntact.domain.model.views.BucketDetail;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 
 import java.util.Arrays;
@@ -40,6 +41,11 @@ public class ManageBuckets {
     public LiveData<Bucket> getBucket(Long id) {
 
         return bucketRepository.findBucket(id);
+    }
+
+    public LiveData<List<BucketDetail>> getBucketDetails() {
+
+        return bucketRepository.findBucketDetails();
     }
 
     public LiveData<List<Bucket>> getBuckets() {

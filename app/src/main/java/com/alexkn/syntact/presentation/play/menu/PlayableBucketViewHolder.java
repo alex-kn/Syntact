@@ -26,7 +26,7 @@ public class PlayableBucketViewHolder extends ListItemViewHolder<Bucket> {
 
         this.bucket = bucket;
 
-        languageLabel.setText("Bucket");
+        languageLabel.setText(bucket.getLanguage().getDisplayLanguage());
 
         itemView.setOnClickListener(this::startHangman);
     }

@@ -20,6 +20,9 @@ public class Template {
     @SerializedName("phrases")
     private String phrasesUrl;
 
+    @SerializedName("phrases_count")
+    private Integer count;
+
     public String getId() {
 
         return id;
@@ -68,5 +71,15 @@ public class Template {
     public void setPhrasesUrl(String phrasesUrl) {
 
         this.phrasesUrl = phrasesUrl;
+    }
+
+    public Integer getCount() {
+
+        return count;
+    }
+
+    public void setCount(Integer count) {
+
+        this.count = count;
     }
 }

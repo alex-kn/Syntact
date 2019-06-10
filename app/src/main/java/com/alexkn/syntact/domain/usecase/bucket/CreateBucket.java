@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.usecase.bucket;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -8,14 +9,12 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
-import com.alexkn.syntact.restservice.Phrase;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.Template;
 
@@ -76,6 +75,7 @@ public class CreateBucket {
                     @NonNull Response<List<Template>> response) {
 
                 if (response.isSuccessful()) {
+                    Log.i(TAG, "Found " + response.body().size() + " templates");
                     templates.postValue(response.body());
                 }
             }
@@ -97,6 +97,7 @@ public class CreateBucket {
         bucket.setLanguage(language);
         bucket.setUserLanguage(sourceLanguage);
         bucket.setPhrasesUrl(template.getPhrasesUrl());
+        bucket.setItemCount(template.getCount());
         Long bucketId = bucketRepository.insert(bucket);
 
         String token = "Token " + property.get("api-auth-token");
