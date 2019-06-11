@@ -120,6 +120,7 @@ public class ManageSolvableItems {
         solvableItem.setConsecutiveCorrectAnswers(consecutiveCorrectAnswers);
         solvableItem.setNextDueDate(nextDueDate);
         solvableItem.setLastSolved(Instant.now());
+        solvableItem.setTimesSolved(solvableItem.getTimesSolved() + 1);
         attemptRepository
                 .updateAttempt(solvableItem.getId(), StringUtils.repeat(context.getString(R.string.empty), solvableItem.getText().length()));
 

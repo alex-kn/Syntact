@@ -7,6 +7,7 @@ import com.alexkn.syntact.domain.common.Identifiable;
 
 import java.time.Instant;
 import java.util.Locale;
+import java.util.Objects;
 
 @DatabaseView(
         "SELECT b.id, b.language, b.createdAt,b.itemCount, (SELECT count(*) FROM solvableitem s JOIN bucket b  ON s.bucketId = b.id WHERE s.timesSolved > 0) as solvedCount FROM Bucket b;")
@@ -70,5 +71,21 @@ public class BucketDetail implements Identifiable {
     public void setSolvedCount(Integer solvedCount) {
 
         this.solvedCount = solvedCount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BucketDetail that = (BucketDetail) o;
+        return Objects.equals(id, that.id) && Objects.equals(language, that.language) && Objects.equals(createdAt, that.createdAt) &&
+                Objects.equals(itemCount, that.itemCount) && Objects.equals(solvedCount, that.solvedCount);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, language, createdAt, itemCount, solvedCount);
     }
 }
