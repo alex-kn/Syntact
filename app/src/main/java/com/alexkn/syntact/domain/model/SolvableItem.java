@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import com.alexkn.syntact.domain.common.Identifiable;
@@ -13,8 +14,8 @@ import java.util.Objects;
 
 import static androidx.room.ForeignKey.CASCADE;
 
-@Entity(foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id",
-        childColumns = "bucketId", onDelete = CASCADE))
+@Entity(foreignKeys = @ForeignKey(entity = Bucket.class, parentColumns = "id", childColumns = "bucketId", onDelete = CASCADE),
+        indices = @Index(value = "bucketId", name = "bucket_id"))
 public class SolvableItem implements Identifiable {
 
     @PrimaryKey
@@ -133,17 +134,15 @@ public class SolvableItem implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SolvableItem that = (SolvableItem) o;
-        return Objects.equals(id, that.id) && text.equals(that.text) &&
-                Objects.equals(lastSolved, that.lastSolved) &&
+        return Objects.equals(id, that.id) && text.equals(that.text) && Objects.equals(lastSolved, that.lastSolved) &&
                 nextDueDate.equals(that.nextDueDate) && easiness.equals(that.easiness) &&
-                consecutiveCorrectAnswers.equals(that.consecutiveCorrectAnswers) &&
-                timesSolved.equals(that.timesSolved) && bucketId.equals(that.bucketId);
+                consecutiveCorrectAnswers.equals(that.consecutiveCorrectAnswers) && timesSolved.equals(that.timesSolved) &&
+                bucketId.equals(that.bucketId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, text, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers,
-                timesSolved, bucketId);
+        return Objects.hash(id, text, lastSolved, nextDueDate, easiness, consecutiveCorrectAnswers, timesSolved, bucketId);
     }
 }

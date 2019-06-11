@@ -1,6 +1,7 @@
 package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -21,7 +22,7 @@ public class SolvableItemRepositoryImpl implements SolvableItemRepository {
     private SolvableItemDao solvableItemDao;
 
     @Inject
-    SolvableItemRepositoryImpl(Application application) {
+    SolvableItemRepositoryImpl(Context application) {
 
         AppDatabase database = AppDatabase.getDatabase(application);
         solvableItemDao = database.solvableItemDao();

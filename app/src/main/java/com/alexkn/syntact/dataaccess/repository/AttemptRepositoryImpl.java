@@ -1,6 +1,7 @@
 package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
 import com.alexkn.syntact.dataaccess.dao.AttemptDao;
@@ -16,7 +17,7 @@ public class AttemptRepositoryImpl implements AttemptRepository {
     private AttemptDao attemptDao;
 
     @Inject
-    public AttemptRepositoryImpl(Application application) {
+    public AttemptRepositoryImpl(Context application) {
 
         AppDatabase database = AppDatabase.getDatabase(application);
         attemptDao = database.attemptDao();

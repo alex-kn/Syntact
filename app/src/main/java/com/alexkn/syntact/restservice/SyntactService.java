@@ -2,7 +2,9 @@ package com.alexkn.syntact.restservice;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -31,18 +33,9 @@ public interface SyntactService {
     @GET
     Call<List<Phrase>> getPhrases(@Header("Authorization") String token, @Url String url, @Query("minid") long minid, @Query("limit") int limit);
 
-    @POST("phrases/")
-    Call<List<Phrase>> postPhrases(@Header("Authorization") String token);
+    @POST("templates/{id}/phrases/")
+    Call<ResponseBody> postPhrases(@Header("Authorization") String token, @Path("id") Long templateId, @Body List<PhrasesRequest> phrasesRequests);
 
-    //    @POST("templates/")
-    //    Call<List<Translation>> postTemplate(@Header("Authorization") String token,
-    //            @Body Translation templateResponse);
-    //
-    //    @POST("translate-template")
-    //    Call<ResponseBody> translateTemplate(@Header("Authorization") String token,
-    //            @Query("targetLang") String targetLanguage, @Query("templateId") Integer templateId);
-    //
-    //    @GET("templates/{id}")
-    //    Call<Translation> getTemplate(@Header("Authorization") String token,
-    //            @Path("id") int templateId);
+    @POST("templates/")
+    Call<Template> postTemplate(@Header("Authorization") String token, @Body TemplateRequest templateRequest);
 }

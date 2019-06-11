@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.usecase.play;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -57,7 +58,7 @@ public class ManageSolvableItems {
     ClueRepository clueRepository;
 
     @Inject
-    Application application;
+    Context context;
 
     @Inject
     BucketRepository bucketRepository;
@@ -95,7 +96,7 @@ public class ManageSolvableItems {
     public void makeAttempt(SolvableTranslationCto solvableTranslation, Character character) {
 
         String attempt = updateCurrentAttempt(solvableTranslation, character);
-        if (!attempt.contains(application.getString(R.string.empty))) {
+        if (!attempt.contains(context.getString(R.string.empty))) {
             solvePhrase(solvableTranslation);
         } else {
             attemptRepository.updateAttempt(solvableTranslation.getId(), attempt);//TODO
@@ -120,7 +121,7 @@ public class ManageSolvableItems {
         solvableItem.setNextDueDate(nextDueDate);
         solvableItem.setLastSolved(Instant.now());
         attemptRepository
-                .updateAttempt(solvableItem.getId(), StringUtils.repeat(application.getString(R.string.empty), solvableItem.getText().length()));
+                .updateAttempt(solvableItem.getId(), StringUtils.repeat(context.getString(R.string.empty), solvableItem.getText().length()));
 
         solvableItemRepository.update(solvableItem);
     }

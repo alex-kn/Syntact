@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.presentation.play.board.BoardViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class PlayMenuFragment extends Fragment {
@@ -28,7 +30,8 @@ public class PlayMenuFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.play_menu_fragment, container, false);
 
-        viewModel = ViewModelProviders.of(getActivity()).get(PlayMenuViewModel.class);
+        viewModel =ViewModelProviders.of(this, ((ApplicationComponentProvider) getActivity().getApplication()).getApplicationComponent().playMenuViewModelFactory())
+                .get(PlayMenuViewModel.class);
 
         languagesList = view.findViewById(R.id.languagesList);
         languagesList.setLayoutManager(new LinearLayoutManager(this.getContext()));

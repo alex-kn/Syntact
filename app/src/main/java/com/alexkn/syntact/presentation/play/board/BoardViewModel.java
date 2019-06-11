@@ -1,12 +1,10 @@
 package com.alexkn.syntact.presentation.play.board;
 
-import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.common.LetterColumn;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Letter;
@@ -14,29 +12,22 @@ import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
-import com.alexkn.syntact.domain.usecase.play.ManageScore;
-import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.time.Instant;
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class BoardViewModel extends AndroidViewModel {
+public class BoardViewModel extends ViewModel {
 
     private final Instant startTime;
 
-    @Inject
     ManageSolvableItems manageSolvableItems;
 
-    @Inject
     ManageBuckets manageBuckets;
 
-    @Inject
     ManageLetters manageLetters;
 
-    @Inject
-    ManageScore manageScore;
 
     private Long bucketId;
 
@@ -48,13 +39,13 @@ public class BoardViewModel extends AndroidViewModel {
 
     private LiveData<List<Letter>> lettersRight;
 
-    public BoardViewModel(Application application) {
+    @Inject
+    public BoardViewModel(ManageSolvableItems manageSolvableItems, ManageBuckets manageBuckets, ManageLetters manageLetters) {
 
-        super(application);
-
-        DaggerViewComponent.builder().applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
-                .inject(this);
-
+        super();
+        this.manageSolvableItems = manageSolvableItems;
+        this.manageBuckets = manageBuckets;
+        this.manageLetters = manageLetters;
         this.startTime = Instant.now();
 
     }
@@ -92,11 +83,6 @@ public class BoardViewModel extends AndroidViewModel {
 
         AsyncTask.execute(() -> manageSolvableItems.fetchSolvableItems(bucketId, startTime));
 
-    }
-
-    public int calculateMaxScoreForLevel(int level) {
-
-        return manageScore.calculateMaxForLevel(level);
     }
 
     LiveData<List<SolvableTranslationCto>> getSolvablePhrases() {

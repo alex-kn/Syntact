@@ -1,6 +1,7 @@
 package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -20,7 +21,7 @@ public class LetterRepositoryImpl implements LetterRepository {
     private LetterDao letterDao;
 
     @Inject
-    public LetterRepositoryImpl(Application application) {
+    public LetterRepositoryImpl(Context application) {
 
         AppDatabase database = AppDatabase.getDatabase(application);
         this.letterDao = database.letterDao();

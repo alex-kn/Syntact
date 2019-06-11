@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.presentation.play.menu.PlayMenuViewModel;
 
 import java.util.Arrays;
 import java.util.List;
@@ -35,9 +38,11 @@ public class CreateBucketFragment extends Fragment {
             @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.bucket_create_fragment, container, false);
-        viewModel = ViewModelProviders.of(getActivity()).get(CreateBucketViewModel.class);
+        viewModel =ViewModelProviders.of(this, ((ApplicationComponentProvider) getActivity().getApplication()).getApplicationComponent().createBucketViewModelFactory())
+                .get(CreateBucketViewModel.class);
 
         addButton = view.findViewById(R.id.addBucketButton);
+        EditText words = view.findViewById(R.id.editText);
 
         List<Locale> languages = viewModel.getAvailableBuckets();
         List<List<Locale>> dataset = Arrays.asList(languages);
@@ -58,7 +63,7 @@ public class CreateBucketFragment extends Fragment {
 
         addButton.setOnClickListener(v -> {
 
-            viewModel.addBucket(selectedLanguage, null);//TODO
+            viewModel.addBucket(selectedLanguage, null, words.getText().toString());//TODO
             Navigation.findNavController(view).popBackStack();
         });
 

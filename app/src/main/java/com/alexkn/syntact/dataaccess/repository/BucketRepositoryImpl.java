@@ -1,6 +1,7 @@
 package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -20,7 +21,7 @@ public class BucketRepositoryImpl implements BucketRepository {
     private BucketDao bucketDao;
 
     @Inject
-    BucketRepositoryImpl(Application application) {
+    BucketRepositoryImpl(Context application) {
 
         AppDatabase database = AppDatabase.getDatabase(application);
         bucketDao = database.bucketDao();

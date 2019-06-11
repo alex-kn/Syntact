@@ -1,6 +1,7 @@
 package com.alexkn.syntact.dataaccess.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.alexkn.syntact.dataaccess.common.AppDatabase;
 import com.alexkn.syntact.dataaccess.dao.ClueDao;
@@ -16,7 +17,7 @@ public class ClueRepositoryImpl implements ClueRepository {
     private ClueDao clueDao;
 
     @Inject
-    public ClueRepositoryImpl(Application application) {
+    public ClueRepositoryImpl(Context application) {
 
         AppDatabase database = AppDatabase.getDatabase(application);
         clueDao = database.clueDao();

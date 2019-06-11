@@ -1,35 +1,28 @@
 package com.alexkn.syntact.presentation.play.menu;
 
-import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
-import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class PlayMenuViewModel extends AndroidViewModel {
+public class PlayMenuViewModel extends ViewModel {
 
-    @Inject
     ManageBuckets manageBuckets;
 
     private final LiveData<List<Bucket>> buckets;
 
-    public PlayMenuViewModel(@NonNull Application application) {
+    @Inject
+    public PlayMenuViewModel( ManageBuckets manageBuckets) {
 
-        super(application);
-
-        DaggerViewComponent.builder().applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
-                .inject(this);
-
+        super();
+        this.manageBuckets = manageBuckets;
         buckets = manageBuckets.getBuckets();
     }
 

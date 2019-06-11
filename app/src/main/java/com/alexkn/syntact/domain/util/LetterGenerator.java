@@ -1,6 +1,7 @@
 package com.alexkn.syntact.domain.util;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.commons.io.IOUtil;
@@ -24,12 +25,12 @@ public class LetterGenerator {
     private EnumeratedDistribution<Character> letterDistribution;
 
     @Inject
-    LetterGenerator(Application application) {
+    LetterGenerator(Context context) {
 
         List<Pair<Character, Double>> letterFrequencyList = new ArrayList<>();
         try {
 
-            try (InputStream open = application.getAssets().open("letterfrequencies.json")) {
+            try (InputStream open = context.getAssets().open("letterfrequencies.json")) {
 
                 String s = IOUtil.toString(open, "UTF-8");
                 JSONArray letters = new JSONArray(s);
@@ -56,7 +57,5 @@ public class LetterGenerator {
     public Character[] generateCharacters(int sampleSize) {
 
         return letterDistribution.sample(sampleSize, new Character[sampleSize]);
-
-
     }
 }

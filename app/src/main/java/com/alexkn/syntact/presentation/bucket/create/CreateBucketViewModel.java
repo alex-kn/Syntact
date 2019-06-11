@@ -1,50 +1,50 @@
 package com.alexkn.syntact.presentation.bucket.create;
 
-import android.app.Application;
 import android.os.AsyncTask;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
-import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
-import com.alexkn.syntact.presentation.common.DaggerViewComponent;
 import com.alexkn.syntact.restservice.Template;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
 
-public class CreateBucketViewModel extends AndroidViewModel {
+public class CreateBucketViewModel extends ViewModel {
 
     private final List<Locale> availableBuckets;
 
     private final LiveData<List<Template>> availableTemplates;
 
-    @Inject
     ManageBuckets manageBuckets;
 
-    @Inject
     CreateBucket createBucket;
 
-    public CreateBucketViewModel(@NonNull Application application) {
+    @Inject
+    public CreateBucketViewModel(ManageBuckets manageBuckets, CreateBucket createBucket) {
 
-        super(application);
-
-        DaggerViewComponent.builder().applicationComponent(((ApplicationComponentProvider) getApplication()).getApplicationComponent()).build()
-                .inject(this);
+        super();
+        this.manageBuckets = manageBuckets;
+        this.createBucket = createBucket;
 
         availableBuckets = manageBuckets.getAvailableLanguages();
         availableTemplates = createBucket.findAvailableTemplates();
     }
 
-    void addBucket(Locale language, Template template) {
+    void addBucket(Locale language, Template template, String words) {
 
-        if (template == null) {
-            AsyncTask.execute(() -> createBucket.addBucket(language, availableTemplates.getValue().get(0)));
+        if (words.isEmpty()) {//TODO
+            AsyncTask.execute(() -> createBucket.addBucketWithExistingTemplate(language, availableTemplates.getValue().get(0)));
+        } else {
+            List<String> phrases = Arrays.asList(StringUtils.split(words, " "));
+            AsyncTask.execute(() -> createBucket.addBucketWithNewTemplate("AndroidTest", language, phrases));
         }
     }
 

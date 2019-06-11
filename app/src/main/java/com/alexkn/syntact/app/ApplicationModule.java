@@ -28,13 +28,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 class ApplicationModule {
 
-    private Application syntactApplication;
-
-    public ApplicationModule(SyntactApplication syntactApplication) {
-
-        this.syntactApplication = syntactApplication;
-    }
-
     @Singleton
     @Provides
     SyntactService provideSyntactService() {
@@ -45,13 +38,6 @@ class ApplicationModule {
                 .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson)).build()
                 .create(SyntactService.class);
-    }
-
-    @Provides
-    @Singleton
-    Application provideApplication() {
-
-        return syntactApplication;
     }
 
     @Provides

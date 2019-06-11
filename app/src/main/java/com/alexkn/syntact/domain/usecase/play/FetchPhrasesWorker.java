@@ -9,7 +9,6 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
-import com.alexkn.syntact.app.DaggerApplicationComponent;
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Bucket;
@@ -30,7 +29,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import dagger.android.AndroidInjection;
 import retrofit2.Response;
 
 public class FetchPhrasesWorker extends Worker {
@@ -65,6 +63,8 @@ public class FetchPhrasesWorker extends Worker {
     @Override
     public Result doWork() {
 
+        //TODO do only if items on phone <= itemcount in bucket
+        //TODO regularly update bucket phrase count
         Data inputData = getInputData();
         long bucketId = inputData.getLong("bucketId", -1L);
         long timestamp = inputData.getLong("timestamp", Instant.now().toEpochMilli());
@@ -97,30 +97,35 @@ public class FetchPhrasesWorker extends Worker {
                         solvableItem.setEasiness(2.5f);
                         solvableItem.setNextDueDate(now);
                         solvableItem.setTimesSolved(0);
-                        solvableItemRepository.insert(solvableItem);
 
                         Attempt attempt = new Attempt();
                         attempt.setSolvableItemId(phrase.getId());
                         attempt.setText(phrase.getText().replaceAll("[a-zA-Z]", "_"));
-                        attemptRepository.insert(attempt);
 
                         Log.i(TAG, "Fetched Phrase " + phrase.getText() + ". Fetching translation...");
 
                         Response<List<Translation>> translationResponse = syntactService
-                                .getTranslations(token, phrase.getTranslationsUrl(), bucket.getLanguage().getLanguage()).execute();
+                                .getTranslations(token, phrase.getTranslationsUrl(), bucket.getUserLanguage().getLanguage()).execute();
 
                         if (translationResponse.isSuccessful() && translationResponse.body() != null) {
-                            if (translationResponse.body().size() > 1) {
-                                Log.i(TAG, "Multiple Translations not yet supported, using first translation and discard others");
-                            }
-                            Translation translation = translationResponse.body().get(0);
+                            if (translationResponse.body().size() == 0) {
+                                Log.i(TAG, "No Translation to " + bucket.getUserLanguage().getDisplayLanguage() + " for Phrase " + phrase.getText() +
+                                        " found");
+                            } else {
+                                if (translationResponse.body().size() > 1) {
+                                    Log.i(TAG, "Multiple Translations not yet supported, using first translation and discard others");
+                                }
+                                Translation translation = translationResponse.body().get(0);
 
-                            Clue clue = new Clue();
-                            clue.setSolvableItemId(phrase.getId());
-                            clue.setText(translation.getText());
-                            clue.setId(translation.getId());
-                            clueRepository.insert(clue);
-                            Log.i(TAG, "Inserted Clue for Phrase " + phrase.getText());
+                                Clue clue = new Clue();
+                                clue.setSolvableItemId(phrase.getId());
+                                clue.setText(translation.getText());
+                                clue.setId(translation.getId());
+                                solvableItemRepository.insert(solvableItem);
+                                attemptRepository.insert(attempt);
+                                clueRepository.insert(clue);
+                                Log.i(TAG, "Inserted Clue for Phrase " + phrase.getText());
+                            }
                         }
                     }
                 }

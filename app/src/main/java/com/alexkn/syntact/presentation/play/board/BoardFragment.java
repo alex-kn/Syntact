@@ -10,13 +10,17 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.alexkn.syntact.R;
+import com.alexkn.syntact.app.ApplicationComponentProvider;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import dagger.Lazy;
 
 public class BoardFragment extends Fragment {
 
@@ -39,7 +43,8 @@ public class BoardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.board_fragment, container, false);
-        viewModel = ViewModelProviders.of(getActivity()).get(BoardViewModel.class);
+        viewModel =ViewModelProviders.of(this, ((ApplicationComponentProvider) getActivity().getApplication()).getApplicationComponent().boardViewModelFactory())
+                .get(BoardViewModel.class);
 
         Long bucketId = BoardFragmentArgs.fromBundle(getArguments()).getBucketId();
         viewModel.initLanguage(bucketId);
