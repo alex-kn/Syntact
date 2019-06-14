@@ -43,5 +43,17 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_playMenuFragment_to_flashcardFragment"
+            app:destination="@id/flashcardFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/flashcardFragment"
+        android:name="com.alexkn.syntact.presentation.play.flashcard.FlashcardFragment"
+        android:label="flashcard_fragment"
+        tools:layout="@layout/flashcard_fragment" >
+        <argument
+            android:name="bucketId"
+            app:argType="long" />
     </fragment>
 </navigation>

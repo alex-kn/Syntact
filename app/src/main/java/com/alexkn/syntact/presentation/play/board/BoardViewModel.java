@@ -28,7 +28,6 @@ public class BoardViewModel extends ViewModel {
 
     ManageLetters manageLetters;
 
-
     private Long bucketId;
 
     private LiveData<Bucket> bucket;
@@ -47,7 +46,6 @@ public class BoardViewModel extends ViewModel {
         this.manageBuckets = manageBuckets;
         this.manageLetters = manageLetters;
         this.startTime = Instant.now();
-
     }
 
     public void setBucketId(Long bucketId) {

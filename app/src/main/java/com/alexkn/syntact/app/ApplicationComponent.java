@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
+import com.alexkn.syntact.domain.usecase.bucket.CreateBucketWorker;
 import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.FetchPhrasesWorker;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
@@ -13,6 +14,7 @@ import com.alexkn.syntact.domain.util.LetterGenerator;
 import com.alexkn.syntact.presentation.bucket.create.CreateBucketViewModel;
 import com.alexkn.syntact.presentation.bucket.list.ListBucketsViewModel;
 import com.alexkn.syntact.presentation.play.board.BoardViewModel;
+import com.alexkn.syntact.presentation.play.flashcard.FlashcardViewModel;
 import com.alexkn.syntact.presentation.play.menu.PlayMenuViewModel;
 
 import javax.inject.Singleton;
@@ -25,8 +27,11 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     @Component.Builder
-    interface Builder{
-        @BindsInstance Builder applicationContext(Context applicationContext);
+    interface Builder {
+
+        @BindsInstance
+        Builder applicationContext(Context applicationContext);
+
         ApplicationComponent build();
     }
 
@@ -46,10 +51,17 @@ public interface ApplicationComponent {
 
     void inject(FetchPhrasesWorker fetchPhrasesWorker);
 
+    void inject(CreateBucketWorker createBucketWorker);
+
     ViewModelFactory<BoardViewModel> boardViewModelFactory();
+
     ViewModelFactory<PlayMenuViewModel> playMenuViewModelFactory();
+
     ViewModelFactory<CreateBucketViewModel> createBucketViewModelFactory();
+
     ViewModelFactory<ListBucketsViewModel> listBucketsViewModelFactory();
+
+    ViewModelFactory<FlashcardViewModel> flashcardViewModelFactory();
 }
 
 

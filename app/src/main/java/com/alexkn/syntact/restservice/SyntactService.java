@@ -35,7 +35,8 @@ public interface SyntactService {
     Call<List<Phrase>> getPhrases(@Header("Authorization") String token, @Url String url, @Query("minid") long minid, @Query("limit") int limit);
 
     @POST("templates/{id}/phrases/")
-    Call<ResponseBody> postPhrases(@Header("Authorization") String token, @Path("id") Long templateId, @Body List<PhrasesRequest> phrasesRequests);
+    Call<ResponseBody> postPhrases(@Header("Authorization") String token, @Path("id") Long templateId, @Query("lang") String lang,
+            @Body List<PhrasesRequest> phrasesRequests);
 
     @POST("templates/")
     Call<Template> postTemplate(@Header("Authorization") String token, @Body TemplateRequest templateRequest);

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.app.ApplicationComponentProvider;
+import com.alexkn.syntact.restservice.Template;
 
 import java.util.List;
 import java.util.Locale;
@@ -31,6 +32,8 @@ public class CreateBucketFragment extends Fragment {
     private View addButton;
 
     private Locale selectedLanguage;
+
+    private Template selectedTemplate;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,20 +50,20 @@ public class CreateBucketFragment extends Fragment {
         dataset.remove(Locale.getDefault());
         selectedLanguage = dataset.get(0);
 
-        RecyclerView recyclerView = view.findViewById(R.id.selectLanguageRecyclerView);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView languageRecyclerView = view.findViewById(R.id.selectLanguageRecyclerView);
+        LinearLayoutManager languageLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        languageRecyclerView.setLayoutManager(languageLayoutManager);
         ChooseLanguageAdapter adapter = new ChooseLanguageAdapter(dataset);
-        recyclerView.setAdapter(adapter);
+        languageRecyclerView.setAdapter(adapter);
         LinearSnapHelper linearSnapHelper = new LinearSnapHelper();
-        linearSnapHelper.attachToRecyclerView(recyclerView);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        linearSnapHelper.attachToRecyclerView(languageRecyclerView);
+        languageRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    int itemPosition = layoutManager.findFirstVisibleItemPosition();
+                    int itemPosition = languageLayoutManager.findFirstVisibleItemPosition();
                     if (itemPosition != RecyclerView.NO_POSITION) {
                         selectedLanguage = adapter.getItemAt(itemPosition);
                     }
@@ -68,12 +71,36 @@ public class CreateBucketFragment extends Fragment {
             }
         });
 
+        RecyclerView templateRecyclerView = view.findViewById(R.id.selectTemplateRecyclerView);
+        LinearLayoutManager templateLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
+        templateRecyclerView.setLayoutManager(templateLayoutManager);
+
+        ChooseTemplateAdapter chooseTemplateAdapter = new ChooseTemplateAdapter();
+        templateRecyclerView.setAdapter(chooseTemplateAdapter);
+        LinearSnapHelper linearSnapHelper1 = new LinearSnapHelper();
+        linearSnapHelper1.attachToRecyclerView(templateRecyclerView);
+
+        templateRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    int itemPosition = templateLayoutManager.findFirstVisibleItemPosition();
+                    if (itemPosition != RecyclerView.NO_POSITION) {
+                        selectedTemplate = chooseTemplateAdapter.getItemAt(itemPosition);
+                    }
+                }
+            }
+        });
 
         addButton.setOnClickListener(v -> {
 
-            viewModel.addBucket(selectedLanguage, null, words.getText().toString());//TODO
+            viewModel.addBucket(selectedLanguage, selectedTemplate, words.getText().toString());//TODO
             Navigation.findNavController(view).popBackStack();
         });
+
+        viewModel.getAvailableTemplates().observe(getViewLifecycleOwner(), chooseTemplateAdapter::setData);
 
         return view;
     }

@@ -41,7 +41,8 @@ public class CreateBucketViewModel extends ViewModel {
     void addBucket(Locale language, Template template, String words) {
 
         if (words.isEmpty()) {//TODO
-            AsyncTask.execute(() -> createBucket.addBucketWithExistingTemplate(language, availableTemplates.getValue().get(0)));
+            AsyncTask.execute(
+                    () -> createBucket.addBucketWithExistingTemplate(language, template == null ? availableTemplates.getValue().get(0) : template));
         } else {
             List<String> phrases = Arrays.asList(StringUtils.split(words, " "));
             AsyncTask.execute(() -> createBucket.addBucketWithNewTemplate("AndroidTest", language, phrases));

@@ -28,13 +28,20 @@ public class PlayableBucketViewHolder extends ListItemViewHolder<Bucket> {
 
         languageLabel.setText(bucket.getLanguage().getDisplayLanguage());
 
-        itemView.setOnClickListener(this::startHangman);
+        itemView.setOnClickListener(this::startFlashcards);
     }
 
     private void startHangman(View view) {
 
         PlayMenuFragmentDirections.ActionPlayMenuFragmentToBoardFragment action = PlayMenuFragmentDirections
                 .actionPlayMenuFragmentToBoardFragment(bucket.getId());
+        Navigation.findNavController(view).navigate(action);
+    }
+
+    private void startFlashcards(View view) {
+
+        PlayMenuFragmentDirections.ActionPlayMenuFragmentToFlashcardFragment action = PlayMenuFragmentDirections
+                .actionPlayMenuFragmentToFlashcardFragment(bucket.getId());
         Navigation.findNavController(view).navigate(action);
     }
 }

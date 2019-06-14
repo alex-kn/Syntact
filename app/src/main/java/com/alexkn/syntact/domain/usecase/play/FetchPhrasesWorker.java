@@ -132,6 +132,7 @@ public class FetchPhrasesWorker extends Worker {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return Result.failure();
         }
         return Result.success();
     }
