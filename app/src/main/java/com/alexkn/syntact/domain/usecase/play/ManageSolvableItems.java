@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
@@ -33,12 +34,16 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Maybe;
+import io.reactivex.disposables.Disposable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -74,9 +79,12 @@ public class ManageSolvableItems {
 
     private MediatorLiveData<List<SolvableTranslationCto>> solvableTranslations;
 
-    @Inject
-    ManageSolvableItems() {
+    private SolvableItemRemoteRepository solvableItemRemoteRepository;
 
+    @Inject
+    ManageSolvableItems(SolvableItemRemoteRepository solvableItemRemoteRepository) {
+
+        this.solvableItemRemoteRepository = solvableItemRemoteRepository;
     }
 
     public LiveData<List<SolvableTranslationCto>> getSolvableTranslations(Long bucketId) {
@@ -84,13 +92,28 @@ public class ManageSolvableItems {
         return solvableItemRepository.getSolvableTranslationsDueBefore(bucketId, Instant.now());
     }
 
+    public Maybe<SolvableTranslationCto[]> getNextSolvableTranslations(Long bucketId, Instant time, int count) {
+
+        Maybe<SolvableTranslationCto[]> translations = solvableItemRepository.getNextTranslationDueBefore(bucketId, time, count);
+
+        return translations.flatMap(items -> {
+            if (items.length == count) {
+                Log.i(TAG, "All translations present");
+                return Maybe.just(items);
+            } else {
+                Log.i(TAG, "Translations missing, fetching remote");
+                List<SolvableTranslationCto> solvableTranslationCtos = solvableItemRemoteRepository.fetchNewTranslations(bucketId, time, count);
+                return Maybe.just(solvableTranslationCtos.toArray(new SolvableTranslationCto[0]));
+            }
+        });
+    }
+
     public void fetchSolvableItems(long bucketId, Instant startTime) {
 
-        Data data = new Data.Builder().putLong("bucketId", bucketId).putLong("timestamp",startTime.toEpochMilli()).build();
+        Data data = new Data.Builder().putLong("bucketId", bucketId).putLong("timestamp", startTime.toEpochMilli()).build();
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(FetchPhrasesWorker.class).setInputData(data).build();
         WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker.class.getName(), ExistingWorkPolicy.KEEP, workRequest);
-
     }
 
     public void makeAttempt(SolvableTranslationCto solvableTranslation, Character character) {
@@ -103,9 +126,10 @@ public class ManageSolvableItems {
         }
     }
 
-    private void solvePhrase(SolvableTranslationCto solvableTranslation) {
+    public void solvePhrase(SolvableTranslationCto solvableTranslation) {
 
         SolvableItem solvableItem = solvableTranslation.getSolvableItem();
+        Log.i(TAG, "Solving Phrase " + solvableItem.getText());
 
         int performanceRating = 3;
         float easiness = solvableItem.getEasiness();
@@ -121,8 +145,7 @@ public class ManageSolvableItems {
         solvableItem.setNextDueDate(nextDueDate);
         solvableItem.setLastSolved(Instant.now());
         solvableItem.setTimesSolved(solvableItem.getTimesSolved() + 1);
-        attemptRepository
-                .updateAttempt(solvableItem.getId(), StringUtils.repeat(context.getString(R.string.empty), solvableItem.getText().length()));
+        attemptRepository.updateAttempt(solvableItem.getId(), StringUtils.repeat(context.getString(R.string.empty), solvableItem.getText().length()));
 
         solvableItemRepository.update(solvableItem);
     }
@@ -145,26 +168,4 @@ public class ManageSolvableItems {
         return StringUtils.containsIgnoreCase(solvableTranslation.getSolvableItem().getText(), character.toString()) &&
                 !StringUtils.containsIgnoreCase(solvableTranslation.getAttempt().getText(), character.toString());
     }
-
-    //    public void saveSolvableItems(List<SolvableItem> solvableItems) {
-    //
-    //        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
-    //
-    //        solvableItems.forEach(solvableItem -> specialCharacters.forEach(character -> solvableItem
-    //                .setAttempt(updateCurrentAttempt(solvableItem, character))));
-    //        Collections.shuffle(solvableItems);
-    //        solvableItemRepository.insert(solvableItems);
-    //    }
-    //
-    //    public void initializePhrases(Long insertedLanguageId, Locale languageLeft,
-    //            Locale languageRight) {
-    //
-    //        List<Character> specialCharacters = Arrays.asList('?', '\'', ',', '.', '-', ' ', ';');
-    //
-    //        if (languageLeft.equals(Locale.GERMAN) && languageRight.equals(Locale.ENGLISH)) {
-    //            List<SolvableItem> solvableItems = phraseGenerator.generateGermanEnglishPhrases();
-    //            solvableItems.forEach(phrase -> phrase.setBucketId(insertedLanguageId));
-    //            saveSolvableItems(solvableItems);
-    //        }
-    //    }
 }

@@ -1,22 +1,17 @@
 package com.alexkn.syntact.domain.usecase.play;
 
-import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.work.Data;
-import androidx.work.Worker;
-import androidx.work.WorkerParameters;
+import androidx.work.ListenableWorker;
 
-import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.SolvableItem;
-import com.alexkn.syntact.domain.repository.AttemptRepository;
+import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.repository.BucketRepository;
-import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.restservice.Phrase;
 import com.alexkn.syntact.restservice.SyntactService;
@@ -25,64 +20,50 @@ import com.alexkn.syntact.restservice.Translation;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import retrofit2.Response;
 
-public class FetchPhrasesWorker extends Worker {
+@Singleton
+public class SolvableItemRemoteRepository {
 
-    private static final String TAG = FetchPhrasesWorker.class.getSimpleName();
+    private static final String TAG = SolvableItemRemoteRepository.class.getSimpleName();
 
-    @Inject
-    BucketRepository bucketRepository;
+    private Property property;
 
-    @Inject
-    SolvableItemRepository solvableItemRepository;
+    private SyntactService syntactService;
 
-    @Inject
-    AttemptRepository attemptRepository;
+    private BucketRepository bucketRepository;
 
-    @Inject
-    ClueRepository clueRepository;
+    private SolvableItemRepository solvableItemRepository;
 
     @Inject
-    SyntactService syntactService;
+    public SolvableItemRemoteRepository(Property property, SyntactService syntactService, BucketRepository bucketRepository,
+            SolvableItemRepository solvableItemRepository) {
 
-    @Inject
-    Property property;
-
-    public FetchPhrasesWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
-
-        super(context, workerParams);
-        ((ApplicationComponentProvider) context).getApplicationComponent().inject(this);
+        this.property = property;
+        this.syntactService = syntactService;
+        this.bucketRepository = bucketRepository;
+        this.solvableItemRepository = solvableItemRepository;
     }
 
-    @NonNull
-    @Override
-    public Result doWork() {
-
-        //TODO do only if items on phone <= itemcount in bucket
-        //TODO regularly update bucket phrase count
-        Data inputData = getInputData();
-        long bucketId = inputData.getLong("bucketId", -1L);
-        long timestamp = inputData.getLong("timestamp", Instant.now().toEpochMilli());
-        Instant now = Instant.ofEpochMilli(timestamp).truncatedTo(ChronoUnit.MINUTES);
-        if (bucketId == -1L) {
-            return Result.failure();
-        }
+    public List<SolvableTranslationCto> fetchNewTranslations(Long bucketId, Instant now, int count) {
 
         Bucket bucket = bucketRepository.find(bucketId);
-
         String token = "Token " + property.get("api-auth-token");
 
         Long minFetchId = solvableItemRepository.getMaxId(bucket.getId());
 
-        Log.i(TAG, "Fetching 5 phrases with ids above " + minFetchId);
+        Log.i(TAG, "Fetching " + count + " phrases with ids above " + minFetchId);
+
+        List<SolvableTranslationCto> solvableTranslationCtos = new ArrayList<>();
 
         try {
-            Response<List<Phrase>> phraseResponse = syntactService.getPhrases(token, bucket.getPhrasesUrl(), minFetchId, 5).execute();
+            Response<List<Phrase>> phraseResponse = syntactService.getPhrases(token, bucket.getPhrasesUrl(), minFetchId, count).execute();
 
             if (phraseResponse.isSuccessful()) {
                 List<Phrase> phrases = phraseResponse.body();
@@ -121,9 +102,11 @@ public class FetchPhrasesWorker extends Worker {
                                 clue.setSolvableItemId(phrase.getId());
                                 clue.setText(translation.getText());
                                 clue.setId(translation.getId());
-                                solvableItemRepository.insert(solvableItem);
-                                attemptRepository.insert(attempt);
-                                clueRepository.insert(clue);
+                                SolvableTranslationCto solvableTranslationCto = new SolvableTranslationCto();
+                                solvableTranslationCto.setSolvableItem(solvableItem);
+                                solvableTranslationCto.setAttempt(attempt);
+                                solvableTranslationCto.setClue(clue);
+                                solvableTranslationCtos.add(solvableTranslationCto);
                                 Log.i(TAG, "Inserted Translation for Phrase " + phrase.getText());
                             }
                         }
@@ -132,8 +115,7 @@ public class FetchPhrasesWorker extends Worker {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            return Result.failure();
         }
-        return Result.success();
+        return solvableTranslationCtos;
     }
 }

@@ -1,6 +1,5 @@
 package com.alexkn.syntact.dataaccess.repository;
 
-import android.app.Application;
 import android.content.Context;
 
 import androidx.lifecycle.LiveData;
@@ -16,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
+
+import io.reactivex.Maybe;
 
 public class SolvableItemRepositoryImpl implements SolvableItemRepository {
 
@@ -68,5 +69,11 @@ public class SolvableItemRepositoryImpl implements SolvableItemRepository {
     @Override
     public Long getMaxId(Long bucketId) {
         return solvableItemDao.getMaxId(bucketId);
+    }
+
+    @Override
+    public Maybe<SolvableTranslationCto[]> getNextTranslationDueBefore(long bucketId, Instant time, int count){
+
+        return solvableItemDao.getNextTranslationDueBefore(bucketId, time, count);
     }
 }

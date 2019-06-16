@@ -32,7 +32,7 @@ public class ChooseTemplateAdapter extends RecyclerView.Adapter<ChooseTemplateAd
     @Override
     public void onBindViewHolder(@NonNull ChooseTemplateViewHolder holder, int position) {
 
-        holder.textView.setText(dataset.get(position).getName());
+        holder.textView.setText(dataset.get(position).getId() + dataset.get(position).getName());
     }
 
     @Override
