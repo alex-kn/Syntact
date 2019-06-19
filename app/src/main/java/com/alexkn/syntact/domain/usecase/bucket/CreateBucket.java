@@ -1,6 +1,5 @@
 package com.alexkn.syntact.domain.usecase.bucket;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,12 +12,7 @@ import androidx.work.WorkManager;
 
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
-import com.alexkn.syntact.domain.repository.ClueRepository;
-import com.alexkn.syntact.domain.repository.SolvableItemRepository;
-import com.alexkn.syntact.domain.usecase.play.ManageLetters;
-import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.Template;
 
@@ -38,35 +32,19 @@ public class CreateBucket {
 
     private static final String TAG = CreateBucket.class.getSimpleName();
 
-    @Inject
     BucketRepository bucketRepository;
 
-    @Inject
-    AttemptRepository attemptRepository;
-
-    @Inject
-    ClueRepository clueRepository;
-
-    @Inject
-    SolvableItemRepository solvableItemRepository;
-
-    @Inject
-    ManageLetters manageLetters;
-
-    @Inject
-    ManageSolvableItems manageSolvableItems;
-
-    @Inject
     Property property;
 
-    @Inject
     SyntactService syntactService;
 
     @Inject
-    Context application;
+    CreateBucket(SyntactService syntactService, Property property, BucketRepository bucketRepository) {
 
-    @Inject
-    CreateBucket() {}
+        this.syntactService = syntactService;
+        this.property = property;
+        this.bucketRepository = bucketRepository;
+    }
 
     public LiveData<List<Template>> findAvailableTemplates() {
 
@@ -110,10 +88,6 @@ public class CreateBucket {
         bucket.setUserLanguage(sourceLanguage);
         bucket.setPhrasesUrl(template.getPhrasesUrl());
         bucket.setItemCount(template.getCount());
-        Long bucketId = bucketRepository.insert(bucket);
-
-        String token = "Token " + property.get("api-auth-token");
-
-        manageLetters.initializeLetters(bucketId);
+        bucketRepository.insert(bucket);
     }
 }

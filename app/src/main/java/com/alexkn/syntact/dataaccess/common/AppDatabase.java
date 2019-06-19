@@ -7,21 +7,19 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
-import com.alexkn.syntact.dataaccess.dao.AttemptDao;
 import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.dataaccess.dao.ClueDao;
 import com.alexkn.syntact.dataaccess.dao.LetterDao;
 import com.alexkn.syntact.dataaccess.dao.SolvableItemDao;
 import com.alexkn.syntact.dataaccess.util.Converters;
-import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.Letter;
 import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.views.BucketDetail;
 
-@Database(entities = {SolvableItem.class, Bucket.class, Letter.class, Clue.class, Attempt.class},views = {BucketDetail.class},
-        version = 29)
+@Database(entities = {SolvableItem.class, Bucket.class, Letter.class, Clue.class},views = {BucketDetail.class},
+        version = 30)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -34,8 +32,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract LetterDao letterDao();
 
     public abstract ClueDao clueDao();
-
-    public abstract AttemptDao attemptDao();
 
     public static AppDatabase getDatabase(final Context context) {
 

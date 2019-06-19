@@ -1,32 +1,21 @@
 package com.alexkn.syntact.domain.usecase.play;
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MediatorLiveData;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
-import com.alexkn.syntact.R;
-import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
-import com.alexkn.syntact.domain.repository.AttemptRepository;
-import com.alexkn.syntact.domain.repository.BucketRepository;
-import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.restservice.SolvableItemRemoteRepository;
-import com.alexkn.syntact.restservice.SyntactService;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.stream.IntStream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -38,35 +27,15 @@ public class ManageSolvableItems {
 
     private static final String TAG = ManageSolvableItems.class.getSimpleName();
 
-    @Inject
-    SolvableItemRepository solvableItemRepository;
-
-    @Inject
-    AttemptRepository attemptRepository;
-
-    @Inject
-    ClueRepository clueRepository;
-
-    @Inject
-    Context context;
-
-    @Inject
-    BucketRepository bucketRepository;
-
-    @Inject
-    SyntactService syntactService;
-
-    @Inject
-    Property property;
-
-    private MediatorLiveData<List<SolvableTranslationCto>> solvableTranslations;
+    private SolvableItemRepository solvableItemRepository;
 
     private SolvableItemRemoteRepository solvableItemRemoteRepository;
 
     @Inject
-    ManageSolvableItems(SolvableItemRemoteRepository solvableItemRemoteRepository) {
+    ManageSolvableItems(SolvableItemRemoteRepository solvableItemRemoteRepository, SolvableItemRepository solvableItemRepository) {
 
         this.solvableItemRemoteRepository = solvableItemRemoteRepository;
+        this.solvableItemRepository = solvableItemRepository;
     }
 
     public LiveData<List<SolvableTranslationCto>> getSolvableTranslations(Long bucketId) {
@@ -85,6 +54,7 @@ public class ManageSolvableItems {
             } else {
                 Log.i(TAG, "Translations missing, fetching remote");
                 List<SolvableTranslationCto> solvableTranslationCtos = solvableItemRemoteRepository.fetchNewTranslations(bucketId, time, count);
+                //TODO Service to return Maybe
                 return Maybe.just(solvableTranslationCtos.toArray(new SolvableTranslationCto[0]));
             }
         });
@@ -96,16 +66,6 @@ public class ManageSolvableItems {
 
         OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(FetchPhrasesWorker.class).setInputData(data).build();
         WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker.class.getName(), ExistingWorkPolicy.KEEP, workRequest);
-    }
-
-    public void makeAttempt(SolvableTranslationCto solvableTranslation, Character character) {
-
-        String attempt = updateCurrentAttempt(solvableTranslation, character);
-        if (!attempt.contains(context.getString(R.string.empty))) {
-            solvePhrase(solvableTranslation);
-        } else {
-            attemptRepository.updateAttempt(solvableTranslation.getId(), attempt);//TODO
-        }
     }
 
     public void solvePhrase(SolvableTranslationCto solvableTranslation) {
@@ -127,27 +87,7 @@ public class ManageSolvableItems {
         solvableItem.setNextDueDate(nextDueDate);
         solvableItem.setLastSolved(Instant.now());
         solvableItem.setTimesSolved(solvableItem.getTimesSolved() + 1);
-        attemptRepository.updateAttempt(solvableItem.getId(), StringUtils.repeat(context.getString(R.string.empty), solvableItem.getText().length()));
 
         solvableItemRepository.update(solvableItem);
-    }
-
-    private String updateCurrentAttempt(SolvableTranslationCto solvableTranslation, Character character) {
-
-        SolvableItem solvableItem = solvableTranslation.getSolvableItem();
-
-        String solution = solvableItem.getText();
-
-        IntStream indices = IntStream.range(0, solution.length())
-                .filter(i -> StringUtils.equalsIgnoreCase(character.toString(), String.valueOf(solution.charAt(i))));
-        StringBuilder newCurrentText = new StringBuilder(solvableTranslation.getAttempt().getText());
-        indices.forEach(i -> newCurrentText.setCharAt(i, character));
-        return newCurrentText.toString();
-    }
-
-    public boolean isLetterCorrect(SolvableTranslationCto solvableTranslation, Character character) {
-
-        return StringUtils.containsIgnoreCase(solvableTranslation.getSolvableItem().getText(), character.toString()) &&
-                !StringUtils.containsIgnoreCase(solvableTranslation.getAttempt().getText(), character.toString());
     }
 }

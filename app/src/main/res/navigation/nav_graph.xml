@@ -5,15 +5,6 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/playMenuFragment">
     <fragment
-        android:id="@+id/boardFragment"
-        android:name="com.alexkn.syntact.presentation.play.board.BoardFragment"
-        android:label="board_fragment"
-        tools:layout="@layout/board_fragment">
-        <argument
-            android:name="bucketId"
-            app:argType="long" />
-    </fragment>
-    <fragment
         android:id="@+id/createBucketFragment"
         android:name="com.alexkn.syntact.presentation.createbucket.CreateBucketFragment"
         android:label="bucket_create_fragment"
@@ -24,13 +15,6 @@
         android:label="play_menu_fragment"
         tools:layout="@layout/play_menu_fragment">
         <action
-            android:id="@+id/action_playMenuFragment_to_boardFragment"
-            app:destination="@id/boardFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_playMenuFragment_to_flashcardFragment"
             app:destination="@id/flashcardFragment" />
         <action
@@ -39,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/flashcardFragment"
-        android:name="com.alexkn.syntact.presentation.play.flashcard.FlashcardFragment"
+        android:name="com.alexkn.syntact.presentation.flashcard.FlashcardFragment"
         android:label="flashcard_fragment"
         tools:layout="@layout/flashcard_fragment" >
         <argument

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.play.flashcard
+package com.alexkn.syntact.presentation.flashcard
 
 import android.os.AsyncTask
 import android.util.Log

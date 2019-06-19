@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutDescription="@xml/flashcard_scene"
-        tools:context=".presentation.play.flashcard.FlashcardFragment">
+        tools:context=".presentation.flashcard.FlashcardFragment">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/current"

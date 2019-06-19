@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.play.flashcard
+package com.alexkn.syntact.presentation.flashcard
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +11,6 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.alexkn.syntact.R

@@ -18,14 +18,16 @@ import javax.inject.Singleton;
 @Singleton
 public class ManageBuckets {
 
-    @Inject
     BucketRepository bucketRepository;
 
-    @Inject
     Property property;
 
     @Inject
-    ManageBuckets() {}
+    ManageBuckets(BucketRepository bucketRepository, Property property) {
+
+        this.bucketRepository = bucketRepository;
+        this.property = property;
+    }
 
     public List<Locale> getAvailableLanguages() {
 
@@ -46,10 +48,5 @@ public class ManageBuckets {
     public LiveData<List<BucketDetail>> getBucketDetails() {
 
         return bucketRepository.findBucketDetails();
-    }
-
-    public LiveData<List<Bucket>> getBuckets() {
-
-        return bucketRepository.findAllBuckets();
     }
 }

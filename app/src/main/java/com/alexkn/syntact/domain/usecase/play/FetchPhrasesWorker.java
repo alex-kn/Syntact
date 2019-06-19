@@ -10,7 +10,6 @@ import androidx.work.WorkerParameters;
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
-import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
@@ -37,9 +36,6 @@ public class FetchPhrasesWorker extends Worker {
     SolvableItemRemoteRepository solvableItemRemoteRepository;
 
     @Inject
-    AttemptRepository attemptRepository;
-
-    @Inject
     ClueRepository clueRepository;
 
     @Inject
@@ -58,7 +54,6 @@ public class FetchPhrasesWorker extends Worker {
     @Override
     public Result doWork() {
 
-
         //TODO do only if items on phone <= itemcount in bucket
         //TODO regularly update bucket phrase count
         Data inputData = getInputData();
@@ -72,7 +67,6 @@ public class FetchPhrasesWorker extends Worker {
         List<SolvableTranslationCto> solvableTranslationCtos = solvableItemRemoteRepository.fetchNewTranslations(bucketId, now, 10);
         solvableTranslationCtos.forEach(cto -> {
             solvableItemRepository.insert(cto.getSolvableItem());
-            attemptRepository.insert(cto.getAttempt());
             clueRepository.insert(cto.getClue());
         });
 

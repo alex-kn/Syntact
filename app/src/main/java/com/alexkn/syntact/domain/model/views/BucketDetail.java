@@ -1,7 +1,6 @@
 package com.alexkn.syntact.domain.model.views;
 
 import androidx.room.DatabaseView;
-import androidx.room.Embedded;
 
 import com.alexkn.syntact.domain.common.Identifiable;
 

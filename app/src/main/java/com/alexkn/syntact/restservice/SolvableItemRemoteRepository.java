@@ -3,7 +3,6 @@ package com.alexkn.syntact.restservice;
 import android.util.Log;
 
 import com.alexkn.syntact.app.Property;
-import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.SolvableItem;
@@ -72,10 +71,6 @@ public class SolvableItemRemoteRepository {
                         solvableItem.setNextDueDate(now);
                         solvableItem.setTimesSolved(0);
 
-                        Attempt attempt = new Attempt();
-                        attempt.setSolvableItemId(phrase.getId());
-                        attempt.setText(phrase.getText().replaceAll("[a-zA-Z]", "_"));
-
                         Log.i(TAG, "Fetched Phrase " + phrase.getText() + ". Fetching translation...");
 
                         Response<List<Translation>> translationResponse = syntactService
@@ -97,7 +92,6 @@ public class SolvableItemRemoteRepository {
                                 clue.setId(translation.getId());
                                 SolvableTranslationCto solvableTranslationCto = new SolvableTranslationCto();
                                 solvableTranslationCto.setSolvableItem(solvableItem);
-                                solvableTranslationCto.setAttempt(attempt);
                                 solvableTranslationCto.setClue(clue);
                                 solvableTranslationCtos.add(solvableTranslationCto);
                                 Log.i(TAG, "Inserted Translation for Phrase " + phrase.getText());

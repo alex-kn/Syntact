@@ -1,13 +1,9 @@
 package com.alexkn.syntact.app;
 
-import android.app.Application;
-
-import com.alexkn.syntact.dataaccess.repository.AttemptRepositoryImpl;
 import com.alexkn.syntact.dataaccess.repository.BucketRepositoryImpl;
 import com.alexkn.syntact.dataaccess.repository.ClueRepositoryImpl;
 import com.alexkn.syntact.dataaccess.repository.LetterRepositoryImpl;
 import com.alexkn.syntact.dataaccess.repository.SolvableItemRepositoryImpl;
-import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.LetterRepository;
@@ -35,15 +31,13 @@ class ApplicationModule {
         Gson gson = new GsonBuilder().create();
 
         return new Retrofit.Builder().callbackExecutor(Executors.newSingleThreadExecutor())
-                .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/")
-                .addConverterFactory(GsonConverterFactory.create(gson)).build()
+                .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/").addConverterFactory(GsonConverterFactory.create(gson)).build()
                 .create(SyntactService.class);
     }
 
     @Provides
     @Singleton
-    SolvableItemRepository provideSolvableItemRepository(
-            SolvableItemRepositoryImpl solvableItemRepository) {
+    SolvableItemRepository provideSolvableItemRepository(SolvableItemRepositoryImpl solvableItemRepository) {
 
         return solvableItemRepository;
     }
@@ -67,12 +61,5 @@ class ApplicationModule {
     ClueRepository provideClueRepository(ClueRepositoryImpl clueRepository) {
 
         return clueRepository;
-    }
-
-    @Provides
-    @Singleton
-    AttemptRepository provideAttemptRepository(AttemptRepositoryImpl attemptRepository) {
-
-        return attemptRepository;
     }
 }

@@ -2,10 +2,8 @@ package com.alexkn.syntact.domain.model.cto;
 
 import androidx.annotation.NonNull;
 import androidx.room.Embedded;
-import androidx.room.Ignore;
 
 import com.alexkn.syntact.domain.common.Identifiable;
-import com.alexkn.syntact.domain.model.Attempt;
 import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.SolvableItem;
 
@@ -20,10 +18,6 @@ public class SolvableTranslationCto implements Identifiable {
     @NonNull
     @Embedded
     private Clue clue;
-
-    @NonNull
-    @Embedded
-    private Attempt attempt;
 
     @NonNull
     public SolvableItem getSolvableItem() {
@@ -47,15 +41,10 @@ public class SolvableTranslationCto implements Identifiable {
         this.clue = clue;
     }
 
-    @NonNull
-    public Attempt getAttempt() {
+    @Override
+    public Long getId() {
 
-        return attempt;
-    }
-
-    public void setAttempt(@NonNull Attempt attempt) {
-
-        this.attempt = attempt;
+        return solvableItem.getId();
     }
 
     @Override
@@ -64,19 +53,12 @@ public class SolvableTranslationCto implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SolvableTranslationCto that = (SolvableTranslationCto) o;
-        return solvableItem.equals(that.solvableItem) && clue.equals(that.clue) &&
-                attempt.equals(that.attempt);
+        return solvableItem.equals(that.solvableItem) && clue.equals(that.clue);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(solvableItem, clue, attempt);
-    }
-
-    @Override
-    public Long getId() {
-
-        return solvableItem.getId();
+        return Objects.hash(solvableItem, clue);
     }
 }
