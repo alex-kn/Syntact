@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.bucket.create;
+package com.alexkn.syntact.presentation.createbucket;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,12 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexkn.syntact.R;
-import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 import com.alexkn.syntact.restservice.Template;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class ChooseTemplateAdapter extends RecyclerView.Adapter<ChooseTemplateAdapter.ChooseTemplateViewHolder> {
 

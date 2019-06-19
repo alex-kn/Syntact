@@ -1,6 +1,5 @@
 package com.alexkn.syntact.domain.usecase.bucket;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
@@ -13,7 +12,6 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.alexkn.syntact.app.Property;
-import com.alexkn.syntact.domain.common.TemplateType;
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
@@ -21,21 +19,16 @@ import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.domain.usecase.play.ManageLetters;
 import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
-import com.alexkn.syntact.restservice.PhrasesRequest;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.Template;
-import com.alexkn.syntact.restservice.TemplateRequest;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -122,9 +115,5 @@ public class CreateBucket {
         String token = "Token " + property.get("api-auth-token");
 
         manageLetters.initializeLetters(bucketId);
-    }
-
-    public void createBucket(Locale language, String[] words) {
-
     }
 }

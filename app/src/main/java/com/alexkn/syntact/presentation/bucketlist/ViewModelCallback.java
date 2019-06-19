@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.play.menu;
+package com.alexkn.syntact.presentation.bucketlist;
 
 import com.alexkn.syntact.domain.model.Bucket;
 

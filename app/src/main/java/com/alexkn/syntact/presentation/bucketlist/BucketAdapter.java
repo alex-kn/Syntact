@@ -1,12 +1,14 @@
-package com.alexkn.syntact.presentation.bucket.list;
+package com.alexkn.syntact.presentation.bucketlist;
 
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.navigation.Navigation;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.databinding.BucketListBucketCardBinding;
@@ -44,6 +46,8 @@ public class BucketAdapter extends ListItemAdapter<BucketDetail, BucketAdapter.B
 
         final BucketListBucketCardBinding binding;
 
+        private BucketDetail bucket;
+
         BucketViewHolder(BucketListBucketCardBinding dataBinding) {
 
             super(dataBinding.getRoot());
@@ -53,12 +57,21 @@ public class BucketAdapter extends ListItemAdapter<BucketDetail, BucketAdapter.B
         @Override
         public void bindTo(BucketDetail bucket) {
 
+            this.bucket = bucket;
             Instant created = bucket.getCreatedAt();
             long days = DAYS.between(created, Instant.now()) + 1;
             double average = ((double) bucket.getSolvedCount()) / days;
             binding.setDailyAverage(Double.toString(average));
 
             binding.setBucket(bucket);
+            itemView.setOnClickListener(this::startFlashcards);
+        }
+
+        private void startFlashcards(View view) {
+
+            PlayMenuFragmentDirections.ActionPlayMenuFragmentToFlashcardFragment action = PlayMenuFragmentDirections
+                    .actionPlayMenuFragmentToFlashcardFragment(bucket.getId());
+            Navigation.findNavController(view).navigate(action);
         }
     }
 }

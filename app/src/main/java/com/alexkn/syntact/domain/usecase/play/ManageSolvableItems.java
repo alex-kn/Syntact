@@ -1,52 +1,37 @@
 package com.alexkn.syntact.domain.usecase.play;
 
-import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
-import androidx.work.Worker;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.app.Property;
-import com.alexkn.syntact.domain.model.Attempt;
-import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.repository.AttemptRepository;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.ClueRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
-import com.alexkn.syntact.restservice.Phrase;
+import com.alexkn.syntact.restservice.SolvableItemRemoteRepository;
 import com.alexkn.syntact.restservice.SyntactService;
-import com.alexkn.syntact.restservice.Translation;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Maybe;
-import io.reactivex.disposables.Disposable;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @Singleton
 public class ManageSolvableItems {
@@ -67,9 +52,6 @@ public class ManageSolvableItems {
 
     @Inject
     BucketRepository bucketRepository;
-
-    @Inject
-    ManageScore manageScore;
 
     @Inject
     SyntactService syntactService;

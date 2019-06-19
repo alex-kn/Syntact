@@ -1,9 +1,6 @@
-package com.alexkn.syntact.domain.usecase.play;
+package com.alexkn.syntact.restservice;
 
 import android.util.Log;
-
-import androidx.work.Data;
-import androidx.work.ListenableWorker;
 
 import com.alexkn.syntact.app.Property;
 import com.alexkn.syntact.domain.model.Attempt;
@@ -13,13 +10,9 @@ import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
 import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.domain.repository.SolvableItemRepository;
-import com.alexkn.syntact.restservice.Phrase;
-import com.alexkn.syntact.restservice.SyntactService;
-import com.alexkn.syntact.restservice.Translation;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 

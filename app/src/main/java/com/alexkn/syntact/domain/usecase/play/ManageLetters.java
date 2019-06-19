@@ -25,9 +25,6 @@ public class ManageLetters {
     LetterGenerator letterGenerator;
 
     @Inject
-    ManageScore manageScore;
-
-    @Inject
     ManageLetters() {
 
     }

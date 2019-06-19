@@ -15,25 +15,12 @@
     </fragment>
     <fragment
         android:id="@+id/createBucketFragment"
-        android:name="com.alexkn.syntact.presentation.bucket.create.CreateBucketFragment"
+        android:name="com.alexkn.syntact.presentation.createbucket.CreateBucketFragment"
         android:label="bucket_create_fragment"
         tools:layout="@layout/bucket_create_fragment" />
     <fragment
-        android:id="@+id/listBucketsFragment"
-        android:name="com.alexkn.syntact.presentation.bucket.list.ListBucketsFragment"
-        android:label="bucket_list_fragment"
-        tools:layout="@layout/bucket_list_fragment">
-        <action
-            android:id="@+id/action_listBucketsFragment_to_createBucketFragment"
-            app:destination="@id/createBucketFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
         android:id="@+id/playMenuFragment"
-        android:name="com.alexkn.syntact.presentation.play.menu.PlayMenuFragment"
+        android:name="com.alexkn.syntact.presentation.bucketlist.PlayMenuFragment"
         android:label="play_menu_fragment"
         tools:layout="@layout/play_menu_fragment">
         <action
@@ -46,6 +33,9 @@
         <action
             android:id="@+id/action_playMenuFragment_to_flashcardFragment"
             app:destination="@id/flashcardFragment" />
+        <action
+            android:id="@+id/action_playMenuFragment_to_createBucketFragment"
+            app:destination="@id/createBucketFragment" />
     </fragment>
     <fragment
         android:id="@+id/flashcardFragment"

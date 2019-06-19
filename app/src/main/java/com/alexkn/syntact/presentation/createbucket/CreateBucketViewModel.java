@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.bucket.create;
+package com.alexkn.syntact.presentation.createbucket;
 
 import android.os.AsyncTask;
 
