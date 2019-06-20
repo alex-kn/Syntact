@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.alexkn.syntact.domain.usecase.bucket.BucketRepository;
+import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.restservice.Template;
 
 import org.apache.commons.lang3.StringUtils;

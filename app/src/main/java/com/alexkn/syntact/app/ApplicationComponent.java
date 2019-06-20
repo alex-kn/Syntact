@@ -2,8 +2,8 @@ package com.alexkn.syntact.app;
 
 import android.content.Context;
 
-import com.alexkn.syntact.domain.usecase.bucket.CreateBucketWorker;
-import com.alexkn.syntact.domain.usecase.play.FetchPhrasesWorker;
+import com.alexkn.syntact.domain.worker.CreateBucketWorker;
+import com.alexkn.syntact.domain.worker.FetchPhrasesWorker;
 import com.alexkn.syntact.presentation.bucketlist.PlayMenuViewModel;
 import com.alexkn.syntact.presentation.createbucket.CreateBucketViewModel;
 import com.alexkn.syntact.presentation.flashcard.FlashcardViewModel;
@@ -13,7 +13,7 @@ import javax.inject.Singleton;
 import dagger.BindsInstance;
 import dagger.Component;
 
-@Component(modules = {ApplicationModule.class})
+@Component(modules = {RetrofitModule.class})
 @Singleton
 public interface ApplicationComponent {
 

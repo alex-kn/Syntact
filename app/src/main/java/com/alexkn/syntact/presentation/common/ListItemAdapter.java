@@ -1,6 +1,6 @@
 package com.alexkn.syntact.presentation.common;
 
-import com.alexkn.syntact.domain.common.Identifiable;
+import com.alexkn.syntact.data.common.Identifiable;
 
 import java.util.List;
 

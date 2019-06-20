@@ -1,6 +1,6 @@
 package com.alexkn.syntact.presentation.bucketlist;
 
-import com.alexkn.syntact.domain.model.Bucket;
+import com.alexkn.syntact.data.model.Bucket;
 
 interface ViewModelCallback {
 

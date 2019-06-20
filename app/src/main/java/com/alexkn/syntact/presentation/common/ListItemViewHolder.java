@@ -2,7 +2,7 @@ package com.alexkn.syntact.presentation.common;
 
 import android.view.View;
 
-import com.alexkn.syntact.domain.common.Identifiable;
+import com.alexkn.syntact.data.common.Identifiable;
 
 import androidx.recyclerview.widget.RecyclerView;
 

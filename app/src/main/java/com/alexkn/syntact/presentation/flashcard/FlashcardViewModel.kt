@@ -6,10 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-import com.alexkn.syntact.domain.model.Bucket
-import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto
-import com.alexkn.syntact.domain.usecase.bucket.BucketRepository
-import com.alexkn.syntact.domain.usecase.play.SolvableItemRepository
+import com.alexkn.syntact.data.model.Bucket
+import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
+import com.alexkn.syntact.domain.repository.BucketRepository
+import com.alexkn.syntact.domain.repository.SolvableItemRepository
 import io.reactivex.disposables.CompositeDisposable
 
 import java.time.Instant

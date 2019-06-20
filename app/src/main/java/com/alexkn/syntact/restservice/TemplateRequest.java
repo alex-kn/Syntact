@@ -1,6 +1,5 @@
 package com.alexkn.syntact.restservice;
 
-import com.alexkn.syntact.domain.common.TemplateType;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Locale;

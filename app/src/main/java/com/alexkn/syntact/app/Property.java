@@ -21,10 +21,10 @@ public class Property {
     private Properties properties;
 
     @Inject
-    public Property(Context application) {
+    public Property(Context context) {
 
         try {
-            Resources resources = application.getResources();
+            Resources resources = context.getResources();
             InputStream inputStream = resources.openRawResource(R.raw.config);
 
             properties = new Properties();

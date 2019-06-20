@@ -12,7 +12,7 @@ import androidx.navigation.Navigation;
 
 import com.alexkn.syntact.R;
 import com.alexkn.syntact.databinding.BucketListBucketCardBinding;
-import com.alexkn.syntact.domain.model.views.BucketDetail;
+import com.alexkn.syntact.data.model.views.BucketDetail;
 import com.alexkn.syntact.presentation.common.ListItemAdapter;
 import com.alexkn.syntact.presentation.common.ListItemViewHolder;
 

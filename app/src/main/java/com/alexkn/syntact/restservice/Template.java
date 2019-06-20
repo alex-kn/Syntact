@@ -1,9 +1,7 @@
 package com.alexkn.syntact.restservice;
 
-import com.alexkn.syntact.domain.common.TemplateType;
 import com.google.gson.annotations.SerializedName;
 
-import java.net.URL;
 import java.util.Locale;
 
 public class Template {

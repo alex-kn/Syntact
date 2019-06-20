@@ -16,7 +16,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.databinding.FlashcardFragmentBinding
-import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto
+import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 
 class FlashcardFragment : Fragment() {
 

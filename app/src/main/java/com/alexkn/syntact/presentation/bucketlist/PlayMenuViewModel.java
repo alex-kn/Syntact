@@ -5,9 +5,9 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.model.views.BucketDetail;
-import com.alexkn.syntact.domain.usecase.bucket.BucketRepository;
+import com.alexkn.syntact.data.model.Bucket;
+import com.alexkn.syntact.data.model.views.BucketDetail;
+import com.alexkn.syntact.domain.repository.BucketRepository;
 
 import java.util.List;
 
