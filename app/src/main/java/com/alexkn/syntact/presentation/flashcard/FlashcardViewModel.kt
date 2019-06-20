@@ -8,8 +8,8 @@ import androidx.lifecycle.ViewModel
 
 import com.alexkn.syntact.domain.model.Bucket
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto
-import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets
-import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems
+import com.alexkn.syntact.domain.usecase.bucket.BucketRepository
+import com.alexkn.syntact.domain.usecase.play.SolvableItemRepository
 import io.reactivex.disposables.CompositeDisposable
 
 import java.time.Instant
@@ -19,10 +19,10 @@ import javax.inject.Inject
 private const val TAG = "FlashcardViewModel"
 
 class FlashcardViewModel @Inject
-constructor(private val manageSolvableItems: ManageSolvableItems, private val manageBuckets: ManageBuckets) : ViewModel() {
+constructor(private val solvableItemRepository: SolvableItemRepository, private val bucketRepository: BucketRepository) : ViewModel() {
 
 
-    private val startTime: Instant
+    private val startTime: Instant = Instant.now()
 
     internal var bucket: LiveData<Bucket>? = null
         private set
@@ -30,32 +30,28 @@ constructor(private val manageSolvableItems: ManageSolvableItems, private val ma
     internal var translations: LiveData<List<SolvableTranslationCto>>? = null
         private set
 
-    var disp: CompositeDisposable = CompositeDisposable()
+    private var disp: CompositeDisposable = CompositeDisposable()
 
-    var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto>>(5) { MutableLiveData() }
+    var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto>>(2) { MutableLiveData() }
 
     private var bucketId: Long? = null
-
-    init {
-        this.startTime = Instant.now()
-    }
 
     fun init(bucketId: Long?) {
 
         this.bucketId = bucketId
-        bucket = manageBuckets.getBucket(bucketId)
-        translations = manageSolvableItems.getSolvableTranslations(bucketId)
+        bucket = bucketRepository.getBucket(bucketId)
+        translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
 
     fun triggerPhrasesFetch() {
-        AsyncTask.execute { manageSolvableItems.fetchSolvableItems(bucketId!!, startTime) }
+        AsyncTask.execute { solvableItemRepository.fetchSolvableItems(bucketId!!, startTime) }
     }
 
     fun fetchNext(one: Boolean) {
         disp.dispose()
         if (one) {
             AsyncTask.execute {
-                val disposable = manageSolvableItems.getNextSolvableTranslations(bucketId, startTime, 2).subscribe(
+                val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, startTime, 2).subscribe(
                         {
                             solvableTranslations[1].postValue(it[1])
                             solvableTranslations[0].postValue(it[0])
@@ -67,7 +63,7 @@ constructor(private val manageSolvableItems: ManageSolvableItems, private val ma
             }
         } else {
             AsyncTask.execute {
-                val disposable = manageSolvableItems.getNextSolvableTranslations(bucketId, startTime, 2).subscribe(
+                val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, startTime, 2).subscribe(
                         {
                             solvableTranslations[0].postValue(it[1])
                             solvableTranslations[1].postValue(it[0])
@@ -85,7 +81,7 @@ constructor(private val manageSolvableItems: ManageSolvableItems, private val ma
         if (one) {
             if (solvableTranslations[0].value?.solvableItem!!.text == solution) {
                 AsyncTask.execute {
-                    manageSolvableItems.solvePhrase(solvableTranslations[0].value)
+                    solvableItemRepository.solvePhrase(solvableTranslations[0].value)
                 }
                 return true
 
@@ -93,7 +89,7 @@ constructor(private val manageSolvableItems: ManageSolvableItems, private val ma
         } else {
             if (solvableTranslations[1].value?.solvableItem!!.text == solution) {
                 AsyncTask.execute {
-                    manageSolvableItems.solvePhrase(solvableTranslations[1].value)
+                    solvableItemRepository.solvePhrase(solvableTranslations[1].value)
                 }
                 return true
             }

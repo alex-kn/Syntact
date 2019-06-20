@@ -9,10 +9,10 @@ import androidx.work.WorkerParameters;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.app.Property;
+import com.alexkn.syntact.dataaccess.common.AppDatabase;
+import com.alexkn.syntact.dataaccess.dao.ClueDao;
+import com.alexkn.syntact.dataaccess.dao.SolvableItemDao;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
-import com.alexkn.syntact.domain.repository.BucketRepository;
-import com.alexkn.syntact.domain.repository.ClueRepository;
-import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 import com.alexkn.syntact.restservice.SolvableItemRemoteRepository;
 import com.alexkn.syntact.restservice.SyntactService;
 
@@ -26,17 +26,12 @@ public class FetchPhrasesWorker extends Worker {
 
     private static final String TAG = FetchPhrasesWorker.class.getSimpleName();
 
-    @Inject
-    BucketRepository bucketRepository;
+    private final SolvableItemDao solvableItemDao;
 
-    @Inject
-    SolvableItemRepository solvableItemRepository;
+    private final ClueDao clueDao;
 
     @Inject
     SolvableItemRemoteRepository solvableItemRemoteRepository;
-
-    @Inject
-    ClueRepository clueRepository;
 
     @Inject
     SyntactService syntactService;
@@ -48,6 +43,10 @@ public class FetchPhrasesWorker extends Worker {
 
         super(context, workerParams);
         ((ApplicationComponentProvider) context).getApplicationComponent().inject(this);
+
+        AppDatabase database = AppDatabase.getDatabase(context);
+        solvableItemDao = database.solvableItemDao();
+        clueDao = database.clueDao();
     }
 
     @NonNull
@@ -56,19 +55,19 @@ public class FetchPhrasesWorker extends Worker {
 
         //TODO do only if items on phone <= itemcount in bucket
         //TODO regularly update bucket phrase count
-        Data inputData = getInputData();
-        long bucketId = inputData.getLong("bucketId", -1L);
-        long timestamp = inputData.getLong("timestamp", Instant.now().toEpochMilli());
-        Instant now = Instant.ofEpochMilli(timestamp).truncatedTo(ChronoUnit.MINUTES);
-        if (bucketId == -1L) {
-            return Result.failure();
-        }
-
-        List<SolvableTranslationCto> solvableTranslationCtos = solvableItemRemoteRepository.fetchNewTranslations(bucketId, now, 10);
-        solvableTranslationCtos.forEach(cto -> {
-            solvableItemRepository.insert(cto.getSolvableItem());
-            clueRepository.insert(cto.getClue());
-        });
+//        Data inputData = getInputData();
+//        long bucketId = inputData.getLong("bucketId", -1L);
+//        long timestamp = inputData.getLong("timestamp", Instant.now().toEpochMilli());
+//        Instant now = Instant.ofEpochMilli(timestamp).truncatedTo(ChronoUnit.MINUTES);
+//        if (bucketId == -1L) {
+//            return Result.failure();
+//        }
+//
+//        List<SolvableTranslationCto> solvableTranslationCtos = solvableItemRemoteRepository.fetchNewTranslations(bucketId, now, 10);
+//        solvableTranslationCtos.forEach(cto -> {
+//            solvableItemDao.insert(cto.getSolvableItem());
+//            clueDao.insert(cto.getClue());
+//        });
 
         return Result.success();
     }

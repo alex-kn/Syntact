@@ -1,5 +1,6 @@
 package com.alexkn.syntact.domain.usecase.bucket;
 
+import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,14 +12,18 @@ import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
 
 import com.alexkn.syntact.app.Property;
+import com.alexkn.syntact.dataaccess.common.AppDatabase;
+import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.repository.BucketRepository;
+import com.alexkn.syntact.domain.model.views.BucketDetail;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.Template;
 
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -28,22 +33,28 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @Singleton
-public class CreateBucket {
+public class BucketRepository {
 
-    private static final String TAG = CreateBucket.class.getSimpleName();
+    private static final String TAG = BucketRepository.class.getSimpleName();
 
-    BucketRepository bucketRepository;
+    private final BucketDao bucketDao;
 
-    Property property;
+    private final SyntactService syntactService;
 
-    SyntactService syntactService;
+    private Property property;
 
     @Inject
-    CreateBucket(SyntactService syntactService, Property property, BucketRepository bucketRepository) {
+    BucketRepository(SyntactService syntactService, Property property, Context context) {
 
         this.syntactService = syntactService;
         this.property = property;
-        this.bucketRepository = bucketRepository;
+        bucketDao = AppDatabase.getDatabase(context).bucketDao();
+    }
+
+    public List<Locale> getAvailableLanguages() {
+
+        String[] languages = property.get("available-languages").split(",");
+        return Arrays.stream(languages).map(Locale::new).collect(Collectors.toList());
     }
 
     public LiveData<List<Template>> findAvailableTemplates() {
@@ -88,6 +99,21 @@ public class CreateBucket {
         bucket.setUserLanguage(sourceLanguage);
         bucket.setPhrasesUrl(template.getPhrasesUrl());
         bucket.setItemCount(template.getCount());
-        bucketRepository.insert(bucket);
+        bucketDao.insert(bucket);
+    }
+
+    public void removeLanguage(Bucket bucket) {
+
+        bucketDao.delete(bucket);
+    }
+
+    public LiveData<Bucket> getBucket(Long id) {
+
+        return bucketDao.findBucket(id);
+    }
+
+    public LiveData<List<BucketDetail>> getBucketDetails() {
+
+        return bucketDao.findBucketDetails();
     }
 }

@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.views.BucketDetail;
-import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
+import com.alexkn.syntact.domain.usecase.bucket.BucketRepository;
 
 import java.util.List;
 
@@ -15,21 +15,21 @@ import javax.inject.Inject;
 
 public class PlayMenuViewModel extends ViewModel {
 
-    ManageBuckets manageBuckets;
+    private BucketRepository bucketRepository;
 
     private LiveData<List<BucketDetail>> buckets;
 
     @Inject
-    public PlayMenuViewModel( ManageBuckets manageBuckets) {
+    public PlayMenuViewModel(BucketRepository bucketRepository) {
 
         super();
-        this.manageBuckets = manageBuckets;
-        buckets = manageBuckets.getBucketDetails();
+        this.bucketRepository = bucketRepository;
+        buckets = bucketRepository.getBucketDetails();
     }
 
     public void deleteLanguage(Bucket bucket) {
 
-        AsyncTask.execute(() -> manageBuckets.removeLanguage(bucket));
+        AsyncTask.execute(() -> bucketRepository.removeLanguage(bucket));
     }
 
     LiveData<List<BucketDetail>> getBuckets() {

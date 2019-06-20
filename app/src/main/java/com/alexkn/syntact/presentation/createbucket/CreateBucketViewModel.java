@@ -5,8 +5,7 @@ import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
-import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
+import com.alexkn.syntact.domain.usecase.bucket.BucketRepository;
 import com.alexkn.syntact.restservice.Template;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,29 +22,26 @@ public class CreateBucketViewModel extends ViewModel {
 
     private final LiveData<List<Template>> availableTemplates;
 
-    ManageBuckets manageBuckets;
-
-    CreateBucket createBucket;
+    private BucketRepository bucketRepository;
 
     @Inject
-    public CreateBucketViewModel(ManageBuckets manageBuckets, CreateBucket createBucket) {
+    public CreateBucketViewModel(BucketRepository bucketRepository) {
 
         super();
-        this.manageBuckets = manageBuckets;
-        this.createBucket = createBucket;
+        this.bucketRepository = bucketRepository;
 
-        availableBuckets = manageBuckets.getAvailableLanguages();
-        availableTemplates = createBucket.findAvailableTemplates();
+        availableBuckets = bucketRepository.getAvailableLanguages();
+        availableTemplates = bucketRepository.findAvailableTemplates();
     }
 
     void addBucket(Locale language, Template template, String words) {
 
         if (words.isEmpty()) {//TODO
-            AsyncTask.execute(
-                    () -> createBucket.addBucketWithExistingTemplate(language, template == null ? availableTemplates.getValue().get(0) : template));
+            AsyncTask.execute(() -> bucketRepository
+                    .addBucketWithExistingTemplate(language, template == null ? availableTemplates.getValue().get(0) : template));
         } else {
             List<String> phrases = Arrays.asList(StringUtils.split(words, " "));
-            AsyncTask.execute(() -> createBucket.addBucketWithNewTemplate("AndroidTest", language, phrases));
+            AsyncTask.execute(() -> bucketRepository.addBucketWithNewTemplate("AndroidTest", language, phrases));
         }
     }
 

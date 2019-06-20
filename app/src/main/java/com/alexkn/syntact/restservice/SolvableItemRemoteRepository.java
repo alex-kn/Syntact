@@ -7,8 +7,6 @@ import com.alexkn.syntact.domain.model.Bucket;
 import com.alexkn.syntact.domain.model.Clue;
 import com.alexkn.syntact.domain.model.SolvableItem;
 import com.alexkn.syntact.domain.model.cto.SolvableTranslationCto;
-import com.alexkn.syntact.domain.repository.BucketRepository;
-import com.alexkn.syntact.domain.repository.SolvableItemRepository;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -29,26 +27,16 @@ public class SolvableItemRemoteRepository {
 
     private SyntactService syntactService;
 
-    private BucketRepository bucketRepository;
-
-    private SolvableItemRepository solvableItemRepository;
-
     @Inject
-    public SolvableItemRemoteRepository(Property property, SyntactService syntactService, BucketRepository bucketRepository,
-            SolvableItemRepository solvableItemRepository) {
+    public SolvableItemRemoteRepository(Property property, SyntactService syntactService) {
 
         this.property = property;
         this.syntactService = syntactService;
-        this.bucketRepository = bucketRepository;
-        this.solvableItemRepository = solvableItemRepository;
     }
 
-    public List<SolvableTranslationCto> fetchNewTranslations(Long bucketId, Instant now, int count) {
+    public List<SolvableTranslationCto> fetchNewTranslations(Bucket bucket, Instant now, long minFetchId, int count) {
 
-        Bucket bucket = bucketRepository.find(bucketId);
         String token = "Token " + property.get("api-auth-token");
-
-        Long minFetchId = solvableItemRepository.getMaxId(bucket.getId());
 
         Log.i(TAG, "Fetching " + count + " phrases with ids above " + minFetchId);
 

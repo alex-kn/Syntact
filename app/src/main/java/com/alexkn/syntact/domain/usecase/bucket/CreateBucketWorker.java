@@ -10,9 +10,10 @@ import androidx.work.WorkerParameters;
 
 import com.alexkn.syntact.app.ApplicationComponentProvider;
 import com.alexkn.syntact.app.Property;
+import com.alexkn.syntact.dataaccess.common.AppDatabase;
+import com.alexkn.syntact.dataaccess.dao.BucketDao;
 import com.alexkn.syntact.domain.common.TemplateType;
 import com.alexkn.syntact.domain.model.Bucket;
-import com.alexkn.syntact.domain.repository.BucketRepository;
 import com.alexkn.syntact.restservice.PhrasesRequest;
 import com.alexkn.syntact.restservice.SyntactService;
 import com.alexkn.syntact.restservice.Template;
@@ -33,19 +34,20 @@ public class CreateBucketWorker extends Worker {
 
     private static final String TAG = CreateBucketWorker.class.getSimpleName();
 
+    private final BucketDao bucketDao;
+
     @Inject
     Property property;
 
     @Inject
     SyntactService syntactService;
 
-    @Inject
-    BucketRepository bucketRepository;
-
     public CreateBucketWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
 
         super(context, workerParams);
         ((ApplicationComponentProvider) context).getApplicationComponent().inject(this);
+
+        bucketDao = AppDatabase.getDatabase(context).bucketDao();
     }
 
     @NonNull
@@ -83,7 +85,7 @@ public class CreateBucketWorker extends Worker {
                 if (phraseResponse.isSuccessful()) {
                     Log.i(TAG, "New phrases created");
                     bucket.setItemCount(words.length);
-                    bucketRepository.insert(bucket);
+                    bucketDao.insert(bucket);
                 }
             }
         } catch (IOException e) {

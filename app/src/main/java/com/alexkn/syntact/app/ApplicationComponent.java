@@ -2,11 +2,8 @@ package com.alexkn.syntact.app;
 
 import android.content.Context;
 
-import com.alexkn.syntact.domain.usecase.bucket.CreateBucket;
 import com.alexkn.syntact.domain.usecase.bucket.CreateBucketWorker;
-import com.alexkn.syntact.domain.usecase.bucket.ManageBuckets;
 import com.alexkn.syntact.domain.usecase.play.FetchPhrasesWorker;
-import com.alexkn.syntact.domain.usecase.play.ManageSolvableItems;
 import com.alexkn.syntact.presentation.bucketlist.PlayMenuViewModel;
 import com.alexkn.syntact.presentation.createbucket.CreateBucketViewModel;
 import com.alexkn.syntact.presentation.flashcard.FlashcardViewModel;
@@ -28,14 +25,6 @@ public interface ApplicationComponent {
 
         ApplicationComponent build();
     }
-
-    ManageSolvableItems phraseUseCase();
-
-    CreateBucket createBucket();
-
-    ManageBuckets languageManagement();
-
-    Property property();
 
     void inject(FetchPhrasesWorker fetchPhrasesWorker);
 
