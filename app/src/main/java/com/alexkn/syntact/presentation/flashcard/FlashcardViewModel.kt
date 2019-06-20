@@ -21,9 +21,6 @@ import javax.inject.Inject
 class FlashcardViewModel @Inject
 constructor(private val solvableItemRepository: SolvableItemRepository, private val bucketRepository: BucketRepository) : ViewModel() {
 
-
-    private val startTime: Instant = Instant.now()
-
     internal var bucket: LiveData<Bucket>? = null
         private set
 
@@ -43,15 +40,11 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
 
-    fun triggerPhrasesFetch() {
-        AsyncTask.execute { solvableItemRepository.fetchSolvableItems(bucketId!!, startTime) }
-    }
-
     fun fetchNext(one: Boolean) {
         disp.dispose()
         if (one) {
             AsyncTask.execute {
-                val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, startTime, 2).subscribe(
+                val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), 2).subscribe(
                         {
                             solvableTranslations[1].postValue(it[1])
                             solvableTranslations[0].postValue(it[0])
@@ -63,7 +56,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
             }
         } else {
             AsyncTask.execute {
-                val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, startTime, 2).subscribe(
+                val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), 2).subscribe(
                         {
                             solvableTranslations[0].postValue(it[1])
                             solvableTranslations[1].postValue(it[0])
@@ -81,7 +74,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
         if (one) {
             if (solvableTranslations[0].value?.solvableItem!!.text == solution) {
                 AsyncTask.execute {
-                    solvableItemRepository.solvePhrase(solvableTranslations[0].value)
+                    solvableItemRepository.solvePhrase(solvableTranslations[0].value!!)
                 }
                 return true
 
@@ -89,7 +82,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
         } else {
             if (solvableTranslations[1].value?.solvableItem!!.text == solution) {
                 AsyncTask.execute {
-                    solvableItemRepository.solvePhrase(solvableTranslations[1].value)
+                    solvableItemRepository.solvePhrase(solvableTranslations[1].value!!)
                 }
                 return true
             }

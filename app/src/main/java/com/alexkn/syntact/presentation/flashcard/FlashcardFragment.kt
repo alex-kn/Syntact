@@ -43,12 +43,6 @@ class FlashcardFragment : Fragment() {
         val bucketId = FlashcardFragmentArgs.fromBundle(arguments!!).bucketId
         viewModel.init(bucketId)
 
-        viewModel.translations!!.observe(this, Observer<List<SolvableTranslationCto>> { translations ->
-            if (translations.size < 4) {
-                viewModel.triggerPhrasesFetch()
-            }
-        })
-
         val editText = binding.root.findViewById<EditText>(R.id.solutionInput)
         editText.addTextChangedListener(SolutionTextWatcher())
 
@@ -109,6 +103,5 @@ class FlashcardFragment : Fragment() {
             }
         }
     }
-
 }
 

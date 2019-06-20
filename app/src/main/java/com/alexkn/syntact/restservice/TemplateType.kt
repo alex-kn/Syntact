@@ -1,8 +1,8 @@
-package com.alexkn.syntact.restservice;
+package com.alexkn.syntact.restservice
 
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.SerializedName
 
-public enum TemplateType {
+enum class TemplateType {
 
     @SerializedName("Basic")
     BASIC,

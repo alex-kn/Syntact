@@ -16,7 +16,7 @@ import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.util.Converters
 
-@Database(entities = [SolvableItem::class, Bucket::class, Clue::class], views = [BucketDetail::class], version = 32)
+@Database(entities = [SolvableItem::class, Bucket::class, Clue::class], views = [BucketDetail::class], version = 34)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
@@ -29,19 +29,21 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
 
         @Volatile
-        private var instance: AppDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getDatabase(context: Context): AppDatabase? {
-
-            if (instance == null) {
-                synchronized(AppDatabase::class.java) {
-                    if (instance == null) {
-                        instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "app_database")
-                                .fallbackToDestructiveMigration().build()
-                    }
-                }
+        fun getDatabase(context: Context): AppDatabase {
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
-            return instance
+            synchronized(this) {
+                val instance = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, "app_database")
+                        .fallbackToDestructiveMigration().build()
+                INSTANCE = instance
+                return instance
+            }
         }
+
     }
 }
+
