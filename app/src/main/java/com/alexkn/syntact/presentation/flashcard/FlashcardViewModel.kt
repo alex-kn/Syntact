@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.alexkn.syntact.app.TAG
 
 import com.alexkn.syntact.data.model.Bucket
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
@@ -16,7 +17,6 @@ import java.time.Instant
 
 import javax.inject.Inject
 
-private const val TAG = "FlashcardViewModel"
 
 class FlashcardViewModel @Inject
 constructor(private val solvableItemRepository: SolvableItemRepository, private val bucketRepository: BucketRepository) : ViewModel() {

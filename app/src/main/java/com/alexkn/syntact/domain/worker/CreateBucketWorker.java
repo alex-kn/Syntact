@@ -47,7 +47,7 @@ public class CreateBucketWorker extends Worker {
         super(context, workerParams);
         ((ApplicationComponentProvider) context).getApplicationComponent().inject(this);
 
-        bucketDao = AppDatabase.getDatabase(context).bucketDao();
+        bucketDao = AppDatabase.Companion.getDatabase(context).bucketDao();
     }
 
     @NonNull

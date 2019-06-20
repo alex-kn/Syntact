@@ -38,7 +38,7 @@ public class FetchPhrasesWorker extends Worker {
         super(context, workerParams);
         ((ApplicationComponentProvider) context).getApplicationComponent().inject(this);
 
-        AppDatabase database = AppDatabase.getDatabase(context);
+        AppDatabase database = AppDatabase.Companion.getDatabase(context);
         solvableItemDao = database.solvableItemDao();
         clueDao = database.clueDao();
     }

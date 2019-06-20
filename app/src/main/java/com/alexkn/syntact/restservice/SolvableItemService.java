@@ -82,7 +82,7 @@ public class SolvableItemService {
                                 solvableTranslationCto.setSolvableItem(solvableItem);
                                 solvableTranslationCto.setClue(clue);
                                 solvableTranslationCtos.add(solvableTranslationCto);
-                                Log.i(TAG, "Inserted Translation for Phrase " + phrase.getText());
+                                Log.i(TAG, "Fetched Translation for Phrase " + phrase.getText());
                             }
                         }
                     }

@@ -8,7 +8,7 @@
 
         <variable
             name="bucket"
-            type="com.alexkn.syntact.domain.model.views.BucketDetail" />
+            type="com.alexkn.syntact.data.model.views.BucketDetail" />
 
         <variable
             name="dailyAverage"

@@ -49,7 +49,7 @@ public class BucketRepository {
 
         this.syntactService = syntactService;
         this.property = property;
-        bucketDao = AppDatabase.getDatabase(context).bucketDao();
+        bucketDao = AppDatabase.Companion.getDatabase(context).bucketDao();
     }
 
     public List<Locale> getAvailableLanguages() {

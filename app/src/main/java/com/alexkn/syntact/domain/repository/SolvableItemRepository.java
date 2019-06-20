@@ -11,6 +11,7 @@ import androidx.work.WorkManager;
 
 import com.alexkn.syntact.data.common.AppDatabase;
 import com.alexkn.syntact.data.dao.BucketDao;
+import com.alexkn.syntact.data.dao.ClueDao;
 import com.alexkn.syntact.data.dao.SolvableItemDao;
 import com.alexkn.syntact.data.model.Bucket;
 import com.alexkn.syntact.data.model.SolvableItem;
@@ -32,6 +33,8 @@ public class SolvableItemRepository {
 
     private static final String TAG = SolvableItemRepository.class.getSimpleName();
 
+    private final ClueDao clueDao;
+
     private SolvableItemService solvableItemService;
 
     private SolvableItemDao solvableItemDao;
@@ -42,8 +45,9 @@ public class SolvableItemRepository {
     SolvableItemRepository(SolvableItemService solvableItemService, Context context) {
 
         this.solvableItemService = solvableItemService;
-        solvableItemDao = AppDatabase.getDatabase(context).solvableItemDao();
-        bucketDao = AppDatabase.getDatabase(context).bucketDao();
+        solvableItemDao = AppDatabase.Companion.getDatabase(context).solvableItemDao();
+        bucketDao = AppDatabase.Companion.getDatabase(context).bucketDao();
+        clueDao = AppDatabase.Companion.getDatabase(context).clueDao();
     }
 
     public LiveData<List<SolvableTranslationCto>> getSolvableTranslations(Long bucketId) {
@@ -64,6 +68,10 @@ public class SolvableItemRepository {
                 Bucket bucket = bucketDao.find(bucketId);
                 long maxId = solvableItemDao.getMaxId(bucketId);
                 List<SolvableTranslationCto> solvableTranslationCtos = solvableItemService.fetchNewTranslations(bucket, time, maxId, count);
+                solvableTranslationCtos.forEach(cto -> {
+                    solvableItemDao.insert(cto.getSolvableItem());
+                    clueDao.insert(cto.getClue());
+                });
                 //TODO Service to return Maybe
                 return Maybe.just(solvableTranslationCtos.toArray(new SolvableTranslationCto[0]));
             }
