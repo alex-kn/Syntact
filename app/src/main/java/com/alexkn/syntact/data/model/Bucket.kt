@@ -14,4 +14,4 @@ data class Bucket(
         var userLanguage: Locale,
         var phrasesUrl: String,
         var itemCount: Int = 0
-) : Identifiable
+) : Identifiable<Long>

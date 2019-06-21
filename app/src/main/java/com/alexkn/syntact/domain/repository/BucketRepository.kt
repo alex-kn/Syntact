@@ -37,8 +37,8 @@ internal constructor(private val syntactService: SyntactService, private val pro
 
     private val bucketDao: BucketDao = AppDatabase.getDatabase(context).bucketDao()
 
-    val availableLanguages: List<Locale> by lazy {
-        property["available-languages"].split(",").map { Locale(it) }.toList()
+    val availableLanguages: MutableList<Locale> by lazy {
+        property["available-languages"].split(",").map { Locale(it) }.toMutableList()
     }
 
     val bucketDetails: LiveData<List<BucketDetail>>

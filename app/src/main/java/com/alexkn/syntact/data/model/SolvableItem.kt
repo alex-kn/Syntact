@@ -30,4 +30,4 @@ data class SolvableItem(
         @ColumnInfo(index = true)
         var bucketId: Long
 
-) : Identifiable
+) : Identifiable<Long>

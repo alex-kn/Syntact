@@ -1,5 +1,5 @@
 package com.alexkn.syntact.data.common
 
-interface Identifiable {
-    val id: Long?
+interface Identifiable<T> {
+    val id: T?
 }

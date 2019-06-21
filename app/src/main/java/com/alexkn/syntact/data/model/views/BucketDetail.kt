@@ -12,4 +12,4 @@ data class BucketDetail(
         var createdAt: Instant,
         var itemCount: Int,
         var solvedCount: Int
-) : Identifiable
+) : Identifiable<Long>
