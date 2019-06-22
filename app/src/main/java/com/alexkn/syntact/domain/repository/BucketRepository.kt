@@ -41,8 +41,7 @@ internal constructor(private val syntactService: SyntactService, private val pro
         property["available-languages"].split(",").map { Locale(it) }.toMutableList()
     }
 
-    val bucketDetails: LiveData<List<BucketDetail>>
-        get() = bucketDao.findBucketDetails()
+    val bucketDetails: LiveData<List<BucketDetail>> = bucketDao.findBucketDetails()
 
     fun findAvailableTemplates(): LiveData<List<Template>> {
 

@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/chooseTemplateCardView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/color_secondary"
-    tools:showIn="@layout/bucket_create_fragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/chooseTemplateCardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/keyline_2"
+        android:background="@color/color_secondary"
+        tools:showIn="@layout/bucket_create_fragment">
 
-        <ImageView
-            android:id="@+id/chooseTemplateImage"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:background="@color/color_secondary_variant"
-            android:contentDescription="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-
-        <TextView
-            android:id="@+id/chooseTemplateTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@color/color_surface"
-            android:alpha="0.5"
-            android:padding="8dp"
-            android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
-            app:layout_constraintBottom_toBottomOf="@id/chooseTemplateImage"
-            app:layout_constraintEnd_toEndOf="@id/chooseTemplateImage"
-            app:layout_constraintStart_toStartOf="@id/chooseTemplateImage" />
+            <ImageView
+                android:id="@+id/chooseTemplateImage"
+                android:layout_width="0dp"
+                android:layout_height="@android:dimen/thumbnail_height"
+                android:background="@color/color_secondary_variant"
+                android:contentDescription="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/chooseTemplateTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:alpha="0.5"
+                android:background="@color/color_surface"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                app:layout_constraintBottom_toBottomOf="@id/chooseTemplateImage"
+                app:layout_constraintEnd_toEndOf="@id/chooseTemplateImage"
+                app:layout_constraintStart_toStartOf="@id/chooseTemplateImage" />
 
 
-</com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

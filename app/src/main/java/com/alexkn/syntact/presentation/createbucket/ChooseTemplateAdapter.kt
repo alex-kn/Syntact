@@ -20,18 +20,24 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
     }
 
     override fun onBindViewHolder(holder: ChooseTemplateViewHolder, position: Int) {
+        when (list.size) {
+            0 -> return
+            else -> holder.bindTo(list[position % list.size])
+        }
 
-        val template = list[position]
-        holder.bindTo(template)
     }
+
+    override fun getItemCount(): Int = Int.MAX_VALUE
+
+    fun getItemAt(position: Int): Template = list[position]
 
     class ChooseTemplateViewHolder(itemView: View) : ListItemViewHolder<Template>(itemView) {
 
         private var textView: TextView = itemView.findViewById(R.id.chooseTemplateTextView)
 
-        override fun bindTo(template: Template) {
+        override fun bindTo(entity: Template) {
 
-            textView.text = template.id + template.name
+            textView.text = entity.id + entity.name
         }
     }
 }
