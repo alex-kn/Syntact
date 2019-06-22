@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.core.app.FrameMetricsAggregator
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -13,8 +12,6 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
@@ -31,93 +28,69 @@ class CreateBucketFragment : Fragment() {
     private var selectedTemplate: Template? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val view = inflater.inflate(R.layout.bucket_create_fragment, container, false)
+        viewModel = ViewModelProviders
+                .of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createBucketViewModelFactory())
+                .get(CreateBucketViewModel::class.java)
 
-        val viewPager = view.findViewById<ViewPager2>(R.id.pager)
+        val addButton = view.findViewById<FloatingActionButton>(R.id.addBucketButton)
+        val words = view.findViewById<EditText>(R.id.editText)
 
-        viewPager.adapter = CreateBucketPagerAdapter(this)
-        return view
-    }
+        val dataset = viewModel.availableBuckets
+        dataset.remove(Locale.getDefault())
+        selectedLanguage = dataset[0]
 
+        val languageRecyclerView = view.findViewById<RecyclerView>(R.id.selectLanguageRecyclerView)
+        val languageLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        languageRecyclerView.layoutManager = languageLayoutManager
+        val adapter = ChooseLanguageAdapter(dataset)
+        languageRecyclerView.adapter = adapter
+        val linearSnapHelper = LinearSnapHelper()
+        linearSnapHelper.attachToRecyclerView(languageRecyclerView)
+        languageRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-    private inner class CreateBucketPagerAdapter(f: Fragment) : FragmentStateAdapter(f) {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
 
-        var fragments = mutableListOf(CreateBucketLanguagePageFragment(), CreateBucketTemplatePageFragment())
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val itemPosition = languageLayoutManager.findFirstVisibleItemPosition()
+                    if (itemPosition != RecyclerView.NO_POSITION) {
+                        selectedLanguage = adapter.getItemAt(itemPosition)
+                    }
+                }
+            }
+        })
 
-        override fun getItemCount(): Int = fragments.size
+        val templateRecyclerView = view.findViewById<RecyclerView>(R.id.selectTemplateRecyclerView)
+        val templateLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+        templateRecyclerView.layoutManager = templateLayoutManager
 
-        override fun createFragment(position: Int): Fragment {
-            return fragments[position]
+        val chooseTemplateAdapter = ChooseTemplateAdapter()
+        templateRecyclerView.adapter = chooseTemplateAdapter
+        val linearSnapHelper1 = LinearSnapHelper()
 
+        linearSnapHelper1.attachToRecyclerView(templateRecyclerView)
+
+        templateRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    val itemPosition = templateLayoutManager.findFirstVisibleItemPosition()
+                    if (itemPosition != RecyclerView.NO_POSITION) {
+                        selectedTemplate = chooseTemplateAdapter.list[itemPosition]
+                    }
+                }
+            }
+        })
+
+        addButton!!.setOnClickListener {
+            viewModel.addBucket(selectedLanguage!!, selectedTemplate, words.text.toString())//TODO
+            Navigation.findNavController(view).popBackStack()
         }
 
+        viewModel.availableTemplates.observe(viewLifecycleOwner, Observer(chooseTemplateAdapter::submitList))
 
+        return view
     }
-
-//    fun testonCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//
-//        val view = inflater.inflate(R.layout.bucket_create_fragment, container, false)
-//        viewModel = ViewModelProviders
-//                .of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createBucketViewModelFactory())
-//                .get(CreateBucketViewModel::class.java)
-//
-//        val addButton = view.findViewById<FloatingActionButton>(R.id.addBucketButton)
-//        val words = view.findViewById<EditText>(R.id.editText)
-//
-//        val dataset = viewModel.availableBuckets
-//        dataset.remove(Locale.getDefault())
-//        selectedLanguage = dataset[0]
-//
-//        val languageRecyclerView = view.findViewById<RecyclerView>(R.id.selectLanguageRecyclerView)
-//        val languageLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-//        languageRecyclerView.layoutManager = languageLayoutManager
-//        val adapter = ChooseLanguageAdapter(dataset)
-//        languageRecyclerView.adapter = adapter
-//        val linearSnapHelper = LinearSnapHelper()
-//        linearSnapHelper.attachToRecyclerView(languageRecyclerView)
-//        languageRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    val itemPosition = languageLayoutManager.findFirstVisibleItemPosition()
-//                    if (itemPosition != RecyclerView.NO_POSITION) {
-//                        selectedLanguage = adapter.getItemAt(itemPosition)
-//                    }
-//                }
-//            }
-//        })
-//
-//        val templateRecyclerView = view.findViewById<RecyclerView>(R.id.selectTemplateRecyclerView)
-//        val templateLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-//        templateRecyclerView.layoutManager = templateLayoutManager
-//
-//        val chooseTemplateAdapter = ChooseTemplateAdapter()
-//        templateRecyclerView.adapter = chooseTemplateAdapter
-//        val linearSnapHelper1 = LinearSnapHelper()
-//
-//        linearSnapHelper1.attachToRecyclerView(templateRecyclerView)
-//
-//        templateRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    val itemPosition = templateLayoutManager.findFirstVisibleItemPosition()
-//                    if (itemPosition != RecyclerView.NO_POSITION) {
-//                        selectedTemplate = chooseTemplateAdapter.list[itemPosition]
-//                    }
-//                }
-//            }
-//        })
-//
-//        addButton!!.setOnClickListener {
-//            viewModel.addBucket(selectedLanguage!!, selectedTemplate, words.text.toString())//TODO
-//            Navigation.findNavController(view).popBackStack()
-//        }
-//
-//        viewModel.availableTemplates.observe(viewLifecycleOwner, Observer(chooseTemplateAdapter::submitList))
-//
-//        return view
-//    }
 }

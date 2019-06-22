@@ -5,7 +5,4 @@
     <string name="active_languages_file_key">com.alexkn.syntact.activelanguages</string>
     <string name="level_label">LEVEL</string>
     <string name="streak_label">STREAK</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

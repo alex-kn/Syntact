@@ -20,12 +20,11 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: ChooseLanguageViewHolder, position: Int) {
-        val realPos = position % dataset.size
-        holder.textView.text = dataset[realPos].displayLanguage
+
+        holder.textView.text = dataset[position].displayLanguage
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE
-
+    override fun getItemCount(): Int = dataset.size
 
     fun getItemAt(position: Int): Locale = dataset[position]
 
