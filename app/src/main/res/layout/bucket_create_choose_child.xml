@@ -7,8 +7,7 @@
     android:id="@+id/chooseLanguageCardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/color_secondary"
-    tools:showIn="@layout/bucket_create_fragment">
+    android:backgroundTint="@color/select_language_background_color">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,12 +15,15 @@
 
         <ImageView
             android:id="@+id/chooseLanguageImage"
-            android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:background="@color/color_secondary_variant"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:adjustViewBounds="true"
             android:contentDescription="@null"
+            android:src="@drawable/fr"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -30,13 +32,13 @@
             android:id="@+id/chooseLanguageTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@color/color_surface"
-            android:alpha="0.5"
+            android:layout_marginStart="32dp"
             android:padding="8dp"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
-            app:layout_constraintBottom_toBottomOf="@id/chooseLanguageImage"
-            app:layout_constraintEnd_toEndOf="@id/chooseLanguageImage"
-            app:layout_constraintStart_toStartOf="@id/chooseLanguageImage" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chooseLanguageImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Italian" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

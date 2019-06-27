@@ -3,16 +3,23 @@ package com.alexkn.syntact.presentation.createbucket
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.selection.ItemDetailsLookup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 
 import com.alexkn.syntact.R
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import java.util.Locale
 
 class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Adapter<ChooseLanguageAdapter.ChooseLanguageViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseLanguageViewHolder {
+    private val onClickSubject: PublishSubject<Locale> = PublishSubject.create()
+    var checkedPosition: Int = -1
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseLanguageViewHolder {
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.bucket_create_choose_child, parent, false)
 
@@ -21,16 +28,47 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
 
     override fun onBindViewHolder(holder: ChooseLanguageViewHolder, position: Int) {
 
-        holder.textView.text = dataset[position].displayLanguage
+        val locale = dataset[position]
+        holder.textView.text = locale.displayLanguage
+
+        holder.itemView.setOnClickListener {
+            onClickSubject.onNext(locale)
+            holder.imageView.visibility = View.VISIBLE
+            holder.itemView.isActivated = true
+            if (checkedPosition != holder.adapterPosition) {
+                notifyItemChanged(checkedPosition)
+                checkedPosition = holder.adapterPosition
+            }
+        }
+
+        if (checkedPosition == -1) {
+            holder.imageView.visibility = View.INVISIBLE
+            holder.itemView.isActivated = false
+
+        } else {
+            if (checkedPosition == holder.adapterPosition) {
+                holder.imageView.visibility = View.VISIBLE
+                holder.itemView.isActivated = true
+            } else {
+                holder.imageView.visibility = View.INVISIBLE
+                holder.itemView.isActivated = false
+            }
+        }
     }
+
 
     override fun getItemCount(): Int = dataset.size
 
     fun getItemAt(position: Int): Locale = dataset[position]
 
+    fun getLanguage(): Observable<Locale>? {
+        return onClickSubject.hide()
+    }
+
+
     class ChooseLanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var textView: TextView = itemView.findViewById(R.id.chooseLanguageTextView)
-
+        var imageView: ImageView = itemView.findViewById(R.id.chooseLanguageImage)
     }
 }
