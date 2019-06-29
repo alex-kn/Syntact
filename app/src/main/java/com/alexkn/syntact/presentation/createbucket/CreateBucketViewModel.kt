@@ -34,4 +34,11 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
             AsyncTask.execute { bucketRepository.addBucketWithNewTemplate("AndroidTest", language, phrases) }
         }
     }
+
+    fun addBucket(language: Locale, template: Template?) {
+        AsyncTask.execute {
+            bucketRepository
+                    .addBucketWithExistingTemplate(language, template ?: availableTemplates.value!![0])
+        }
+    }
 }

@@ -29,7 +29,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
     private var disp: CompositeDisposable = CompositeDisposable()
 
-    var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto>>(2) { MutableLiveData() }
+    var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto?>>(2) { MutableLiveData() }
 
     private var bucketId: Long? = null
 
@@ -46,11 +46,10 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
             AsyncTask.execute {
                 val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), 2).subscribe(
                         {
-                            solvableTranslations[1].postValue(it[1])
-                            solvableTranslations[0].postValue(it[0])
+                            solvableTranslations[1].postValue(it.getOrNull(1))
+                            solvableTranslations[0].postValue(it.getOrNull(0))
                         },
-                        { Log.e(TAG, "fetchNext: Error fetching", it) },
-                        { Log.i(TAG, "No Translation found") })
+                        { Log.e(TAG, "No Translation found", it) })
 
                 disp.add(disposable)
             }
@@ -58,11 +57,10 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
             AsyncTask.execute {
                 val disposable = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), 2).subscribe(
                         {
-                            solvableTranslations[0].postValue(it[1])
-                            solvableTranslations[1].postValue(it[0])
+                            solvableTranslations[0].postValue(it.getOrNull(1))
+                            solvableTranslations[1].postValue(it.getOrNull(0))
                         },
-                        { Log.e(TAG, "fetchNext: Error fetching", it) },
-                        { Log.i(TAG, "No Translation found") })
+                        { Log.e(TAG, "No Translation found", it) })
 
 
                 disp.addAll(disposable)

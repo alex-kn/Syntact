@@ -11,5 +11,6 @@ data class Template(
         @SerializedName("template_type") var templateType: TemplateType,
         var language: Locale,
         @SerializedName("phrases") var phrasesUrl: String,
-        @SerializedName("phrases_count") var count: Int
+        @SerializedName("phrases_count") var count: Int,
+        var description: String
 ) : Identifiable<String>

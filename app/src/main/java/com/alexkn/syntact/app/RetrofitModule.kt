@@ -1,17 +1,14 @@
 package com.alexkn.syntact.app
 
 import com.alexkn.syntact.restservice.SyntactService
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-import java.util.concurrent.Executors
-
-import javax.inject.Singleton
-
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.Executors
+import javax.inject.Singleton
 
 @Module
 internal class RetrofitModule {
@@ -23,7 +20,10 @@ internal class RetrofitModule {
         val gson = GsonBuilder().create()
 
         return Retrofit.Builder().callbackExecutor(Executors.newSingleThreadExecutor())
-                .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/").addConverterFactory(GsonConverterFactory.create(gson)).build()
+                .baseUrl("https://possible-stock-239518.appspot.com/syntact/api/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build()
                 .create(SyntactService::class.java)
     }
 }

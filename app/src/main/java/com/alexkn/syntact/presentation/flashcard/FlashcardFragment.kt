@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.databinding.FlashcardFragmentBinding
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 
 class FlashcardFragment : Fragment() {
 
@@ -48,8 +47,20 @@ class FlashcardFragment : Fragment() {
 
         viewModel.bucket!!.observe(this, Observer { this.updateFlashcards() })
 
-        viewModel.solvableTranslations[0].observe(this, Observer { binding.currentClue = it.clue.text })
-        viewModel.solvableTranslations[1].observe(this, Observer { binding.nextClue = it.clue.text })
+        viewModel.solvableTranslations[0].observe(this, Observer {
+            it?.let {
+                binding.currentClue = it.clue.text
+            } ?: run {
+                binding.currentClue = "Done for the day"
+            }
+        })
+        viewModel.solvableTranslations[1].observe(this, Observer {
+            it?.let {
+                binding.nextClue = it.clue.text
+            } ?: run {
+                binding.nextClue = "Done for the day"
+            }
+        })
         return binding.root
     }
 
@@ -57,17 +68,41 @@ class FlashcardFragment : Fragment() {
         if (one) {
             one = !one
             viewModel.solvableTranslations[1].removeObservers(this)
-            viewModel.solvableTranslations[1].observe(this, Observer { binding.currentClue = it.clue.text })
+            viewModel.solvableTranslations[1].observe(this, Observer {
+                it?.let {
+                    binding.currentClue = it.clue.text
+                } ?: run {
+                    binding.currentClue = "Done for the day"
+                }
+            })
 
             viewModel.solvableTranslations[0].removeObservers(this)
-            viewModel.solvableTranslations[0].observe(this, Observer { binding.nextClue = it.clue.text })
+            viewModel.solvableTranslations[0].observe(this, Observer {
+                it?.let {
+                    binding.nextClue = it.clue.text
+                } ?: run {
+                    binding.nextClue = "Done for the day"
+                }
+            })
             viewModel.fetchNext(one)
         } else {
             one = !one
             viewModel.solvableTranslations[0].removeObservers(this)
-            viewModel.solvableTranslations[0].observe(this, Observer { binding.currentClue = it.clue.text })
+            viewModel.solvableTranslations[0].observe(this, Observer {
+                it?.let {
+                    binding.currentClue = it.clue.text
+                } ?: run {
+                    binding.currentClue = "Done for the day"
+                }
+            })
             viewModel.solvableTranslations[1].removeObservers(this)
-            viewModel.solvableTranslations[1].observe(this, Observer { binding.nextClue = it.clue.text })
+            viewModel.solvableTranslations[1].observe(this, Observer {
+                it?.let {
+                    binding.nextClue = it.clue.text
+                } ?: run {
+                    binding.nextClue = "Done for the day"
+                }
+            })
             viewModel.fetchNext(one)
         }
 

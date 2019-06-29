@@ -7,6 +7,7 @@ import androidx.work.Data
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
+import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.common.AppDatabase
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.ClueDao
@@ -15,6 +16,8 @@ import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
 import com.alexkn.syntact.restservice.SolvableItemService
 import io.reactivex.Maybe
+import io.reactivex.Observable
+import io.reactivex.Single
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -35,25 +38,26 @@ internal constructor(private val solvableItemService: SolvableItemService, conte
         return solvableItemDao.getSolvableTranslationsDueBefore(bucketId!!, Instant.now())
     }
 
-    fun getNextSolvableTranslations(bucketId: Long?, time: Instant, count: Int): Maybe<Array<SolvableTranslationCto>> {
+    fun getNextSolvableTranslations(bucketId: Long?, time: Instant, count: Int): Single<List<SolvableTranslationCto>> {
 
         val translations = solvableItemDao.getNextTranslationDueBefore(bucketId!!, time, count)
 
-        return translations.flatMap { items ->
+        return translations.map { items ->
             if (items.size == count) {
                 Log.i(TAG, "All translations present")
-                Maybe.just(items)
+                Log.i(TAG, items.size.toString() + " Items local")
+                items
             } else {
                 Log.i(TAG, "Translations missing, fetching remote")
                 val bucket = bucketDao.find(bucketId)
                 val maxId = solvableItemDao.getMaxId(bucketId)
-                val solvableTranslationCtos = solvableItemService.fetchNewTranslations(bucket, maxId, count)
+                val solvableTranslationCtos = solvableItemService.fetchNewTranslations(bucket, maxId, count - items.size).blockingGet()
                 solvableTranslationCtos.forEach { (solvableItem, clue) ->
                     solvableItemDao.insert(solvableItem)
                     clueDao.insert(clue)
                 }
-                //TODO Service to return Maybe
-                Maybe.just(solvableTranslationCtos.toTypedArray())
+                Log.i(TAG, items.size.toString() + " Items local + " + solvableTranslationCtos.size + " Items remote")
+                items + solvableTranslationCtos
             }
         }
     }

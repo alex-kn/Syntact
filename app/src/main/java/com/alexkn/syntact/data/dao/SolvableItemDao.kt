@@ -11,6 +11,7 @@ import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import java.time.Instant
 
 import io.reactivex.Maybe
+import io.reactivex.Single
 
 @Dao
 interface SolvableItemDao : BaseDao<SolvableItem> {
@@ -19,7 +20,7 @@ interface SolvableItemDao : BaseDao<SolvableItem> {
     fun getSolvableTranslationsDueBefore(bucketId: Long, time: Instant): LiveData<List<SolvableTranslationCto>>
 
     @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId)  WHERE s.nextDueDate <= :time AND s.bucketId = :bucketId ORDER BY s.nextDueDate LIMIT :count")
-    fun getNextTranslationDueBefore(bucketId: Long, time: Instant, count: Int): Maybe<Array<SolvableTranslationCto>>
+    fun getNextTranslationDueBefore(bucketId: Long, time: Instant, count: Int): Single<List<SolvableTranslationCto>>
 
     @Query("SELECT MAX(id) FROM solvableitem WHERE bucketId = :bucketId;")
     fun getMaxId(bucketId: Long): Long

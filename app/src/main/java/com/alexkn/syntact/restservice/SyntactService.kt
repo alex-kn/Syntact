@@ -1,5 +1,7 @@
 package com.alexkn.syntact.restservice
 
+import io.reactivex.Maybe
+import io.reactivex.Observable
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -27,10 +29,10 @@ interface SyntactService {
     fun getTranslations(@Header("Authorization") token: String, @Path("id") phraseId: Long?, @Query("lang") lang: String): Call<List<Translation>>
 
     @GET
-    fun getTranslations(@Header("Authorization") token: String, @Url url: String, @Query("lang") lang: String): Call<List<Translation>>
+    fun getTranslations(@Header("Authorization") token: String, @Url url: String, @Query("lang") lang: String): Maybe<List<Translation>>
 
     @GET
-    fun getPhrases(@Header("Authorization") token: String, @Url url: String, @Query("minid") minid: Long, @Query("limit") limit: Int): Call<List<Phrase>>
+    fun getPhrases(@Header("Authorization") token: String, @Url url: String, @Query("minid") minid: Long, @Query("limit") limit: Int): Maybe<List<Phrase>>
 
     @POST("templates/{id}/phrases/")
     fun postPhrases(@Header("Authorization") token: String, @Path("id") templateId: Long?, @Query("lang") lang: String,

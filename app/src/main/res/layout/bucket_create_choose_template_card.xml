@@ -3,7 +3,8 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -12,11 +13,11 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/chooseTemplateCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
         android:layout_marginRight="32dp"
+        android:layout_marginBottom="32dp"
         android:background="@color/color_secondary"
         tools:showIn="@layout/bucket_create_fragment">
 
@@ -30,7 +31,6 @@
                 android:layout_height="150dp"
                 android:background="@color/color_secondary_variant"
                 android:contentDescription="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,13 +40,26 @@
                 android:id="@+id/chooseTemplateTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:background="@color/color_surface"
-                android:padding="8dp"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
-                app:layout_constraintBottom_toBottomOf="@id/chooseTemplateImage"
-                app:layout_constraintEnd_toEndOf="@id/chooseTemplateImage"
-                app:layout_constraintStart_toStartOf="@id/chooseTemplateImage" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateImage"
+                tools:text="Basic Template" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAppearance="@style/TextAppearance.MyTheme.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vestibulum nulla et massa aliquam vehicula. In lacinia volutpat ornare. Ut lorem lorem, consequat auctor pretium id, feugiat nec erat." />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
