@@ -24,8 +24,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
     internal var bucket: LiveData<Bucket>? = null
         private set
 
-    internal var translations: LiveData<List<SolvableTranslationCto>>? = null
-        private set
+    private var translations: LiveData<List<SolvableTranslationCto>>? = null
 
     private var disp: CompositeDisposable = CompositeDisposable()
 
@@ -49,7 +48,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
                             solvableTranslations[1].postValue(it.getOrNull(1))
                             solvableTranslations[0].postValue(it.getOrNull(0))
                         },
-                        { Log.e(TAG, "No Translation found", it) })
+                        { Log.e(TAG, "Error", it) })
 
                 disp.add(disposable)
             }
@@ -60,7 +59,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
                             solvableTranslations[0].postValue(it.getOrNull(1))
                             solvableTranslations[1].postValue(it.getOrNull(0))
                         },
-                        { Log.e(TAG, "No Translation found", it) })
+                        { Log.e(TAG, "Error", it) })
 
 
                 disp.addAll(disposable)
@@ -70,7 +69,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
     fun checkSolution(solution: String, one: Boolean): Boolean {
         if (one) {
-            if (solvableTranslations[0].value?.solvableItem!!.text == solution) {
+            if (solvableTranslations[0].value?.solvableItem!!.text.equals(solution, ignoreCase = true)) {
                 AsyncTask.execute {
                     solvableItemRepository.solvePhrase(solvableTranslations[0].value!!)
                 }
@@ -78,7 +77,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
             }
         } else {
-            if (solvableTranslations[1].value?.solvableItem!!.text == solution) {
+            if (solvableTranslations[1].value?.solvableItem!!.text.equals(solution, ignoreCase = true)) {
                 AsyncTask.execute {
                     solvableItemRepository.solvePhrase(solvableTranslations[1].value!!)
                 }

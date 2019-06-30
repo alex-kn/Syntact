@@ -1,10 +1,7 @@
 package com.alexkn.syntact.presentation.createbucket
 
-import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -14,15 +11,14 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.restservice.Template
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.bucket_create_choose_template_card.*
 import kotlinx.android.synthetic.main.bucket_create_fragment.*
 import kotlinx.android.synthetic.main.language_sheet.*
 import java.util.*
+import java.util.function.Consumer
+
 
 class CreateBucketFragment : Fragment() {
 
@@ -35,7 +31,7 @@ class CreateBucketFragment : Fragment() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.bucket_create_fragment, container, false)
+        return inflater.inflate(com.alexkn.syntact.R.layout.bucket_create_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,10 +54,10 @@ class CreateBucketFragment : Fragment() {
         languageRecyclerView.adapter = adapter
 
 
-        createButton.visibility  = View.GONE
-        val disposable = adapter.getLanguage()?.subscribe {
-            locale -> selectedLanguage = locale
-            createButton.visibility  = View.VISIBLE
+        createButton.visibility = View.GONE
+        val disposable = adapter.getLanguage()?.subscribe { locale ->
+            selectedLanguage = locale
+            createButton.visibility = View.VISIBLE
         }
         compositeDisposable.add(disposable)
 
@@ -88,9 +84,13 @@ class CreateBucketFragment : Fragment() {
             }
         })
 
-        createButton.setOnClickListener {
-            viewModel.addBucket(selectedLanguage!!, selectedTemplate)
+        chooseTemplateAdapter.createListener = Consumer {
+            viewModel.addBucketFromExistingTemplate(it)
             Navigation.findNavController(view).popBackStack()
+        }
+
+        createButton.setOnClickListener {
+            viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto"))
         }
 
 
@@ -111,5 +111,4 @@ class CreateBucketFragment : Fragment() {
         super.onDestroyView()
         compositeDisposable.dispose()
     }
-
 }

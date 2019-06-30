@@ -4,10 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.work.Data
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequest
-import androidx.work.WorkManager
+import androidx.work.*
 
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
@@ -18,6 +15,8 @@ import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.restservice.SyntactService
 import com.alexkn.syntact.restservice.Template
+import com.google.common.util.concurrent.ListenableFuture
+import io.reactivex.Single
 
 import java.time.Instant
 import java.util.Arrays
@@ -44,34 +43,19 @@ internal constructor(private val syntactService: SyntactService, private val pro
     val bucketDetails: LiveData<List<BucketDetail>>
         get() = bucketDao.findBucketDetails()
 
-    fun findAvailableTemplates(): LiveData<List<Template>> {
+    fun findAvailableTemplates(): Single<List<Template>> {
 
-        val templates = MutableLiveData<List<Template>>()
         val token = "Token " + property["api-auth-token"]
-        syntactService.getTemplates(token).enqueue(object : Callback<List<Template>> {
-
-            override fun onResponse(call: Call<List<Template>>, response: Response<List<Template>>) {
-
-                if (response.isSuccessful) {
-                    Log.i(TAG, "Found " + response.body()!!.size + " templates")
-                    templates.postValue(response.body())
-                }
-            }
-
-            override fun onFailure(call: Call<List<Template>>, t: Throwable) {
-
-            }
-        })
-        return templates
+        return syntactService.getTemplates(token)
     }
 
-    fun addBucketWithNewTemplate(name: String, language: Locale, words: List<String>) {
+    fun addBucketWithNewTemplate(name: String, language: Locale, words: List<String>): ListenableFuture<Operation.State.SUCCESS> {
 
         val data = Data.Builder().putString("name", name).putString("language", language.language)
                 .putStringArray("words", words.toTypedArray()).build()
 
         val workRequest = OneTimeWorkRequest.Builder(CreateBucketWorker::class.java).setInputData(data).build()
-        WorkManager.getInstance().enqueueUniqueWork(CreateBucketWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest)
+        return WorkManager.getInstance().enqueueUniqueWork(CreateBucketWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest).result
     }
 
     fun addBucketWithExistingTemplate(language: Locale, template: Template) {

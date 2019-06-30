@@ -16,10 +16,18 @@
         tools:layout="@layout/play_menu_fragment">
         <action
             android:id="@+id/action_playMenuFragment_to_flashcardFragment"
-            app:destination="@id/flashcardFragment" />
+            app:destination="@id/flashcardFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
         <action
             android:id="@+id/action_playMenuFragment_to_createBucketFragment"
-            app:destination="@id/createBucketFragment" />
+            app:destination="@id/createBucketFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/flashcardFragment"

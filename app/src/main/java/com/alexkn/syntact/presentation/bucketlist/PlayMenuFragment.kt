@@ -14,7 +14,10 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+
 class PlayMenuFragment : Fragment() {
+
+    private lateinit var fab: FloatingActionButton
 
     private lateinit var viewModel: PlayMenuViewModel
 
@@ -28,7 +31,7 @@ class PlayMenuFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
                 .get(PlayMenuViewModel::class.java)
 
-        val fab = view.findViewById<FloatingActionButton>(R.id.createBucketFab)
+        fab = view.findViewById<FloatingActionButton>(R.id.createBucketFab)
         fab.setOnClickListener(this::newBucket)
 
 
@@ -37,6 +40,8 @@ class PlayMenuFragment : Fragment() {
         val bucketAdapter = BucketAdapter()
         languagesList!!.adapter = bucketAdapter
         languagesList!!.setHasFixedSize(true)
+
+
 
 
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))

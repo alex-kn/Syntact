@@ -36,7 +36,7 @@ constructor(private val property: Property, private val syntactService: SyntactS
                 .flatMapMaybe { phrase ->
                     val solvableItem = SolvableItem(
                             id = phrase.id,
-                            text = phrase.text,
+                            text = phrase.text.capitalize(),
                             bucketId = bucket.id
                     )
                     Log.i(TAG, "Fetched Phrase " + phrase.text + ". Fetching translation...")
@@ -53,7 +53,7 @@ constructor(private val property: Property, private val syntactService: SyntactS
                         val translation = translations[0]
                         val clue = Clue(
                                 id = translation.id,
-                                text = translation.text,
+                                text = translation.text.capitalize(),
                                 solvableItemId = phrase.id
                         )
                         SolvableTranslationCto(solvableItem = solvableItem, clue = clue)

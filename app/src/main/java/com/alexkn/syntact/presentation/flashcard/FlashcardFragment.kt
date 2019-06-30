@@ -13,9 +13,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.databinding.FlashcardFragmentBinding
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.util.Log
+import androidx.navigation.Navigation
+import com.alexkn.syntact.R
+import com.alexkn.syntact.app.TAG
+import kotlinx.android.synthetic.main.bucket_create_fragment.*
+import kotlinx.android.synthetic.main.flashcard_fragment.*
+import kotlinx.android.synthetic.main.flashcard_fragment.backButton
+import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
+import android.content.Context.INPUT_METHOD_SERVICE
+import androidx.core.content.ContextCompat.getSystemService
+import android.content.Context
+import android.view.inputmethod.InputMethodManager
+
 
 class FlashcardFragment : Fragment() {
 
@@ -30,6 +43,11 @@ class FlashcardFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.flashcard_fragment, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setupMotionlayout(view)
         viewModel = ViewModelProviders
                 .of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.flashcardViewModelFactory())
                 .get(FlashcardViewModel::class.java)
@@ -38,12 +56,18 @@ class FlashcardFragment : Fragment() {
 
         motionLayout.setTransitionListener(TransitionListener())
 
+        backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
+
 
         val bucketId = FlashcardFragmentArgs.fromBundle(arguments!!).bucketId
         viewModel.init(bucketId)
 
         val editText = binding.root.findViewById<EditText>(R.id.solutionInput)
         editText.addTextChangedListener(SolutionTextWatcher())
+        if (solutionInputLayout.requestFocus()) {
+            val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
+        }
 
         viewModel.bucket!!.observe(this, Observer { this.updateFlashcards() })
 
@@ -61,7 +85,6 @@ class FlashcardFragment : Fragment() {
                 binding.nextClue = "Done for the day"
             }
         })
-        return binding.root
     }
 
     private fun updateFlashcards() {
@@ -106,6 +129,25 @@ class FlashcardFragment : Fragment() {
             viewModel.fetchNext(one)
         }
 
+    }
+
+    private fun setupMotionlayout(view: View) {
+        val vto = view.viewTreeObserver
+        vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                vto.removeOnGlobalLayoutListener(this)
+                val width = current.measuredWidth
+
+
+                val nextStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
+                nextStateConstraintSet.constrainWidth(R.id.next, width)
+                nextStateConstraintSet.constrainWidth(R.id.current, width)
+                val currentStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
+                currentStateConstraintSet.constrainWidth(R.id.next, width)
+                Log.i(TAG, "onGlobalLayout: $width")
+
+            }
+        })
     }
 
     inner class SolutionTextWatcher : TextWatcher {

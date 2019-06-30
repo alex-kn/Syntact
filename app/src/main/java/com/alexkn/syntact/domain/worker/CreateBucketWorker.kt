@@ -2,6 +2,7 @@ package com.alexkn.syntact.domain.worker
 
 import android.content.Context
 import android.util.Log
+import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.alexkn.syntact.app.ApplicationComponentProvider
@@ -40,7 +41,7 @@ class CreateBucketWorker(context: Context, workerParams: WorkerParameters) : Wor
 
         val name = inputData.getString("name")!!
         val language = Locale(inputData.getString("language"))
-        val words = inputData.getStringArray("words")?.let { emptyArray<String>() }!!
+        val words = inputData.getStringArray("words")!!
 
         val token = "Token " + property!!["api-auth-token"]
 
@@ -53,17 +54,14 @@ class CreateBucketWorker(context: Context, workerParams: WorkerParameters) : Wor
             val templateResponse = syntactService!!.postTemplate(token, templateRequest).execute()
             if (templateResponse.isSuccessful) {
                 val template = templateResponse.body()!!
-                val bucket = Bucket(id = template.id.toLong(), language = template.language, userLanguage = Locale.getDefault(),
-                        phrasesUrl = template.phrasesUrl, itemCount = template.count)
+
                 Log.i(TAG, "New bucket created")
 
-                val phraseResponse = syntactService!!.postPhrases(token, bucket.id, Locale.getDefault().language,
+                val phraseResponse = syntactService!!.postPhrases(token, template.id.toLong(), Locale.getDefault().language,
                         words.map { PhrasesRequest(it, language) }.toList()).execute()
 
                 if (phraseResponse.isSuccessful) {
                     Log.i(TAG, "New phrases created")
-                    bucket.itemCount = words!!.size
-                    bucketDao.insert(bucket)
                 }
             }
         } catch (e: IOException) {

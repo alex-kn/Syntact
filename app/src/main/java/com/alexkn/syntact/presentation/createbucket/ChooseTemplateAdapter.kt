@@ -9,8 +9,12 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.alexkn.syntact.restservice.Template
+import com.google.android.material.button.MaterialButton
+import java.util.function.Consumer
 
 class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.ChooseTemplateViewHolder>() {
+
+    lateinit var createListener: Consumer<Template>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseTemplateViewHolder {
 
@@ -23,15 +27,18 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
 
         val template = list[position]
         holder.bindTo(template)
+        holder.createButton.setOnClickListener { createListener.accept(template) }
     }
+
 
     class ChooseTemplateViewHolder(itemView: View) : ListItemViewHolder<Template>(itemView) {
 
         private var textView: TextView = itemView.findViewById(R.id.chooseTemplateTextView)
 
-        override fun bindTo(template: Template) {
+        var createButton: MaterialButton = itemView.findViewById(R.id.createButton)
 
-            textView.text = template.id + template.name
+        override fun bindTo(entity: Template) {
+            textView.text = entity.id + entity.name
         }
     }
 }

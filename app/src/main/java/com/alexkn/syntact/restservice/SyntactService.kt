@@ -2,6 +2,7 @@ package com.alexkn.syntact.restservice
 
 import io.reactivex.Maybe
 import io.reactivex.Observable
+import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -19,7 +20,7 @@ interface SyntactService {
     fun getPhrases(@Header("Authorization") token: String): Call<List<Phrase>>
 
     @GET("templates/")
-    fun getTemplates(@Header("Authorization") token: String): Call<List<Template>>
+    fun getTemplates(@Header("Authorization") token: String): Single<List<Template>>
 
     @GET("templates/{id}/phrases/")
     fun getPhrases(@Header("Authorization") token: String, @Path("id") templateId: Long?, @Query("minid") minid: Long,
