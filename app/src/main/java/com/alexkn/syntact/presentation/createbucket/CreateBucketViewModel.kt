@@ -1,6 +1,8 @@
 package com.alexkn.syntact.presentation.createbucket
 
 import android.os.AsyncTask
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 
 import androidx.lifecycle.LiveData
@@ -39,7 +41,10 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
     private fun fetchTemplates() {
         AsyncTask.execute {
 
-            val disposable = bucketRepository.findAvailableTemplates().subscribe(availableTemplates::postValue) { Log.e(TAG, "fetchTemplates: ", it) }
+            val disposable = bucketRepository.findAvailableTemplates().subscribe({
+                availableTemplates.postValue(it)
+                Log.i(TAG, it.size.toString() + "found")
+            }) { Log.e(TAG, "fetchTemplates: ", it) }
             disp.add(disposable)
         }
     }
@@ -67,7 +72,10 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
     fun addBucketFromNewTemplate(language: Locale, phrases: List<String>) {
         AsyncTask.execute {
             val result = bucketRepository.addBucketWithNewTemplate("TestBucket", language, phrases)
-            result.addListener({ fetchTemplates() }, { it?.run() })
+            result.addListener({
+                fetchTemplates()
+            }, { Handler(Looper.getMainLooper()).postDelayed(it, 1000) }
+            )
         }
     }
 }

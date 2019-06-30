@@ -26,8 +26,6 @@ class CreateBucketFragment : Fragment() {
 
     private var selectedLanguage: Locale? = null
 
-    private var selectedTemplate: Template? = null
-
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -70,19 +68,9 @@ class CreateBucketFragment : Fragment() {
         val linearSnapHelper1 = LinearSnapHelper()
 
         linearSnapHelper1.attachToRecyclerView(selectTemplateRecyclerView)
+        templateLayoutManager.scrollToPosition(Integer.MAX_VALUE / 2);
 
-        selectTemplateRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    val itemPosition = templateLayoutManager.findFirstVisibleItemPosition()
-                    if (itemPosition != RecyclerView.NO_POSITION) {
-                        selectedTemplate = chooseTemplateAdapter.list[itemPosition]
-                    }
-                }
-            }
-        })
 
         chooseTemplateAdapter.createListener = Consumer {
             viewModel.addBucketFromExistingTemplate(it)

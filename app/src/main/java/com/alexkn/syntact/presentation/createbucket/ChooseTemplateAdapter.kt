@@ -11,6 +11,7 @@ import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.alexkn.syntact.restservice.Template
 import com.google.android.material.button.MaterialButton
 import java.util.function.Consumer
+import kotlin.Int.Companion.MAX_VALUE
 
 class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.ChooseTemplateViewHolder>() {
 
@@ -25,11 +26,11 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
 
     override fun onBindViewHolder(holder: ChooseTemplateViewHolder, position: Int) {
 
-        val template = list[position]
-        holder.bindTo(template)
-        holder.createButton.setOnClickListener { createListener.accept(template) }
-    }
+                val template = list[position]
+                holder.bindTo(template)
+                holder.createButton.setOnClickListener { createListener.accept(template) }
 
+    }
 
     class ChooseTemplateViewHolder(itemView: View) : ListItemViewHolder<Template>(itemView) {
 
