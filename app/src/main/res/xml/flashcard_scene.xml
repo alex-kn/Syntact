@@ -7,9 +7,6 @@
         app:constraintSetStart="@id/current_state"
         app:duration="300">
 
-        <OnSwipe
-            app:dragDirection="dragLeft"
-            app:touchAnchorId="@id/current" />
     </Transition>
 
     <ConstraintSet android:id="@+id/current_state">
@@ -18,19 +15,21 @@
             android:id="@+id/current"
 
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
 
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <Constraint
             android:id="@+id/next"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="@id/current"
@@ -46,7 +45,7 @@
         <Constraint
             android:id="@+id/current"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="24dp"
@@ -56,7 +55,7 @@
         <Constraint
             android:id="@+id/next"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             app:layout_constraintBottom_toBottomOf="@id/current"

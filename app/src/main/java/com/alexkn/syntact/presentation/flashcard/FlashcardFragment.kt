@@ -1,11 +1,15 @@
 package com.alexkn.syntact.presentation.flashcard
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
@@ -13,21 +17,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.databinding.FlashcardFragmentBinding
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.util.Log
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
+import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
-import kotlinx.android.synthetic.main.bucket_create_fragment.*
+import com.alexkn.syntact.databinding.FlashcardFragmentBinding
 import kotlinx.android.synthetic.main.flashcard_fragment.*
-import kotlinx.android.synthetic.main.flashcard_fragment.backButton
-import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
-import android.content.Context.INPUT_METHOD_SERVICE
-import androidx.core.content.ContextCompat.getSystemService
-import android.content.Context
-import android.view.inputmethod.InputMethodManager
 
 
 class FlashcardFragment : Fragment() {

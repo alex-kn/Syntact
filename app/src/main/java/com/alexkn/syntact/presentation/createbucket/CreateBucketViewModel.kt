@@ -54,7 +54,7 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
         if (words.isEmpty()) {
             AsyncTask.execute {
                 bucketRepository
-                        .addBucketWithExistingTemplate(language, template ?: availableTemplates.value!![0])
+                        .addBucketWithExistingTemplate(template ?: availableTemplates.value!![0])
             }
         } else {
             val phrases = listOf(*StringUtils.split(words, " "))
@@ -65,7 +65,7 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
     fun addBucketFromExistingTemplate(template: Template) {
         AsyncTask.execute {
             bucketRepository
-                    .addBucketWithExistingTemplate(template.language, template)
+                    .addBucketWithExistingTemplate(template)
         }
     }
 

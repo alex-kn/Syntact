@@ -20,5 +20,9 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
 
         AsyncTask.execute { bucketRepository.removeLanguage(bucket) }
     }
+
+    fun deleteBucket(id: Long) {
+        AsyncTask.execute { bucketRepository.deleteBucket(id) }
+    }
 }
 

@@ -1,23 +1,32 @@
 package com.alexkn.syntact.presentation.createbucket
 
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.restservice.Template
-import io.reactivex.disposables.CompositeDisposable
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.bucket_create_fragment.*
 import kotlinx.android.synthetic.main.language_sheet.*
 import java.util.*
 import java.util.function.Consumer
+import android.widget.TextView
+import android.widget.ViewSwitcher
+import android.view.animation.AnimationUtils
+import androidx.lifecycle.*
+import androidx.lifecycle.Observer
+import com.alexkn.syntact.R
+import com.alexkn.syntact.app.TAG
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 
 class CreateBucketFragment : Fragment() {
@@ -26,7 +35,7 @@ class CreateBucketFragment : Fragment() {
 
     private var selectedLanguage: Locale? = null
 
-    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
+    private var filteredTemplates: MediatorLiveData<List<Template>> = MediatorLiveData()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(com.alexkn.syntact.R.layout.bucket_create_fragment, container, false)
@@ -44,20 +53,23 @@ class CreateBucketFragment : Fragment() {
 
 
         val dataset = viewModel.availableBuckets
-        dataset.remove(Locale.getDefault())
 
         val languageLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         languageRecyclerView.layoutManager = languageLayoutManager
         val adapter = ChooseLanguageAdapter(dataset)
         languageRecyclerView.adapter = adapter
 
+        val bottomSheetBehavior = BottomSheetBehavior.from(languageSheet)
 
         createButton.visibility = View.GONE
-        val disposable = adapter.getLanguage()?.subscribe { locale ->
+        adapter.getLanguage().observe(viewLifecycleOwner, Observer { locale ->
             selectedLanguage = locale
+            chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
             createButton.visibility = View.VISIBLE
-        }
-        compositeDisposable.add(disposable)
+            Handler().postDelayed({
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            }, 300)
+        })
 
 
         val templateLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
@@ -68,9 +80,36 @@ class CreateBucketFragment : Fragment() {
         val linearSnapHelper1 = LinearSnapHelper()
 
         linearSnapHelper1.attachToRecyclerView(selectTemplateRecyclerView)
-        templateLayoutManager.scrollToPosition(Integer.MAX_VALUE / 2);
 
 
+        chooseLanguageSheetLabel.setFactory(factory)
+        chooseLanguageSheetLabel.setCurrentText("Choose Language")
+        val `in` = AnimationUtils.loadAnimation(context,
+                android.R.anim.fade_in)
+        val out = AnimationUtils.loadAnimation(context,
+                android.R.anim.fade_out)
+        chooseLanguageSheetLabel.inAnimation = `in`
+        chooseLanguageSheetLabel.outAnimation = out
+        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                arrowUp.rotation = slideOffset * -180;
+                flagImage.alpha = (0.12 -slideOffset * 0.12).toFloat()
+            }
+
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                if (BottomSheetBehavior.STATE_DRAGGING == newState) {
+
+                    chooseLanguageSheetLabel.setText("Choose Language")
+                } else if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
+                    selectedLanguage?.let {
+                        chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
+                    } ?: run {
+                        chooseLanguageSheetLabel.setText("Choose Language")
+                    }
+                }
+            }
+        })
+        bottomSheetBehavior.isHideable = false
 
         chooseTemplateAdapter.createListener = Consumer {
             viewModel.addBucketFromExistingTemplate(it)
@@ -81,12 +120,20 @@ class CreateBucketFragment : Fragment() {
             viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto"))
         }
 
-
         selectTemplateRecyclerView.visibility = View.GONE
         arrowLeftImageView.visibility = View.GONE
         arrowRightImageView.visibility = View.GONE
 
-        viewModel.availableTemplates.observe(viewLifecycleOwner, Observer {
+        filteredTemplates.addSource(viewModel.availableTemplates, Observer {
+            filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
+        })
+
+        filteredTemplates.addSource(adapter.getLanguage(), Observer {
+            val list = viewModel.availableTemplates.value
+            filteredTemplates.value = list?.filter { t -> t.language == it }
+        })
+
+        filteredTemplates.observe(viewLifecycleOwner, Observer {
             chooseTemplateAdapter.submitList(it)
             progressBar2.visibility = View.GONE
             selectTemplateRecyclerView.visibility = View.VISIBLE
@@ -95,8 +142,13 @@ class CreateBucketFragment : Fragment() {
         })
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.dispose()
+    private val factory = ViewSwitcher.ViewFactory {
+        val t = TextView(context)
+
+        t.setTextAppearance(R.style.TextAppearance_MyTheme_Subtitle1)
+        t
     }
+
 }
+
+

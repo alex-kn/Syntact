@@ -9,7 +9,7 @@
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="200dp"
-        android:background="@color/color_surface"
+        android:background="@color/color_background"
         android:contentDescription="@null"
         android:fitsSystemWindows="true"
         android:scaleType="center"

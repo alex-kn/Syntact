@@ -58,17 +58,21 @@ internal constructor(private val syntactService: SyntactService, private val pro
         return WorkManager.getInstance().enqueueUniqueWork(CreateBucketWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest).result
     }
 
-    fun addBucketWithExistingTemplate(language: Locale, template: Template) {
+    fun addBucketWithExistingTemplate(template: Template) {
 
         val sourceLanguage = Locale.getDefault()
 
-        val bucket = Bucket(language = language, userLanguage = sourceLanguage, phrasesUrl = template.phrasesUrl, itemCount = template.count)
+        val bucket = Bucket(language = template.language, userLanguage = sourceLanguage, phrasesUrl = template.phrasesUrl, itemCount = template.count)
         bucketDao.insert(bucket)
     }
 
     fun removeLanguage(bucket: Bucket) {
 
         bucketDao.delete(bucket)
+    }
+
+    fun deleteBucket(id: Long) {
+        bucketDao.delete(id)
     }
 
     fun getBucket(id: Long?): LiveData<Bucket> {
