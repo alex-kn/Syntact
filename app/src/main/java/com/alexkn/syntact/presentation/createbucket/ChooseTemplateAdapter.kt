@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 
 import com.alexkn.syntact.R
+import com.alexkn.syntact.databinding.BucketCreateChooseTemplateCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.alexkn.syntact.restservice.Template
@@ -19,27 +21,26 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseTemplateViewHolder {
 
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.bucket_create_choose_template_card, parent, false)
+        val binding = DataBindingUtil.inflate<BucketCreateChooseTemplateCardBinding>(LayoutInflater.from(parent.context), R.layout.bucket_create_choose_template_card, parent, false)
 
-        return ChooseTemplateViewHolder(view)
+        return ChooseTemplateViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ChooseTemplateViewHolder, position: Int) {
 
-                val template = list[position]
-                holder.bindTo(template)
-                holder.createButton.setOnClickListener { createListener.accept(template) }
+        val template = list[position]
+        holder.bindTo(template)
+        holder.createButton.setOnClickListener { createListener.accept(template) }
 
     }
 
-    class ChooseTemplateViewHolder(itemView: View) : ListItemViewHolder<Template>(itemView) {
-
-        private var textView: TextView = itemView.findViewById(R.id.chooseTemplateTextView)
+    class ChooseTemplateViewHolder(var databinding: BucketCreateChooseTemplateCardBinding) : ListItemViewHolder<Template>(databinding.root) {
 
         var createButton: MaterialButton = itemView.findViewById(R.id.createButton)
 
         override fun bindTo(entity: Template) {
-            textView.text = entity.id + entity.name
+            databinding.template = entity
+
         }
     }
 }

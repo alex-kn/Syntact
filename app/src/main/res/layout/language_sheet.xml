@@ -33,8 +33,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-
         <TextSwitcher
             android:id="@+id/chooseLanguageSheetLabel"
             android:layout_width="0dp"
