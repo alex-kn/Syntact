@@ -1,8 +1,11 @@
 package com.alexkn.syntact.presentation.createbucket
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,12 +24,17 @@ import java.util.function.Consumer
 import android.widget.TextView
 import android.widget.ViewSwitcher
 import android.view.animation.AnimationUtils
+import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.TAG
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import kotlin.math.round
 
 
 class CreateBucketFragment : Fragment() {
@@ -93,7 +101,7 @@ class CreateBucketFragment : Fragment() {
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 arrowUp.rotation = slideOffset * -180;
-                flagImage.alpha = (0.12 -slideOffset * 0.12).toFloat()
+                flagImage.alpha = (0.24 - slideOffset * 0.24).toFloat()
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -110,6 +118,10 @@ class CreateBucketFragment : Fragment() {
             }
         })
         bottomSheetBehavior.isHideable = false
+
+        flagImage.clipToOutline = true
+
+
 
         chooseTemplateAdapter.createListener = Consumer {
             viewModel.addBucketFromExistingTemplate(it)

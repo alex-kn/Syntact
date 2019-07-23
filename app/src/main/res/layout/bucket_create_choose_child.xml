@@ -41,7 +41,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:padding="8dp"
+        android:padding="12dp"
         android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/chooseLanguageImage"
