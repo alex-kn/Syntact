@@ -13,7 +13,7 @@ import javax.inject.Singleton
 import dagger.BindsInstance
 import dagger.Component
 
-@Component(modules = [RetrofitModule::class])
+@Component(modules = [RetrofitModule::class, DatabaseModule::class])
 @Singleton
 interface ApplicationComponent {
 

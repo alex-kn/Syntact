@@ -15,6 +15,7 @@ import com.alexkn.syntact.restservice.Template
 import io.reactivex.disposables.CompositeDisposable
 
 import org.apache.commons.lang3.StringUtils
+import java.net.SocketTimeoutException
 
 import java.util.Arrays
 import java.util.Locale
@@ -40,12 +41,15 @@ constructor(private val bucketRepository: BucketRepository) : ViewModel() {
 
     private fun fetchTemplates() {
         AsyncTask.execute {
+                val disposable = bucketRepository.findAvailableTemplates().subscribe({
+                    val list = it.filter { template ->
+                        template.language.language != Locale.getDefault().language
+                    }
+                    availableTemplates.postValue(list)
+                    Log.i(TAG, list.size.toString() + " Template(s) found")
+                }) { Log.e(TAG, "fetchTemplates: ", it) }
+                disp.add(disposable)
 
-            val disposable = bucketRepository.findAvailableTemplates().subscribe({
-                availableTemplates.postValue(it)
-                Log.i(TAG, it.size.toString() + "found")
-            }) { Log.e(TAG, "fetchTemplates: ", it) }
-            disp.add(disposable)
         }
     }
 

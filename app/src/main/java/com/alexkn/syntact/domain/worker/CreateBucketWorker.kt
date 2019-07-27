@@ -29,10 +29,13 @@ class CreateBucketWorker(context: Context, workerParams: WorkerParameters) : Wor
     @Inject @JvmField
     var syntactService: SyntactService? = null
 
+    @Inject
+    lateinit var appDatabase: AppDatabase
+
     init {
         (context as ApplicationComponentProvider).applicationComponent.inject(this)
 
-        bucketDao = AppDatabase.getDatabase(context).bucketDao()
+        bucketDao = appDatabase.bucketDao()
     }
 
     override fun doWork(): Result {

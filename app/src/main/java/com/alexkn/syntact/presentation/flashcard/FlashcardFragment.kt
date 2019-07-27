@@ -166,6 +166,8 @@ class FlashcardFragment : Fragment() {
 
         override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) = handleTransition(motionLayout)
 
+        override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int)  = handleTransition(motionLayout)
+
         private fun handleTransition(motionLayout: MotionLayout) {
             if (motionLayout.currentState == R.id.next_state) {
                 motionLayout.post {

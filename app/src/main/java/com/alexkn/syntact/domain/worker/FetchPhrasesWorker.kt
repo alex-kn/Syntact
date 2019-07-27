@@ -20,21 +20,26 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Wor
 
     private val clueDao: ClueDao
 
-    @Inject @JvmField
+    @Inject
+    @JvmField
     var solvableItemService: SolvableItemService? = null
 
-    @Inject @JvmField
+    @Inject
+    @JvmField
     var syntactService: SyntactService? = null
 
-    @Inject @JvmField
+    @Inject
+    @JvmField
     var property: Property? = null
+
+    @Inject
+    lateinit var appDatabase: AppDatabase
 
     init {
         (context as ApplicationComponentProvider).applicationComponent.inject(this)
 
-        val database = AppDatabase.getDatabase(context)
-        solvableItemDao = database.solvableItemDao()
-        clueDao = database.clueDao()
+        solvableItemDao = appDatabase.solvableItemDao()
+        clueDao = appDatabase.clueDao()
     }
 
     override fun doWork(): Result {

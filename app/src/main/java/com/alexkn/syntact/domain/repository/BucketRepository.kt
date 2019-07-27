@@ -1,13 +1,8 @@
 package com.alexkn.syntact.domain.repository
 
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.work.*
-
 import com.alexkn.syntact.app.Property
-import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.common.AppDatabase
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.model.Bucket
@@ -17,24 +12,19 @@ import com.alexkn.syntact.restservice.SyntactService
 import com.alexkn.syntact.restservice.Template
 import com.google.common.util.concurrent.ListenableFuture
 import io.reactivex.Single
-
-import java.time.Instant
-import java.util.Arrays
-import java.util.Locale
-import java.util.stream.Collectors
-
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 @Singleton
 class BucketRepository @Inject
-internal constructor(private val syntactService: SyntactService, private val property: Property, context: Context) {
+internal constructor(
+        private val syntactService: SyntactService,
+        private val property: Property,
+        appDatabase: AppDatabase
+) {
 
-    private val bucketDao: BucketDao = AppDatabase.getDatabase(context).bucketDao()
+    private val bucketDao: BucketDao = appDatabase.bucketDao()
 
     val availableLanguages: MutableList<Locale> by lazy {
         property["available-languages"].split(",").map { Locale(it) }.toMutableList()

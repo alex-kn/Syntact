@@ -25,13 +25,16 @@ import javax.inject.Singleton
 
 @Singleton
 class SolvableItemRepository @Inject
-internal constructor(private val solvableItemService: SolvableItemService, context: Context) {
+internal constructor(
+        private val solvableItemService: SolvableItemService,
+        appDatabase: AppDatabase
+) {
 
-    private val clueDao: ClueDao = AppDatabase.getDatabase(context).clueDao()
+    private val clueDao: ClueDao = appDatabase.clueDao()
 
-    private val solvableItemDao: SolvableItemDao = AppDatabase.getDatabase(context).solvableItemDao()
+    private val solvableItemDao: SolvableItemDao = appDatabase.solvableItemDao()
 
-    private val bucketDao: BucketDao = AppDatabase.getDatabase(context).bucketDao()
+    private val bucketDao: BucketDao = appDatabase.bucketDao()
 
     fun getSolvableTranslations(bucketId: Long?): LiveData<List<SolvableTranslationCto>> {
 

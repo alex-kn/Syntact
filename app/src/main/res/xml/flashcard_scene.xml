@@ -5,7 +5,7 @@
     <Transition
         app:constraintSetEnd="@id/next_state"
         app:constraintSetStart="@id/current_state"
-        app:duration="300">
+        app:duration="100">
 
     </Transition>
 
@@ -13,10 +13,8 @@
 
         <Constraint
             android:id="@+id/current"
-
             android:layout_width="0dp"
             android:layout_height="0dp"
-
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="24dp"
@@ -28,7 +26,7 @@
 
         <Constraint
             android:id="@+id/next"
-            android:layout_width="0dp"
+            android:layout_width="200dp"
             android:layout_height="0dp"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
@@ -41,7 +39,6 @@
 
     <ConstraintSet android:id="@+id/next_state">
 
-
         <Constraint
             android:id="@+id/current"
             android:layout_width="0dp"
@@ -49,7 +46,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
             app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
         <Constraint
