@@ -50,7 +50,7 @@
         <item name="toolbarStyle">@style/Widget.MyTheme.Toolbar</item>
 
         <!--Font-->
-        <item name="android:fontFamily">@font/raleway_light</item>
+        <item name="android:fontFamily">@font/raleway</item>
 
     </style>
 

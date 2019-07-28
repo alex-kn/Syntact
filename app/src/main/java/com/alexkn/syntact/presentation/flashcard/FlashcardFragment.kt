@@ -133,14 +133,11 @@ class FlashcardFragment : Fragment() {
                 vto.removeOnGlobalLayoutListener(this)
                 val width = current.measuredWidth
 
-
                 val nextStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
                 nextStateConstraintSet.constrainWidth(R.id.next, width)
                 nextStateConstraintSet.constrainWidth(R.id.current, width)
                 val currentStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
                 currentStateConstraintSet.constrainWidth(R.id.next, width)
-                Log.i(TAG, "onGlobalLayout: $width")
-
             }
         })
     }

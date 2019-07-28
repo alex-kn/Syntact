@@ -51,11 +51,9 @@ class CreateBucketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         viewModel = ViewModelProviders
                 .of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createBucketViewModelFactory())
                 .get(CreateBucketViewModel::class.java)
-
 
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
@@ -74,6 +72,8 @@ class CreateBucketFragment : Fragment() {
             selectedLanguage = locale
             chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
             createButton.visibility = View.VISIBLE
+            val resId = context!!.resources.getIdentifier(locale.language , "drawable", context!!.packageName)
+            flagImage.setImageResource(resId)
             Handler().postDelayed({
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             }, 300)
@@ -101,7 +101,7 @@ class CreateBucketFragment : Fragment() {
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 arrowUp.rotation = slideOffset * -180;
-                flagImage.alpha = (0.24 - slideOffset * 0.24).toFloat()
+                flagImage.alpha = (0.5 - slideOffset * 0.5).toFloat()
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -110,7 +110,7 @@ class CreateBucketFragment : Fragment() {
                     chooseLanguageSheetLabel.setText("Choose Language")
                 } else if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
                     selectedLanguage?.let {
-                        chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
+                        chooseLanguageSheetLabel.setText(it.displayLanguage)
                     } ?: run {
                         chooseLanguageSheetLabel.setText("Choose Language")
                     }

@@ -31,6 +31,7 @@
     <color name="color_background">#E1F5FE</color>
     <color name="color_surface">#ffffff</color>
     <color name="color_error">#b00020</color>
+    <color name="color_success">#42AC6F</color>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
     <!--on which they appear.-->

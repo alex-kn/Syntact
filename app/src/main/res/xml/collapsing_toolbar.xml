@@ -4,7 +4,7 @@
 
     <Transition
         app:constraintSetEnd="@id/collapsed"
-        app:constraintSetStart="@id/expanded">
+        app:constraintSetStart="@id/expanded" app:motionInterpolator="easeInOut">
 
         <OnSwipe
             app:dragDirection="dragUp"

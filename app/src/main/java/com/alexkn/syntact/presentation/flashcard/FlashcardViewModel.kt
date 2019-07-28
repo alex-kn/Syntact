@@ -69,7 +69,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
     fun checkSolution(solution: String, one: Boolean): Boolean {
         if (one) {
-            if (solvableTranslations[0].value?.solvableItem!!.text.equals(solution, ignoreCase = true)) {
+            if (solvableTranslations[0].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
                 AsyncTask.execute {
                     solvableItemRepository.solvePhrase(solvableTranslations[0].value!!)
                 }
@@ -77,7 +77,7 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
             }
         } else {
-            if (solvableTranslations[1].value?.solvableItem!!.text.equals(solution, ignoreCase = true)) {
+            if (solvableTranslations[1].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
                 AsyncTask.execute {
                     solvableItemRepository.solvePhrase(solvableTranslations[1].value!!)
                 }

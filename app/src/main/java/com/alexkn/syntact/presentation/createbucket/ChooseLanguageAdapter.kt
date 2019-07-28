@@ -33,6 +33,10 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
         val locale = dataset[position]
         holder.textView.text = locale.displayLanguage
 
+        val context = holder.itemView.context
+        val resId = context.resources.getIdentifier(locale.language , "drawable", context.packageName)
+        holder.flag.setImageResource(resId)
+
         holder.itemView.setOnClickListener {
             onClickSubject.value = locale
             holder.imageView.visibility = View.VISIBLE
