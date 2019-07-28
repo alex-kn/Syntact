@@ -53,7 +53,7 @@ internal constructor(
 
         val sourceLanguage = Locale.getDefault()
 
-        val bucket = Bucket(language = template.language, userLanguage = sourceLanguage, phrasesUrl = template.phrasesUrl, itemCount = template.count)
+        val bucket = Bucket(id = template.id, name = template.name, language = template.language, userLanguage = sourceLanguage, phrasesUrl = template.phrasesUrl, itemCount = template.count)
         bucketDao.insert(bucket)
     }
 

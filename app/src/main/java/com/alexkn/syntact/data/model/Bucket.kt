@@ -8,7 +8,8 @@ import java.util.*
 
 @Entity
 data class Bucket(
-        @PrimaryKey(autoGenerate = true) override var id: Long = 0,
+        @PrimaryKey override var id: Long = 0,
+        var name: String,
         var language: Locale,
         var createdAt: Instant = Instant.now(),
         var userLanguage: Locale,

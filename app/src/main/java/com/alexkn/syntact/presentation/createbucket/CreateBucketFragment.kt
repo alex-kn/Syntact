@@ -129,7 +129,7 @@ class CreateBucketFragment : Fragment() {
         }
 
         createButton.setOnClickListener {
-            viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto"))
+//            viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto")) TODO implement
         }
 
         selectTemplateRecyclerView.visibility = View.GONE

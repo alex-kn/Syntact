@@ -43,8 +43,7 @@
                 android:src="@{flag}"
                 app:layout_constraintBottom_toBottomOf="@+id/bucketNameLabel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@drawable/fr" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
                 android:id="@+id/averageLabel"
@@ -61,7 +60,7 @@
                 android:id="@+id/bucketNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{bucket.language.displayLanguage}"
+                android:text="@{bucket.name}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

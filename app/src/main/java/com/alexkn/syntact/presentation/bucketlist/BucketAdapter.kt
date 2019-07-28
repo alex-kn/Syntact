@@ -11,6 +11,7 @@ import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.databinding.BucketListBucketCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
+import kotlinx.android.synthetic.main.language_sheet.*
 import java.time.Instant
 import java.time.temporal.ChronoUnit.DAYS
 
@@ -46,6 +47,11 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
             binding.dailyAverage = average.toString()
 
             binding.bucket = bucket
+
+            val resId = itemView.context.resources.getIdentifier(bucket.language.language , "drawable", itemView.context.packageName)
+            val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
+            binding.flag = drawable
+
             itemView.setOnClickListener(this::startFlashcards)
         }
 

@@ -5,9 +5,10 @@ import com.alexkn.syntact.data.common.Identifiable
 import java.time.Instant
 import java.util.*
 
-@DatabaseView("SELECT b.id, b.language, b.createdAt,b.itemCount, (SELECT count(*) FROM solvableitem s JOIN bucket b  ON s.bucketId = b.id WHERE s.timesSolved > 0) as solvedCount FROM Bucket b;")
+@DatabaseView("SELECT b.name, b.id, b.language, b.createdAt,b.itemCount, (SELECT count(*) FROM solvableitem s JOIN bucket b  ON s.bucketId = b.id WHERE s.timesSolved > 0) as solvedCount FROM Bucket b;")
 data class BucketDetail(
         override var id: Long,
+        var name: String,
         var language: Locale,
         var createdAt: Instant,
         var itemCount: Int,
