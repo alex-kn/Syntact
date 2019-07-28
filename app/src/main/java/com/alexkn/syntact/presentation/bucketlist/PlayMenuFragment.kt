@@ -16,6 +16,7 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.top_bar.*
 
 
 class PlayMenuFragment : Fragment() {
@@ -37,7 +38,6 @@ class PlayMenuFragment : Fragment() {
         fab = view.findViewById<FloatingActionButton>(R.id.createBucketFab)
         fab.setOnClickListener(this::newBucket)
 
-
         languagesList = view.findViewById(R.id.languagesList)
         languagesList!!.layoutManager = LinearLayoutManager(this.context)
         val bucketAdapter = BucketAdapter()
@@ -53,6 +53,10 @@ class PlayMenuFragment : Fragment() {
         }
         ItemTouchHelper(swipeHandler).attachToRecyclerView(languagesList)
 
+        viewModel.playerStats.observe(viewLifecycleOwner, Observer {
+            todayTextView.text = "Today: " + it.solvedToday
+            totalTextView.text = "Total: " + it.solved
+        })
 
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
         return view

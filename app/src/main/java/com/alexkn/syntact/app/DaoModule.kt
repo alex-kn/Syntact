@@ -1,10 +1,7 @@
 package com.alexkn.syntact.app
 
 import com.alexkn.syntact.data.common.AppDatabase
-import com.alexkn.syntact.data.dao.BucketDao
-import com.alexkn.syntact.data.dao.ClueDao
-import com.alexkn.syntact.data.dao.ClueDao_Impl
-import com.alexkn.syntact.data.dao.SolvableItemDao
+import com.alexkn.syntact.data.dao.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -31,6 +28,13 @@ class DaoModule {
     fun provideSolvableItemDao(appDatabase: AppDatabase): SolvableItemDao {
 
         return appDatabase.solvableItemDao()
+    }
+
+    @Singleton
+    @Provides
+    fun providePlayerStatsDao(appDatabase: AppDatabase): PlayerStatsDao {
+
+        return appDatabase.playerStatsDao()
     }
 
 }

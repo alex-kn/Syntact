@@ -5,8 +5,10 @@ import androidx.work.*
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.common.AppDatabase
 import com.alexkn.syntact.data.dao.BucketDao
+import com.alexkn.syntact.data.dao.PlayerStatsDao
 import com.alexkn.syntact.data.model.Bucket
 import com.alexkn.syntact.data.model.views.BucketDetail
+import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.restservice.SyntactService
 import com.alexkn.syntact.restservice.Template
@@ -21,7 +23,8 @@ class BucketRepository @Inject
 internal constructor(
         private val syntactService: SyntactService,
         private val property: Property,
-        private val bucketDao: BucketDao
+        private val bucketDao: BucketDao,
+        private val playerStatsDao: PlayerStatsDao
 ) {
 
     val availableLanguages: MutableList<Locale> by lazy {
@@ -66,5 +69,9 @@ internal constructor(
     fun getBucket(id: Long?): LiveData<Bucket> {
 
         return bucketDao.findBucket(id!!)
+    }
+
+    fun getPlayerStats(): LiveData<PlayerStats> {
+        return playerStatsDao.find()
     }
 }
