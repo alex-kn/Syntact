@@ -21,8 +21,6 @@ import javax.inject.Inject
 
 class CreateBucketWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
-    private val bucketDao: BucketDao
-
     @Inject @JvmField
     var property: Property? = null
 
@@ -30,12 +28,10 @@ class CreateBucketWorker(context: Context, workerParams: WorkerParameters) : Wor
     var syntactService: SyntactService? = null
 
     @Inject
-    lateinit var appDatabase: AppDatabase
+    lateinit var bucketDao: BucketDao
 
     init {
         (context as ApplicationComponentProvider).applicationComponent.inject(this)
-
-        bucketDao = appDatabase.bucketDao()
     }
 
     override fun doWork(): Result {

@@ -36,7 +36,7 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
 
     class ChooseTemplateViewHolder(var databinding: BucketCreateChooseTemplateCardBinding) : ListItemViewHolder<Template>(databinding.root) {
 
-        var createButton: MaterialButton = itemView.findViewById(R.id.createButton)
+        var createButton: MaterialButton = itemView.findViewById(R.id.chooseButton)
 
         override fun bindTo(entity: Template) {
             databinding.template = entity

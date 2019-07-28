@@ -21,10 +21,8 @@ class BucketRepository @Inject
 internal constructor(
         private val syntactService: SyntactService,
         private val property: Property,
-        appDatabase: AppDatabase
+        private val bucketDao: BucketDao
 ) {
-
-    private val bucketDao: BucketDao = appDatabase.bucketDao()
 
     val availableLanguages: MutableList<Locale> by lazy {
         property["available-languages"].split(",").map { Locale(it) }.toMutableList()

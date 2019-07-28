@@ -27,14 +27,11 @@ import javax.inject.Singleton
 class SolvableItemRepository @Inject
 internal constructor(
         private val solvableItemService: SolvableItemService,
-        appDatabase: AppDatabase
+        private val clueDao: ClueDao,
+        private val solvableItemDao: SolvableItemDao,
+        private val bucketDao: BucketDao
 ) {
 
-    private val clueDao: ClueDao = appDatabase.clueDao()
-
-    private val solvableItemDao: SolvableItemDao = appDatabase.solvableItemDao()
-
-    private val bucketDao: BucketDao = appDatabase.bucketDao()
 
     fun getSolvableTranslations(bucketId: Long?): LiveData<List<SolvableTranslationCto>> {
 

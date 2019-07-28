@@ -16,10 +16,6 @@ import javax.inject.Inject
 
 class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Worker(context, workerParams) {
 
-    private val solvableItemDao: SolvableItemDao
-
-    private val clueDao: ClueDao
-
     @Inject
     @JvmField
     var solvableItemService: SolvableItemService? = null
@@ -33,13 +29,13 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Wor
     var property: Property? = null
 
     @Inject
-    lateinit var appDatabase: AppDatabase
+    lateinit var clueDao: ClueDao
+
+    @Inject
+    lateinit var solvableItemDao: SolvableItemDao
 
     init {
         (context as ApplicationComponentProvider).applicationComponent.inject(this)
-
-        solvableItemDao = appDatabase.solvableItemDao()
-        clueDao = appDatabase.clueDao()
     }
 
     override fun doWork(): Result {

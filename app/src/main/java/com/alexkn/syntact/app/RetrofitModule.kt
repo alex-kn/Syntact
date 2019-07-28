@@ -11,7 +11,7 @@ import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
-internal class RetrofitModule {
+class RetrofitModule {
 
     @Singleton
     @Provides
