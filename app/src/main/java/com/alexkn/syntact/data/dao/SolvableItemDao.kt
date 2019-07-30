@@ -19,6 +19,9 @@ interface SolvableItemDao : BaseDao<SolvableItem> {
     @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.nextDueDate <= :time AND s.bucketId = :bucketId ")
     fun getSolvableTranslationsDueBefore(bucketId: Long, time: Instant): LiveData<List<SolvableTranslationCto>>
 
+    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.bucketId = :bucketId ")
+    fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>>
+
     @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId)  WHERE s.nextDueDate <= :time AND s.bucketId = :bucketId ORDER BY s.nextDueDate LIMIT :count")
     fun getNextTranslationDueBefore(bucketId: Long, time: Instant, count: Int): Single<List<SolvableTranslationCto>>
 

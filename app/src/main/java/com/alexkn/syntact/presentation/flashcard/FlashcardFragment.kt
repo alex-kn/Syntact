@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.constraintlayout.motion.widget.MotionController
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -53,12 +55,22 @@ class FlashcardFragment : Fragment() {
 
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
+        nextButton.setOnClickListener{
+            val solved = viewModel.checkSolution(solutionInput.text.toString().trim(), one)
+            if (solved) {
+                current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
+
+            } else {
+                current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
+            }
+            motionLayout.transitionToEnd()
+            solutionInput.text?.clear()
+        }
 
         val bucketId = FlashcardFragmentArgs.fromBundle(arguments!!).bucketId
         viewModel.init(bucketId)
 
-        val editText = binding.root.findViewById<EditText>(R.id.solutionInput)
-        editText.addTextChangedListener(SolutionTextWatcher())
+        solutionInput.addTextChangedListener(SolutionTextWatcher())
         if (solutionInputLayout.requestFocus()) {
             val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
@@ -145,9 +157,10 @@ class FlashcardFragment : Fragment() {
     inner class SolutionTextWatcher : TextWatcher {
         override fun afterTextChanged(s: Editable) {
             if (!s.isBlank()) {
-                if (viewModel.checkSolution(s.toString(), one)) {
+                if (viewModel.checkSolution(s.toString().trim(), one)) {
                     s.clear()
                     motionLayout.transitionToEnd()
+                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
                 }
 
             }
@@ -173,6 +186,8 @@ class FlashcardFragment : Fragment() {
                 }
             }
         }
+
+
     }
 }
 

@@ -18,8 +18,10 @@ import java.time.Instant
 import javax.inject.Inject
 
 
-class FlashcardViewModel @Inject
-constructor(private val solvableItemRepository: SolvableItemRepository, private val bucketRepository: BucketRepository) : ViewModel() {
+class FlashcardViewModel @Inject constructor(
+        private val solvableItemRepository: SolvableItemRepository,
+        private val bucketRepository: BucketRepository
+) : ViewModel() {
 
     internal var bucket: LiveData<Bucket>? = null
         private set
@@ -32,11 +34,11 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
     private var bucketId: Long? = null
 
-    fun init(bucketId: Long?) {
+    fun init(bucketId: Long) {
 
         this.bucketId = bucketId
         bucket = bucketRepository.getBucket(bucketId)
-        translations = solvableItemRepository.getSolvableTranslations(bucketId)
+        translations = solvableItemRepository.getDueSolvableTranslations(bucketId)
     }
 
     fun fetchNext(one: Boolean) {
@@ -69,21 +71,31 @@ constructor(private val solvableItemRepository: SolvableItemRepository, private 
 
     fun checkSolution(solution: String, one: Boolean): Boolean {
         if (one) {
-            if (solvableTranslations[0].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
+            return if (solvableTranslations[0].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
                 AsyncTask.execute {
                     solvableItemRepository.solvePhrase(solvableTranslations[0].value!!)
                 }
-                return true
+                true
 
+            } else {
+                AsyncTask.execute {
+                    solvableItemRepository.phraseIncorrect(solvableTranslations[0].value!!)
+                }
+                false
             }
         } else {
-            if (solvableTranslations[1].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
+            return if (solvableTranslations[1].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
                 AsyncTask.execute {
                     solvableItemRepository.solvePhrase(solvableTranslations[1].value!!)
                 }
-                return true
+                true
+            } else {
+                AsyncTask.execute {
+                    solvableItemRepository.phraseIncorrect(solvableTranslations[1].value!!)
+                }
+
+                false
             }
         }
-        return false
     }
 }

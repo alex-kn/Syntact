@@ -3,22 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
-    <Transition
+    <Transition android:id="@+id/flashcard_transition"
         app:constraintSetEnd="@id/next_state"
         app:constraintSetStart="@id/current_state"
         app:motionInterpolator="easeInOut"
         app:duration="300">
-
-        <KeyFrameSet>
-            <KeyAttribute
-                motion:framePosition="1"
-                app:motionTarget="@+id/current" >
-                <CustomAttribute
-                    motion:attributeName="cardBackgroundColor"
-                    motion:customColorValue="@color/color_success"/>
-            </KeyAttribute>
-
-        </KeyFrameSet>
 
     </Transition>
 
@@ -36,10 +25,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView" >
-
-            <CustomAttribute
-                motion:attributeName="cardBackgroundColor"
-                motion:customColorValue="@color/color_surface"/>
 
         </Constraint>
 

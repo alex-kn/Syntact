@@ -22,6 +22,9 @@ import java.time.Instant
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.math.max
+import kotlin.math.pow
+import kotlin.math.roundToLong
 
 @Singleton
 class SolvableItemRepository @Inject
@@ -33,9 +36,14 @@ internal constructor(
 ) {
 
 
-    fun getSolvableTranslations(bucketId: Long?): LiveData<List<SolvableTranslationCto>> {
+    fun getDueSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> {
 
-        return solvableItemDao.getSolvableTranslationsDueBefore(bucketId!!, Instant.now())
+        return solvableItemDao.getSolvableTranslationsDueBefore(bucketId, Instant.now())
+    }
+
+    fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> {
+        return solvableItemDao.getSolvableTranslations(bucketId)
+
     }
 
     fun getNextSolvableTranslations(bucketId: Long?, time: Instant, count: Int): Single<List<SolvableTranslationCto>> {
@@ -81,14 +89,35 @@ internal constructor(
 
         val consecutiveCorrectAnswers = solvableItem.consecutiveCorrectAnswers + 1
 
-        val daysToAdd = 6 * Math.pow(easiness.toDouble(), consecutiveCorrectAnswers - 1.0)
-        val nextDueDate = Instant.now().plus(Math.round(daysToAdd), ChronoUnit.DAYS)
+        val daysToAdd = 6 * easiness.toDouble().pow(consecutiveCorrectAnswers - 1.0)
+        val nextDueDate = Instant.now().plus(daysToAdd.roundToLong(), ChronoUnit.DAYS)
 
         solvableItem.easiness = easiness
         solvableItem.consecutiveCorrectAnswers = consecutiveCorrectAnswers
         solvableItem.nextDueDate = nextDueDate
         solvableItem.lastSolved = Instant.now()
         solvableItem.timesSolved = solvableItem.timesSolved + 1
+
+        solvableItemDao.update(solvableItem)
+    }
+
+    fun phraseIncorrect(solvableTranslation: SolvableTranslationCto) {
+
+        val solvableItem = solvableTranslation.solvableItem
+        Log.i(TAG, "Phrase incorrect " + solvableItem.text)
+
+        val performanceRating = 1
+        var easiness = solvableItem.easiness
+        easiness += (-0.80 + 0.28 * performanceRating + 0.02 * performanceRating.toDouble() * performanceRating.toDouble()).toFloat()
+        easiness = max(easiness, 1.3f)
+
+        val consecutiveCorrectAnswers = 0
+
+        val nextDueDate = Instant.now().plus(1, ChronoUnit.DAYS)
+
+        solvableItem.easiness = easiness
+        solvableItem.consecutiveCorrectAnswers = consecutiveCorrectAnswers
+        solvableItem.nextDueDate = nextDueDate
 
         solvableItemDao.update(solvableItem)
     }

@@ -25,4 +25,7 @@ interface BucketDao : BaseDao<Bucket> {
 
     @Query("SELECT * FROM BucketDetail")
     fun findBucketDetails(): LiveData<List<BucketDetail>>
+
+    @Query("SELECT * FROM BucketDetail WHERE id = :id LIMIT 1")
+    fun findBucketDetail(id: Long) : LiveData<BucketDetail>
 }

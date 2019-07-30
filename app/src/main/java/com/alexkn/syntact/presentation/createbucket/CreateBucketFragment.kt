@@ -58,7 +58,7 @@ class CreateBucketFragment : Fragment() {
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
 
-        val dataset = viewModel.availableBuckets
+        val dataset = viewModel.availableBuckets.filter { locale -> locale.language != Locale.getDefault().language }
 
         val languageLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         languageRecyclerView.layoutManager = languageLayoutManager

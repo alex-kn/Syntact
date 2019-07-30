@@ -4,6 +4,7 @@ import android.content.Context
 
 import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
+import com.alexkn.syntact.presentation.bucketdetails.BucketDetailsViewModel
 import com.alexkn.syntact.presentation.bucketlist.PlayMenuViewModel
 import com.alexkn.syntact.presentation.createbucket.CreateBucketViewModel
 import com.alexkn.syntact.presentation.flashcard.FlashcardViewModel
@@ -35,6 +36,8 @@ interface ApplicationComponent {
     fun createBucketViewModelFactory(): ViewModelFactory<CreateBucketViewModel>
 
     fun flashcardViewModelFactory(): ViewModelFactory<FlashcardViewModel>
+
+    fun bucketDetailsViewModelFactory(): ViewModelFactory<BucketDetailsViewModel>
 }
 
 

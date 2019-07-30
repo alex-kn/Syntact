@@ -11,6 +11,7 @@ import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.databinding.BucketListBucketCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
+import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.language_sheet.*
 import java.time.Instant
 import java.time.temporal.ChronoUnit.DAYS
@@ -24,6 +25,8 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
 
         val drawable = ResourcesCompat.getDrawable(parent.resources, R.drawable.fr, null)
         dataBinding.flag = drawable
+
+
 
         return BucketViewHolder(dataBinding)
     }
@@ -48,17 +51,27 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
 
             binding.bucket = bucket
 
-            val resId = itemView.context.resources.getIdentifier(bucket.language.language , "drawable", itemView.context.packageName)
+            val resId = itemView.context.resources.getIdentifier(bucket.language.language, "drawable", itemView.context.packageName)
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
             itemView.setOnClickListener(this::startFlashcards)
+
+            val optionsButton = itemView.findViewById<MaterialButton>(R.id.optionsButton)
+            optionsButton.setOnClickListener(this::showBucketDetails)
+
+
         }
 
         private fun startFlashcards(view: View) {
 
             val action = PlayMenuFragmentDirections
                     .actionPlayMenuFragmentToFlashcardFragment(bucket!!.id)
+            Navigation.findNavController(view).navigate(action)
+        }
+
+        private fun showBucketDetails(view: View) {
+            val action = PlayMenuFragmentDirections.actionPlayMenuFragmentToBucketDetailsFragment(bucket!!.id)
             Navigation.findNavController(view).navigate(action)
         }
     }

@@ -66,9 +66,13 @@ internal constructor(
         bucketDao.delete(id)
     }
 
-    fun getBucket(id: Long?): LiveData<Bucket> {
+    fun getBucket(id: Long): LiveData<Bucket> {
 
-        return bucketDao.findBucket(id!!)
+        return bucketDao.findBucket(id)
+    }
+
+    fun getBucketDetail(id: Long): LiveData<BucketDetail> {
+        return bucketDao.findBucketDetail(id)
     }
 
     fun getPlayerStats(): LiveData<PlayerStats> {
