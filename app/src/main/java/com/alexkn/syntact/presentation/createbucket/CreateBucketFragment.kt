@@ -1,19 +1,22 @@
 package com.alexkn.syntact.presentation.createbucket
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.TextView
+import android.widget.ViewSwitcher
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.restservice.Template
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -21,20 +24,6 @@ import kotlinx.android.synthetic.main.bucket_create_fragment.*
 import kotlinx.android.synthetic.main.language_sheet.*
 import java.util.*
 import java.util.function.Consumer
-import android.widget.TextView
-import android.widget.ViewSwitcher
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
-import androidx.core.graphics.drawable.toBitmap
-import androidx.lifecycle.*
-import androidx.lifecycle.Observer
-import com.alexkn.syntact.R
-import com.alexkn.syntact.app.TAG
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import kotlin.math.round
 
 
 class CreateBucketFragment : Fragment() {
@@ -46,7 +35,7 @@ class CreateBucketFragment : Fragment() {
     private var filteredTemplates: MediatorLiveData<List<Template>> = MediatorLiveData()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(com.alexkn.syntact.R.layout.bucket_create_fragment, container, false)
+        return inflater.inflate(R.layout.bucket_create_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,7 +61,7 @@ class CreateBucketFragment : Fragment() {
             selectedLanguage = locale
             chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
             createButton.visibility = View.VISIBLE
-            val resId = context!!.resources.getIdentifier(locale.language , "drawable", context!!.packageName)
+            val resId = context!!.resources.getIdentifier(locale.language, "drawable", context!!.packageName)
             flagImage.setImageResource(resId)
             Handler().postDelayed({
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -100,7 +89,7 @@ class CreateBucketFragment : Fragment() {
         chooseLanguageSheetLabel.outAnimation = out
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                arrowUp.rotation = slideOffset * -180;
+                arrowUp.rotation = slideOffset * -180
                 flagImage.alpha = (0.5 - slideOffset * 0.5).toFloat()
             }
 
@@ -129,21 +118,21 @@ class CreateBucketFragment : Fragment() {
         }
 
         createButton.setOnClickListener {
-//            viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto")) TODO implement
+            //            viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto")) TODO implement
         }
 
         selectTemplateRecyclerView.visibility = View.GONE
         arrowLeftImageView.visibility = View.GONE
         arrowRightImageView.visibility = View.GONE
 
-        filteredTemplates.addSource(viewModel.availableTemplates, Observer {
+        filteredTemplates.addSource(viewModel.availableTemplates) {
             filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
-        })
+        }
 
-        filteredTemplates.addSource(adapter.getLanguage(), Observer {
+        filteredTemplates.addSource(adapter.getLanguage()) {
             val list = viewModel.availableTemplates.value
             filteredTemplates.value = list?.filter { t -> t.language == it }
-        })
+        }
 
         filteredTemplates.observe(viewLifecycleOwner, Observer {
             chooseTemplateAdapter.submitList(it)

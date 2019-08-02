@@ -12,7 +12,6 @@ import com.alexkn.syntact.databinding.BucketListBucketCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.button.MaterialButton
-import kotlinx.android.synthetic.main.language_sheet.*
 import java.time.Instant
 import java.time.temporal.ChronoUnit.DAYS
 
@@ -26,8 +25,7 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
         val drawable = ResourcesCompat.getDrawable(parent.resources, R.drawable.fr, null)
         dataBinding.flag = drawable
 
-
-
+        
         return BucketViewHolder(dataBinding)
     }
 
@@ -41,17 +39,17 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
 
         private var bucket: BucketDetail? = null
 
-        override fun bindTo(bucket: BucketDetail) {
+        override fun bindTo(entity: BucketDetail) {
 
-            this.bucket = bucket
-            val created = bucket.createdAt
+            this.bucket = entity
+            val created = entity.createdAt
             val days = DAYS.between(created, Instant.now()) + 1
-            val average = bucket.solvedCount.toDouble() / days
+            val average = entity.solvedCount.toDouble() / days
             binding.dailyAverage = average.toString()
 
-            binding.bucket = bucket
+            binding.bucket = entity
 
-            val resId = itemView.context.resources.getIdentifier(bucket.language.language, "drawable", itemView.context.packageName)
+            val resId = itemView.context.resources.getIdentifier(entity.language.language, "drawable", itemView.context.packageName)
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 

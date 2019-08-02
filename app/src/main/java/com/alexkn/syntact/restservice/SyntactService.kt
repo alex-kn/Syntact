@@ -1,18 +1,8 @@
 package com.alexkn.syntact.restservice
 
-import io.reactivex.Maybe
-import io.reactivex.Observable
-import io.reactivex.Single
 import okhttp3.ResponseBody
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
-import retrofit2.http.Url
+import retrofit2.http.*
 
 interface SyntactService {
 
@@ -20,7 +10,7 @@ interface SyntactService {
     fun getPhrases(@Header("Authorization") token: String): Call<List<Phrase>>
 
     @GET("templates/")
-    fun getTemplates(@Header("Authorization") token: String): Single<List<Template>>
+    suspend fun getTemplates(@Header("Authorization") token: String): List<Template>
 
     @GET("templates/{id}/phrases/")
     fun getPhrases(@Header("Authorization") token: String, @Path("id") templateId: Long?, @Query("minid") minid: Long,
@@ -30,10 +20,10 @@ interface SyntactService {
     fun getTranslations(@Header("Authorization") token: String, @Path("id") phraseId: Long?, @Query("lang") lang: String): Call<List<Translation>>
 
     @GET
-    fun getTranslations(@Header("Authorization") token: String, @Url url: String, @Query("lang") lang: String): Maybe<List<Translation>>
+    suspend fun getTranslations(@Header("Authorization") token: String, @Url url: String, @Query("lang") lang: String): List<Translation>
 
     @GET
-    fun getPhrases(@Header("Authorization") token: String, @Url url: String, @Query("minid") minid: Long, @Query("limit") limit: Int): Maybe<List<Phrase>>
+    suspend fun getPhrases(@Header("Authorization") token: String, @Url url: String, @Query("minid") minid: Long, @Query("limit") limit: Int): List<Phrase>
 
     @POST("templates/{id}/phrases/")
     fun postPhrases(@Header("Authorization") token: String, @Path("id") templateId: Long?, @Query("lang") lang: String,

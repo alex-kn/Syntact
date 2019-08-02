@@ -22,4 +22,8 @@ class BucketDetailsViewModel @Inject constructor(
         bucketDetail = bucketRepository.getBucketDetail(bucketId)
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
+
+    fun download() {
+        bucketDetail.value?.let { solvableItemRepository.fetchSolvableItems(it.id) }
+    }
 }

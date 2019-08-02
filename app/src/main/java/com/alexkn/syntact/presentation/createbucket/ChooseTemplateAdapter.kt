@@ -1,11 +1,8 @@
 package com.alexkn.syntact.presentation.createbucket
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-
 import com.alexkn.syntact.R
 import com.alexkn.syntact.databinding.BucketCreateChooseTemplateCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
@@ -13,7 +10,6 @@ import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.alexkn.syntact.restservice.Template
 import com.google.android.material.button.MaterialButton
 import java.util.function.Consumer
-import kotlin.Int.Companion.MAX_VALUE
 
 class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.ChooseTemplateViewHolder>() {
 

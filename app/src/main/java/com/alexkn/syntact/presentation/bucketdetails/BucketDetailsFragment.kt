@@ -9,16 +9,18 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import kotlinx.android.synthetic.main.bucket_details.*
 
 class BucketDetailsFragment : Fragment() {
 
-    lateinit var viewModel: BucketDetailsViewModel
+    private lateinit var viewModel: BucketDetailsViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(com.alexkn.syntact.R.layout.bucket_details, container, false)
+
+        return inflater.inflate(R.layout.bucket_details, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,6 +39,20 @@ class BucketDetailsFragment : Fragment() {
         itemList.layoutManager = LinearLayoutManager(this.context)
 
         viewModel.translations.observe(viewLifecycleOwner, Observer(solvableItemsListAdapter::submitList))
-        viewModel.bucketDetail.observe(viewLifecycleOwner, Observer { header.text = it.name })
+        viewModel.bucketDetail.observe(viewLifecycleOwner, Observer {
+            header.text = it.name
+            phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount)
+            if (it.onDeviceCount == it.itemCount) {
+                downloadButton.setImageResource(R.drawable.ic_offline_pin_black_24dp)
+                downloadButton.isEnabled = false
+            } else {
+                downloadButton.setImageResource(R.drawable.ic_get_app_black_24dp)
+                downloadButton.isEnabled = true
+            }
+        })
+
+        downloadButton.setOnClickListener {
+            viewModel.download()
+        }
     }
 }

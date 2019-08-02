@@ -7,18 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
-
 import com.alexkn.syntact.R
-import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
-import java.util.Locale
+import java.util.*
 
 class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Adapter<ChooseLanguageAdapter.ChooseLanguageViewHolder>() {
 
     private val onClickSubject: MutableLiveData<Locale> = MutableLiveData();
+
     private var checkedPosition: Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseLanguageViewHolder {
@@ -34,7 +30,7 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
         holder.textView.text = locale.displayLanguage
 
         val context = holder.itemView.context
-        val resId = context.resources.getIdentifier(locale.language , "drawable", context.packageName)
+        val resId = context.resources.getIdentifier(locale.language, "drawable", context.packageName)
         holder.flag.setImageResource(resId)
 
         holder.itemView.setOnClickListener {

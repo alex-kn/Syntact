@@ -12,8 +12,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.alexkn.syntact.app.MainActivity
 import com.alexkn.syntact.presentation.bucketlist.BucketAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,20 +31,22 @@ class SmokeTest {
     @get:Rule
     var activityScenarioRule = androidx.test.ext.junit.rules.activityScenarioRule<MainActivity>()
 
+
     @Test
     fun smokeTest() {
 
-        onView(withId(R.id.createBucketFab)).perform(click())
-        onView(withId(R.id.textView)).check(matches(withText("Create New")))
-        onView(withId(R.id.chooseButton)).perform(click())
-        onView(withId(R.id.languagesList)).perform(RecyclerViewActions.actionOnItemAtPosition<BucketAdapter.BucketViewHolder>(0, click()))
-        val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        assertThat(inputMethodManager.isAcceptingText, `is`(true))
+            onView(withId(R.id.createBucketFab)).perform(click())
+            onView(withId(R.id.textView)).check(matches(withText("Create New")))
+            onView(withId(R.id.chooseButton)).perform(click())
+            onView(withId(R.id.languagesList)).perform(RecyclerViewActions.actionOnItemAtPosition<BucketAdapter.BucketViewHolder>(0, click()))
+            val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            assertThat(inputMethodManager.isAcceptingText, `is`(true))
 
-        onView(withId(R.id.textView4)).check(matches(withText("Dog")))
-        onView(withId(R.id.solutionInput)).perform(typeText("Katze"))
-        onView(withId(R.id.textView4)).check(matches(withText("Dog")))
-        onView(withId(R.id.solutionInput)).perform(clearText(), typeText("Hund"))
-        onView(withId(R.id.textView4)).check(matches(withText("Cat")))
-    }
+            onView(withId(R.id.textView4)).check(matches(withText("Dog")))
+            onView(withId(R.id.solutionInput)).perform(typeText("Katze"))
+            onView(withId(R.id.textView4)).check(matches(withText("Dog")))
+            onView(withId(R.id.solutionInput)).perform(clearText(), typeText("Hund"))
+            onView(withId(R.id.textView4)).check(matches(withText("Cat")))
+        }
+
 }

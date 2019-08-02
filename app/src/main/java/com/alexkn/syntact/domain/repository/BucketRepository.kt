@@ -3,7 +3,6 @@ package com.alexkn.syntact.domain.repository
 import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.alexkn.syntact.app.Property
-import com.alexkn.syntact.data.common.AppDatabase
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
 import com.alexkn.syntact.data.model.Bucket
@@ -13,7 +12,6 @@ import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.restservice.SyntactService
 import com.alexkn.syntact.restservice.Template
 import com.google.common.util.concurrent.ListenableFuture
-import io.reactivex.Single
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -34,7 +32,7 @@ internal constructor(
     val bucketDetails: LiveData<List<BucketDetail>>
         get() = bucketDao.findBucketDetails()
 
-    fun findAvailableTemplates(): Single<List<Template>> {
+    suspend fun findAvailableTemplates(): List<Template> {
 
         val token = "Token " + property["api-auth-token"]
         return syntactService.getTemplates(token)
@@ -49,7 +47,7 @@ internal constructor(
         return WorkManager.getInstance().enqueueUniqueWork(CreateBucketWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest).result
     }
 
-    fun addBucketWithExistingTemplate(template: Template) {
+    suspend fun addBucketWithExistingTemplate(template: Template) {
 
         val sourceLanguage = Locale.getDefault()
 
@@ -57,12 +55,12 @@ internal constructor(
         bucketDao.insert(bucket)
     }
 
-    fun removeLanguage(bucket: Bucket) {
+    suspend fun removeLanguage(bucket: Bucket) {
 
         bucketDao.delete(bucket)
     }
 
-    fun deleteBucket(id: Long) {
+    suspend fun deleteBucket(id: Long) {
         bucketDao.delete(id)
     }
 

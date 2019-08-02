@@ -10,5 +10,5 @@ import com.alexkn.syntact.data.model.Clue
 interface ClueDao : BaseDao<Clue> {
 
     @Query("SELECT * FROM Clue where clueId = :id")
-    fun find(id: Long): Clue
+    suspend fun find(id: Long): Clue
 }

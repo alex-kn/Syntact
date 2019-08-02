@@ -12,10 +12,10 @@ import com.alexkn.syntact.data.model.views.BucketDetail
 interface BucketDao : BaseDao<Bucket> {
 
     @Query("DELETE FROM Bucket where id = :id")
-    fun delete(id: Long)
+    suspend fun delete(id: Long)
 
     @Query("SELECT * FROM Bucket where id = :id")
-    fun find(id: Long): Bucket
+    suspend fun find(id: Long): Bucket
 
     @Query("SELECT * FROM Bucket")
     fun findAll(): LiveData<List<Bucket>>
