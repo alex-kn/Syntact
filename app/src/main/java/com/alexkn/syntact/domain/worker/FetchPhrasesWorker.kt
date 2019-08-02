@@ -77,9 +77,7 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Cor
                     text = translation.text.capitalize(),
                     solvableItemId = phrase.id
             )
-            solvableItemDao.insert(solvableItem)
-            clueDao.insert(clue)
-
+            solvableItemDao.insert(solvableItem, clue)
         }
 
         Result.success()

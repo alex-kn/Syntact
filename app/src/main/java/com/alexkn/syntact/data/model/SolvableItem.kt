@@ -19,7 +19,7 @@ data class SolvableItem(
 
         var lastSolved: Instant? = null,
 
-        var nextDueDate: Instant = Instant.now(),
+        var nextDueDate: Instant? = null,
 
         var easiness: Float = 2.5f,
 

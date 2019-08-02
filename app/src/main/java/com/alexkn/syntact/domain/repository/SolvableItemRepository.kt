@@ -52,8 +52,7 @@ internal constructor(
             val maxId = solvableItemDao.getMaxId(bucketId)
             val solvableTranslationCtos = solvableItemService.fetchNewTranslations(bucket, maxId, count - items.size)
             solvableTranslationCtos.forEach { (solvableItem, clue) ->
-                solvableItemDao.insert(solvableItem)
-                clueDao.insert(clue)
+                solvableItemDao.insert(solvableItem, clue)
             }
             Log.i(TAG, items.size.toString() + " Items local + " + solvableTranslationCtos.size + " Items remote")
             items + solvableTranslationCtos

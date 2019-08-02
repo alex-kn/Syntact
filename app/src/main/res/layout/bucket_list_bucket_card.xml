@@ -38,12 +38,11 @@
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="32dp"
                 android:adjustViewBounds="true"
                 android:src="@{flag}"
-                app:layout_constraintBottom_toBottomOf="@+id/bucketNameLabel"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/averageLabel"
