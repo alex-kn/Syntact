@@ -59,7 +59,6 @@ class FlashcardFragment : Fragment() {
             val solved = viewModel.checkSolution(solutionInput.text.toString().trim(), one)
             if (solved) {
                 current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
-
             } else {
                 current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
             }

@@ -1,12 +1,15 @@
 package com.alexkn.syntact.presentation.bucketlist
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
+import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.databinding.BucketListBucketCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
@@ -14,6 +17,7 @@ import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.button.MaterialButton
 import java.time.Instant
 import java.time.temporal.ChronoUnit.DAYS
+import kotlin.math.ceil
 
 class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHolder>() {
 
@@ -25,7 +29,7 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
         val drawable = ResourcesCompat.getDrawable(parent.resources, R.drawable.fr, null)
         dataBinding.flag = drawable
 
-        
+
         return BucketViewHolder(dataBinding)
     }
 
@@ -37,7 +41,7 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
 
     class BucketViewHolder(private val binding: BucketListBucketCardBinding) : ListItemViewHolder<BucketDetail>(binding.root) {
 
-        private var bucket: BucketDetail? = null
+        private lateinit var bucket: BucketDetail
 
         override fun bindTo(entity: BucketDetail) {
 
@@ -53,7 +57,10 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
-            itemView.setOnClickListener(this::startFlashcards)
+            binding.progress = ceil(100 - bucket.dueCount.toDouble() / bucket.itemCount * 100).toInt()
+
+            val startButton = itemView.findViewById<MaterialButton>(R.id.startButton)
+            startButton.setOnClickListener(this::startFlashcards)
 
             val optionsButton = itemView.findViewById<MaterialButton>(R.id.optionsButton)
             optionsButton.setOnClickListener(this::showBucketDetails)

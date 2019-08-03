@@ -27,10 +27,16 @@ class PlayMenuFragment : Fragment() {
 
     private var languagesList: RecyclerView? = null
 
+    private var goal: Int = 20
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        val view = inflater.inflate(R.layout.play_menu_fragment, container, false)
+        return inflater.inflate(R.layout.play_menu_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
 
         viewModel = ViewModelProviders.of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
                 .get(PlayMenuViewModel::class.java)
@@ -44,6 +50,7 @@ class PlayMenuFragment : Fragment() {
         languagesList!!.adapter = bucketAdapter
         languagesList!!.setHasFixedSize(true)
 
+
         val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = true
 
@@ -56,11 +63,13 @@ class PlayMenuFragment : Fragment() {
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
             todayTextView.text = "Today: " + it.solvedToday
             totalTextView.text = "Total: " + it.solved
+            progressBar.progress = it.solvedToday
         })
+        progressBar.max = goal
 
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
-        return view
     }
+
 
     private fun newBucket(view: View) {
 

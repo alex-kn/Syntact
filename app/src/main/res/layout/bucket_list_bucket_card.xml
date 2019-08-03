@@ -15,6 +15,10 @@
             type="String" />
 
         <variable
+            name="progress"
+            type="Integer" />
+
+        <variable
             name="flag"
             type="android.graphics.drawable.Drawable" />
     </data>
@@ -23,11 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_gap"
-        app:cardElevation="8dp"
-
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        app:cardElevation="8dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +52,7 @@
                 android:text="@{dailyAverage}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/bucketNameLabel"
+                app:layout_constraintTop_toBottomOf="@+id/dueProgressBar"
                 tools:text="2.7" />
 
             <TextView
@@ -78,41 +78,21 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Solved"
+                android:text="Due"
                 android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                app:layout_constraintBaseline_toBaselineOf="@+id/solvedLabel"
+                app:layout_constraintBaseline_toBaselineOf="@+id/dueLabel"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:text="/"
-                android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
-                app:layout_constraintEnd_toStartOf="@+id/textView8" />
-
-            <TextView
-                android:id="@+id/solvedLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{Integer.toString(bucket.solvedCount)}"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
-                app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
-                app:layout_constraintEnd_toStartOf="@+id/textView7"
-                tools:text="348" />
-
-            <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/dueLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@{Integer.toString(bucket.itemCount)}"
+                android:text="@{Integer.toString(bucket.dueCount)}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/averageLabel"
-                tools:text="677" />
+                tools:text="348" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/optionsButton"
@@ -120,12 +100,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="Options"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7"
-                tools:text="Options">
+                app:layout_constraintEnd_toStartOf="@id/startButton"
+                app:layout_constraintTop_toBottomOf="@+id/dueLabel"
+                tools:text="Options" />
 
-            </com.google.android.material.button.MaterialButton>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/startButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Start"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dueLabel"
+                tools:text="Start" />
+
+            <ProgressBar
+                android:id="@+id/dueProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:progress="@{progress}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bucketNameLabel" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

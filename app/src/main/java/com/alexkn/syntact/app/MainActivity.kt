@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         //        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         //        NavigationUI.setupWithNavController(bottomNav, navController);
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     override fun onSupportNavigateUp(): Boolean {

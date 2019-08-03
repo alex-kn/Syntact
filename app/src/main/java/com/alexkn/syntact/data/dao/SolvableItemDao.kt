@@ -31,6 +31,9 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Insert
     abstract suspend fun insertClue(clue: Clue)
 
+    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.id = :id")
+    abstract suspend fun getSolvableTranslation(id: Long): SolvableTranslationCto
+
     @Transaction
     open suspend fun insert(solvableItem: SolvableItem, clue: Clue) {
         insert(solvableItem)

@@ -14,8 +14,8 @@ import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.restservice.SolvableItemService
 import com.alexkn.syntact.restservice.SyntactService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
@@ -43,44 +43,54 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Cor
         (context as ApplicationComponentProvider).applicationComponent.inject(this)
     }
 
-
-    override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
+    override suspend fun doWork(): Result = coroutineScope {
 
         val bucketId = inputData.getLong("bucketId", -1L)
         if (bucketId == -1L) {
             Result.failure()
         }
 
+
         val token = "Token " + property["api-auth-token"]
         val bucket = bucketDao.find(bucketId)
-        val maxId = solvableItemDao.getMaxId(bucketId)
 
-        val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, maxId, bucket.itemCount)
-        phrases.forEach { phrase ->
-            val solvableItem = SolvableItem(
-                    id = phrase.id,
-                    text = phrase.text.capitalize(),
-                    bucketId = bucket.id
-            )
-            Log.i(TAG, "Fetched Phrase " + phrase.text + ". Fetching translation...")
+        val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, 0, bucket.itemCount)
+        for (phrase in phrases){
+            async {
 
-            val translations = syntactService.getTranslations(token, phrase.translationsUrl, bucket.userLanguage.language)
-            if (translations.size > 1) {
-                Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
+                if (solvableItemDao.find(phrase.id) == null) {
+
+                    val solvableItem = SolvableItem(
+                            id = phrase.id,
+                            text = phrase.text.capitalize(),
+                            bucketId = bucket.id
+                    )
+
+                    val translations = syntactService.getTranslations(token, phrase.translationsUrl, bucket.userLanguage.language)
+                    if (translations.size > 1) {
+                        Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
+                    }
+                    if (translations.isEmpty()) {
+                        throw NoSuchElementException("No Translation found for $phrase in $bucket")
+                    }
+                    val translation = translations[0]
+                    val clue = Clue(
+                            id = translation.id,
+                            text = translation.text.capitalize(),
+                            solvableItemId = phrase.id
+                    )
+
+                    solvableItemDao.insert(solvableItem, clue)
+                    Log.i(TAG, "Saved Phrase " + phrase.text + " and Translation " + clue.text)
+                } else {
+                    Log.i(TAG, "Phrase " + phrase.text + " already on device")
+                }
             }
-            if (translations.isEmpty()) {
-                throw NoSuchElementException("No Translation found for $phrase in $bucket")
-            }
-            val translation = translations[0]
-            val clue = Clue(
-                    id = translation.id,
-                    text = translation.text.capitalize(),
-                    solvableItemId = phrase.id
-            )
-            solvableItemDao.insert(solvableItem, clue)
         }
+
 
         Result.success()
     }
+
 
 }

@@ -29,14 +29,15 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/chooseTemplateImage"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="@color/color_secondary_variant"
-                android:contentDescription="@null"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/flagImage"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/fr"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView" />
 
 
             <TextView
@@ -44,11 +45,14 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{template.name}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView3"
-                android:text="@{template.name}"
                 tools:text="Basic Template" />
 
             <TextView
@@ -63,7 +67,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView"
+                app:layout_constraintTop_toBottomOf="@+id/flagImage"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vestibulum nulla et massa aliquam vehicula. In lacinia volutpat ornare. Ut lorem lorem, consequat auctor pretium id, feugiat nec erat." />
 
             <com.google.android.material.button.MaterialButton
@@ -87,6 +91,18 @@
                 android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@{template.language.displayLanguage}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+                app:layout_constraintBottom_toBottomOf="@+id/flagImage"
+                app:layout_constraintStart_toEndOf="@+id/flagImage"
+                app:layout_constraintTop_toTopOf="@+id/flagImage"
+                tools:text="Spanish" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

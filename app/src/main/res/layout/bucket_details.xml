@@ -11,14 +11,14 @@
         android:layout_height="0dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="false"
+        android:contentDescription="back"
         android:padding="12dp"
         android:scaleType="fitXY"
         android:tint="@color/color_on_surface"
         app:layout_constraintBottom_toBottomOf="@+id/header"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/header"
-        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp"
-        android:contentDescription="back" />
+        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
     <TextView
         android:id="@+id/header"
@@ -40,25 +40,35 @@
         app:layout_constraintBottom_toBottomOf="@+id/downloadButton"
         app:layout_constraintEnd_toStartOf="@+id/downloadButton"
         app:layout_constraintStart_toStartOf="@+id/header"
-        app:layout_constraintTop_toBottomOf="@+id/header" />
+        app:layout_constraintTop_toTopOf="@+id/downloadButton" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/itemList"
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="16dp"
+        app:cardElevation="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/downloadButton" />
+        app:layout_constraintTop_toBottomOf="@+id/downloadButton">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_surface" />
+
+    </com.google.android.material.card.MaterialCardView>
 
     <ImageButton
         android:id="@+id/downloadButton"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:tint="@color/color_on_surface"
         app:layout_constraintEnd_toEndOf="@+id/header"
-        android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toBottomOf="@+id/header"
         app:srcCompat="@drawable/ic_get_app_black_24dp" />
 

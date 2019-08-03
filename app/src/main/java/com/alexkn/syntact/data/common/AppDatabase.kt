@@ -18,7 +18,7 @@ import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.data.util.Converters
 
-@Database(entities = [SolvableItem::class, Bucket::class, Clue::class], views = [BucketDetail::class, PlayerStats::class], version = 41)
+@Database(entities = [SolvableItem::class, Bucket::class, Clue::class], views = [BucketDetail::class, PlayerStats::class], version = 50)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

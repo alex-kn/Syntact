@@ -3,13 +3,17 @@ package com.alexkn.syntact.domain.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.work.*
+import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
+import com.alexkn.syntact.data.model.Clue
+import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
 import com.alexkn.syntact.restservice.SolvableItemService
+import com.alexkn.syntact.restservice.SyntactService
 import java.time.Instant
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
@@ -21,6 +25,8 @@ import kotlin.math.roundToLong
 @Singleton
 class SolvableItemRepository @Inject
 internal constructor(
+        private val property: Property,
+        private val syntactService: SyntactService,
         private val solvableItemService: SolvableItemService,
         private val clueDao: ClueDao,
         private val solvableItemDao: SolvableItemDao,
@@ -40,30 +46,54 @@ internal constructor(
 
     suspend fun getNextSolvableTranslations(bucketId: Long?, time: Instant, count: Int): List<SolvableTranslationCto> {
 
-        val items = solvableItemDao.getNextTranslationDueBefore(bucketId!!, time, count)
+        var items = solvableItemDao.getNextTranslationDueBefore(bucketId!!, time, count)
 
         return if (items.size == count) {
             Log.i(TAG, "All translations present")
             Log.i(TAG, items.size.toString() + " Items local")
             items
         } else {
+            val token = "Token " + property["api-auth-token"]
             Log.i(TAG, "Translations missing, fetching remote")
             val bucket = bucketDao.find(bucketId)
-            val maxId = solvableItemDao.getMaxId(bucketId)
-            val solvableTranslationCtos = solvableItemService.fetchNewTranslations(bucket, maxId, count - items.size)
-            solvableTranslationCtos.forEach { (solvableItem, clue) ->
-                solvableItemDao.insert(solvableItem, clue)
+            val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, 0, bucket.itemCount)
+            for (phrase in phrases) {
+                if (solvableItemDao.find(phrase.id) == null) {
+
+                    val solvableItem = SolvableItem(
+                            id = phrase.id,
+                            text = phrase.text.capitalize(),
+                            bucketId = bucket.id
+                    )
+                    val translations = syntactService.getTranslations(token, phrase.translationsUrl, bucket.userLanguage.language)
+                    if (translations.size > 1) {
+                        Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
+                    }
+                    if (translations.isEmpty()) {
+                        throw NoSuchElementException("No Translation found for $phrase in $bucket")
+                    }
+                    val translation = translations[0]
+                    val clue = Clue(
+                            id = translation.id,
+                            text = translation.text.capitalize(),
+                            solvableItemId = phrase.id
+                    )
+                    solvableItemDao.insert(solvableItem, clue)
+                    items = items + solvableItemDao.getSolvableTranslation(solvableItem.id)
+                    if (items.size >= count) {
+                        break
+                    }
+                }
             }
-            Log.i(TAG, items.size.toString() + " Items local + " + solvableTranslationCtos.size + " Items remote")
-            items + solvableTranslationCtos
+            items
         }
     }
 
     fun fetchSolvableItems(bucketId: Long) {
 
         val data = Data.Builder().putLong("bucketId", bucketId).build()
-        val workRequest = OneTimeWorkRequest.Builder(FetchPhrasesWorker::class.java).setInputData(data).build()
-
+        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
+        val workRequest = OneTimeWorkRequest.Builder(FetchPhrasesWorker::class.java).setInputData(data).setConstraints(constraints).build()
         WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker::class.java.name, ExistingWorkPolicy.REPLACE, workRequest)
     }
 
