@@ -4,11 +4,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.util.TimeUtils
 import com.alexkn.syntact.R
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
+import com.google.android.material.card.MaterialCardView
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.time.Duration
 import java.time.Instant
@@ -40,6 +42,8 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
         private val solvedCountTextView: TextView = itemView.findViewById(R.id.solvedCountTextView)
 
+        private val card:  MaterialCardView = itemView as MaterialCardView
+
         override fun bindTo(entity: SolvableTranslationCto) {
 
             clueTextView.text = entity.clue.text
@@ -53,6 +57,14 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
             val durationString = when {
                 duration.toDays() > 0 -> DurationFormatUtils.formatDuration(duration.toMillis(), "d'd' HH'h'", false)
                 else -> DurationFormatUtils.formatDuration(duration.toMillis(), "H'h'", false)
+            }
+
+            card.strokeWidth = 1
+
+            if (entity.solvableItem.consecutiveCorrectAnswers > 0) {
+                card.strokeColor = ContextCompat.getColor(card.context, R.color.color_success)
+            }else{
+                card.strokeColor = ContextCompat.getColor(card.context, R.color.color_error)
             }
 
             val text = String.format("Due in %s", durationString)

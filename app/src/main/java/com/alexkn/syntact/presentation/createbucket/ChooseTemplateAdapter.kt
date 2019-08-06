@@ -29,14 +29,13 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
         val template = list[position]
         holder.bindTo(template)
         holder.createButton.setOnClickListener { createListener.accept(template) }
-
     }
 
     class ChooseTemplateViewHolder(var databinding: BucketCreateChooseTemplateCardBinding) : ListItemViewHolder<Template>(databinding.root) {
 
         var createButton: MaterialButton = itemView.findViewById(R.id.chooseButton)
 
-        var flagImage: ImageView  = itemView.findViewById(R.id.flagImage)
+        var flagImage: ImageView = itemView.findViewById(R.id.flagImage)
 
         override fun bindTo(entity: Template) {
             databinding.template = entity

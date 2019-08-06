@@ -1,10 +1,10 @@
 package com.alexkn.syntact.presentation.bucketlist
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.app.TAG
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.top_bar.*
 
@@ -50,7 +49,6 @@ class PlayMenuFragment : Fragment() {
         languagesList!!.adapter = bucketAdapter
         languagesList!!.setHasFixedSize(true)
 
-
         val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = true
 
@@ -61,8 +59,8 @@ class PlayMenuFragment : Fragment() {
         ItemTouchHelper(swipeHandler).attachToRecyclerView(languagesList)
 
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
-            todayTextView.text = "Today: " + it.solvedToday
-            totalTextView.text = "Total: " + it.solved
+            todayView.text = "Today: " + it.solvedToday
+            totalView.text = "Total: " + it.solved
             progressBar.progress = it.solvedToday
         })
         progressBar.max = goal

@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.data.model.Bucket
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
+import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.domain.repository.BucketRepository
 import com.alexkn.syntact.domain.repository.SolvableItemRepository
+import com.alexkn.syntact.presentation.bucketdetails.BucketDetailsViewModel
 import kotlinx.coroutines.launch
 import java.time.Instant
 import javax.inject.Inject
@@ -18,66 +20,51 @@ class FlashcardViewModel @Inject constructor(
         private val bucketRepository: BucketRepository
 ) : ViewModel() {
 
-    internal var bucket: LiveData<Bucket>? = null
+    var bucket: LiveData<BucketDetail>? = null
         private set
 
-    private var translations: LiveData<List<SolvableTranslationCto>>? = null
-
-    var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto?>>(2) { MutableLiveData() }
+    private var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto?>>(2) { MutableLiveData() }
 
     private var bucketId: Long? = null
+
+    private var current = 1
+
+    private var itemFetchBuffer = 2;
+
+    val currentSolvableTranslation: MutableLiveData<SolvableTranslationCto?>
+        get() = solvableTranslations[current % itemFetchBuffer]
+
+    val nextSolvableTranslation: MutableLiveData<SolvableTranslationCto?>
+        get() = solvableTranslations[(current + 1) % itemFetchBuffer]
 
     fun init(bucketId: Long) {
 
         this.bucketId = bucketId
-        bucket = bucketRepository.getBucket(bucketId)
-        translations = solvableItemRepository.getDueSolvableTranslations(bucketId)
+        bucket = bucketRepository.getBucketDetail(bucketId)
+        fetchNext()
     }
 
-    fun fetchNext(one: Boolean) {
-        if (one) {
-            viewModelScope.launch {
-                val it = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), 2)
-                solvableTranslations[1].postValue(it.getOrNull(1))
-                solvableTranslations[0].postValue(it.getOrNull(0))
-            }
-        } else {
-            viewModelScope.launch {
-                val it = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), 2)
-                solvableTranslations[0].postValue(it.getOrNull(1))
-                solvableTranslations[1].postValue(it.getOrNull(0))
-
-            }
+    fun fetchNext() {
+        current++
+        viewModelScope.launch {
+            val it = solvableItemRepository.getNextSolvableTranslations(bucketId, Instant.now(), itemFetchBuffer)
+            currentSolvableTranslation.postValue(it.getOrNull(0))
+            nextSolvableTranslation.postValue(it.getOrNull(1))
         }
     }
 
-    fun checkSolution(solution: String, one: Boolean): Boolean {
-        if (one) {
-            return if (solvableTranslations[0].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
-                viewModelScope.launch {
-                    solvableItemRepository.solvePhrase(solvableTranslations[0].value!!)
-                }
-                true
-
-            } else {
-                viewModelScope.launch {
-                    solvableItemRepository.phraseIncorrect(solvableTranslations[0].value!!)
-                }
-                false
+    fun checkSolution(solution: String): Boolean {
+        return if (currentSolvableTranslation.value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
+            viewModelScope.launch {
+                solvableItemRepository.solvePhrase(currentSolvableTranslation.value!!)
             }
+            true
         } else {
-            return if (solvableTranslations[1].value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
-                viewModelScope.launch {
-                    solvableItemRepository.solvePhrase(solvableTranslations[1].value!!)
-                }
-                true
-            } else {
-                viewModelScope.launch {
-                    solvableItemRepository.phraseIncorrect(solvableTranslations[1].value!!)
-                }
-
-                false
+            viewModelScope.launch {
+                solvableItemRepository.phraseIncorrect(currentSolvableTranslation.value!!)
             }
+            false
         }
+
     }
 }

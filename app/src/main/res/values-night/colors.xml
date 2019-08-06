@@ -13,7 +13,8 @@
 
     <color name="color_background">#000000</color>
     <color name="color_surface">#121212</color>
-    <color name="color_error">#cf6679</color>
+    <color name="color_error">#EF5350</color>
+    <color name="color_success">#66BB6A</color>
 
     <color name="color_on_primary">#000000</color>
     <color name="color_on_secondary">#000000</color>

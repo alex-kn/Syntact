@@ -4,14 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import androidx.constraintlayout.motion.widget.MotionController
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.TransitionAdapter
 import androidx.core.content.ContextCompat
@@ -22,9 +19,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.app.TAG
+import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.databinding.FlashcardFragmentBinding
 import kotlinx.android.synthetic.main.flashcard_fragment.*
+import kotlin.math.ceil
 
 
 class FlashcardFragment : Fragment() {
@@ -35,7 +33,21 @@ class FlashcardFragment : Fragment() {
 
     lateinit var motionLayout: MotionLayout
 
-    var one: Boolean = false
+    private val currentFlashcardObserver = Observer<SolvableTranslationCto?> {
+        it?.let {
+            binding.currentClue = it.clue.text
+        } ?: run {
+            binding.currentClue = "Done for the day"
+        }
+    }
+
+    private val nextFlashcardObserver = Observer<SolvableTranslationCto?> {
+        it?.let {
+            binding.nextClue = it.clue.text
+        } ?: run {
+            binding.nextClue = "Done for the day"
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -49,14 +61,14 @@ class FlashcardFragment : Fragment() {
                 .of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.flashcardViewModelFactory())
                 .get(FlashcardViewModel::class.java)
 
-        motionLayout = binding.root.findViewById<MotionLayout>(R.id.motionLayout)
+        motionLayout = binding.root.findViewById(R.id.motionLayout)
+
 
         motionLayout.setTransitionListener(TransitionListener())
 
-        backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
-        nextButton.setOnClickListener{
-            val solved = viewModel.checkSolution(solutionInput.text.toString().trim(), one)
+        nextButton.setOnClickListener {
+            val solved = viewModel.checkSolution(solutionInput.text.toString().trim())
             if (solved) {
                 current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
             } else {
@@ -70,71 +82,37 @@ class FlashcardFragment : Fragment() {
         viewModel.init(bucketId)
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())
-        if (solutionInputLayout.requestFocus()) {
             val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (solutionInputLayout.requestFocus()) {
             imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
         }
 
-        viewModel.bucket!!.observe(this, Observer { this.updateFlashcards() })
+        viewModel.bucket!!.observe(this, Observer {
+            val progress = ceil(it.dueCount.toDouble() / it.itemCount * 100).toInt()
+            binding.progressBar3.progress = progress
+            binding.headerDue.text = it.dueCount.toString()
+            binding.headerTotal.text = "/" + it.itemCount.toString()
 
-        viewModel.solvableTranslations[0].observe(this, Observer {
-            it?.let {
-                binding.currentClue = it.clue.text
-            } ?: run {
-                binding.currentClue = "Done for the day"
-            }
         })
-        viewModel.solvableTranslations[1].observe(this, Observer {
-            it?.let {
-                binding.nextClue = it.clue.text
-            } ?: run {
-                binding.nextClue = "Done for the day"
-            }
-        })
+
+        backButton.setOnClickListener {
+            Navigation.findNavController(it).popBackStack()
+            imm.hideSoftInputFromWindow(solutionInput.windowToken,
+                    InputMethodManager.HIDE_NOT_ALWAYS);
+
+        }
+
+        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
+        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
+
     }
 
     private fun updateFlashcards() {
-        if (one) {
-            one = !one
-            viewModel.solvableTranslations[1].removeObservers(this)
-            viewModel.solvableTranslations[1].observe(this, Observer {
-                it?.let {
-                    binding.currentClue = it.clue.text
-                } ?: run {
-                    binding.currentClue = "Done for the day"
-                }
-            })
-
-            viewModel.solvableTranslations[0].removeObservers(this)
-            viewModel.solvableTranslations[0].observe(this, Observer {
-                it?.let {
-                    binding.nextClue = it.clue.text
-                } ?: run {
-                    binding.nextClue = "Done for the day"
-                }
-            })
-            viewModel.fetchNext(one)
-        } else {
-            one = !one
-            viewModel.solvableTranslations[0].removeObservers(this)
-            viewModel.solvableTranslations[0].observe(this, Observer {
-                it?.let {
-                    binding.currentClue = it.clue.text
-                } ?: run {
-                    binding.currentClue = "Done for the day"
-                }
-            })
-            viewModel.solvableTranslations[1].removeObservers(this)
-            viewModel.solvableTranslations[1].observe(this, Observer {
-                it?.let {
-                    binding.nextClue = it.clue.text
-                } ?: run {
-                    binding.nextClue = "Done for the day"
-                }
-            })
-            viewModel.fetchNext(one)
-        }
-
+        viewModel.fetchNext()
+        viewModel.currentSolvableTranslation.removeObservers(this)
+        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
+        viewModel.nextSolvableTranslation.removeObservers(this)
+        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
     }
 
     private fun setupMotionlayout(view: View) {
@@ -143,7 +121,6 @@ class FlashcardFragment : Fragment() {
             override fun onGlobalLayout() {
                 vto.removeOnGlobalLayoutListener(this)
                 val width = current.measuredWidth
-
                 val nextStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
                 nextStateConstraintSet.constrainWidth(R.id.next, width)
                 nextStateConstraintSet.constrainWidth(R.id.current, width)
@@ -154,28 +131,27 @@ class FlashcardFragment : Fragment() {
     }
 
     inner class SolutionTextWatcher : TextWatcher {
+
         override fun afterTextChanged(s: Editable) {
             if (!s.isBlank()) {
-                if (viewModel.checkSolution(s.toString().trim(), one)) {
+                if (viewModel.checkSolution(s.toString().trim())) {
                     s.clear()
                     motionLayout.transitionToEnd()
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
                 }
-
             }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
-
     }
 
     inner class TransitionListener : TransitionAdapter() {
 
         override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) = handleTransition(motionLayout)
 
-        override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int)  = handleTransition(motionLayout)
+        override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) = handleTransition(motionLayout)
 
         private fun handleTransition(motionLayout: MotionLayout) {
             if (motionLayout.currentState == R.id.next_state) {
@@ -185,8 +161,6 @@ class FlashcardFragment : Fragment() {
                 }
             }
         }
-
-
     }
 }
 

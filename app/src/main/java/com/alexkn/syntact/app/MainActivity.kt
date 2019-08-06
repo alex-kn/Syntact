@@ -1,6 +1,7 @@
 package com.alexkn.syntact.app
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,11 +25,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
-        //        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        //        NavigationUI.setupWithNavController(bottomNav, navController);
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
     }
+
+
 
     override fun onSupportNavigateUp(): Boolean {
 

@@ -23,33 +23,36 @@
         android:layout_height="64dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/portrait"
         android:contentDescription="@null"
         android:fitsSystemWindows="true"
-        android:scaleType="center"
+        android:scaleType="fitXY"
+        android:tint="@color/color_primary"
+        android:src="@drawable/ic_person_black_24dp"
         app:layout_constraintBottom_toBottomOf="@id/imageView"
         app:layout_constraintEnd_toStartOf="@+id/guideline6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/totalTextView"
+        android:id="@+id/totalView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline6"
-        app:layout_constraintTop_toTopOf="@+id/avatar" />
+        app:layout_constraintTop_toTopOf="@+id/avatar"
+        tools:text="5" />
 
     <TextView
-        android:id="@+id/todayTextView"
+        android:id="@+id/todayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         app:layout_constraintBottom_toBottomOf="@+id/avatar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline6" />
+        app:layout_constraintStart_toStartOf="@+id/guideline6"
+        tools:text="5" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -58,7 +61,6 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
         android:max="100"
         android:progress="40"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
