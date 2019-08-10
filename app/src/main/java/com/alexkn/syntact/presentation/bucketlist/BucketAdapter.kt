@@ -49,7 +49,7 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
             val created = entity.createdAt
             val days = DAYS.between(created, Instant.now()) + 1
             val average = entity.solvedCount.toDouble() / days
-            binding.dailyAverage = average.toString()
+            binding.dailyAverage = String.format("%.2f", average)
 
             binding.bucket = entity
 
@@ -71,12 +71,12 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
         private fun startFlashcards(view: View) {
 
             val action = PlayMenuFragmentDirections
-                    .actionPlayMenuFragmentToFlashcardFragment(bucket!!.id)
+                    .actionPlayMenuFragmentToFlashcardFragment(bucket.id)
             Navigation.findNavController(view).navigate(action)
         }
 
         private fun showBucketDetails(view: View) {
-            val action = PlayMenuFragmentDirections.actionPlayMenuFragmentToBucketDetailsFragment(bucket!!.id)
+            val action = PlayMenuFragmentDirections.actionPlayMenuFragmentToBucketDetailsFragment(bucket.id)
             Navigation.findNavController(view).navigate(action)
         }
     }

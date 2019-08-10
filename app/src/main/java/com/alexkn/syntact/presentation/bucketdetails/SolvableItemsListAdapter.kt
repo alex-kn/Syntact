@@ -56,6 +56,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
             val duration = Duration.between(Instant.now(), solvableItem.nextDueDate)
             val durationString = when {
                 duration.toDays() > 0 -> DurationFormatUtils.formatDuration(duration.toMillis(), "d'd' HH'h'", false)
+                duration.isNegative -> "now"
                 else -> DurationFormatUtils.formatDuration(duration.toMillis(), "H'h'", false)
             }
 
@@ -67,7 +68,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
                 card.strokeColor = ContextCompat.getColor(card.context, R.color.color_error)
             }
 
-            val text = String.format("Due in %s", durationString)
+            val text = String.format("Due %s", durationString)
             solvedCountTextView.text = text
         }
 

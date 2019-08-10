@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
@@ -48,10 +46,10 @@ class BucketDetailsFragment : Fragment() {
             header.text = it.name
             phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount)
             if (it.onDeviceCount == it.itemCount) {
-                downloadButton.setImageResource(com.alexkn.syntact.R.drawable.ic_offline_pin_black_24dp)
+                downloadButton.setImageResource(R.drawable.ic_offline_pin_black_24dp)
                 downloadButton.isEnabled = false
             } else {
-                downloadButton.setImageResource(com.alexkn.syntact.R.drawable.ic_get_app_black_24dp)
+                downloadButton.setImageResource(R.drawable.ic_get_app_black_24dp)
                 downloadButton.isEnabled = true
             }
         })
