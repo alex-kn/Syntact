@@ -119,8 +119,6 @@ class CreateBucketFragment : Fragment() {
             Navigation.findNavController(view).popBackStack()
         }
 
-
-
         selectTemplateRecyclerView.visibility = View.GONE
 
         filteredTemplates.addSource(viewModel.availableTemplates) {

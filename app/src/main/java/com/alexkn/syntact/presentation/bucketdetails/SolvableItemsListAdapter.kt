@@ -35,7 +35,6 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
         val dialogBuilder = MaterialAlertDialogBuilder(holder.itemView.context)
 
-
         holder.deleteButton.setOnClickListener {
             dialogBuilder
                     .setTitle("Delete Item")
@@ -59,8 +58,6 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
         val deleteButton: ImageButton = itemView.findViewById(R.id.deleteImage)
 
-        private val card: MaterialCardView = itemView as MaterialCardView
-
         override fun bindTo(entity: SolvableTranslationCto) {
 
 
@@ -74,16 +71,9 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
                 else -> DurationFormatUtils.formatDuration(duration.toMillis(), "H'h'", false)
             }
 
-            card.strokeWidth = 1
-
-            if (entity.solvableItem.consecutiveCorrectAnswers > 0) {
-                card.strokeColor = ContextCompat.getColor(card.context, R.color.color_success)
-            } else {
-                card.strokeColor = ContextCompat.getColor(card.context, R.color.color_error)
-            }
-
             val text = String.format("Due %s", durationString)
-            itemInfo.text = text
+
+            itemInfo.text = String.format("Solved %d times", entity.solvableItem.timesSolved)
         }
 
     }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.alexkn.syntact.R
+import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.databinding.BucketCreateChooseTemplateCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
@@ -25,14 +26,11 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
         return ChooseTemplateViewHolder(binding)
     }
 
-
-
     override fun onBindViewHolder(holder: ChooseTemplateViewHolder, position: Int) {
 
         val template = list[position]
         holder.bindTo(template)
         holder.createButton.setOnClickListener { createListener.accept(template) }
-
     }
 
     class ChooseTemplateViewHolder(var databinding: BucketCreateChooseTemplateCardBinding) : ListItemViewHolder<Template>(databinding.root) {

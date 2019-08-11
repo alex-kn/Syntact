@@ -6,7 +6,7 @@
     <!--Bottom Sheets-->
     <style name="ThemeOverlay.MyTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.Dialog">
         <item name="android:windowIsFloating">false</item>
-        <item name="android:windowBackground">@color/color_primary</item>
+        <item name="android:windowBackground">@color/color_background</item>
         <item name="android:windowAnimationStyle">@style/Animation.MyTheme.BottomSheet.Modal</item>
         <item name="android:statusBarColor">@color/color_background</item>
         <item name="bottomSheetStyle">@style/Widget.MyTheme.BottomSheet.Modal</item>
@@ -32,6 +32,7 @@
     </style>
 
     <!--Toolbar-->
-    <style name="Widget.MyTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary"/>
+    <style name="Widget.MyTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+    </style>
 
 </resources>

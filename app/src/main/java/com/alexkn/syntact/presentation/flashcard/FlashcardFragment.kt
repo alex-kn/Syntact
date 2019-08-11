@@ -35,8 +35,10 @@ class FlashcardFragment : Fragment() {
 
     private val currentFlashcardObserver = Observer<SolvableTranslationCto?> {
         it?.let {
+            nextButton.isEnabled = true;
             binding.currentClue = it.clue.text
         } ?: run {
+            nextButton.isEnabled = false;
             binding.currentClue = "Done for the day"
         }
     }
@@ -67,6 +69,7 @@ class FlashcardFragment : Fragment() {
         motionLayout.setTransitionListener(TransitionListener())
 
 
+        nextButton.isEnabled = false
         nextButton.setOnClickListener {
             val solved = viewModel.checkSolution(solutionInput.text.toString().trim())
             if (solved) {

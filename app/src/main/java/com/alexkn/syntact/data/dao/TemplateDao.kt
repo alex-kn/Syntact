@@ -27,8 +27,14 @@ interface TemplateDao {
     @Query("SELECT * FROM Template")
     fun findAll(): LiveData<List<Template>>
 
+    @Query("SELECT * FROM Template t WHERE NOT EXISTS (SELECT * FROM Bucket b WHERE b.id = t.id)")
+    fun findAvailable():LiveData<List<Template>>
+
     @Query("SELECT * FROM Phrase WHERE templateId = :templateId")
     fun findPhrasesByTemplateId(templateId: Long): LiveData<List<Phrase>>
+
+    @Query("SELECT * FROM Phrase WHERE templateId = :templateId")
+    suspend fun findPhrases(templateId: Long): List<Phrase>
 
 
 }

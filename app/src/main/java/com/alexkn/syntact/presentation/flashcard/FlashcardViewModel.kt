@@ -23,13 +23,14 @@ class FlashcardViewModel @Inject constructor(
     var bucket: LiveData<BucketDetail>? = null
         private set
 
-    private var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto?>>(2) { MutableLiveData() }
+    private var itemFetchBuffer = 5;
+
+    private var solvableTranslations = Array<MutableLiveData<SolvableTranslationCto?>>(itemFetchBuffer) { MutableLiveData() }
 
     private var bucketId: Long? = null
 
     private var current = 1
 
-    private var itemFetchBuffer = 2;
 
     val currentSolvableTranslation: MutableLiveData<SolvableTranslationCto?>
         get() = solvableTranslations[current % itemFetchBuffer]

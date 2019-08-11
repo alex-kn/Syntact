@@ -1,5 +1,6 @@
 package com.alexkn.syntact.domain.repository
 
+import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.work.*
@@ -80,9 +81,13 @@ internal constructor(
                             text = translation.text.capitalize(),
                             solvableItemId = phrase.id
                     )
-                    solvableItemDao.insert(solvableItem, clue)
-                    items = items + solvableItemDao.getSolvableTranslation(solvableItem.id)
-                    if (items.size >= count) {
+                    try {
+                        solvableItemDao.insert(solvableItem, clue)
+                    } catch (e: SQLiteConstraintException) {
+                        Log.w(TAG, "Insert failed for $solvableItem")
+                    }
+                    items = solvableItemDao.getNextTranslationDueBefore(bucketId!!, time, count)
+                    if (items.size == count) {
                         break
                     }
                 }

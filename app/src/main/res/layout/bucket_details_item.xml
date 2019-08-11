@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:elevation="2dp">
+    android:gravity="bottom|clip_horizontal|center"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/clueTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="32dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/itemInfo"
+            android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Bridge" />
 
-        <TextView
-            android:id="@+id/itemInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Due 32 hrs" />
-
         <ImageButton
             android:id="@+id/deleteImage"
-            android:tint="@color/color_on_surface"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitEnd"
+            android:padding="8dp"
+            android:scaleType="center"
+            android:tint="@color/color_on_surface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_delete_black_24dp" />
 
+        <TextView
+            android:id="@+id/itemInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solved 2 times"
+            android:textAppearance="@style/TextAppearance.MyTheme.Caption"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clueTextView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

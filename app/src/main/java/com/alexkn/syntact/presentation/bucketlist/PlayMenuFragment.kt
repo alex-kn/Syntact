@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.flashcard_fragment.*
 import kotlinx.android.synthetic.main.play_menu_fragment.*
 
 

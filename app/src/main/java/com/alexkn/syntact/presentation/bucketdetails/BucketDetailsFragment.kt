@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
@@ -42,12 +43,14 @@ class BucketDetailsFragment : Fragment() {
         val layoutManager = LinearLayoutManager(this.context)
         itemList.layoutManager = layoutManager
 
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
+        itemList.addItemDecoration(dividerItemDecoration)
 
         viewModel.translations.observe(viewLifecycleOwner, Observer(solvableItemsListAdapter::submitList))
         viewModel.bucketDetail.observe(viewLifecycleOwner, Observer {
             header.text = it.name
             phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount  - it.disabledCount)
-            if (it.onDeviceCount == it.itemCount) {
+            if (it.onDeviceCount == it.itemCount - it.disabledCount) {
                 downloadButton.setImageResource(R.drawable.ic_offline_pin_black_24dp)
                 downloadButton.isEnabled = false
             } else {

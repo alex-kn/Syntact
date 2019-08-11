@@ -2,6 +2,7 @@ package com.alexkn.syntact.domain.repository
 
 import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.Property
+import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.TemplateDao
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
@@ -15,12 +16,17 @@ import javax.inject.Singleton
 class TemplateRepository @Inject constructor(
         private val property: Property,
         private val syntactService: SyntactService,
-        private val templateDao: TemplateDao
+        private val templateDao: TemplateDao,
+        private val bucketDao: BucketDao
 ) {
 
 
     fun findTemplates(): LiveData<List<Template>> {
-        return templateDao.findAll()
+        return templateDao.findAvailable()
+    }
+
+    suspend fun findPhrases(templateId: Long): List<Phrase> {
+        return templateDao.findPhrases(templateId)
     }
 
     suspend fun updateTemplates() {
