@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 import java.util.Locale
 
-data class Template(
+data class TemplateResponse(
         override var id: Long,
         var name: String,
         @SerializedName("template_type") var templateType: TemplateType,

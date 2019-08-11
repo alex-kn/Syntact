@@ -13,13 +13,13 @@ import java.time.Instant
 @Dao
 abstract class SolvableItemDao : BaseDao<SolvableItem> {
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId ")
+    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ")
     abstract fun getSolvableTranslationsDueBefore(bucketId: Long, time: Instant): LiveData<List<SolvableTranslationCto>>
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.nextDueDate is not null AND s.bucketId = :bucketId ORDER BY s.nextDueDate")
+    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.nextDueDate is not null AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY s.nextDueDate")
     abstract fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>>
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT :count")
+    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT :count")
     abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant, count: Int): List<SolvableTranslationCto>
 
     @Query("SELECT IFNULL(MAX(id),0) FROM solvableitem WHERE bucketId = :bucketId;")
@@ -34,11 +34,19 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.id = :id")
     abstract suspend fun getSolvableTranslation(id: Long): SolvableTranslationCto
 
+    @Delete
+    abstract suspend fun deleteClue(clue: Clue)
+
     @Transaction
     open suspend fun insert(solvableItem: SolvableItem, clue: Clue) {
         insert(solvableItem)
         insertClue(clue)
     }
 
+    @Transaction
+    open suspend fun delete(solvableItem: SolvableItem, clue: Clue) {
+        delete(solvableItem)
+        deleteClue(clue)
+    }
 
 }

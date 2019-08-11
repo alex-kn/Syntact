@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.restservice.Template
+import com.alexkn.syntact.data.model.Template
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.bucket_create_fragment.*
 import kotlinx.android.synthetic.main.language_sheet.*
@@ -27,6 +27,10 @@ import java.util.function.Consumer
 
 
 class CreateBucketFragment : Fragment() {
+
+
+
+
 
     private lateinit var viewModel: CreateBucketViewModel
 
@@ -56,11 +60,9 @@ class CreateBucketFragment : Fragment() {
 
         val bottomSheetBehavior = BottomSheetBehavior.from(languageSheet)
 
-        createButton.visibility = View.GONE
         adapter.getLanguage().observe(viewLifecycleOwner, Observer { locale ->
             selectedLanguage = locale
             chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
-            createButton.visibility = View.VISIBLE
             val resId = context!!.resources.getIdentifier(locale.language, "drawable", context!!.packageName)
             flagImage.setImageResource(resId)
             Handler().postDelayed({
@@ -74,9 +76,9 @@ class CreateBucketFragment : Fragment() {
 
         val chooseTemplateAdapter = ChooseTemplateAdapter()
         selectTemplateRecyclerView.adapter = chooseTemplateAdapter
-        val linearSnapHelper1 = LinearSnapHelper()
+        val linearSnapHelper = LinearSnapHelper()
 
-        linearSnapHelper1.attachToRecyclerView(selectTemplateRecyclerView)
+        linearSnapHelper.attachToRecyclerView(selectTemplateRecyclerView)
 
 
         chooseLanguageSheetLabel.setFactory(factory)
@@ -90,7 +92,7 @@ class CreateBucketFragment : Fragment() {
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 arrowUp.rotation = slideOffset * -180
-                flagImage.alpha = (0.5 - slideOffset * 0.5).toFloat()
+                flagImage.alpha = (1 - slideOffset).toFloat()
             }
 
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -117,13 +119,9 @@ class CreateBucketFragment : Fragment() {
             Navigation.findNavController(view).popBackStack()
         }
 
-        createButton.setOnClickListener {
-            //            viewModel.addBucketFromNewTemplate(selectedLanguage!!, listOf("Brücke", "Bier", "Auto")) TODO implement
-        }
+
 
         selectTemplateRecyclerView.visibility = View.GONE
-        arrowLeftImageView.visibility = View.GONE
-        arrowRightImageView.visibility = View.GONE
 
         filteredTemplates.addSource(viewModel.availableTemplates) {
             filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
@@ -138,14 +136,12 @@ class CreateBucketFragment : Fragment() {
             chooseTemplateAdapter.submitList(it)
             progressBar2.visibility = View.GONE
             selectTemplateRecyclerView.visibility = View.VISIBLE
-            arrowLeftImageView.visibility = View.VISIBLE
-            arrowRightImageView.visibility = View.VISIBLE
+
         })
     }
 
     private val factory = ViewSwitcher.ViewFactory {
         val t = TextView(context)
-
         t.setTextAppearance(R.style.TextAppearance_MyTheme_Subtitle1)
         t
     }

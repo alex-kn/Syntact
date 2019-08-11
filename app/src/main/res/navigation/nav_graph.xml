@@ -8,7 +8,8 @@
         android:id="@+id/createBucketFragment"
         android:name="com.alexkn.syntact.presentation.createbucket.CreateBucketFragment"
         android:label="bucket_create_fragment"
-        tools:layout="@layout/bucket_create_fragment" />
+        tools:layout="@layout/bucket_create_fragment" >
+    </fragment>
     <fragment
         android:id="@+id/playMenuFragment"
         android:name="com.alexkn.syntact.presentation.bucketlist.PlayMenuFragment"
@@ -18,14 +19,15 @@
             android:id="@+id/action_playMenuFragment_to_flashcardFragment"
             app:destination="@id/flashcardFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_playMenuFragment_to_createBucketFragment"
             app:destination="@id/createBucketFragment"
             app:enterAnim="@anim/slide_in_bottom"
             app:exitAnim="@anim/fade_out"
+            app:launchSingleTop="false"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/slide_out_bottom" />
         <action

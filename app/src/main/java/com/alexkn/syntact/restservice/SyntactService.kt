@@ -10,7 +10,7 @@ interface SyntactService {
     fun getPhrases(@Header("Authorization") token: String): Call<List<Phrase>>
 
     @GET("templates/")
-    suspend fun getTemplates(@Header("Authorization") token: String): List<Template>
+    suspend fun getTemplates(@Header("Authorization") token: String): List<TemplateResponse>
 
     @GET("templates/{id}/phrases/")
     fun getPhrases(@Header("Authorization") token: String, @Path("id") templateId: Long?, @Query("minid") minid: Long,
@@ -30,7 +30,7 @@ interface SyntactService {
                     @Body phrasesRequests: List<PhrasesRequest>): Call<ResponseBody>
 
     @POST("templates/")
-    fun postTemplate(@Header("Authorization") token: String, @Body templateRequest: TemplateRequest): Call<Template>
+    fun postTemplate(@Header("Authorization") token: String, @Body templateRequest: TemplateRequest): Call<TemplateResponse>
 
     @DELETE("templates/{id}")
     fun deleteTemplate(@Header("Authorization") token: String, @Path("id") templateId: Long?): Call<ResponseBody>

@@ -2,10 +2,12 @@ package com.alexkn.syntact.presentation.bucketdetails
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.domain.repository.BucketRepository
 import com.alexkn.syntact.domain.repository.SolvableItemRepository
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class BucketDetailsViewModel @Inject constructor(
@@ -21,6 +23,10 @@ class BucketDetailsViewModel @Inject constructor(
     fun init(bucketId: Long) {
         bucketDetail = bucketRepository.getBucketDetail(bucketId)
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
+    }
+
+    fun disableItem(solvableTranslationCto: SolvableTranslationCto) = viewModelScope.launch {
+        solvableItemRepository.disableSolvableItem(solvableTranslationCto)
     }
 
     fun download() {

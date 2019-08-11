@@ -6,13 +6,11 @@ import androidx.work.*
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.dao.BucketDao
-import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
-import com.alexkn.syntact.restservice.SolvableItemService
 import com.alexkn.syntact.restservice.SyntactService
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -27,8 +25,6 @@ class SolvableItemRepository @Inject
 internal constructor(
         private val property: Property,
         private val syntactService: SyntactService,
-        private val solvableItemService: SolvableItemService,
-        private val clueDao: ClueDao,
         private val solvableItemDao: SolvableItemDao,
         private val bucketDao: BucketDao
 ) {
@@ -41,7 +37,13 @@ internal constructor(
 
     fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> {
         return solvableItemDao.getSolvableTranslations(bucketId)
+    }
 
+    suspend fun disableSolvableItem(solvableTranslationCto: SolvableTranslationCto) {
+
+        val solvableItem = solvableTranslationCto.solvableItem
+        solvableItem.disabled = true;
+        solvableItemDao.update(solvableItem)
     }
 
     suspend fun getNextSolvableTranslations(bucketId: Long?, time: Instant, count: Int): List<SolvableTranslationCto> {

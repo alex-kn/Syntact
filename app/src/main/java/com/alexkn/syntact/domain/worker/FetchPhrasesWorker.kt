@@ -12,17 +12,12 @@ import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.restservice.SolvableItemService
 import com.alexkn.syntact.restservice.SyntactService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
-
-
-    @Inject
-    lateinit var solvableItemService: SolvableItemService
 
     @Inject
     lateinit var syntactService: SyntactService

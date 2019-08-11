@@ -57,7 +57,7 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
-            binding.progress = ceil(100 - bucket.dueCount.toDouble() / bucket.itemCount * 100).toInt()
+            binding.progress = ceil(100 - bucket.dueCount.toDouble() / (bucket.itemCount - bucket.disabledCount) * 100).toInt()
 
             val startButton = itemView.findViewById<MaterialButton>(R.id.startButton)
             startButton.setOnClickListener(this::startFlashcards)

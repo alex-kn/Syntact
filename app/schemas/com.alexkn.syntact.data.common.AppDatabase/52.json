@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 50,
-    "identityHash": "7710f545ca95f88a7f0df0c5e4389b4b",
+    "version": 52,
+    "identityHash": "f48f7d455c33c2261ec266e6b1553b87",
     "entities": [
       {
         "tableName": "SolvableItem",
@@ -206,7 +206,7 @@
     "views": [
       {
         "viewName": "BucketDetail",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT b.name, b.id, b.language, b.createdAt,b.itemCount, (SELECT count(*) FROM solvableitem s WHERE s.timesSolved > 0 AND s.bucketId = b.id) as solvedCount, (SELECT count(*) FROM solvableitem s WHERE s.bucketId = b.id) as onDeviceCount,(SELECT b.itemCount - (SELECT count(*) FROM solvableitem s WHERE s.nextDueDate > (SELECT strftime('%s','now') || substr(strftime('%f','now'),4)) AND s.bucketId = b.id)) as dueCount FROM Bucket b;"
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT b.name, b.id, b.language, b.createdAt,b.itemCount, (SELECT count(*) FROM solvableitem s WHERE s.timesSolved > 0 AND s.disabled = 0 AND s.bucketId = b.id) as solvedCount, (SELECT count(*) FROM solvableitem s WHERE s.bucketId = b.id AND s.disabled = 0) as onDeviceCount,(SELECT b.itemCount - (SELECT count(*) FROM solvableitem s WHERE s.nextDueDate > (SELECT strftime('%s','now') || substr(strftime('%f','now'),4)) AND s.disabled = 0 AND s.bucketId = b.id)) as dueCount,  (SELECT count(*) FROM solvableitem s WHERE s.disabled = 0 AND s.bucketId = b.id) as solvedCount FROM Bucket b;"
       },
       {
         "viewName": "PlayerStats",
@@ -215,7 +215,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7710f545ca95f88a7f0df0c5e4389b4b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f48f7d455c33c2261ec266e6b1553b87')"
     ]
   }
 }

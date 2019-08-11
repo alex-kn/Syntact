@@ -6,11 +6,12 @@ import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
 import com.alexkn.syntact.data.model.Bucket
+import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.restservice.SyntactService
-import com.alexkn.syntact.restservice.Template
+import com.alexkn.syntact.restservice.TemplateResponse
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.*
 import javax.inject.Inject
@@ -32,7 +33,7 @@ internal constructor(
     val bucketDetails: LiveData<List<BucketDetail>>
         get() = bucketDao.findBucketDetails()
 
-    suspend fun findAvailableTemplates(): List<Template> {
+    suspend fun findAvailableTemplates(): List<TemplateResponse> {
 
         val token = "Token " + property["api-auth-token"]
         return syntactService.getTemplates(token)
@@ -51,7 +52,14 @@ internal constructor(
 
         val sourceLanguage = Locale.getDefault()
 
-        val bucket = Bucket(id = template.id, name = template.name, language = template.language, userLanguage = sourceLanguage, phrasesUrl = template.phrasesUrl, itemCount = template.count)
+        val bucket = Bucket(
+                id = template.id,
+                name = template.name,
+                language = template.language,
+                userLanguage = sourceLanguage,
+                phrasesUrl = template.phrasesUrl,
+                itemCount = template.count
+        )
         bucketDao.insert(bucket)
     }
 

@@ -88,10 +88,10 @@ class FlashcardFragment : Fragment() {
         }
 
         viewModel.bucket!!.observe(this, Observer {
-            val progress = ceil(it.dueCount.toDouble() / it.itemCount * 100).toInt()
+            val progress = ceil(it.dueCount.toDouble() / (it.itemCount-it.disabledCount) * 100).toInt()
             binding.progressBar3.progress = progress
             binding.headerDue.text = it.dueCount.toString()
-            binding.headerTotal.text = "/" + it.itemCount.toString()
+            binding.headerTotal.text = "/" + (it.itemCount-it.disabledCount).toString()
 
         })
 

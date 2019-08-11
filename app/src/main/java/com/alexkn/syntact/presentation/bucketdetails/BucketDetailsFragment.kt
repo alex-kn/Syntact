@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import kotlinx.android.synthetic.main.bucket_details.*
+import java.util.function.Consumer
 
 
 class BucketDetailsFragment : Fragment() {
@@ -36,6 +37,7 @@ class BucketDetailsFragment : Fragment() {
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
         val solvableItemsListAdapter = SolvableItemsListAdapter()
+        solvableItemsListAdapter.deleteItemListener = Consumer { viewModel.disableItem(it) }
         itemList.adapter = solvableItemsListAdapter
         val layoutManager = LinearLayoutManager(this.context)
         itemList.layoutManager = layoutManager
@@ -44,7 +46,7 @@ class BucketDetailsFragment : Fragment() {
         viewModel.translations.observe(viewLifecycleOwner, Observer(solvableItemsListAdapter::submitList))
         viewModel.bucketDetail.observe(viewLifecycleOwner, Observer {
             header.text = it.name
-            phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount)
+            phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount  - it.disabledCount)
             if (it.onDeviceCount == it.itemCount) {
                 downloadButton.setImageResource(R.drawable.ic_offline_pin_black_24dp)
                 downloadButton.isEnabled = false

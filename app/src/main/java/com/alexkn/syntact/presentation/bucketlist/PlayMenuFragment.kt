@@ -15,7 +15,6 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.play_menu_fragment.*
-import kotlinx.android.synthetic.main.top_bar.*
 
 
 class PlayMenuFragment : Fragment() {
@@ -34,7 +33,6 @@ class PlayMenuFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
         viewModel = ViewModelProviders.of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
                 .get(PlayMenuViewModel::class.java)
 
@@ -43,19 +41,6 @@ class PlayMenuFragment : Fragment() {
         languagesList.layoutManager = LinearLayoutManager(this.context)
         val bucketAdapter = BucketAdapter()
         languagesList.adapter = bucketAdapter
-        languagesList.setHasFixedSize(true)
-        languagesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                if (dy > 0 && createBucketFab.visibility == View.VISIBLE) {
-                    createBucketFab.visibility = View.INVISIBLE
-                } else if (dy < 0 && createBucketFab.visibility != View.VISIBLE) {
-                    createBucketFab.visibility = View.VISIBLE
-                }
-            }
-
-
-        })
 
         val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = true
@@ -67,8 +52,7 @@ class PlayMenuFragment : Fragment() {
         ItemTouchHelper(swipeHandler).attachToRecyclerView(languagesList)
 
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
-            todayView.text = "Today: " + it.solvedToday + "/" + goal
-            totalView.text = "Total: " + it.solved
+            todayView.text = it.solvedToday.toString() + "/" + goal
             progressBar.progress = it.solvedToday
         })
         progressBar.max = goal

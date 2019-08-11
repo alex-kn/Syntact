@@ -27,6 +27,8 @@ data class SolvableItem(
 
         var timesSolved: Int = 0,
 
+        var disabled: Boolean = false,
+
         @ColumnInfo(index = true)
         var bucketId: Long
 

@@ -28,6 +28,7 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
 
         val locale = dataset[position]
         holder.textView.text = locale.displayLanguage
+        holder.flag.clipToOutline = true
 
         val context = holder.itemView.context
         val resId = context.resources.getIdentifier(locale.language, "drawable", context.packageName)
@@ -35,8 +36,7 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
 
         holder.itemView.setOnClickListener {
             onClickSubject.value = locale
-            holder.imageView.visibility = View.VISIBLE
-            holder.flag.visibility = View.VISIBLE
+            holder.flag.alpha = 1f
             holder.itemView.isActivated = true
             if (checkedPosition != holder.adapterPosition) {
                 notifyItemChanged(checkedPosition)
@@ -45,18 +45,15 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
         }
 
         if (checkedPosition == -1) {
-            holder.imageView.visibility = View.INVISIBLE
-            holder.flag.visibility = View.INVISIBLE
+            holder.flag.alpha = 0.25f
             holder.itemView.isActivated = false
 
         } else {
             if (checkedPosition == holder.adapterPosition) {
-                holder.imageView.visibility = View.VISIBLE
-                holder.flag.visibility = View.VISIBLE
+                holder.flag.alpha = 1f
                 holder.itemView.isActivated = true
             } else {
-                holder.imageView.visibility = View.INVISIBLE
-                holder.flag.visibility = View.INVISIBLE
+                holder.flag.alpha = 0.25f
                 holder.itemView.isActivated = false
             }
         }
@@ -74,7 +71,6 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
     class ChooseLanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var textView: TextView = itemView.findViewById(R.id.chooseLanguageTextView)
-        var imageView: ImageView = itemView.findViewById(R.id.chooseLanguageImage)
         var flag: ImageView = itemView.findViewById(R.id.listFlagImage)
     }
 }

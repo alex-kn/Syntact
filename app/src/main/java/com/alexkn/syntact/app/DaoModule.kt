@@ -11,30 +11,22 @@ class DaoModule {
 
     @Singleton
     @Provides
-    fun provideBucketDao(appDatabase: AppDatabase): BucketDao {
-
-        return appDatabase.bucketDao()
-    }
+    fun provideBucketDao(appDatabase: AppDatabase): BucketDao = appDatabase.bucketDao()
 
     @Singleton
     @Provides
-    fun provideClueDao(appDatabase: AppDatabase): ClueDao {
-
-        return appDatabase.clueDao()
-    }
+    fun provideClueDao(appDatabase: AppDatabase): ClueDao = appDatabase.clueDao()
 
     @Singleton
     @Provides
-    fun provideSolvableItemDao(appDatabase: AppDatabase): SolvableItemDao {
-
-        return appDatabase.solvableItemDao()
-    }
+    fun provideSolvableItemDao(appDatabase: AppDatabase): SolvableItemDao = appDatabase.solvableItemDao()
 
     @Singleton
     @Provides
-    fun providePlayerStatsDao(appDatabase: AppDatabase): PlayerStatsDao {
+    fun providePlayerStatsDao(appDatabase: AppDatabase): PlayerStatsDao = appDatabase.playerStatsDao()
 
-        return appDatabase.playerStatsDao()
-    }
+    @Singleton
+    @Provides
+    fun provideTempalteDao(appDatabase: AppDatabase): TemplateDao = appDatabase.templateDao()
 
 }
