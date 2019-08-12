@@ -14,18 +14,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            >
-
+            android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/selectTemplateRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:padding="32dp"
-                android:clipToPadding="false"
                 android:layout_marginBottom="?attr/actionBarSize"
+                android:clipToPadding="false"
+                android:padding="32dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,14 +34,14 @@
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="back"
-                android:paddingVertical="4dp"
                 android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
                 android:scaleType="fitXY"
                 android:tint="@color/color_on_surface"
                 app:layout_constraintBottom_toBottomOf="@+id/header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/header"
-                app:srcCompat="@drawable/ic_keyboard_arrow_down_black_24dp" />
+                app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
             <TextView
                 android:id="@+id/header"
@@ -56,31 +53,7 @@
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintStart_toEndOf="@+id/backButton"
                 app:layout_constraintTop_toTopOf="parent" />
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/arrowLeftImageView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="8dp"-->
-<!--                android:tint="@color/color_on_surface"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/selectTemplateRecyclerView"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/selectTemplateRecyclerView"-->
-<!--                app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />-->
-
-<!--            <ImageButton-->
-<!--                android:id="@+id/arrowRightImageView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:padding="8dp"-->
-<!--                android:tint="@color/color_on_surface"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/selectTemplateRecyclerView"-->
-<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/selectTemplateRecyclerView"-->
-<!--                app:srcCompat="@drawable/ic_keyboard_arrow_right_black_24dp" />-->
-
+            
             <ProgressBar
                 android:id="@+id/progressBar2"
                 style="?android:attr/progressBarStyle"
@@ -93,7 +66,6 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 
         <include layout="@layout/language_sheet" />

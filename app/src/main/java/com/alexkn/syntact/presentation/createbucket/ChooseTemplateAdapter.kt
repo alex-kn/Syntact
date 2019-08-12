@@ -40,6 +40,7 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
         var flagImage: ImageView = itemView.findViewById(R.id.flagImage)
 
         override fun bindTo(entity: Template) {
+            flagImage.clipToOutline = true
             databinding.template = entity
             val resId = itemView.context.resources.getIdentifier(entity.language.language, "drawable", itemView.context.packageName)
             flagImage.setImageResource(resId)

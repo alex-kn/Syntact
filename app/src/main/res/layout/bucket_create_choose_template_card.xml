@@ -21,7 +21,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/color_secondary"
-        app:cardElevation="2dp"
+        app:cardElevation="4dp"
         tools:showIn="@layout/bucket_create_fragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,13 +31,15 @@
             <ImageView
                 android:id="@+id/flagImage"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="0dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
                 android:adjustViewBounds="true"
+                android:background="@drawable/frame"
+                android:scaleType="fitStart"
                 android:src="@drawable/fr"
+                app:layout_constraintBottom_toBottomOf="@+id/textView6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView" />
+                app:layout_constraintTop_toTopOf="@+id/textView6" />
 
 
             <TextView
@@ -45,15 +47,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
                 android:text="@{template.name}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3"
-                tools:text="Basic TemplateResponse" />
+                app:layout_constraintTop_toBottomOf="@+id/flagImage"
+                tools:text="Custom Template" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -65,9 +67,9 @@
                 android:text="@{template.description}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Body1"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/flagImage"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vestibulum nulla et massa aliquam vehicula. In lacinia volutpat ornare. Ut lorem lorem, consequat auctor pretium id, feugiat nec erat." />
 
             <com.google.android.material.button.MaterialButton
@@ -86,22 +88,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:text="@{template.templateType.toString()}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView"
+                tools:text="Basic" />
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:text="@{template.language.displayLanguage}"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                app:layout_constraintBottom_toBottomOf="@+id/flagImage"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/flagImage"
-                app:layout_constraintTop_toTopOf="@+id/flagImage"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:text="Spanish" />
 
 
