@@ -13,14 +13,17 @@ import java.time.Instant
 @Dao
 abstract class SolvableItemDao : BaseDao<SolvableItem> {
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ")
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ")
     abstract fun getSolvableTranslationsDueBefore(bucketId: Long, time: Instant): LiveData<List<SolvableTranslationCto>>
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.nextDueDate is not null AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY s.nextDueDate")
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.bucketId = :bucketId AND s.disabled  = 0")
     abstract fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>>
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT :count")
-    abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant, count: Int): List<SolvableTranslationCto>
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT :count")
+    abstract suspend fun getNextTranslationsDueBefore(bucketId: Long, time: Instant, count: Int): List<SolvableTranslationCto>
+
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT 1")
+    abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant): SolvableTranslationCto
 
     @Query("SELECT IFNULL(MAX(id),0) FROM solvableitem WHERE bucketId = :bucketId;")
     abstract suspend fun getMaxId(bucketId: Long): Long
@@ -31,8 +34,11 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Insert
     abstract suspend fun insertClue(clue: Clue)
 
-    @Query("SELECT * FROM solvableitem s JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.id = :id")
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.id = :id")
     abstract suspend fun getSolvableTranslation(id: Long): SolvableTranslationCto
+
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.bucketId = :bucketId AND c.clueId  is null")
+    abstract suspend fun findSolvableItemsWithoutTranslation(bucketId: Long): List<SolvableItem>
 
     @Delete
     abstract suspend fun deleteClue(clue: Clue)

@@ -8,6 +8,7 @@ import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.domain.repository.BucketRepository
 import com.alexkn.syntact.domain.repository.TemplateRepository
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.StringUtils
@@ -31,7 +32,7 @@ constructor(
     }
 
     fun addBucketFromExistingTemplate(template: Template) {
-        viewModelScope.launch {
+        GlobalScope.launch {
             bucketRepository.addBucketWithExistingTemplate(template)
         }
     }

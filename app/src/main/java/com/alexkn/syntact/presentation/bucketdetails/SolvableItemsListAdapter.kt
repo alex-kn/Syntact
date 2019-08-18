@@ -5,12 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.alexkn.syntact.R
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
-import com.google.android.material.card.MaterialCardView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.time.Duration
@@ -52,6 +50,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
     class SolvableItemViewHolder(v: View) : ListItemViewHolder<SolvableTranslationCto>(v) {
 
+        private val solutionTextView: TextView = itemView.findViewById(R.id.solutionTextView)
         private val clueTextView: TextView = itemView.findViewById(R.id.clueTextView)
 
         private val itemInfo: TextView = itemView.findViewById(R.id.itemInfo)
@@ -61,17 +60,18 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
         override fun bindTo(entity: SolvableTranslationCto) {
 
 
-            clueTextView.text = entity.clue.text
+            solutionTextView.text = entity.solvableItem.text
+            clueTextView.text = entity.clue?.text
             val solvableItem = entity.solvableItem
 
-            val duration = Duration.between(Instant.now(), solvableItem.nextDueDate)
-            val durationString = when {
-                duration.toDays() > 0 -> DurationFormatUtils.formatDuration(duration.toMillis(), "d'd' HH'h'", false)
-                duration.isNegative -> "now"
-                else -> DurationFormatUtils.formatDuration(duration.toMillis(), "H'h'", false)
-            }
+//            val duration = Duration.between(Instant.now(), solvableItem.nextDueDate)
+//            val durationString = when {
+//                duration.toDays() > 0 -> DurationFormatUtils.formatDuration(duration.toMillis(), "d'd' HH'h'", false)
+//                duration.isNegative -> "now"
+//                else -> DurationFormatUtils.formatDuration(duration.toMillis(), "H'h'", false)
+//            }
 
-            val text = String.format("Due %s", durationString)
+//            val text = String.format("Due %s", durationString)
 
             itemInfo.text = String.format("Solved %d times", entity.solvableItem.timesSolved)
         }

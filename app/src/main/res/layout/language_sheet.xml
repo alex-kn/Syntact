@@ -27,7 +27,6 @@
             android:adjustViewBounds="true"
             android:background="@drawable/frame"
             android:scaleType="fitEnd"
-            android:src="@drawable/de"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/arrowUp"
             app:layout_constraintTop_toTopOf="parent" />

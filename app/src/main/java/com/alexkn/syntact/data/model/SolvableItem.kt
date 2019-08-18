@@ -29,6 +29,8 @@ data class SolvableItem(
 
         var disabled: Boolean = false,
 
+        var translationUrl: String,
+
         @ColumnInfo(index = true)
         var bucketId: Long
 

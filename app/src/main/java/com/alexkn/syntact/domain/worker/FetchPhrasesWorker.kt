@@ -15,6 +15,8 @@ import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.restservice.SyntactService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
+import java.lang.Exception
+import java.util.*
 import javax.inject.Inject
 
 class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : CoroutineWorker(context, workerParams) {
@@ -45,41 +47,28 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Cor
             Result.failure()
         }
 
-
         val token = "Token " + property["api-auth-token"]
-        val bucket = bucketDao.find(bucketId)
 
-        val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, 0, bucket.itemCount)
-        for (phrase in phrases){
+        val solvableItems = solvableItemDao.findSolvableItemsWithoutTranslation(bucketId)
+
+        solvableItems.forEach {
             async {
+                val translations = syntactService.getTranslations(token, it.translationUrl, Locale.getDefault().language)
 
-                if (solvableItemDao.find(phrase.id) == null) {
-
-                    val solvableItem = SolvableItem(
-                            id = phrase.id,
-                            text = phrase.text.capitalize(),
-                            bucketId = bucket.id
-                    )
-
-                    val translations = syntactService.getTranslations(token, phrase.translationsUrl, bucket.userLanguage.language)
-                    if (translations.size > 1) {
-                        Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
-                    }
-                    if (translations.isEmpty()) {
-                        throw NoSuchElementException("No Translation found for $phrase in $bucket")
-                    }
-                    val translation = translations[0]
-                    val clue = Clue(
-                            id = translation.id,
-                            text = translation.text.capitalize(),
-                            solvableItemId = phrase.id
-                    )
-
-                    solvableItemDao.insert(solvableItem, clue)
-                    Log.i(TAG, "Saved Phrase " + phrase.text + " and Translation " + clue.text)
-                } else {
-                    Log.i(TAG, "Phrase " + phrase.text + " already on device")
+                if (translations.size > 1) {
+                    Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
                 }
+                if (translations.isEmpty()) {
+                    throw Exception("No Translation found for $it")
+                }
+                val translation = translations[0]
+                val clue = Clue(
+                        id = translation.id,
+                        text = translation.text.capitalize(),
+                        solvableItemId = it.id
+                )
+                clueDao.insert(clue)
+                Log.i(TAG, "Saved Clue $clue")
             }
         }
 

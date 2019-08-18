@@ -1,20 +1,21 @@
 package com.alexkn.syntact.domain.repository
 
-import android.database.sqlite.SQLiteConstraintException
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.dao.BucketDao
+import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
 import com.alexkn.syntact.restservice.SyntactService
+import java.lang.Exception
 import java.time.Instant
 import java.time.temporal.ChronoUnit
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
@@ -27,7 +28,8 @@ internal constructor(
         private val property: Property,
         private val syntactService: SyntactService,
         private val solvableItemDao: SolvableItemDao,
-        private val bucketDao: BucketDao
+        private val bucketDao: BucketDao,
+        private val clueDao: ClueDao
 ) {
 
 
@@ -47,61 +49,51 @@ internal constructor(
         solvableItemDao.update(solvableItem)
     }
 
-    suspend fun getNextSolvableTranslations(bucketId: Long?, time: Instant, count: Int): List<SolvableTranslationCto> {
+    suspend fun getNextSolvableTranslations(bucketId: Long?, time: Instant, fetchThreshold: Int): List<SolvableTranslationCto> {
 
-        var items = solvableItemDao.getNextTranslationDueBefore(bucketId!!, time, count)
+        var items = solvableItemDao.getNextTranslationsDueBefore(bucketId!!, time, fetchThreshold)
 
-        return if (items.size == count) {
-            Log.i(TAG, "All translations present")
-            Log.i(TAG, items.size.toString() + " Items local")
-            items
-        } else {
-            val token = "Token " + property["api-auth-token"]
-            Log.i(TAG, "Translations missing, fetching remote")
-            val bucket = bucketDao.find(bucketId)
-            val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, 0, bucket.itemCount)
-            for (phrase in phrases) {
-                if (solvableItemDao.find(phrase.id) == null) {
 
-                    val solvableItem = SolvableItem(
-                            id = phrase.id,
-                            text = phrase.text.capitalize(),
-                            bucketId = bucket.id
-                    )
-                    val translations = syntactService.getTranslations(token, phrase.translationsUrl, bucket.userLanguage.language)
-                    if (translations.size > 1) {
-                        Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
-                    }
-                    if (translations.isEmpty()) {
-                        throw NoSuchElementException("No Translation found for $phrase in $bucket")
-                    }
-                    val translation = translations[0]
-                    val clue = Clue(
-                            id = translation.id,
-                            text = translation.text.capitalize(),
-                            solvableItemId = phrase.id
-                    )
-                    try {
-                        solvableItemDao.insert(solvableItem, clue)
-                    } catch (e: SQLiteConstraintException) {
-                        Log.w(TAG, "Insert failed for $solvableItem")
-                    }
-                    items = solvableItemDao.getNextTranslationDueBefore(bucketId!!, time, count)
-                    if (items.size == count) {
-                        break
-                    }
-                }
-            }
-            items
-        }
+        return items
     }
 
-    fun fetchSolvableItems(bucketId: Long) {
+    suspend fun findNextSolvableTranslation(bucketId: Long, time: Instant): SolvableTranslationCto {
 
-        val data = Data.Builder().putLong("bucketId", bucketId).build()
+        val nextTranslation = solvableItemDao.getNextTranslationDueBefore(bucketId, time)
+
+        return if (nextTranslation.clue == null) {
+            val token = "Token " + property["api-auth-token"]
+
+            val translations = syntactService.getTranslations(token, nextTranslation.solvableItem.translationUrl, Locale.getDefault().language)
+
+            if (translations.size > 1) {
+                Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
+            }
+            if (translations.isEmpty()) {
+                throw Exception("No Translation found for ${nextTranslation.solvableItem}")
+            }
+            val translation = translations[0]
+            val clue = Clue(
+                    id = translation.id,
+                    text = translation.text.capitalize(),
+                    solvableItemId = nextTranslation.solvableItem.id
+            )
+            clueDao.insert(clue)
+            Log.i(TAG, "Saved Clue $clue")
+            solvableItemDao.getNextTranslationDueBefore(bucketId, time)
+        } else {
+            nextTranslation
+        }
+
+    }
+
+    fun fetchSolvableItems(bucketId: Long, count: Int? = null) {
+
+        val data = Data.Builder().putLong("bucketId", bucketId)
+        count?.let { data.putInt("count", count) }
         val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val workRequest = OneTimeWorkRequest.Builder(FetchPhrasesWorker::class.java).setInputData(data).setConstraints(constraints).build()
-        WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker::class.java.name, ExistingWorkPolicy.REPLACE, workRequest)
+        val workRequest = OneTimeWorkRequest.Builder(FetchPhrasesWorker::class.java).setInputData(data.build()).setConstraints(constraints).build()
+        WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest)
     }
 
     suspend fun solvePhrase(solvableTranslation: SolvableTranslationCto) {

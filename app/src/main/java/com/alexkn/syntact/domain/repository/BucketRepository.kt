@@ -5,7 +5,9 @@ import androidx.work.*
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
+import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Bucket
+import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
@@ -23,7 +25,9 @@ internal constructor(
         private val syntactService: SyntactService,
         private val property: Property,
         private val bucketDao: BucketDao,
-        private val playerStatsDao: PlayerStatsDao
+        private val playerStatsDao: PlayerStatsDao,
+        private val solvableItemDao: SolvableItemDao,
+        private val solvableItemRepository: SolvableItemRepository
 ) {
 
     val availableLanguages: MutableList<Locale> by lazy {
@@ -60,7 +64,21 @@ internal constructor(
                 phrasesUrl = template.phrasesUrl,
                 itemCount = template.count
         )
-        bucketDao.insert(bucket)
+        val id = bucketDao.insert(bucket)
+        val token = "Token " + property["api-auth-token"]
+
+        val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, 0, bucket.itemCount)
+
+        val solvableItems = phrases.map {
+            SolvableItem(
+                    id = it.id,
+                    text = it.text.capitalize(),
+                    bucketId = bucket.id,
+                    translationUrl = it.translationsUrl
+            )
+        }
+
+        solvableItemDao.insert(solvableItems)
     }
 
     suspend fun removeLanguage(bucket: Bucket) {

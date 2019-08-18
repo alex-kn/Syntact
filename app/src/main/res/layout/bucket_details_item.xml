@@ -17,10 +17,19 @@
 
         <TextView
             android:id="@+id/clueTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/solutionTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Bridge" />
@@ -47,7 +56,7 @@
             android:textAppearance="@style/TextAppearance.MyTheme.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clueTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/solutionTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

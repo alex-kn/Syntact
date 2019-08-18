@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.databinding.FlashcardFragmentBinding
 import kotlinx.android.synthetic.main.flashcard_fragment.*
 import kotlin.math.ceil
@@ -32,24 +31,6 @@ class FlashcardFragment : Fragment() {
     lateinit var binding: FlashcardFragmentBinding
 
     lateinit var motionLayout: MotionLayout
-
-    private val currentFlashcardObserver = Observer<SolvableTranslationCto?> {
-        it?.let {
-            nextButton.isEnabled = true;
-            binding.currentClue = it.clue.text
-        } ?: run {
-            nextButton.isEnabled = false;
-            binding.currentClue = "Done for the day"
-        }
-    }
-
-    private val nextFlashcardObserver = Observer<SolvableTranslationCto?> {
-        it?.let {
-            binding.nextClue = it.clue.text
-        } ?: run {
-            binding.nextClue = "Done for the day"
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -77,26 +58,44 @@ class FlashcardFragment : Fragment() {
             } else {
                 current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
             }
-            motionLayout.transitionToEnd()
+
             solutionInput.text?.clear()
+            current.animate().translationYBy(-20f).alpha(.75f).setDuration(100).withEndAction {
+                viewModel.fetchNext()
+                current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
+                current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
+            }.start()
         }
 
         val bucketId = FlashcardFragmentArgs.fromBundle(arguments!!).bucketId
         viewModel.init(bucketId)
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())
-            val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (solutionInputLayout.requestFocus()) {
             imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
         }
 
         viewModel.bucket!!.observe(this, Observer {
-            val progress = ceil(it.dueCount.toDouble() / (it.itemCount-it.disabledCount) * 100).toInt()
+            val progress = ceil(it.dueCount.toDouble() / (it.itemCount - it.disabledCount) * 100).toInt()
             binding.progressBar3.progress = progress
             binding.headerDue.text = it.dueCount.toString()
-            binding.headerTotal.text = "/" + (it.itemCount-it.disabledCount).toString()
+            binding.headerTotal.text = "/" + (it.itemCount - it.disabledCount).toString()
 
         })
+
+        viewModel.translation.observe(this, Observer {
+            it?.let { cto ->
+                nextButton.isEnabled = true;
+                loadTranslationProgress.visibility = View.GONE
+                binding.currentClue = cto.clue!!.text
+            } ?: run {
+                nextButton.isEnabled = false;
+                loadTranslationProgress.visibility = View.VISIBLE
+                binding.currentClue = ""
+            }
+        })
+
 
         backButton.setOnClickListener {
             Navigation.findNavController(it).popBackStack()
@@ -105,17 +104,17 @@ class FlashcardFragment : Fragment() {
 
         }
 
-        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
-        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
+//        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
+//        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
 
     }
 
     private fun updateFlashcards() {
         viewModel.fetchNext()
-        viewModel.currentSolvableTranslation.removeObservers(this)
-        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
-        viewModel.nextSolvableTranslation.removeObservers(this)
-        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
+//        viewModel.currentSolvableTranslation.removeObservers(this)
+//        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
+//        viewModel.nextSolvableTranslation.removeObservers(this)
+//        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
     }
 
     private fun setupMotionlayout(view: View) {
@@ -139,8 +138,13 @@ class FlashcardFragment : Fragment() {
             if (!s.isBlank()) {
                 if (viewModel.checkSolution(s.toString().trim())) {
                     s.clear()
-                    motionLayout.transitionToEnd()
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
+
+                current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
+                    viewModel.fetchNext()
+                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
+                    current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
+                }.start()
                 }
             }
         }
@@ -157,12 +161,12 @@ class FlashcardFragment : Fragment() {
         override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) = handleTransition(motionLayout)
 
         private fun handleTransition(motionLayout: MotionLayout) {
-            if (motionLayout.currentState == R.id.next_state) {
-                motionLayout.post {
-                    motionLayout.progress = 0f
-                    updateFlashcards()
-                }
-            }
+//            if (motionLayout.currentState == R.id.next_state) {
+//                motionLayout.post {
+//                    motionLayout.progress = 0f
+//                    updateFlashcards()
+//                }
+//            }
         }
     }
 }
