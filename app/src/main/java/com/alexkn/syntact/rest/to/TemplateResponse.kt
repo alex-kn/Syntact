@@ -1,6 +1,7 @@
-package com.alexkn.syntact.restservice
+package com.alexkn.syntact.rest.to
 
 import com.alexkn.syntact.data.common.Identifiable
+import com.alexkn.syntact.data.common.TemplateType
 import com.google.gson.annotations.SerializedName
 
 import java.util.Locale

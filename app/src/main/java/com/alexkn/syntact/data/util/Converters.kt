@@ -2,7 +2,7 @@ package com.alexkn.syntact.data.util
 
 import androidx.room.TypeConverter
 
-import com.alexkn.syntact.restservice.TemplateType
+import com.alexkn.syntact.data.common.TemplateType
 
 import java.time.Instant
 import java.util.Locale

@@ -12,8 +12,8 @@ import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.domain.worker.CreateBucketWorker
-import com.alexkn.syntact.restservice.SyntactService
-import com.alexkn.syntact.restservice.TemplateResponse
+import com.alexkn.syntact.rest.service.SyntactService
+import com.alexkn.syntact.rest.to.TemplateResponse
 import com.google.common.util.concurrent.ListenableFuture
 import java.util.*
 import javax.inject.Inject
@@ -67,7 +67,7 @@ internal constructor(
         val id = bucketDao.insert(bucket)
         val token = "Token " + property["api-auth-token"]
 
-        val phrases = syntactService.getPhrases(token, bucket.phrasesUrl, 0, bucket.itemCount)
+        val phrases = syntactService.getPhrases(token, bucket.phrasesUrl)
 
         val solvableItems = phrases.map {
             SolvableItem(

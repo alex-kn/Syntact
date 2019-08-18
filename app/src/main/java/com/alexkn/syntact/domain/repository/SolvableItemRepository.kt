@@ -5,13 +5,12 @@ import androidx.lifecycle.LiveData
 import androidx.work.*
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
-import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
-import com.alexkn.syntact.restservice.SyntactService
+import com.alexkn.syntact.rest.service.SyntactService
 import java.lang.Exception
 import java.time.Instant
 import java.time.temporal.ChronoUnit
@@ -28,34 +27,10 @@ internal constructor(
         private val property: Property,
         private val syntactService: SyntactService,
         private val solvableItemDao: SolvableItemDao,
-        private val bucketDao: BucketDao,
         private val clueDao: ClueDao
 ) {
 
-
-    fun getDueSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> {
-
-        return solvableItemDao.getSolvableTranslationsDueBefore(bucketId, Instant.now())
-    }
-
-    fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> {
-        return solvableItemDao.getSolvableTranslations(bucketId)
-    }
-
-    suspend fun disableSolvableItem(solvableTranslationCto: SolvableTranslationCto) {
-
-        val solvableItem = solvableTranslationCto.solvableItem
-        solvableItem.disabled = true;
-        solvableItemDao.update(solvableItem)
-    }
-
-    suspend fun getNextSolvableTranslations(bucketId: Long?, time: Instant, fetchThreshold: Int): List<SolvableTranslationCto> {
-
-        var items = solvableItemDao.getNextTranslationsDueBefore(bucketId!!, time, fetchThreshold)
-
-
-        return items
-    }
+    fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> = solvableItemDao.getSolvableTranslations(bucketId)
 
     suspend fun findNextSolvableTranslation(bucketId: Long, time: Instant): SolvableTranslationCto {
 
@@ -63,14 +38,12 @@ internal constructor(
 
         return if (nextTranslation.clue == null) {
             val token = "Token " + property["api-auth-token"]
-
             val translations = syntactService.getTranslations(token, nextTranslation.solvableItem.translationUrl, Locale.getDefault().language)
-
             if (translations.size > 1) {
                 Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
             }
             if (translations.isEmpty()) {
-                throw Exception("No Translation found for ${nextTranslation.solvableItem}")
+                throw Exception("No TranslationResponse found for ${nextTranslation.solvableItem}")
             }
             val translation = translations[0]
             val clue = Clue(
@@ -96,10 +69,17 @@ internal constructor(
         WorkManager.getInstance().enqueueUniqueWork(FetchPhrasesWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest)
     }
 
+    suspend fun disableSolvableItem(solvableTranslationCto: SolvableTranslationCto) {
+
+        val solvableItem = solvableTranslationCto.solvableItem
+        solvableItem.disabled = true;
+        solvableItemDao.update(solvableItem)
+    }
+
     suspend fun solvePhrase(solvableTranslation: SolvableTranslationCto) {
 
         val solvableItem = solvableTranslation.solvableItem
-        Log.i(TAG, "Solving Phrase " + solvableItem.text)
+        Log.i(TAG, "Solving PhraseResponse " + solvableItem.text)
 
         val performanceRating = 3
         var easiness = solvableItem.easiness
@@ -122,7 +102,7 @@ internal constructor(
     suspend fun phraseIncorrect(solvableTranslation: SolvableTranslationCto) {
 
         val solvableItem = solvableTranslation.solvableItem
-        Log.i(TAG, "Phrase incorrect " + solvableItem.text)
+        Log.i(TAG, "PhraseResponse incorrect " + solvableItem.text)
 
         val performanceRating = 1
         var easiness = solvableItem.easiness

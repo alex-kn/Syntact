@@ -1,4 +1,4 @@
-package com.alexkn.syntact.restservice
+package com.alexkn.syntact.rest.to
 
 import java.util.Locale
 

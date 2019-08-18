@@ -2,19 +2,16 @@ package com.alexkn.syntact.domain.worker
 
 import android.content.Context
 import android.util.Log
-import androidx.work.Data
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
-import com.alexkn.syntact.data.common.AppDatabase
 import com.alexkn.syntact.data.dao.BucketDao
-import com.alexkn.syntact.data.model.Bucket
-import com.alexkn.syntact.restservice.PhrasesRequest
-import com.alexkn.syntact.restservice.SyntactService
-import com.alexkn.syntact.restservice.TemplateRequest
-import com.alexkn.syntact.restservice.TemplateType
+import com.alexkn.syntact.rest.to.PhrasesRequest
+import com.alexkn.syntact.rest.service.SyntactService
+import com.alexkn.syntact.rest.to.TemplateRequest
+import com.alexkn.syntact.data.common.TemplateType
 import java.io.IOException
 import java.util.*
 import javax.inject.Inject

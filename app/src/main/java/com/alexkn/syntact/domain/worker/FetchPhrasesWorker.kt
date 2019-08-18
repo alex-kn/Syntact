@@ -11,8 +11,7 @@ import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.restservice.SyntactService
+import com.alexkn.syntact.rest.service.SyntactService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import java.lang.Exception
@@ -59,7 +58,7 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Cor
                     Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
                 }
                 if (translations.isEmpty()) {
-                    throw Exception("No Translation found for $it")
+                    throw Exception("No TranslationResponse found for $it")
                 }
                 val translation = translations[0]
                 val clue = Clue(

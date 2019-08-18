@@ -1,4 +1,4 @@
-package com.alexkn.syntact.restservice
+package com.alexkn.syntact.data.common
 
 import com.google.gson.annotations.SerializedName
 

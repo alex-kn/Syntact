@@ -3,7 +3,7 @@ package com.alexkn.syntact.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.alexkn.syntact.data.common.Identifiable
-import com.alexkn.syntact.restservice.TemplateType
+import com.alexkn.syntact.data.common.TemplateType
 import java.util.*
 
 @Entity

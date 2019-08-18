@@ -1,9 +1,8 @@
-package com.alexkn.syntact.restservice
+package com.alexkn.syntact.rest.to
 
 import java.util.Locale
-import java.util.Objects
 
-data class Translation(
+data class TranslationResponse(
         var id: Long,
         var text: String,
         var language: Locale
