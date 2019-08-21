@@ -6,12 +6,15 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent" android:background="@color/color_background"
-        android:layout_height="wrap_content" app:liftOnScroll="true">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_background"
+        app:liftOnScroll="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:minHeight="58dp">
 
 
             <ImageButton
@@ -42,8 +45,9 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent" android:layout_margin="8dp"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp">
 
             <TextView
                 android:id="@+id/phrasesOnDeviceTextView"
@@ -59,8 +63,8 @@
                 android:id="@+id/downloadButton"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:padding="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
                 android:tint="@color/color_on_surface"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

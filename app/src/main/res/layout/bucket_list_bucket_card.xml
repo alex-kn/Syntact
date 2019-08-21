@@ -11,10 +11,6 @@
             type="com.alexkn.syntact.data.model.views.BucketDetail" />
 
         <variable
-            name="dailyAverage"
-            type="String" />
-
-        <variable
             name="progress"
             type="Integer" />
 
@@ -40,39 +36,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
                 android:adjustViewBounds="true"
+                android:background="@drawable/frame"
                 android:src="@{flag}"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/averageLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@{dailyAverage}"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dueProgressBar"
-                tools:text="2.7" />
 
             <TextView
                 android:id="@+id/bucketNameLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="@{bucket.name}"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Basic Bucket" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Daily Average"
-                android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                app:layout_constraintBaseline_toBaselineOf="@+id/averageLabel"
-                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/textView5"
@@ -87,11 +66,10 @@
                 android:id="@+id/dueLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:text="@{Integer.toString(bucket.dueCount)}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/averageLabel"
+                app:layout_constraintTop_toBottomOf="@+id/dueProgressBar"
                 tools:text="348" />
 
             <com.google.android.material.button.MaterialButton
@@ -125,6 +103,15 @@
                 android:progress="@{progress}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{bucket.language.displayLanguage}"
+                android:textAppearance="@style/TextAppearance.MyTheme.Caption"
+                app:layout_constraintStart_toStartOf="@+id/bucketNameLabel"
                 app:layout_constraintTop_toBottomOf="@+id/bucketNameLabel" />
 
 

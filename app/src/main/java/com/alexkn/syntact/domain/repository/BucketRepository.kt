@@ -73,7 +73,7 @@ internal constructor(
             SolvableItem(
                     id = it.id,
                     text = it.text.capitalize(),
-                    bucketId = bucket.id,
+                    bucketId = id,
                     translationUrl = it.translationsUrl
             )
         }

@@ -10,40 +10,22 @@ import java.util.Locale
 class Converters {
 
     @TypeConverter
-    fun toInstant(value: Long?): Instant? {
-
-        return if (value == null) null else Instant.ofEpochMilli(value)
-    }
+    fun toInstant(value: Long?): Instant? = value?.let { Instant.ofEpochMilli(value)}
 
     @TypeConverter
-    fun toLong(date: Instant?): Long? {
-
-        return date?.toEpochMilli()
-    }
+    fun toLong(date: Instant?) = date?.toEpochMilli()
 
     @TypeConverter
-    fun toLocale(value: String?): Locale? {
-
-        return if (value == null) null else Locale(value)
-    }
+    fun toLocale(value: String?) = value?.let { Locale(value) }
 
     @TypeConverter
-    fun toString(locale: Locale?): String? {
-
-        return locale?.language
-    }
+    fun toString(locale: Locale?) = locale?.language
 
     @TypeConverter
-    fun toTemplateType(value: String?): TemplateType? {
-
-        return if (value == null) null else TemplateType.valueOf(value)
-    }
+    fun toTemplateType(value: String?) = value?.let(TemplateType::valueOf)
 
     @TypeConverter
-    fun toString(templateType: TemplateType?): String? {
-
-        return templateType?.name
-    }
+    fun toString(templateType: TemplateType?) = templateType?.name
 }
 
 

@@ -2,14 +2,14 @@ package com.alexkn.syntact.data.common
 
 import com.google.gson.annotations.SerializedName
 
-enum class TemplateType {
+enum class TemplateType(val type: String) {
 
     @SerializedName("Basic")
-    BASIC,
+    BASIC("Basic"),
 
     @SerializedName("Advanced")
-    ADVANCED,
+    ADVANCED("Advanced"),
 
     @SerializedName("Custom")
-    CUSTOM
+    CUSTOM("Custom")
 }

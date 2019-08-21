@@ -4,7 +4,8 @@
 
     <Transition
         app:constraintSetEnd="@id/collapsed"
-        app:constraintSetStart="@id/expanded" app:motionInterpolator="easeInOut">
+        app:constraintSetStart="@id/expanded"
+        app:motionInterpolator="easeInOut">
 
         <OnSwipe
             app:dragDirection="dragUp"
@@ -20,28 +21,34 @@
 
         <Constraint
             android:id="@id/createBucketFab"
-            android:translationY="50dp"
             android:alpha="0"
-            />
+            android:scaleX=".8"
+            android:scaleY=".8"
+            android:translationY="50dp" />
 
         <Constraint
             android:id="@id/todayView"
             android:alpha="0"
-            android:translationY="-100dp"
-            />
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:translationY="-100dp" />
 
         <Constraint
             android:id="@id/todayLabel"
             android:alpha="0"
-            android:translationY="-100dp"
-            />
+            android:scaleX=".7
+"
+            android:scaleY=".7"
+            android:translationY="-100dp" />
 
         <Constraint
             android:id="@id/avatar"
-          android:alpha="0"
-            android:layout_width="64dp"  android:translationY="-100dp"
+            android:layout_width="64dp"
             android:layout_height="64dp"
-             />
+            android:alpha="0"
+            android:scaleX=".7"
+            android:scaleY=".7"
+            android:translationY="-100dp" />
 
         <Constraint
             android:id="@id/progressBar"
@@ -49,9 +56,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="0dp"
             android:layout_marginEnd="0dp"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </ConstraintSet>

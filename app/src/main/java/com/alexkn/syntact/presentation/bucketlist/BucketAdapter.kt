@@ -46,12 +46,10 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
         override fun bindTo(entity: BucketDetail) {
 
             this.bucket = entity
-            val created = entity.createdAt
-            val days = DAYS.between(created, Instant.now()) + 1
-            val average = entity.solvedCount.toDouble() / days
-            binding.dailyAverage = String.format("%.2f", average)
 
             binding.bucket = entity
+
+            binding.imageView2.clipToOutline = true
 
             val resId = itemView.context.resources.getIdentifier(entity.language.language, "drawable", itemView.context.packageName)
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
