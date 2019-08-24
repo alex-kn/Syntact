@@ -15,6 +15,8 @@ import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.rest.service.SyntactService
 import com.alexkn.syntact.rest.to.TemplateResponse
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -52,7 +54,7 @@ internal constructor(
         return WorkManager.getInstance().enqueueUniqueWork(CreateBucketWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest).result
     }
 
-    suspend fun addBucketWithExistingTemplate(template: Template) {
+    suspend fun addBucketWithExistingTemplate(template: Template)  = withContext(Dispatchers.Default) {
 
         val sourceLanguage = Locale.getDefault()
 

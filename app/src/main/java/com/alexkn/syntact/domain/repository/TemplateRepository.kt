@@ -7,6 +7,8 @@ import com.alexkn.syntact.data.dao.TemplateDao
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.rest.service.SyntactService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +25,7 @@ class TemplateRepository @Inject constructor(
         return templateDao.findAvailable()
     }
 
-    suspend fun updateTemplates() {
+    suspend fun updateTemplates() = withContext(Dispatchers.Default){
         val token = "Token " + property["api-auth-token"]
         val templateResponses = syntactService.getTemplates(token)
         val templates = templateResponses.filter {

@@ -11,6 +11,8 @@ import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
 import com.alexkn.syntact.rest.service.SyntactService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 import java.time.Instant
 import java.time.temporal.ChronoUnit
