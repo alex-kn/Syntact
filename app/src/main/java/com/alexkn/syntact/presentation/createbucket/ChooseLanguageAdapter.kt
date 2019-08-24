@@ -62,8 +62,6 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
 
     override fun getItemCount(): Int = dataset.size
 
-    fun getItemAt(position: Int): Locale = dataset[position]
-
     fun getLanguage(): LiveData<Locale> {
         return onClickSubject
     }

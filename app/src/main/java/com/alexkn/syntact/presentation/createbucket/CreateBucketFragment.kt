@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -43,25 +42,19 @@ class CreateBucketFragment : Fragment() {
 
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
-
-        val dataset = viewModel.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
-
         val languageLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         languageRecyclerView.layoutManager = languageLayoutManager
-        val adapter = ChooseLanguageAdapter(dataset)
-        languageRecyclerView.adapter = adapter
+        val chooseLanguageAdapter = ChooseLanguageAdapter(viewModel.availableLanguages)
+        languageRecyclerView.adapter = chooseLanguageAdapter
 
         val bottomSheetBehavior = BottomSheetBehavior.from(languageSheet)
 
-        adapter.getLanguage().observe(viewLifecycleOwner, Observer { locale ->
+        chooseLanguageAdapter.getLanguage().observe(viewLifecycleOwner, Observer { locale ->
             selectedLanguage = locale
             val resId = context!!.resources.getIdentifier(locale.language, "drawable", context!!.packageName)
             flagImage.setImageResource(resId)
-            Handler().postDelayed({
-                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-            }, 300)
+            Handler().postDelayed({ bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }, 300)
         })
-
 
         val templateLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         selectTemplateRecyclerView.layoutManager = templateLayoutManager
@@ -69,9 +62,8 @@ class CreateBucketFragment : Fragment() {
         val chooseTemplateAdapter = ChooseTemplateAdapter()
         selectTemplateRecyclerView.adapter = chooseTemplateAdapter
         val linearSnapHelper = LinearSnapHelper()
-
         linearSnapHelper.attachToRecyclerView(selectTemplateRecyclerView)
-
+        selectTemplateRecyclerView.visibility = View.GONE
 
         chooseLanguageSheetLabel.text = "0 Templates"
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -87,20 +79,16 @@ class CreateBucketFragment : Fragment() {
 
         flagImage.clipToOutline = true
 
-
-
         chooseTemplateAdapter.createListener = Consumer {
             viewModel.addBucketFromExistingTemplate(it)
             Navigation.findNavController(view).popBackStack()
         }
 
-        selectTemplateRecyclerView.visibility = View.GONE
-
         filteredTemplates.addSource(viewModel.availableTemplates) {
             filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
         }
 
-        filteredTemplates.addSource(adapter.getLanguage()) {
+        filteredTemplates.addSource(chooseLanguageAdapter.getLanguage()) {
             val list = viewModel.availableTemplates.value
             filteredTemplates.value = list?.filter { t -> t.language == it }
         }

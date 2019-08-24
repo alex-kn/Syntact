@@ -20,7 +20,7 @@ constructor(
         private val templateRepository: TemplateRepository
 ) : ViewModel() {
 
-    val availableLanguages: MutableList<Locale> = bucketRepository.availableLanguages
+    lateinit var availableLanguages: List<Locale>
 
 
     var availableTemplates: LiveData<List<Template>> = templateRepository.findTemplates()
@@ -30,6 +30,12 @@ constructor(
         viewModelScope.launch {
             templateRepository.updateTemplates()
         }
+        viewModelScope.launch(Dispatchers.Default) {
+            availableLanguages = bucketRepository.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
+
+        }
+
+
     }
 
     fun addBucketFromExistingTemplate(template: Template) {
