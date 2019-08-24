@@ -1,18 +1,15 @@
 package com.alexkn.syntact.presentation.createbucket
 
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import com.alexkn.syntact.R
-import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
-import com.alexkn.syntact.databinding.BucketCreateChooseTemplateCardBinding
+import com.alexkn.syntact.databinding.CreateBucketTemplateCardBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.card.MaterialCardView
 import java.util.function.Consumer
 
 
@@ -22,7 +19,7 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseTemplateViewHolder {
 
-        val binding = DataBindingUtil.inflate<BucketCreateChooseTemplateCardBinding>(LayoutInflater.from(parent.context), R.layout.bucket_create_choose_template_card, parent, false)
+        val binding = DataBindingUtil.inflate<CreateBucketTemplateCardBinding>(LayoutInflater.from(parent.context), R.layout.create_bucket_template_card, parent, false)
         return ChooseTemplateViewHolder(binding)
     }
 
@@ -33,7 +30,7 @@ class ChooseTemplateAdapter : ListItemAdapter<Template, ChooseTemplateAdapter.Ch
         holder.createButton.setOnClickListener { createListener.accept(template) }
     }
 
-    class ChooseTemplateViewHolder(var databinding: BucketCreateChooseTemplateCardBinding) : ListItemViewHolder<Template>(databinding.root) {
+    class ChooseTemplateViewHolder(var databinding: CreateBucketTemplateCardBinding) : ListItemViewHolder<Template>(databinding.root) {
 
         var createButton: MaterialButton = itemView.findViewById(R.id.chooseButton)
 

@@ -8,13 +8,13 @@
         android:id="@+id/createBucketFragment"
         android:name="com.alexkn.syntact.presentation.createbucket.CreateBucketFragment"
         android:label="bucket_create_fragment"
-        tools:layout="@layout/bucket_create_fragment" >
+        tools:layout="@layout/create_bucket_fragment" >
     </fragment>
     <fragment
         android:id="@+id/playMenuFragment"
         android:name="com.alexkn.syntact.presentation.bucketlist.PlayMenuFragment"
         android:label="play_menu_fragment"
-        tools:layout="@layout/play_menu_fragment">
+        tools:layout="@layout/bucket_list_fragment">
         <action
             android:id="@+id/action_playMenuFragment_to_flashcardFragment"
             app:destination="@id/flashcardFragment"

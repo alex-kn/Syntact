@@ -14,8 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.flashcard_fragment.*
-import kotlinx.android.synthetic.main.play_menu_fragment.*
+import kotlinx.android.synthetic.main.bucket_list_fragment.*
 
 
 class PlayMenuFragment : Fragment() {
@@ -29,7 +28,7 @@ class PlayMenuFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.play_menu_fragment, container, false)
+        return inflater.inflate(R.layout.bucket_list_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

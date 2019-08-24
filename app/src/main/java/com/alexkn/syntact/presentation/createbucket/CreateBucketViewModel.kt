@@ -1,8 +1,6 @@
 package com.alexkn.syntact.presentation.createbucket
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.room.Relation
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
@@ -21,9 +19,11 @@ constructor(
         private val templateRepository: TemplateRepository
 ) : ViewModel() {
 
-    val availableBuckets: MutableList<Locale> = bucketRepository.availableLanguages
+    val availableLanguages: MutableList<Locale> = bucketRepository.availableLanguages
+
 
     var availableTemplates: LiveData<List<Template>> = templateRepository.findTemplates()
+
 
     init {
         viewModelScope.launch {
@@ -36,4 +36,5 @@ constructor(
             bucketRepository.addBucketWithExistingTemplate(template)
         }
     }
+
 }

@@ -19,7 +19,7 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseLanguageViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.bucket_create_choose_child, parent, false)
+                .inflate(R.layout.create_butcket_language_item, parent, false)
 
         return ChooseLanguageViewHolder(view)
     }

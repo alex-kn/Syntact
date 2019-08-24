@@ -5,9 +5,6 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
-import android.widget.TextView
-import android.widget.ViewSwitcher
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.Observer
@@ -20,17 +17,13 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.data.model.Template
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import kotlinx.android.synthetic.main.bucket_create_fragment.*
-import kotlinx.android.synthetic.main.language_sheet.*
+import kotlinx.android.synthetic.main.create_bucket_fragment.*
+import kotlinx.android.synthetic.main.create_bucket_language_sheet.*
 import java.util.*
 import java.util.function.Consumer
 
 
 class CreateBucketFragment : Fragment() {
-
-
-
-
 
     private lateinit var viewModel: CreateBucketViewModel
 
@@ -39,7 +32,7 @@ class CreateBucketFragment : Fragment() {
     private var filteredTemplates: MediatorLiveData<List<Template>> = MediatorLiveData()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.bucket_create_fragment, container, false)
+        return inflater.inflate(R.layout.create_bucket_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +44,7 @@ class CreateBucketFragment : Fragment() {
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
 
-        val dataset = viewModel.availableBuckets.filter { locale -> locale.language != Locale.getDefault().language }
+        val dataset = viewModel.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
 
         val languageLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         languageRecyclerView.layoutManager = languageLayoutManager
@@ -62,7 +55,6 @@ class CreateBucketFragment : Fragment() {
 
         adapter.getLanguage().observe(viewLifecycleOwner, Observer { locale ->
             selectedLanguage = locale
-            chooseLanguageSheetLabel.setText(selectedLanguage!!.displayLanguage)
             val resId = context!!.resources.getIdentifier(locale.language, "drawable", context!!.packageName)
             flagImage.setImageResource(resId)
             Handler().postDelayed({
@@ -81,32 +73,15 @@ class CreateBucketFragment : Fragment() {
         linearSnapHelper.attachToRecyclerView(selectTemplateRecyclerView)
 
 
-        chooseLanguageSheetLabel.setFactory(factory)
-        chooseLanguageSheetLabel.setCurrentText("Choose Language")
-        val `in` = AnimationUtils.loadAnimation(context,
-                android.R.anim.fade_in)
-        val out = AnimationUtils.loadAnimation(context,
-                android.R.anim.fade_out)
-        chooseLanguageSheetLabel.inAnimation = `in`
-        chooseLanguageSheetLabel.outAnimation = out
+        chooseLanguageSheetLabel.text = "0 Templates"
         bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 arrowUp.rotation = slideOffset * -180
-                flagImage.alpha = (1 - slideOffset).toFloat()
+                flagImage.alpha = (1 - slideOffset)
             }
 
-            override fun onStateChanged(bottomSheet: View, newState: Int) {
-                if (BottomSheetBehavior.STATE_DRAGGING == newState) {
-
-                    chooseLanguageSheetLabel.setText("Choose Language")
-                } else if (BottomSheetBehavior.STATE_COLLAPSED == newState) {
-                    selectedLanguage?.let {
-                        chooseLanguageSheetLabel.setText(it.displayLanguage)
-                    } ?: run {
-                        chooseLanguageSheetLabel.setText("Choose Language")
-                    }
-                }
-            }
+            override fun onStateChanged(bottomSheet: View, newState: Int) = Unit
         })
         bottomSheetBehavior.isHideable = false
 
@@ -134,14 +109,11 @@ class CreateBucketFragment : Fragment() {
             chooseTemplateAdapter.submitList(it)
             progressBar2.visibility = View.GONE
             selectTemplateRecyclerView.visibility = View.VISIBLE
-
+            when {
+                it.size == 1 -> chooseLanguageSheetLabel.text = "1 Template"
+                else -> chooseLanguageSheetLabel.text = "%d Templates".format(it.size)
+            }
         })
-    }
-
-    private val factory = ViewSwitcher.ViewFactory {
-        val t = TextView(context)
-        t.setTextAppearance(R.style.TextAppearance_MyTheme_Subtitle1)
-        t
     }
 
 }
