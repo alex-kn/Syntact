@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
@@ -30,41 +31,49 @@ class FlashcardFragment : Fragment() {
 
     lateinit var binding: FlashcardFragmentBinding
 
-    lateinit var motionLayout: MotionLayout
+    var state = State.SOLVE
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override
+
+    fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         binding = DataBindingUtil.inflate(inflater, R.layout.flashcard_fragment, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupMotionlayout(view)
-        viewModel = ViewModelProviders
-                .of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.flashcardViewModelFactory())
+
+        viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.flashcardViewModelFactory())
                 .get(FlashcardViewModel::class.java)
-
-        motionLayout = binding.root.findViewById(R.id.motionLayout)
-
-
-        motionLayout.setTransitionListener(TransitionListener())
-
 
         nextButton.isEnabled = false
         nextButton.setOnClickListener {
-            val solved = viewModel.checkSolution(solutionInput.text.toString().trim())
-            if (solved) {
-                current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
-            } else {
-                current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
-            }
+            if (State.SOLVE == state) {
 
-            solutionInput.text?.clear()
-            current.animate().translationYBy(-20f).alpha(.75f).setDuration(100).withEndAction {
+                val solved = viewModel.checkSolution(solutionInput.text.toString().trim())
+                if (solved) {
+                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
+                } else {
+                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
+                }
+
+                solutionInput.text?.clear()
+                solutionInputLayout.visibility = View.INVISIBLE
+                solutionOutput.visibility = View.VISIBLE
+                current.animate().translationYBy(-20f).alpha(.75f).setDuration(100).withEndAction {
+                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
+                    current.animate().translationYBy(20f).alpha(1f).setDuration(100).withEndAction {
+                        nextButton.text = "Next"
+                        state = State.SOLUTION
+                    }.start()
+                }.start()
+            } else if (State.SOLUTION == state) {
+                nextButton.text = "Solve"
+                solutionInputLayout.visibility = View.VISIBLE
+                solutionOutput.visibility = View.INVISIBLE
                 viewModel.fetchNext()
-                current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
-                current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
-            }.start()
+                state = State.SOLVE
+            }
         }
 
         val bucketId = FlashcardFragmentArgs.fromBundle(arguments!!).bucketId
@@ -89,10 +98,12 @@ class FlashcardFragment : Fragment() {
                 nextButton.isEnabled = true;
                 loadTranslationProgress.visibility = View.GONE
                 binding.currentClue = cto.clue!!.text
+                binding.solutionOutput.text = it.solvableItem.text
             } ?: run {
                 nextButton.isEnabled = false;
                 loadTranslationProgress.visibility = View.VISIBLE
                 binding.currentClue = ""
+                binding.solutionOutput.text = ""
             }
         })
 
@@ -103,50 +114,28 @@ class FlashcardFragment : Fragment() {
                     InputMethodManager.HIDE_NOT_ALWAYS);
 
         }
-
-//        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
-//        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
-
     }
 
     private fun updateFlashcards() {
         viewModel.fetchNext()
-//        viewModel.currentSolvableTranslation.removeObservers(this)
-//        viewModel.currentSolvableTranslation.observe(this, currentFlashcardObserver)
-//        viewModel.nextSolvableTranslation.removeObservers(this)
-//        viewModel.nextSolvableTranslation.observe(this, nextFlashcardObserver)
     }
 
-    private fun setupMotionlayout(view: View) {
-        val vto = view.viewTreeObserver
-        vto.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                vto.removeOnGlobalLayoutListener(this)
-                val width = current.measuredWidth
-                val nextStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
-                nextStateConstraintSet.constrainWidth(R.id.next, width)
-                nextStateConstraintSet.constrainWidth(R.id.current, width)
-                val currentStateConstraintSet = motionLayout.getConstraintSet(R.id.next_state)
-                currentStateConstraintSet.constrainWidth(R.id.next, width)
-            }
-        })
-    }
 
     inner class SolutionTextWatcher : TextWatcher {
 
         override fun afterTextChanged(s: Editable) {
-            if (!s.isBlank()) {
-                if (viewModel.checkSolution(s.toString().trim())) {
-                    s.clear()
-                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
-
-                current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
-                    viewModel.fetchNext()
-                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
-                    current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
-                }.start()
-                }
-            }
+//            if (!s.isBlank()) {
+//                if (viewModel.checkSolution(s.toString().trim())) {
+//                    s.clear()
+//                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
+//
+//                    current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
+//                        viewModel.fetchNext()
+//                        current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
+//                        current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
+//                    }.start()
+//                }
+//            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
@@ -154,20 +143,6 @@ class FlashcardFragment : Fragment() {
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
     }
 
-    inner class TransitionListener : TransitionAdapter() {
-
-        override fun onTransitionChange(motionLayout: MotionLayout, startId: Int, endId: Int, progress: Float) = handleTransition(motionLayout)
-
-        override fun onTransitionCompleted(motionLayout: MotionLayout, currentId: Int) = handleTransition(motionLayout)
-
-        private fun handleTransition(motionLayout: MotionLayout) {
-//            if (motionLayout.currentState == R.id.next_state) {
-//                motionLayout.post {
-//                    motionLayout.progress = 0f
-//                    updateFlashcards()
-//                }
-//            }
-        }
-    }
+    enum class State { SOLVE, SOLUTION }
 }
 
