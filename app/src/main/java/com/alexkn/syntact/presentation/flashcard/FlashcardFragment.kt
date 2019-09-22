@@ -46,6 +46,8 @@ class FlashcardFragment : Fragment() {
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.flashcardViewModelFactory())
                 .get(FlashcardViewModel::class.java)
 
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
         nextButton.isEnabled = false
         nextButton.setOnClickListener {
             if (State.SOLVE == state) {
@@ -56,23 +58,29 @@ class FlashcardFragment : Fragment() {
                 } else {
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
                 }
-
-                solutionInput.text?.clear()
-                solutionInputLayout.visibility = View.INVISIBLE
-                solutionOutput.visibility = View.VISIBLE
                 current.animate().translationYBy(-20f).alpha(.75f).setDuration(100).withEndAction {
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
-                    current.animate().translationYBy(20f).alpha(1f).setDuration(100).withEndAction {
-                        nextButton.text = "Next"
-                        state = State.SOLUTION
-                    }.start()
+                    current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
+
+
+                    solutionInput.text?.clear()
+                    solutionInputLayout.visibility = View.INVISIBLE
+                    solutionOutput.visibility = View.VISIBLE
+                    nextButton.text = "Next"
                 }.start()
+                state = State.SOLUTION
+                imm.hideSoftInputFromWindow(solutionInput.windowToken,
+                        InputMethodManager.HIDE_NOT_ALWAYS);
             } else if (State.SOLUTION == state) {
                 nextButton.text = "Solve"
                 solutionInputLayout.visibility = View.VISIBLE
                 solutionOutput.visibility = View.INVISIBLE
+
                 viewModel.fetchNext()
                 state = State.SOLVE
+                if (solutionInputLayout.requestFocus()) {
+                    imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
+                }
             }
         }
 
@@ -80,7 +88,6 @@ class FlashcardFragment : Fragment() {
         viewModel.init(bucketId)
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())
-        val imm = context!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         if (solutionInputLayout.requestFocus()) {
             imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
         }
@@ -124,18 +131,22 @@ class FlashcardFragment : Fragment() {
     inner class SolutionTextWatcher : TextWatcher {
 
         override fun afterTextChanged(s: Editable) {
-//            if (!s.isBlank()) {
-//                if (viewModel.checkSolution(s.toString().trim())) {
-//                    s.clear()
-//                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
-//
-//                    current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
-//                        viewModel.fetchNext()
-//                        current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
-//                        current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
-//                    }.start()
-//                }
-//            }
+            if (!s.isBlank()) {
+                if (viewModel.checkSolution(s.toString().trim())) {
+                    s.clear()
+                    solutionInputLayout.visibility = View.INVISIBLE
+                    solutionOutput.visibility = View.VISIBLE
+                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
+
+                    current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
+                        viewModel.fetchNext()
+                        solutionInputLayout.visibility = View.VISIBLE
+                        solutionOutput.visibility = View.INVISIBLE
+                        current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
+                        current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
+                    }.start()
+                }
+            }
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

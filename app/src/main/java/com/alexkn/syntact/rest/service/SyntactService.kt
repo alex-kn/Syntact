@@ -7,7 +7,7 @@ import retrofit2.http.*
 
 interface SyntactService {
 
-    @GET("templates/")
+    @GET("templates")
     suspend fun getTemplates(@Header("Authorization") token: String): List<TemplateResponse>
 
     @GET

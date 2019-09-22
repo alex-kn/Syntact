@@ -32,9 +32,8 @@ internal constructor(
         private val solvableItemRepository: SolvableItemRepository
 ) {
 
-    val availableLanguages: MutableList<Locale> by lazy {
-        property["available-languages"].split(",").map { Locale(it) }.toMutableList()
-    }
+    val availableLanguages: MutableList<Locale> = property["available-languages"].split(",").map { Locale(it) }.toMutableList()
+
 
     val bucketDetails: LiveData<List<BucketDetail>>
         get() = bucketDao.findBucketDetails()

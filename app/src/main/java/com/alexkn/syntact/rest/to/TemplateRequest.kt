@@ -7,7 +7,9 @@ import java.util.Locale
 
 data class TemplateRequest(
         var name: String,
-        @SerializedName("template_type") var templateType: TemplateType,
-        var language: Locale
+        var description: String,
+        var source: Locale,
+        var target: Locale,
+        var words: List<String>
 )
 

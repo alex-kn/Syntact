@@ -20,7 +20,7 @@ constructor(
         private val templateRepository: TemplateRepository
 ) : ViewModel() {
 
-    lateinit var availableLanguages: List<Locale>
+    var availableLanguages: List<Locale> =bucketRepository.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
 
 
     var availableTemplates: LiveData<List<Template>> = templateRepository.findTemplates()
@@ -29,10 +29,6 @@ constructor(
     init {
         viewModelScope.launch {
             templateRepository.updateTemplates()
-        }
-        viewModelScope.launch(Dispatchers.Default) {
-            availableLanguages = bucketRepository.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
-
         }
 
 

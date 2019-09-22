@@ -8,12 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.bucket_details.*
 import kotlinx.android.synthetic.main.bucket_list_fragment.*
 
 
@@ -38,7 +40,8 @@ class PlayMenuFragment : Fragment() {
 
         createBucketFab.setOnClickListener(this::newBucket)
 
-        languagesList.layoutManager = LinearLayoutManager(this.context)
+        val linearLayoutManager = LinearLayoutManager(this.context)
+        languagesList.layoutManager = linearLayoutManager
         val bucketAdapter = BucketAdapter()
         languagesList.adapter = bucketAdapter
 

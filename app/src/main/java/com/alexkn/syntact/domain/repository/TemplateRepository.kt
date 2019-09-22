@@ -37,13 +37,14 @@ class TemplateRepository @Inject constructor(
                     templateType = it.templateType,
                     language = it.language,
                     phrasesUrl = it.phrasesUrl,
-                    count = it.count,
+                    count = 0,
                     description = it.description
             )
         }
-        templateDao.insert(templates)
         templates.forEach {
             val phraseResponses = syntactService.getPhrases(token, it.phrasesUrl)
+            it.count = phraseResponses.size
+            templateDao.insert(it)
             val phrases = phraseResponses.map { phrase ->
                 Phrase(id = phrase.id, text = phrase.text, templateId = it.id)
             }
