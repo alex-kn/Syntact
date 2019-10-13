@@ -2,11 +2,11 @@ package com.alexkn.syntact.app
 
 import android.content.Context
 
-import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
 import com.alexkn.syntact.presentation.bucketdetails.BucketDetailsViewModel
 import com.alexkn.syntact.presentation.bucketlist.PlayMenuViewModel
 import com.alexkn.syntact.presentation.createbucket.CreateBucketViewModel
+import com.alexkn.syntact.presentation.createtemplate.CreateTemplateViewModel
 import com.alexkn.syntact.presentation.flashcard.FlashcardViewModel
 
 import javax.inject.Singleton
@@ -29,8 +29,6 @@ interface ApplicationComponent {
 
     fun inject(fetchPhrasesWorker: FetchPhrasesWorker)
 
-    fun inject(createBucketWorker: CreateBucketWorker)
-
     fun playMenuViewModelFactory(): ViewModelFactory<PlayMenuViewModel>
 
     fun createBucketViewModelFactory(): ViewModelFactory<CreateBucketViewModel>
@@ -38,6 +36,8 @@ interface ApplicationComponent {
     fun flashcardViewModelFactory(): ViewModelFactory<FlashcardViewModel>
 
     fun bucketDetailsViewModelFactory(): ViewModelFactory<BucketDetailsViewModel>
+
+    fun createTemplateViewModelFactory(): ViewModelFactory<CreateTemplateViewModel>
 }
 
 

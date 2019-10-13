@@ -31,7 +31,13 @@ class CreateBucketFragment : Fragment() {
 
     private var filteredTemplates: MediatorLiveData<List<Template>> = MediatorLiveData()
 
+    private lateinit var chooseLanguageAdapter: ChooseLanguageAdapter
+
+    private lateinit var chooseTemplateAdapter: ChooseTemplateAdapter
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+
         return inflater.inflate(R.layout.create_bucket_fragment, container, false)
     }
 
@@ -40,11 +46,33 @@ class CreateBucketFragment : Fragment() {
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createBucketViewModelFactory())
                 .get(CreateBucketViewModel::class.java)
 
+        chooseLanguageAdapter = ChooseLanguageAdapter(viewModel.availableLanguages)
+        chooseTemplateAdapter = ChooseTemplateAdapter()
+
+        filteredTemplates.addSource(viewModel.availableTemplates) {
+            filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
+        }
+
+        filteredTemplates.addSource(chooseLanguageAdapter.getLanguage()) {
+            val list = viewModel.availableTemplates.value
+            filteredTemplates.value = list?.filter { t -> t.language == it }
+        }
+
+        filteredTemplates.observe(viewLifecycleOwner, Observer {
+            chooseTemplateAdapter.submitList(it)
+            progressBar2.visibility = View.GONE
+            selectTemplateRecyclerView.visibility = View.VISIBLE
+            when {
+                it.size == 1 -> chooseLanguageSheetLabel.text = "1 Template"
+                else -> chooseLanguageSheetLabel.text = "%d Templates".format(it.size)
+            }
+        })
+
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
         val languageLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         languageRecyclerView.layoutManager = languageLayoutManager
-        val chooseLanguageAdapter = ChooseLanguageAdapter(viewModel.availableLanguages)
+
         languageRecyclerView.adapter = chooseLanguageAdapter
 
         val bottomSheetBehavior = BottomSheetBehavior.from(languageSheet)
@@ -59,7 +87,6 @@ class CreateBucketFragment : Fragment() {
         val templateLayoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
         selectTemplateRecyclerView.layoutManager = templateLayoutManager
 
-        val chooseTemplateAdapter = ChooseTemplateAdapter()
         selectTemplateRecyclerView.adapter = chooseTemplateAdapter
         val linearSnapHelper = LinearSnapHelper()
         linearSnapHelper.attachToRecyclerView(selectTemplateRecyclerView)
@@ -84,24 +111,22 @@ class CreateBucketFragment : Fragment() {
             Navigation.findNavController(view).popBackStack()
         }
 
-        filteredTemplates.addSource(viewModel.availableTemplates) {
-            filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
-        }
 
-        filteredTemplates.addSource(chooseLanguageAdapter.getLanguage()) {
-            val list = viewModel.availableTemplates.value
-            filteredTemplates.value = list?.filter { t -> t.language == it }
-        }
 
-        filteredTemplates.observe(viewLifecycleOwner, Observer {
-            chooseTemplateAdapter.submitList(it)
-            progressBar2.visibility = View.GONE
-            selectTemplateRecyclerView.visibility = View.VISIBLE
-            when {
-                it.size == 1 -> chooseLanguageSheetLabel.text = "1 Template"
-                else -> chooseLanguageSheetLabel.text = "%d Templates".format(it.size)
-            }
-        })
+        newTemplateButton.setOnClickListener {
+            val action = CreateBucketFragmentDirections.actionCreateBucketFragmentToCreateTemplateFragment()
+            Navigation.findNavController(it).navigate(action)
+        }
+    }
+
+    override fun onDestroyView() {
+
+
+        super.onDestroyView()
+
+        filteredTemplates.removeSource(viewModel.availableTemplates)
+        filteredTemplates.removeSource(chooseLanguageAdapter.getLanguage())
+
     }
 
 }

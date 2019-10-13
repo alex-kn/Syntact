@@ -11,7 +11,6 @@ import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
-import com.alexkn.syntact.domain.worker.CreateBucketWorker
 import com.alexkn.syntact.rest.service.SyntactService
 import com.alexkn.syntact.rest.to.TemplateResponse
 import com.google.common.util.concurrent.ListenableFuture
@@ -22,8 +21,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class BucketRepository @Inject
-internal constructor(
+class BucketRepository @Inject constructor(
         private val syntactService: SyntactService,
         private val property: Property,
         private val bucketDao: BucketDao,
@@ -42,15 +40,6 @@ internal constructor(
 
         val token = "Token " + property["api-auth-token"]
         return syntactService.getTemplates(token)
-    }
-
-    fun addBucketWithNewTemplate(name: String, language: Locale, words: List<String>): ListenableFuture<Operation.State.SUCCESS> {
-
-        val data = Data.Builder().putString("name", name).putString("language", language.language)
-                .putStringArray("words", words.toTypedArray()).build()
-
-        val workRequest = OneTimeWorkRequest.Builder(CreateBucketWorker::class.java).setInputData(data).build()
-        return WorkManager.getInstance().enqueueUniqueWork(CreateBucketWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest).result
     }
 
     suspend fun addBucketWithExistingTemplate(template: Template)  = withContext(Dispatchers.Default) {

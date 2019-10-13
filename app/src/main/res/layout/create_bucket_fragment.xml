@@ -36,12 +36,28 @@
                 android:contentDescription="back"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
-                android:scaleType="fitXY"
+                android:scaleType="centerCrop"
                 android:tint="@color/color_on_surface"
                 app:layout_constraintBottom_toBottomOf="@+id/header"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/header"
                 app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/newTemplateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginRight="4dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="add"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="4dp"
+                android:scaleType="centerCrop"
+                android:tint="@color/color_on_surface"
+                app:layout_constraintBottom_toBottomOf="@+id/header"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/header"
+                app:srcCompat="@drawable/ic_add_black_24dp" />
 
             <TextView
                 android:id="@+id/header"
@@ -49,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Create New"
+                android:text="Choose"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintStart_toEndOf="@+id/backButton"
                 app:layout_constraintTop_toTopOf="parent" />

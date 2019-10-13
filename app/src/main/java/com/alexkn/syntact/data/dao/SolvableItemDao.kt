@@ -37,7 +37,7 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.id = :id")
     abstract suspend fun getSolvableTranslation(id: Long): SolvableTranslationCto
 
-    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.bucketId = :bucketId AND c.clueId  is null")
+    @Query("SELECT s.* FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.bucketId = :bucketId AND c.clueId  is null")
     abstract suspend fun findSolvableItemsWithoutTranslation(bucketId: Long): List<SolvableItem>
 
     @Delete

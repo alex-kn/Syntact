@@ -24,8 +24,7 @@ import kotlin.math.pow
 import kotlin.math.roundToLong
 
 @Singleton
-class SolvableItemRepository @Inject
-internal constructor(
+class SolvableItemRepository @Inject constructor(
         private val property: Property,
         private val syntactService: SyntactService,
         private val solvableItemDao: SolvableItemDao,
