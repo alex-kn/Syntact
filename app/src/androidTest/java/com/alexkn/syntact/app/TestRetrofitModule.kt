@@ -1,6 +1,6 @@
 package com.alexkn.syntact.app
 
-import com.alexkn.syntact.rest.service.SyntactService
+import com.alexkn.syntact.service.SyntactService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides

@@ -33,7 +33,7 @@ constructor(
             try {
                 templateRepository.updateTemplates()
             } catch (e: Exception) {
-                Log.e(TAG, "Update tempaltes: ", e)
+                Log.e(TAG, "Update templates: ", e)
             }
         }
     }

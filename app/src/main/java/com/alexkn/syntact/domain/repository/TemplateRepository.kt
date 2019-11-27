@@ -5,14 +5,14 @@ import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.AuthProv
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.app.TAG
-import com.alexkn.syntact.data.common.TemplateType
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.TemplateDao
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
-import com.alexkn.syntact.rest.service.SyntactService
-import com.alexkn.syntact.rest.to.TemplateRequest
+import com.alexkn.syntact.service.SyntactService
+import com.alexkn.syntact.service.to.TemplateRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -48,14 +48,18 @@ class TemplateRepository @Inject constructor(
             )
         }
         templates.forEach {
-            val phraseResponses = syntactService.getPhrases("Bearer $token", it.phrasesUrl)
-            it.count = phraseResponses.size
-            templateDao.insert(it)
-            val phrases = phraseResponses.map { phrase ->
-                Phrase(id = phrase.id, text = phrase.text, templateId = it.id)
+            async {
+
+                val phraseResponses = syntactService.getPhrases("Bearer $token", it.phrasesUrl)
+                it.count = phraseResponses.size
+                templateDao.insert(it)
+                val phrases = phraseResponses.map { phrase ->
+                    Phrase(id = phrase.id, text = phrase.text, templateId = it.id)
+                }
+                templateDao.insertPhrases(phrases)
             }
-            templateDao.insertPhrases(phrases)
         }
+        templateDao.deleteTemplatesNotIn(templates.map { it.id })
     }
 
     suspend fun postTemplate(text: String) {

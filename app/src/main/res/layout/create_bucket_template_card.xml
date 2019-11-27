@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="template"
             type="com.alexkn.syntact.data.model.Template" />
@@ -58,6 +59,21 @@
                 tools:text="Custom Template" />
 
             <TextView
+                android:id="@+id/textView7"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="@{Integer.toString(template.count)}"
+                android:textAppearance="@style/TextAppearance.MyTheme.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView"
+                tools:text="15" />
+
+            <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -69,7 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chooseTemplateTextView"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vestibulum nulla et massa aliquam vehicula. In lacinia volutpat ornare. Ut lorem lorem, consequat auctor pretium id, feugiat nec erat." />
 
             <com.google.android.material.button.MaterialButton

@@ -1,7 +1,6 @@
-package com.alexkn.syntact.rest.service
+package com.alexkn.syntact.service
 
-import com.alexkn.syntact.rest.to.*
-import okhttp3.Response
+import com.alexkn.syntact.service.to.*
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*

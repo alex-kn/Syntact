@@ -1,7 +1,6 @@
 package com.alexkn.syntact.domain.repository
 
 import androidx.lifecycle.LiveData
-import androidx.work.*
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
@@ -11,9 +10,8 @@ import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
-import com.alexkn.syntact.rest.service.SyntactService
-import com.alexkn.syntact.rest.to.TemplateResponse
-import com.google.common.util.concurrent.ListenableFuture
+import com.alexkn.syntact.service.SyntactService
+import com.alexkn.syntact.service.to.TemplateResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*

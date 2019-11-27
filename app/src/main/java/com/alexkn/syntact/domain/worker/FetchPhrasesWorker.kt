@@ -11,9 +11,9 @@ import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.rest.service.SyntactService
-import kotlinx.coroutines.async
+import com.alexkn.syntact.service.SyntactService
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import java.util.*
 import javax.inject.Inject
@@ -51,7 +51,7 @@ class FetchPhrasesWorker(context: Context, workerParams: WorkerParameters) : Cor
         val solvableItems = solvableItemDao.findSolvableItemsWithoutTranslation(bucketId)
 
         solvableItems.forEach {
-            async {
+            launch {
                 val translations = syntactService.getTranslations(token, it.translationUrl, Locale.getDefault().language)
 
                 if (translations.size > 1) {

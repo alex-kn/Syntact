@@ -4,12 +4,12 @@ import com.google.gson.annotations.SerializedName
 
 enum class TemplateType(val type: String) {
 
-    @SerializedName("Basic")
+    @SerializedName(value = "Basic", alternate = ["basic", "BASIC"])
     BASIC("Basic"),
 
-    @SerializedName("Advanced")
+    @SerializedName(value = "Advanced", alternate = ["advanced", "ADVANCED"])
     ADVANCED("Advanced"),
 
-    @SerializedName("Custom")
+    @SerializedName("Custom", alternate = ["custom", "CUSTOM"])
     CUSTOM("Custom")
 }

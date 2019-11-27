@@ -1,4 +1,4 @@
-package com.alexkn.syntact.rest.to
+package com.alexkn.syntact.service.to
 
 import java.util.*
 

@@ -36,5 +36,7 @@ interface TemplateDao {
     @Query("SELECT * FROM Phrase WHERE templateId = :templateId")
     suspend fun findPhrases(templateId: Long): List<Phrase>
 
+    @Query("DELETE FROM Template WHERE id not in (:ids)")
+    suspend fun deleteTemplatesNotIn(ids: List<Long>)
 
 }
