@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.worker
+package com.alexkn.syntact.core.worker
 
 import android.content.Context
 import android.util.Log

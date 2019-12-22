@@ -33,7 +33,6 @@ class SmokeTest {
 
     private val mainThreadSurrogate = newSingleThreadContext("UI thread")
 
-
     @get:Rule
     var activityScenarioRule = androidx.test.ext.junit.rules.activityScenarioRule<MainActivity>()
 
@@ -53,7 +52,7 @@ class SmokeTest {
 
         launch {
             onView(withId(R.id.createBucketFab)).perform(click())
-            onView(withId(R.id.header)).check(matches(withText("Create New")))
+            onView(withId(R.id.header)).check(matches(withText("Choose")))
             Thread.sleep(1000)
             onView(allOf(withId(R.id.chooseButton), isDisplayed())).perform(click())
             onView(withId(R.id.startButton)).perform(click())
@@ -70,4 +69,7 @@ class SmokeTest {
         }
     }
 
+    @Test
+    fun name() {
+    }
 }

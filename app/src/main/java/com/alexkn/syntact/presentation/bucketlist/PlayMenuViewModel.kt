@@ -1,15 +1,12 @@
 package com.alexkn.syntact.presentation.bucketlist
 
-import android.os.AsyncTask
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
-import com.alexkn.syntact.data.model.Bucket
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
-import com.alexkn.syntact.domain.repository.BucketRepository
+import com.alexkn.syntact.core.repository.BucketRepository
 import kotlinx.coroutines.launch
 
 import javax.inject.Inject

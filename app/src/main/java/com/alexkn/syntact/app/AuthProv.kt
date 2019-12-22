@@ -3,9 +3,8 @@ package com.alexkn.syntact.app
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.tasks.await
-import java.lang.IllegalStateException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,7 +19,7 @@ class AuthProv @Inject constructor() {
         val user = auth.currentUser
         if (user == null) {
             runBlocking {
-                var result = auth.signInAnonymously().await()
+                val result = auth.signInAnonymously().await()
                 firebaseUser = result.user
             }
         } else {

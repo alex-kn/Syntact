@@ -2,7 +2,7 @@ package com.alexkn.syntact.app
 
 import android.content.Context
 
-import com.alexkn.syntact.domain.worker.FetchPhrasesWorker
+import com.alexkn.syntact.core.worker.FetchPhrasesWorker
 import com.alexkn.syntact.presentation.bucketdetails.BucketDetailsViewModel
 import com.alexkn.syntact.presentation.bucketlist.PlayMenuViewModel
 import com.alexkn.syntact.presentation.createbucket.CreateBucketViewModel

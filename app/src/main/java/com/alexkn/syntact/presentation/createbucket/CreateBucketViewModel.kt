@@ -2,17 +2,13 @@ package com.alexkn.syntact.presentation.createbucket
 
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.room.Relation
 import com.alexkn.syntact.app.TAG
-import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
-import com.alexkn.syntact.domain.repository.BucketRepository
-import com.alexkn.syntact.domain.repository.TemplateRepository
+import com.alexkn.syntact.core.repository.BucketRepository
+import com.alexkn.syntact.core.repository.TemplateRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import org.apache.commons.lang3.StringUtils
 import java.util.*
 import javax.inject.Inject
 

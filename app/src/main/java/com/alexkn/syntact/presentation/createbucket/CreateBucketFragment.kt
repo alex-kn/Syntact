@@ -46,8 +46,11 @@ class CreateBucketFragment : Fragment() {
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createBucketViewModelFactory())
                 .get(CreateBucketViewModel::class.java)
 
-        chooseLanguageAdapter = ChooseLanguageAdapter(viewModel.availableLanguages)
         chooseTemplateAdapter = ChooseTemplateAdapter()
+
+
+        chooseLanguageAdapter = ChooseLanguageAdapter(viewModel.availableLanguages)
+        languageRecyclerView.adapter = chooseLanguageAdapter
 
         filteredTemplates.addSource(viewModel.availableTemplates) {
             filteredTemplates.value = it.filter { t -> selectedLanguage?.let { t.language == selectedLanguage } ?: true }
@@ -62,8 +65,8 @@ class CreateBucketFragment : Fragment() {
             chooseTemplateAdapter.submitList(it)
             progressBar2.visibility = View.GONE
             selectTemplateRecyclerView.visibility = View.VISIBLE
-            when {
-                it.size == 1 -> chooseLanguageSheetLabel.text = "1 Template"
+            when (it.size) {
+                1 -> chooseLanguageSheetLabel.text = "1 Template"
                 else -> chooseLanguageSheetLabel.text = "%d Templates".format(it.size)
             }
         })
@@ -73,7 +76,6 @@ class CreateBucketFragment : Fragment() {
         val languageLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         languageRecyclerView.layoutManager = languageLayoutManager
 
-        languageRecyclerView.adapter = chooseLanguageAdapter
 
         val bottomSheetBehavior = BottomSheetBehavior.from(languageSheet)
 

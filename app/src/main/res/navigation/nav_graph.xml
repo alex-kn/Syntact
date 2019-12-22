@@ -14,8 +14,8 @@
             app:destination="@id/createTemplateFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:popEnterAnim="@anim/fragment_open_exit"
+            app:popExitAnim="@anim/fragment_close_enter" />
     </fragment>
     <fragment
         android:id="@+id/playMenuFragment"
@@ -27,22 +27,22 @@
             app:destination="@id/flashcardFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:popEnterAnim="@anim/fragment_open_exit"
+            app:popExitAnim="@anim/fragment_close_enter" />
         <action
             android:id="@+id/action_playMenuFragment_to_createBucketFragment"
             app:destination="@id/createBucketFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:popEnterAnim="@anim/fragment_open_exit"
+            app:popExitAnim="@anim/fragment_close_enter" />
         <action
             android:id="@+id/action_playMenuFragment_to_bucketDetailsFragment"
             app:destination="@id/bucketDetailsFragment"
             app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit"
-            app:popEnterAnim="@anim/fragment_close_enter"
-            app:popExitAnim="@anim/fragment_close_exit" />
+            app:popEnterAnim="@anim/fragment_open_exit"
+            app:popExitAnim="@anim/fragment_close_enter" />
     </fragment>
     <fragment
         android:id="@+id/flashcardFragment"

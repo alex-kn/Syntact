@@ -4,14 +4,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.data.model.Bucket
 import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.data.model.views.BucketDetail
-import com.alexkn.syntact.domain.repository.BucketRepository
-import com.alexkn.syntact.domain.repository.SolvableItemRepository
-import com.alexkn.syntact.presentation.bucketdetails.BucketDetailsViewModel
+import com.alexkn.syntact.core.repository.BucketRepository
+import com.alexkn.syntact.core.repository.SolvableItemRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.Instant
 import javax.inject.Inject
@@ -28,6 +25,8 @@ class FlashcardViewModel @Inject constructor(
     var translation: MutableLiveData<SolvableTranslationCto?> = MutableLiveData()
         private set
 
+    var done = false
+
     private var bucketId: Long? = null
 
     fun init(bucketId: Long) {
@@ -41,6 +40,8 @@ class FlashcardViewModel @Inject constructor(
         translation.value = null
         viewModelScope.launch(Dispatchers.Default) {
             val nextTranslation = solvableItemRepository.findNextSolvableTranslation(bucketId!!, Instant.now())
+            done = nextTranslation == null
+
             translation.postValue(nextTranslation)
         }
     }

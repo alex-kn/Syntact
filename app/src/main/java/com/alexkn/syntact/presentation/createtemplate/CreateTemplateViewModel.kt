@@ -2,7 +2,7 @@ package com.alexkn.syntact.presentation.createtemplate
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.domain.repository.TemplateRepository
+import com.alexkn.syntact.core.repository.TemplateRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

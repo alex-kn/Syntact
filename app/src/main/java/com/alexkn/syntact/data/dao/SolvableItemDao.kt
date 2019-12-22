@@ -23,7 +23,7 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     abstract suspend fun getNextTranslationsDueBefore(bucketId: Long, time: Instant, count: Int): List<SolvableTranslationCto>
 
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.bucketId = :bucketId AND s.disabled  = 0 ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT 1")
-    abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant): SolvableTranslationCto
+    abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant): SolvableTranslationCto?
 
     @Query("SELECT IFNULL(MAX(id),0) FROM solvableitem WHERE bucketId = :bucketId;")
     abstract suspend fun getMaxId(bucketId: Long): Long

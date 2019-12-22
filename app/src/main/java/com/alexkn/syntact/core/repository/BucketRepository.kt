@@ -1,4 +1,4 @@
-package com.alexkn.syntact.domain.repository
+package com.alexkn.syntact.core.repository
 
 import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.Property
@@ -11,7 +11,6 @@ import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.service.SyntactService
-import com.alexkn.syntact.service.to.TemplateResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -24,8 +23,7 @@ class BucketRepository @Inject constructor(
         private val property: Property,
         private val bucketDao: BucketDao,
         private val playerStatsDao: PlayerStatsDao,
-        private val solvableItemDao: SolvableItemDao,
-        private val solvableItemRepository: SolvableItemRepository
+        private val solvableItemDao: SolvableItemDao
 ) {
 
     val availableLanguages: MutableList<Locale> = property["available-languages"].split(",").map { Locale(it) }.toMutableList()
@@ -34,13 +32,7 @@ class BucketRepository @Inject constructor(
     val bucketDetails: LiveData<List<BucketDetail>>
         get() = bucketDao.findBucketDetails()
 
-    suspend fun findAvailableTemplates(): List<TemplateResponse> {
-
-        val token = "Token " + property["api-auth-token"]
-        return syntactService.getTemplates(token)
-    }
-
-    suspend fun addBucketWithExistingTemplate(template: Template)  = withContext(Dispatchers.Default) {
+    suspend fun addBucketWithExistingTemplate(template: Template) = withContext(Dispatchers.Default) {
 
         val sourceLanguage = Locale.getDefault()
 
@@ -69,18 +61,8 @@ class BucketRepository @Inject constructor(
         solvableItemDao.insert(solvableItems)
     }
 
-    suspend fun removeLanguage(bucket: Bucket) {
-
-        bucketDao.delete(bucket)
-    }
-
     suspend fun deleteBucket(id: Long) {
         bucketDao.delete(id)
-    }
-
-    fun getBucket(id: Long): LiveData<Bucket> {
-
-        return bucketDao.findBucket(id)
     }
 
     fun getBucketDetail(id: Long): LiveData<BucketDetail> {
