@@ -10,7 +10,6 @@ import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.service.SyntactService
 import com.alexkn.syntact.service.to.TemplateRequest
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -67,8 +66,8 @@ class TemplateRepository @Inject constructor(
                 source = Locale.ENGLISH,
                 name = "New Template"
         )
-        var token = authenticationProvider.requestToken()
-        var postTemplate = syntactService.postTemplate("Bearer $token", request)
+        val token = authenticationProvider.requestToken()
+        val postTemplate = syntactService.postTemplate("Bearer $token", request)
         Log.i(TAG, "postTemplate: $postTemplate")
     }
 }

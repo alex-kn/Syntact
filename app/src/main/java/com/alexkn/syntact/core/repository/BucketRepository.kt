@@ -28,7 +28,6 @@ class BucketRepository @Inject constructor(
 
     val availableLanguages: MutableList<Locale> = property["available-languages"].split(",").map { Locale(it) }.toMutableList()
 
-
     val bucketDetails: LiveData<List<BucketDetail>>
         get() = bucketDao.findBucketDetails()
 

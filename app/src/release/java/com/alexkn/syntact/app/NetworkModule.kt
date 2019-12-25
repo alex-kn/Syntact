@@ -10,7 +10,7 @@ import java.util.concurrent.Executors
 import javax.inject.Singleton
 
 @Module
-class RetrofitModule {
+class NetworkModule {
 
     @Singleton
     @Provides
