@@ -10,9 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.alexkn.syntact.app.MainActivity
 import kotlinx.coroutines.*
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.test.*
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.allOf
@@ -26,20 +24,21 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class SmokeTest {
 
-    private val mainThreadSurrogate = newSingleThreadContext("UI thread")
+    private val testCoroutineDispatcher = TestCoroutineDispatcher()
+    private val testCoroutineScope = TestCoroutineScope(testCoroutineDispatcher)
 
     @get:Rule
     var activityScenarioRule = androidx.test.ext.junit.rules.activityScenarioRule<MainActivity>()
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(mainThreadSurrogate)
+        Dispatchers.setMain(testCoroutineDispatcher)
     }
 
     @After
     fun tearDown() {
         Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
-        mainThreadSurrogate.close()
+        testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Test
