@@ -9,6 +9,7 @@ import retrofit2.Call
 import java.util.*
 
 class SyntactServiceMock : SyntactService {
+
     override suspend fun getTemplates(token: String): List<TemplateResponse> {
         Log.i(TAG, "getTemplates: Returning mocked response")
         return listOf(
@@ -17,7 +18,7 @@ class SyntactServiceMock : SyntactService {
     }
 
     override suspend fun getTranslations(token: String, url: String, lang: String): List<TranslationResponse> {
-        Log.i(TAG, "getTranslations: Returning mocked response")
+        Log.i(TAG, "getTranslations: Returning mocked response (URL $url, lang $lang)")
         return when (url) {
             "Hallo" -> listOf(TranslationResponse(id = 1, text = "Hello", language = Locale.ENGLISH))
             "Bier" -> listOf(TranslationResponse(id = 2, text = "Beer", language = Locale.ENGLISH))
@@ -27,7 +28,7 @@ class SyntactServiceMock : SyntactService {
     }
 
     override suspend fun getPhrases(token: String, url: String): List<PhraseResponse> {
-        Log.i(TAG, "getPhrases: Returning mocked response")
+        Log.i(TAG, "getPhrases: Returning mocked response (URL $url)")
         return listOf(
                 PhraseResponse(id = 1, language = Locale.GERMAN, text = "Hallo", translationsUrl = "Hallo"),
                 PhraseResponse(id = 2, language = Locale.GERMAN, text = "Bier", translationsUrl = "Bier"),

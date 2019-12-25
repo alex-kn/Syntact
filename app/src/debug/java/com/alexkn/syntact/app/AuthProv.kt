@@ -8,7 +8,7 @@ import javax.inject.Singleton
 class AuthProv @Inject constructor() {
 
     fun requestToken(): String? {
-        Log.i(TAG, "requestToken: MockToken requested")
+        Log.i(TAG, "requestToken: Returning mocked token")
         return "abc"
     }
 }
