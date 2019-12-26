@@ -45,15 +45,6 @@ class PlayMenuFragment : Fragment() {
         val bucketAdapter = BucketAdapter()
         languagesList.adapter = bucketAdapter
 
-        val swipeHandler = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
-            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean = true
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                viewModel.deleteBucket(bucketAdapter.list[viewHolder.adapterPosition].id)
-            }
-        }
-        ItemTouchHelper(swipeHandler).attachToRecyclerView(languagesList)
-
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
             todayView.text = it.solvedToday.toString() + "/" + goal
             progressBar.progress = it.solvedToday

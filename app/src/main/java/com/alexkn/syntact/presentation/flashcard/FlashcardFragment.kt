@@ -144,7 +144,7 @@ class FlashcardFragment : Fragment() {
             if (!s.isBlank()) {
                 val attempt = s.toString().trim()
                 val solution = viewModel.translation.value?.solvableItem?.text
-                solution.let { similarityBar.progress = similarityBar.max -  levenshteinDistance.apply(attempt, solution) }
+                solution.let { similarityBar.progress = similarityBar.max - levenshteinDistance.apply(attempt, solution) }
                 if (viewModel.checkSolution(attempt)) {
                     s.clear()
                     solutionInputLayout.visibility = View.INVISIBLE
@@ -157,6 +157,9 @@ class FlashcardFragment : Fragment() {
                         solutionOutput.visibility = View.INVISIBLE
                         current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
                         current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
+                        if (solutionInputLayout.requestFocus()) {
+                            imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
+                        }
                     }.start()
                 }
             }

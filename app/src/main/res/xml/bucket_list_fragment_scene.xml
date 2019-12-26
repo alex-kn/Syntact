@@ -21,6 +21,8 @@
 
         <Constraint
             android:id="@id/createBucketFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:alpha="0"
             android:scaleX=".8"
             android:scaleY=".8"
@@ -28,6 +30,8 @@
 
         <Constraint
             android:id="@id/todayView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:alpha="0"
             android:scaleX=".7"
             android:scaleY=".7"
@@ -35,9 +39,10 @@
 
         <Constraint
             android:id="@id/todayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:alpha="0"
-            android:scaleX=".7
-"
+            android:scaleX=".7"
             android:scaleY=".7"
             android:translationY="-100dp" />
 

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    app:layoutDescription="@xml/collapsing_toolbar"
-    tools:context=".presentation.bucketlist.PlayMenuFragment">
+    tools:context=".presentation.bucketlist.PlayMenuFragment"
+    app:layoutDescription="@xml/bucket_list_fragment_scene">
 
 
     <ImageView

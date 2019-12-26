@@ -43,18 +43,18 @@ class SmokeTest {
 
     @Test
     fun smokeTest() = runBlockingTest {
-        launch {
-            onView(withId(R.id.createBucketFab)).perform(click())
-            onView(withId(R.id.header)).check(matches(withText("Choose")))
-            onView(allOf(withId(R.id.chooseButton), isDisplayed())).perform(click())
-            onView(withId(R.id.startButton)).perform(click())
-            val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            assertThat(inputMethodManager.isAcceptingText, `is`(true))
-            onView(withId(R.id.textView4)).check(matches(withText("Hello")))
-            onView(withId(R.id.solutionInput)).perform(typeText("Katze"))
-            onView(withId(R.id.textView4)).check(matches(withText("Hello")))
-            onView(withId(R.id.solutionInput)).perform(clearText(), typeText("Hallo"))
-            onView(withId(R.id.textView4)).check(matches(withText("Beer")))
-        }
+        onView(withId(R.id.createBucketFab)).perform(click())
+        onView(withId(R.id.header)).check(matches(withText("Choose")))
+        onView(allOf(withId(R.id.chooseButton), isDisplayed())).perform(click())
+        onView(withId(R.id.startButton)).perform(click())
+        val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        assertThat(inputMethodManager.isAcceptingText, `is`(true))
+        onView(withId(R.id.textView4)).check(matches(withText("Hello")))
+        onView(withId(R.id.solutionInput)).perform(typeText("Katze"))
+        onView(withId(R.id.solutionInputLayout)).check(matches(hasFocus()))
+        onView(withId(R.id.textView4)).check(matches(withText("Hello")))
+        onView(withId(R.id.solutionInput)).perform(clearText(), typeText("Hallo"))
+        onView(withId(R.id.textView4)).check(matches(withText("Beer")))
+        onView(withId(R.id.solutionInputLayout)).check(matches(hasFocus()))
     }
 }
