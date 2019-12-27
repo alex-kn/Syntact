@@ -46,6 +46,14 @@ class FlashcardViewModel @Inject constructor(
         }
     }
 
+    fun peekSolution(solution: String): Boolean {
+
+        return if (translation.value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
+            viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.solvePhrase(translation.value!!) }
+            true
+        } else false
+    }
+
     fun checkSolution(solution: String): Boolean {
         return if (translation.value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
             viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.solvePhrase(translation.value!!) }
@@ -56,4 +64,5 @@ class FlashcardViewModel @Inject constructor(
         }
 
     }
+
 }

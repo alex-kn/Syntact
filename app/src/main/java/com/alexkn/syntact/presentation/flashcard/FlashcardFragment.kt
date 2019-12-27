@@ -32,6 +32,8 @@ class FlashcardFragment : Fragment() {
 
     var dueCount: Int = 1
 
+    var animating = false
+
     var levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -61,10 +63,11 @@ class FlashcardFragment : Fragment() {
                 } else {
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
                 }
+                animating = true
                 current.animate().translationYBy(-20f).alpha(.75f).setDuration(100).withEndAction {
+                    animating = false
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
                     current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
-
                     solutionInput.text?.clear()
                     solutionInputLayout.visibility = View.INVISIBLE
                     solutionOutput.visibility = View.VISIBLE
@@ -99,12 +102,8 @@ class FlashcardFragment : Fragment() {
             binding.progressBar3.progress = progress
             binding.headerDue.text = it.dueCount.toString()
             dueCount = it.dueCount
-            if (dueCount == 0) {
-                loadTranslationProgress.visibility = View.GONE
-                doneOutput.visibility = View.VISIBLE
-            }
             binding.headerTotal.text = "/" + (it.itemCount - it.disabledCount).toString()
-
+            doneOutput.visibility = if (dueCount == 0 && !animating) View.VISIBLE else View.GONE
         })
 
         viewModel.translation.observe(this, Observer {
@@ -117,8 +116,8 @@ class FlashcardFragment : Fragment() {
                 similarityBar.max = it.solvableItem.text.length
             } ?: run {
                 nextButton.isEnabled = false
-                loadTranslationProgress.visibility = if (dueCount > 0) View.VISIBLE else View.GONE
-                doneOutput.visibility = if (dueCount > 0 || state != State.SOLUTION) View.GONE else View.VISIBLE
+                loadTranslationProgress.visibility = if (dueCount > 0 && !animating) View.VISIBLE else View.GONE
+                doneOutput.visibility = if (dueCount == 0 && !animating) View.VISIBLE else View.GONE
                 binding.currentClue = ""
                 binding.solutionOutput.text = ""
             }
@@ -127,9 +126,7 @@ class FlashcardFragment : Fragment() {
 
         backButton.setOnClickListener {
             Navigation.findNavController(it).popBackStack()
-            imm.hideSoftInputFromWindow(solutionInput.windowToken,
-                    InputMethodManager.HIDE_NOT_ALWAYS)
-
+            imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
 
@@ -145,13 +142,15 @@ class FlashcardFragment : Fragment() {
                 val attempt = s.toString().trim()
                 val solution = viewModel.translation.value?.solvableItem?.text
                 solution.let { similarityBar.progress = similarityBar.max - levenshteinDistance.apply(attempt, solution) }
-                if (viewModel.checkSolution(attempt)) {
+                if (viewModel.peekSolution(attempt)) {
                     s.clear()
                     solutionInputLayout.visibility = View.INVISIBLE
                     solutionOutput.visibility = View.VISIBLE
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
 
+                    animating = true
                     current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
+                        animating = false
                         viewModel.fetchNext()
                         solutionInputLayout.visibility = View.VISIBLE
                         solutionOutput.visibility = View.INVISIBLE
