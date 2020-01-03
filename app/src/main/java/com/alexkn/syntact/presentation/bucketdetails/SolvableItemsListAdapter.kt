@@ -62,7 +62,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
             solutionTextView.text = entity.solvableItem.text
             clueTextView.text = entity.clue?.text
-            val solvableItem = entity.solvableItem
+//            val solvableItem = entity.solvableItem
 
 //            val duration = Duration.between(Instant.now(), solvableItem.nextDueDate)
 //            val durationString = when {

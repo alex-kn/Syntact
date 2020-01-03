@@ -7,22 +7,24 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'de.mannodermaus.android-junit5'
+
 android {
     androidExtensions {
         experimental = true
     }
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.alexkn.syntact"
         minSdkVersion 28
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "com.alexkn.syntact.runner.SyntactTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
+                arguments = ["room.schemaLocation": "$projectDir/schemas".toString(), "room.incremental": "true"]
             }
         }
     }
@@ -32,6 +34,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildFeatures{
+        dataBinding = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -40,10 +45,7 @@ android {
         jvmTarget = "1.8"
     }
 
-    buildToolsVersion '28.0.3'
-    dataBinding {
-        enabled = true
-    }
+    buildToolsVersion '29.0.2'
     testOptions {
         unitTests {
             includeAndroidResources = true
@@ -119,7 +121,10 @@ dependencies {
 
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.3.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.3.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.3.2"
+    testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.3.2"
     testImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha03'
     testImplementation 'androidx.test:core:1.2.0'

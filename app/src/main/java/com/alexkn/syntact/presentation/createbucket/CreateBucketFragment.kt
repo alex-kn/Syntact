@@ -95,7 +95,7 @@ class CreateBucketFragment : Fragment() {
         selectTemplateRecyclerView.visibility = View.GONE
 
         chooseLanguageSheetLabel.text = "0 Templates"
-        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+        bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
                 arrowUp.rotation = slideOffset * -180
