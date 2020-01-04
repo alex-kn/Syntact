@@ -6,39 +6,91 @@
     android:layout_height="match_parent"
     tools:context=".presentation.createtemplate.CreateTemplateFragment">
 
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="back"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:scaleType="centerCrop"
+        android:tint="@color/color_on_surface"
+        app:layout_constraintBottom_toBottomOf="@id/header"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toTopOf="@id/header"
+        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Type some words"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Type anything"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/backButton"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.button.MaterialButton
+
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/keywordsChipGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+    </com.google.android.material.chip.ChipGroup>
+
+
+    <EditText
+        android:id="@+id/keywordsInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="text"
+        android:imeOptions="actionDone"
+        app:layout_constraintEnd_toStartOf="@+id/addTextButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/keywordsChipGroup" />
+
+    <ImageButton
+        android:id="@+id/addTextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="add"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:scaleType="centerCrop"
+        android:tint="@color/color_on_surface"
+        app:layout_constraintBottom_toBottomOf="@+id/keywordsInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/keywordsInput"
+        app:srcCompat="@drawable/ic_add_black_24dp" />
+
+    <ImageButton
         android:id="@+id/createTemplateButton"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Create"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="add"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="4dp"
+        android:scaleType="centerCrop"
+        android:tint="@color/color_on_surface"
+        app:layout_constraintBottom_toBottomOf="@+id/header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"></com.google.android.material.button.MaterialButton>
+        app:layout_constraintTop_toTopOf="@+id/header"
+        app:srcCompat="@drawable/ic_baseline_check_24" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

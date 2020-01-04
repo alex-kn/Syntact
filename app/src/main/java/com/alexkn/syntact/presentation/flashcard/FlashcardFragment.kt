@@ -98,12 +98,12 @@ class FlashcardFragment : Fragment() {
         }
 
         viewModel.bucket!!.observe(this, Observer {
-            val progress = ceil(it.dueCount.toDouble() / (it.itemCount - it.disabledCount) * 100).toInt()
+            val progress = ceil((1 - it.dueCount.toDouble() / (it.itemCount - it.disabledCount)) * 100).toInt()
             binding.progressBar3.progress = progress
             binding.headerDue.text = it.dueCount.toString()
             dueCount = it.dueCount
             binding.headerTotal.text = "/" + (it.itemCount - it.disabledCount).toString()
-            doneOutput.visibility = if (dueCount == 0 && !animating) View.VISIBLE else View.GONE
+            checkDone()
         })
 
         viewModel.translation.observe(this, Observer {
@@ -117,7 +117,7 @@ class FlashcardFragment : Fragment() {
             } ?: run {
                 nextButton.isEnabled = false
                 loadTranslationProgress.visibility = if (dueCount > 0 && !animating) View.VISIBLE else View.GONE
-                doneOutput.visibility = if (dueCount == 0 && !animating) View.VISIBLE else View.GONE
+                checkDone()
                 binding.currentClue = ""
                 binding.solutionOutput.text = ""
             }
@@ -130,10 +130,12 @@ class FlashcardFragment : Fragment() {
         }
     }
 
-    private fun updateFlashcards() {
-        viewModel.fetchNext()
+    private fun checkDone() {
+        val done = dueCount == 0 && !animating
+        doneOutput.visibility = if (done) View.VISIBLE else View.GONE
+        solutionInputLayout.visibility = if (done) View.VISIBLE else View.GONE
+        similarityBar.visibility = if (done) View.VISIBLE else View.GONE
     }
-
 
     inner class SolutionTextWatcher : TextWatcher {
 
