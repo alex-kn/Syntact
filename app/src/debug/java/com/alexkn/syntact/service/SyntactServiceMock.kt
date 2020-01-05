@@ -3,9 +3,6 @@ package com.alexkn.syntact.service
 import android.util.Log
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.common.TemplateType
-import com.alexkn.syntact.service.to.*
-import okhttp3.ResponseBody
-import retrofit2.Call
 import java.util.*
 
 class SyntactServiceMock : SyntactService {
@@ -13,7 +10,15 @@ class SyntactServiceMock : SyntactService {
     override suspend fun getTemplates(token: String): List<TemplateResponse> {
         Log.i(TAG, "getTemplates: Returning mocked response")
         return listOf(
-                TemplateResponse(id = 1, name = "Mocked Template Response", templateType = TemplateType.BASIC, language = Locale.GERMAN, phrasesUrl = "phrasesUrl", count = 3, description = "Description")
+                TemplateResponse(
+                        id = 1,
+                        name = "Mocked Template Response",
+                        templateType = TemplateType.BASIC,
+                        language = Locale.GERMAN,
+                        phrasesUrl = "phrasesUrl",
+                        count = 3,
+                        description = "Description"
+                )
         )
     }
 
@@ -36,20 +41,13 @@ class SyntactServiceMock : SyntactService {
         )
     }
 
-    override fun postPhrases(token: String, templateId: Long?, lang: String, phrasesRequests: List<PhrasesRequest>): Call<ResponseBody> {
-        Log.i(TAG, "postPhrases: Returning mocked response")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override suspend fun getPhraseSuggestions(token: String, phrase: String, srcLang: String, destLang: String): List<PhraseSuggestionResponse> {
+        Log.i(TAG, "SyntactServiceMock: Returning mocked PhraseSuggestionResponse")
+
+        return listOf(
+                PhraseSuggestionResponse(id = 1, src = "Hallo", dest = "Hello", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
+                PhraseSuggestionResponse(id = 2, src = "Bier", dest = "Beer", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
+                PhraseSuggestionResponse(id = 3, src = "Haus", dest = "House", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
+        )
     }
-
-    override suspend fun postTemplate(token: String, templateRequest: TemplateRequest): ResponseBody {
-        Log.i(TAG, "postTemplate: Returning mocked response")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun deleteTemplate(token: String, templateId: Long?): Call<ResponseBody> {
-        Log.i(TAG, "deleteTemplate: Returning mocked response")
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
 }

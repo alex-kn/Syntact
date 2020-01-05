@@ -11,12 +11,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
 import com.google.android.material.chip.Chip
 import com.google.firebase.FirebaseApp
+import kotlinx.android.synthetic.main.bucket_details.*
 import kotlinx.android.synthetic.main.create_template_fragment.*
 
 
@@ -48,6 +52,15 @@ class CreateTemplateFragment : Fragment() {
             false
         }
 
+        val suggestionListAdapter = SuggestionListAdapter()
+        suggestionList.adapter = suggestionListAdapter
+        val layoutManager = LinearLayoutManager(requireContext())
+        suggestionList.layoutManager = layoutManager
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
+        suggestionList.addItemDecoration(dividerItemDecoration)
+
+        viewModel.suggestions.observe(viewLifecycleOwner, Observer(suggestionListAdapter::submitList))
+
         createTemplateButton.setOnClickListener(this::onCreateTemplate)
         addTextButton.setOnClickListener { onAddText() }
 
@@ -55,7 +68,8 @@ class CreateTemplateFragment : Fragment() {
 
     private fun onAddText() {
         val text = keywordsInput.text.toString().trim()
-        //TODO service
+        viewModel.fetchSuggestions(text)
+
         val translation = "NYI"
 
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.input_chip, keywordsChipGroup, false) as Chip
@@ -81,7 +95,8 @@ class CreateTemplateFragment : Fragment() {
     inner class KeywordInputWatcher : TextWatcher {
 
         override fun afterTextChanged(s: Editable) {
-            addTextButton.visibility = if (s.isBlank()) View.INVISIBLE else View.VISIBLE
+//            addTextButton.visibility = if (s.isBlank()) View.INVISIBLE else View.VISIBLE
+            addTextButton.isEnabled = !s.isBlank()
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

@@ -1,28 +1,31 @@
 package com.alexkn.syntact.service
 
-import com.alexkn.syntact.service.to.*
-import okhttp3.ResponseBody
-import retrofit2.Call
 import retrofit2.http.*
+import java.util.*
 
-interface SyntactService{
+interface SyntactService {
 
     @GET("templates")
     suspend fun getTemplates(@Header("Authorization") token: String): List<TemplateResponse>
 
     @GET
-    suspend fun getTranslations(@Header("Authorization") token: String, @Url url: String, @Query("lang") lang: String): List<TranslationResponse>
+    suspend fun getPhrases(
+            @Header("Authorization") token: String,
+            @Url url: String
+    ): List<PhraseResponse>
 
     @GET
-    suspend fun getPhrases(@Header("Authorization") token: String, @Url url: String): List<PhraseResponse>
+    suspend fun getTranslations(
+            @Header("Authorization") token: String,
+            @Url url: String,
+            @Query("lang") lang: String
+    ): List<TranslationResponse>
 
-    @POST("templates/{id}/phrases")
-    fun postPhrases(@Header("Authorization") token: String, @Path("id") templateId: Long?, @Query("lang") lang: String,
-                    @Body phrasesRequests: List<PhrasesRequest>): Call<ResponseBody>
-
-    @POST("templates")
-    suspend fun postTemplate(@Header("Authorization") token: String, @Body templateRequest: TemplateRequest): ResponseBody
-
-    @DELETE("templates/{id}")
-    fun deleteTemplate(@Header("Authorization") token: String, @Path("id") templateId: Long?): Call<ResponseBody>
+    @GET
+    suspend fun getPhraseSuggestions(
+            @Header("Authorization") token: String,
+            @Query("phrase") phrase: String,
+            @Query("srcLang") srcLang: String,
+            @Query("srcLang") destLang: String
+    ): List<PhraseSuggestionResponse>
 }

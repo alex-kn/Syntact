@@ -38,23 +38,23 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/header">
-
-    </com.google.android.material.chip.ChipGroup>
+        app:layout_constraintTop_toBottomOf="@id/header" />
 
 
     <EditText
         android:id="@+id/keywordsInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="0dp"
         android:ems="10"
         android:gravity="start|top"
-        android:inputType="text"
+        android:hint="Type here"
         android:imeOptions="actionDone"
+        android:inputType="text"
         app:layout_constraintEnd_toStartOf="@+id/addTextButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/keywordsChipGroup" />
@@ -91,6 +91,15 @@
         app:layout_constraintTop_toTopOf="@+id/header"
         app:srcCompat="@drawable/ic_baseline_check_24" />
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/suggestionList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/keywordsInput" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

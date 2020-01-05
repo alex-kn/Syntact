@@ -8,7 +8,6 @@ import com.alexkn.syntact.data.dao.TemplateDao
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
 import com.alexkn.syntact.service.SyntactService
-import com.alexkn.syntact.service.to.TemplateRequest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -56,18 +55,5 @@ class TemplateRepository @Inject constructor(
             }
         }
         templateDao.deleteTemplatesNotIn(templates.map { it.id })
-    }
-
-    suspend fun postTemplate(text: String) {
-        val request = TemplateRequest(
-                description = "",
-                words = text.split(' '),
-                target = Locale.GERMAN, //TODO
-                source = Locale.ENGLISH,
-                name = "New Template"
-        )
-        val token = authenticationProvider.requestToken()
-        val postTemplate = syntactService.postTemplate("Bearer $token", request)
-        Log.i(TAG, "postTemplate: $postTemplate")
     }
 }
