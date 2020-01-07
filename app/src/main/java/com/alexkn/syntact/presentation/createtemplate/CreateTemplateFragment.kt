@@ -20,7 +20,6 @@ import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
 import com.google.android.material.chip.Chip
 import com.google.firebase.FirebaseApp
-import kotlinx.android.synthetic.main.bucket_details.*
 import kotlinx.android.synthetic.main.create_template_fragment.*
 
 
@@ -28,7 +27,7 @@ class CreateTemplateFragment : Fragment() {
 
     private lateinit var imm: InputMethodManager
     private lateinit var viewModel: CreateTemplateViewModel
-    private val items = mutableMapOf<String, String>()
+    private val keywords = mutableMapOf<Int, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,41 +60,36 @@ class CreateTemplateFragment : Fragment() {
 
         viewModel.suggestions.observe(viewLifecycleOwner, Observer(suggestionListAdapter::submitList))
 
-        createTemplateButton.setOnClickListener(this::onCreateTemplate)
+        createTemplateButton.setOnClickListener { viewModel.createTemplate() }
         addTextButton.setOnClickListener { onAddText() }
 
     }
 
     private fun onAddText() {
         val text = keywordsInput.text.toString().trim()
-        viewModel.fetchSuggestions(text)
-
-        val translation = "NYI"
 
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
-        items[text] = translation
+        chip.isCheckable = false
         chip.setOnCloseIconClickListener(this::onCloseChip)
         keywordsChipGroup.addView(chip)
         keywordsInput.text.clear()
+
+        viewModel.fetchSuggestions(chip.id, text)
+        keywords[chip.id] = text
     }
 
     private fun onCloseChip(view: View) {
-
         val chip = view as Chip
         keywordsChipGroup.removeView(chip)
-        items.remove(chip.text)
-    }
 
-    private fun onCreateTemplate(view: View) {
-
-        Log.i(TAG, "CreateTemplateFragment: Input text: $items")
+        viewModel.removeKeyword(chip.id)
+        keywords.remove(chip.id)
     }
 
     inner class KeywordInputWatcher : TextWatcher {
 
         override fun afterTextChanged(s: Editable) {
-//            addTextButton.visibility = if (s.isBlank()) View.INVISIBLE else View.VISIBLE
             addTextButton.isEnabled = !s.isBlank()
         }
 

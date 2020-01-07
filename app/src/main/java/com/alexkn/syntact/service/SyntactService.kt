@@ -1,5 +1,6 @@
 package com.alexkn.syntact.service
 
+import okhttp3.Response
 import retrofit2.http.*
 import java.util.*
 
@@ -28,4 +29,9 @@ interface SyntactService {
             @Query("srcLang") srcLang: String,
             @Query("srcLang") destLang: String
     ): List<PhraseSuggestionResponse>
+
+    @POST("templates")
+    suspend fun postTemplate(
+            @Body template: TemplateRequest
+    )
 }

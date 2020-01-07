@@ -31,6 +31,7 @@ data class TranslationResponse(
 
 data class PhraseSuggestionResponse(
         override var id: Long,
+        var keywordId: Int? = null,
         var src: String,
         var dest: String,
         var srcLang: Locale,

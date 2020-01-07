@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.TemplateRepository
 import com.alexkn.syntact.service.PhraseSuggestionResponse
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -24,8 +23,19 @@ class CreateTemplateViewModel @Inject constructor(
     val suggestions: LiveData<List<PhraseSuggestionResponse>>
         get() = _suggestions
 
-    fun fetchSuggestions(text: String) = viewModelScope.launch {
-        _suggestions.postValue(_suggestions.value!! + phraseSuggestionRepository.fetchSuggestions(text, srcLang, destLang))
+    fun fetchSuggestions(keywordId: Int, text: String) = viewModelScope.launch {
+        val newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, srcLang, destLang)
+        newSuggestions.forEach { it.keywordId = keywordId }
+        _suggestions.postValue((_suggestions.value!! + newSuggestions).sortedBy { it.id })
+    }
+
+    fun removeKeyword(keywordId: Int) {
+        val newSuggestions = _suggestions.value!!.toMutableList().filter { keywordId != it.keywordId }
+        _suggestions.postValue(newSuggestions)
+    }
+
+    fun createTemplate() = viewModelScope.launch {
+        templateRepository.createNewTemplate(_suggestions.value!!)
     }
 
 

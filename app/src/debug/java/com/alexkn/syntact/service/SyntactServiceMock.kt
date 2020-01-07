@@ -3,6 +3,7 @@ package com.alexkn.syntact.service
 import android.util.Log
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.common.TemplateType
+import okhttp3.Response
 import java.util.*
 
 class SyntactServiceMock : SyntactService {
@@ -49,5 +50,9 @@ class SyntactServiceMock : SyntactService {
                 PhraseSuggestionResponse(id = 2, src = "Bier", dest = "Beer", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
                 PhraseSuggestionResponse(id = 3, src = "Haus", dest = "House", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
         )
+    }
+
+    override suspend fun postTemplate(template: TemplateRequest) {
+        Log.i(TAG, "SyntactServiceMock: Posting $template")
     }
 }
