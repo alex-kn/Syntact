@@ -70,6 +70,7 @@ class FlashcardFragment : Fragment() {
                     current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
                     solutionInput.text?.clear()
                     solutionInputLayout.visibility = View.INVISIBLE
+                    similarityBar.visibility = View.INVISIBLE
                     solutionOutput.visibility = View.VISIBLE
                     nextButton.text = "Next"
                 }.start()
@@ -79,6 +80,7 @@ class FlashcardFragment : Fragment() {
             } else if (State.SOLUTION == state) {
                 nextButton.text = "Solve"
                 solutionInputLayout.visibility = View.VISIBLE
+                similarityBar.visibility = View.VISIBLE
                 solutionOutput.visibility = View.INVISIBLE
 
                 viewModel.fetchNext()
@@ -132,9 +134,11 @@ class FlashcardFragment : Fragment() {
 
     private fun checkDone() {
         val done = dueCount == 0 && !animating
+        if (done) loadTranslationProgress.visibility = View.GONE
         doneOutput.visibility = if (done) View.VISIBLE else View.GONE
-        solutionInputLayout.visibility = if (done) View.VISIBLE else View.GONE
-        similarityBar.visibility = if (done) View.VISIBLE else View.GONE
+        solutionInputLayout.visibility = if (done) View.GONE else View.VISIBLE
+        similarityBar.visibility = if (done) View.GONE else View.VISIBLE
+        if (done) imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 
     inner class SolutionTextWatcher : TextWatcher {
@@ -143,10 +147,11 @@ class FlashcardFragment : Fragment() {
             if (!s.isBlank()) {
                 val attempt = s.toString().trim()
                 val solution = viewModel.translation.value?.solvableItem?.text
-                solution.let { similarityBar.progress = similarityBar.max - levenshteinDistance.apply(attempt, solution) }
+                solution.let { similarityBar.progress = similarityBar.max - levenshteinDistance.apply(attempt, solution) + 1 }
                 if (viewModel.peekSolution(attempt)) {
                     s.clear()
                     solutionInputLayout.visibility = View.INVISIBLE
+                    similarityBar.visibility = View.INVISIBLE
                     solutionOutput.visibility = View.VISIBLE
                     current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
 
@@ -155,6 +160,7 @@ class FlashcardFragment : Fragment() {
                         animating = false
                         viewModel.fetchNext()
                         solutionInputLayout.visibility = View.VISIBLE
+                        similarityBar.visibility = View.VISIBLE
                         solutionOutput.visibility = View.INVISIBLE
                         current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
                         current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()

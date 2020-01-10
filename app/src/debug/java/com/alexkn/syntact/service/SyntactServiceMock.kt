@@ -40,7 +40,7 @@ class SyntactServiceMock : SyntactService {
                 PhraseResponse(id = 2, language = Locale.GERMAN, text = "Bier", translationsUrl = "Bier"),
                 PhraseResponse(id = 3, language = Locale.GERMAN, text = "Haus", translationsUrl = "Haus")
         )
-    }
+}
 
     override suspend fun getPhraseSuggestions(token: String, phrase: String, srcLang: String, destLang: String): List<PhraseSuggestionResponse> {
         Log.i(TAG, "SyntactServiceMock: Returning mocked PhraseSuggestionResponse")
