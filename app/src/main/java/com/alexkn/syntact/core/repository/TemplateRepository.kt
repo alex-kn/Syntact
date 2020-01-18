@@ -5,10 +5,7 @@ import com.alexkn.syntact.app.AuthProv
 import com.alexkn.syntact.data.dao.TemplateDao
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
-import com.alexkn.syntact.service.PhraseRequest
-import com.alexkn.syntact.service.PhraseSuggestionResponse
-import com.alexkn.syntact.service.SyntactService
-import com.alexkn.syntact.service.TemplateRequest
+import com.alexkn.syntact.service.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -58,10 +55,11 @@ class TemplateRepository @Inject constructor(
         templateDao.deleteTemplatesNotIn(templates.map { it.id })
     }
 
-    suspend fun createNewTemplate(suggestions: List<PhraseSuggestionResponse>) {
-        val templateRequest = TemplateRequest(suggestions.map {
+    suspend fun createNewTemplate(suggestions: List<Suggestion>) {
+        val phrases = suggestions.map {
             PhraseRequest(src = it.src, dest = it.dest, srcLang = it.srcLang, destLang = it.destLang)
-        })
+        }
+        val templateRequest = TemplateRequest(description = "TODO", name = "TODO", phrases = phrases)
         syntactService.postTemplate(templateRequest)
     }
 }

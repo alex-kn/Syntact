@@ -1,5 +1,6 @@
 package com.alexkn.syntact.service
 
+import android.provider.ContactsContract
 import com.alexkn.syntact.data.common.Identifiable
 import com.alexkn.syntact.data.common.TemplateType
 import com.google.gson.annotations.SerializedName
@@ -30,7 +31,11 @@ data class TranslationResponse(
 )
 
 data class PhraseSuggestionResponse(
-        override var id: Long,
+        var suggestions: List<Suggestion>
+)
+
+data class Suggestion(
+        override var id: Long? = null,
         var keywordId: Int? = null,
         var src: String,
         var dest: String,

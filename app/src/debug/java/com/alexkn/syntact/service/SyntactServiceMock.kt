@@ -40,19 +40,20 @@ class SyntactServiceMock : SyntactService {
                 PhraseResponse(id = 2, language = Locale.GERMAN, text = "Bier", translationsUrl = "Bier"),
                 PhraseResponse(id = 3, language = Locale.GERMAN, text = "Haus", translationsUrl = "Haus")
         )
-}
-
-    override suspend fun getPhraseSuggestions(token: String, phrase: String, srcLang: String, destLang: String): List<PhraseSuggestionResponse> {
-        Log.i(TAG, "SyntactServiceMock: Returning mocked PhraseSuggestionResponse")
-
-        return listOf(
-                PhraseSuggestionResponse(id = 1, src = "Hallo", dest = "Hello", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
-                PhraseSuggestionResponse(id = 2, src = "Bier", dest = "Beer", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
-                PhraseSuggestionResponse(id = 3, src = "Haus", dest = "House", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
-        )
     }
 
-    override suspend fun postTemplate(template: TemplateRequest) {
+    override suspend fun getPhraseSuggestions(token: String, phrase: String, srcLang: String, destLang: String): PhraseSuggestionResponse {
+        Log.i(TAG, "SyntactServiceMock: Returning mocked PhraseSuggestionResponse")
+
+        return PhraseSuggestionResponse(listOf(
+                Suggestion(id = 1, src = "Hallo", dest = "Hello", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
+                Suggestion(id = 2, src = "Bier", dest = "Beer", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
+                Suggestion(id = 3, src = "Haus", dest = "House", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
+        ))
+    }
+
+    override suspend fun postTemplate(template: TemplateRequest): TemplateResponse {
         Log.i(TAG, "SyntactServiceMock: Posting $template")
+        TODO()
     }
 }

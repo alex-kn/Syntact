@@ -7,9 +7,9 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.databinding.CreateTemplateItemBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
-import com.alexkn.syntact.service.PhraseSuggestionResponse
+import com.alexkn.syntact.service.Suggestion
 
-class SuggestionListAdapter : ListItemAdapter<PhraseSuggestionResponse, SuggestionListAdapter.SuggestionViewHolder>() {
+class SuggestionListAdapter : ListItemAdapter<Suggestion, SuggestionListAdapter.SuggestionViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SuggestionViewHolder {
@@ -25,9 +25,9 @@ class SuggestionListAdapter : ListItemAdapter<PhraseSuggestionResponse, Suggesti
         holder.bindTo(phraseSuggestionResponse)
     }
 
-    class SuggestionViewHolder(val binding: CreateTemplateItemBinding) : ListItemViewHolder<PhraseSuggestionResponse>(binding.root) {
+    class SuggestionViewHolder(val binding: CreateTemplateItemBinding) : ListItemViewHolder<Suggestion>(binding.root) {
 
-        override fun bindTo(entity: PhraseSuggestionResponse) {
+        override fun bindTo(entity: Suggestion) {
             binding.destText = entity.dest
             binding.srcText = entity.src
         }

@@ -1,6 +1,8 @@
 package com.alexkn.syntact.app
 
 import com.alexkn.syntact.service.SyntactService
+import com.google.gson.FieldNamingPolicy
+import com.google.gson.FieldNamingStrategy
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -16,10 +18,10 @@ class NetworkModule {
     @Provides
     fun provideSyntactService(): SyntactService {
 
-        val gson = GsonBuilder().create()
+        val gson = GsonBuilder().setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
         return Retrofit.Builder().callbackExecutor(Executors.newSingleThreadExecutor())
-                .baseUrl("https://syntact-backend-a2jzj3tbsa-ue.a.run.app/")
+                .baseUrl("https://syntact-backend-wsrzejkcua-uc.a.run.app/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
                 .create(SyntactService::class.java)

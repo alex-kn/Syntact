@@ -32,9 +32,5 @@ constructor(context: Context) {
 
     }
 
-    operator fun get(key: String): String {
-
-        return properties.getProperty(key)
-    }
-
+    operator fun get(key: String): String = properties.getProperty(key)
 }

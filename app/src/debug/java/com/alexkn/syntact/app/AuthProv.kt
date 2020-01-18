@@ -9,6 +9,6 @@ class AuthProv @Inject constructor() {
 
     fun requestToken(): String? {
         Log.i(TAG, "requestToken: Returning mocked token")
-        return "abc"
+        return "syntact-access"
     }
 }

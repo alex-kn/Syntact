@@ -22,16 +22,16 @@ interface SyntactService {
             @Query("lang") lang: String
     ): List<TranslationResponse>
 
-    @GET
+    @GET("suggestions")
     suspend fun getPhraseSuggestions(
             @Header("Authorization") token: String,
             @Query("phrase") phrase: String,
             @Query("srcLang") srcLang: String,
-            @Query("srcLang") destLang: String
-    ): List<PhraseSuggestionResponse>
+            @Query("destLang") destLang: String
+    ): PhraseSuggestionResponse
 
     @POST("templates")
     suspend fun postTemplate(
             @Body template: TemplateRequest
-    )
+    ): TemplateResponse
 }
