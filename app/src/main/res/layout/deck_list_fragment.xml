@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".presentation.bucketlist.PlayMenuFragment"
+    tools:context=".presentation.decklist.DeckListFragment"
     app:layoutDescription="@xml/bucket_list_fragment_scene">
 
 

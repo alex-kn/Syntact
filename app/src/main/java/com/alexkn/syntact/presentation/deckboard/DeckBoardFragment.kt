@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.flashcard
+package com.alexkn.syntact.presentation.deckboard
 
 import android.content.Context
 import android.os.Bundle
@@ -16,39 +16,38 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.databinding.FlashcardFragmentBinding
-import kotlinx.android.synthetic.main.flashcard_fragment.*
+import com.alexkn.syntact.databinding.DeckBoardFragmentBinding
+import kotlinx.android.synthetic.main.deck_board_fragment.*
 import org.apache.commons.text.similarity.LevenshteinDistance
 import kotlin.math.ceil
 
 
-class FlashcardFragment : Fragment() {
+class DeckBoardFragment : Fragment() {
 
-    lateinit var viewModel: FlashcardViewModel
+    private lateinit var viewModel: DeckBoardViewModel
 
-    lateinit var binding: FlashcardFragmentBinding
-
-    private var state = State.SOLVE
-
-    var dueCount: Int = 1
-
-    var animating = false
-
-    var levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-        binding = DataBindingUtil.inflate(inflater, R.layout.flashcard_fragment, container, false)
-        return binding.root
-    }
+    private lateinit var binding: DeckBoardFragmentBinding
 
     private lateinit var imm: InputMethodManager
 
+    private var state = State.SOLVE
+
+    private var dueCount: Int = 1
+
+    private var animating = false
+
+    private var levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
+        binding = DataBindingUtil.inflate(inflater, R.layout.deck_board_fragment, container, false)
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.flashcardViewModelFactory())
-                .get(FlashcardViewModel::class.java)
+                .get(DeckBoardViewModel::class.java)
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 
@@ -91,7 +90,7 @@ class FlashcardFragment : Fragment() {
             }
         }
 
-        val bucketId = FlashcardFragmentArgs.fromBundle(arguments!!).bucketId
+        val bucketId = DeckBoardFragmentArgs.fromBundle(arguments!!).deckId
         viewModel.init(bucketId)
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.createtemplate
+package com.alexkn.syntact.presentation.deckcreation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,13 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.TemplateRepository
-import com.alexkn.syntact.service.PhraseSuggestionResponse
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-class CreateTemplateViewModel @Inject constructor(
+class DeckCreationViewModel @Inject constructor(
         private val templateRepository: TemplateRepository,
         private val phraseSuggestionRepository: PhraseSuggestionRepository
 ) : ViewModel() {

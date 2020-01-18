@@ -1,10 +1,9 @@
-package com.alexkn.syntact.presentation.createtemplate
+package com.alexkn.syntact.presentation.deckcreation
 
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +16,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.app.TAG
 import com.google.android.material.chip.Chip
 import com.google.firebase.FirebaseApp
-import kotlinx.android.synthetic.main.create_template_fragment.*
+import kotlinx.android.synthetic.main.deck_creation_fragment.*
 
 
-class CreateTemplateFragment : Fragment() {
+class DeckCreationFragment : Fragment() {
 
     private lateinit var imm: InputMethodManager
-    private lateinit var viewModel: CreateTemplateViewModel
+    private lateinit var viewModel: DeckCreationViewModel
     private val keywords = mutableMapOf<Int, String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,13 +34,13 @@ class CreateTemplateFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        return inflater.inflate(R.layout.create_template_fragment, container, false)
+        return inflater.inflate(R.layout.deck_creation_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createTemplateViewModelFactory())
-                .get(CreateTemplateViewModel::class.java)
+                .get(DeckCreationViewModel::class.java)
 
         if (keywordsInput.requestFocus()) imm.showSoftInput(keywordsInput, InputMethodManager.SHOW_IMPLICIT)
         keywordsInput.addTextChangedListener(KeywordInputWatcher())
@@ -51,7 +49,15 @@ class CreateTemplateFragment : Fragment() {
             false
         }
 
-        val suggestionListAdapter = SuggestionListAdapter()
+        setupSuggestionList()
+
+        createTemplateButton.setOnClickListener { viewModel.createTemplate() }
+        addTextButton.setOnClickListener { onAddText() }
+
+    }
+
+    private fun setupSuggestionList() {
+        val suggestionListAdapter = DeckCreationItemAdapter()
         suggestionList.adapter = suggestionListAdapter
         val layoutManager = LinearLayoutManager(requireContext())
         suggestionList.layoutManager = layoutManager
@@ -59,16 +65,12 @@ class CreateTemplateFragment : Fragment() {
         suggestionList.addItemDecoration(dividerItemDecoration)
 
         viewModel.suggestions.observe(viewLifecycleOwner, Observer(suggestionListAdapter::submitList))
-
-        createTemplateButton.setOnClickListener { viewModel.createTemplate() }
-        addTextButton.setOnClickListener { onAddText() }
-
     }
 
     private fun onAddText() {
         val text = keywordsInput.text.toString().trim()
 
-        val chip = LayoutInflater.from(requireContext()).inflate(R.layout.input_chip, keywordsChipGroup, false) as Chip
+        val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
         chip.isCheckable = false
         chip.setOnCloseIconClickListener(this::onCloseChip)

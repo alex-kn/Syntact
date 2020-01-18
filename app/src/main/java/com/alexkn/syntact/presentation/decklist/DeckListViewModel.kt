@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.bucketlist
+package com.alexkn.syntact.presentation.decklist
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -11,15 +11,12 @@ import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
-class PlayMenuViewModel @Inject
-constructor(private val bucketRepository: BucketRepository) : ViewModel() {
+class DeckListViewModel @Inject
+constructor(bucketRepository: BucketRepository) : ViewModel() {
 
     val buckets: LiveData<List<BucketDetail>> = bucketRepository.bucketDetails
 
     val playerStats: LiveData<PlayerStats> = bucketRepository.getPlayerStats()
 
-    fun deleteBucket(id: Long) {
-        viewModelScope.launch { bucketRepository.deleteBucket(id) }
-    }
 }
 

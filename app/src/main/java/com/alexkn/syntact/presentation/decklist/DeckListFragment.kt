@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.bucketlist
+package com.alexkn.syntact.presentation.decklist
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,56 +8,51 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.bucket_details.*
-import kotlinx.android.synthetic.main.bucket_list_fragment.*
+import kotlinx.android.synthetic.main.deck_list_fragment.*
 
 
-class PlayMenuFragment : Fragment() {
+class DeckListFragment : Fragment() {
 
-    private lateinit var fab: FloatingActionButton
-
-    private lateinit var viewModel: PlayMenuViewModel
+    private lateinit var viewModel: DeckListViewModel
 
     private var goal: Int = 20
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
 
-        return inflater.inflate(R.layout.bucket_list_fragment, container, false)
+        return inflater.inflate(R.layout.deck_list_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = ViewModelProviders.of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
-                .get(PlayMenuViewModel::class.java)
+                .get(DeckListViewModel::class.java)
 
         createBucketFab.setOnClickListener(this::newBucket)
+        progressBar.max = goal
 
-        val linearLayoutManager = LinearLayoutManager(this.context)
-        languagesList.layoutManager = linearLayoutManager
-        val bucketAdapter = BucketAdapter()
-        languagesList.adapter = bucketAdapter
+        setupDeckList()
 
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
             todayView.text = it.solvedToday.toString() + "/" + goal
             progressBar.progress = it.solvedToday
         })
-        progressBar.max = goal
 
+    }
+
+    private fun setupDeckList() {
+        val linearLayoutManager = LinearLayoutManager(this.context)
+        languagesList.layoutManager = linearLayoutManager
+        val bucketAdapter = DeckListItemAdapter()
+        languagesList.adapter = bucketAdapter
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
 
-
     private fun newBucket(view: View) {
-
-        val action = PlayMenuFragmentDirections.actionPlayMenuFragmentToCreateBucketFragment()
+        val action = DeckListFragmentDirections.actionDeckListFragmentToDeckSelectionFragment()
         Navigation.findNavController(view).navigate(action)
     }
 }

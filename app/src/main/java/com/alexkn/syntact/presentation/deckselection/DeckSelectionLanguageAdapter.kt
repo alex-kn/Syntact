@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.createbucket
+package com.alexkn.syntact.presentation.deckselection
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,20 +11,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import java.util.*
 
-class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Adapter<ChooseLanguageAdapter.ChooseLanguageViewHolder>() {
+class DeckSelectionLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Adapter<DeckSelectionLanguageAdapter.DeckSelectionLanguageViewHolder>() {
 
     private val onClickSubject: MutableLiveData<Locale> = MutableLiveData();
 
     private var checkedPosition: Int = -1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChooseLanguageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckSelectionLanguageViewHolder {
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.create_butcket_language_item, parent, false)
+                .inflate(R.layout.deck_selection_language_sheet_item, parent, false)
 
-        return ChooseLanguageViewHolder(view)
+        return DeckSelectionLanguageViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ChooseLanguageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DeckSelectionLanguageViewHolder, position: Int) {
 
         val locale = dataset[position]
         holder.textView.text = locale.displayLanguage
@@ -66,7 +66,7 @@ class ChooseLanguageAdapter(private val dataset: List<Locale>) : RecyclerView.Ad
         return onClickSubject
     }
 
-    class ChooseLanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class DeckSelectionLanguageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var textView: TextView = itemView.findViewById(R.id.chooseLanguageTextView)
         var flag: ImageView = itemView.findViewById(R.id.listFlagImage)

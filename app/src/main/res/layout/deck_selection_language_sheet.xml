@@ -44,7 +44,8 @@
             app:layout_constraintEnd_toStartOf="@+id/flagImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="5 Templates">
+            tools:text="5 Templates"
+            android:text="0 Templates">
 
         </TextView>
 

@@ -23,7 +23,7 @@
         android:layout_marginBottom="8dp"
         android:background="@color/color_secondary"
         app:cardElevation="4dp"
-        tools:showIn="@layout/create_bucket_fragment">
+        tools:showIn="@layout/deck_selection_fragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

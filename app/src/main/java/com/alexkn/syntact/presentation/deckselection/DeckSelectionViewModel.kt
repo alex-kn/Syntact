@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.createbucket
+package com.alexkn.syntact.presentation.deckselection
 
 import android.util.Log
 import androidx.lifecycle.*
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-class CreateBucketViewModel @Inject
+class DeckSelectionViewModel @Inject
 constructor(
         private val bucketRepository: BucketRepository,
         private val templateRepository: TemplateRepository

@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.bucketdetails
+package com.alexkn.syntact.presentation.deckdetails
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -13,7 +13,7 @@ import com.alexkn.syntact.core.worker.FetchPhrasesWorker
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class BucketDetailsViewModel @Inject constructor(
+class DeckDetailsViewModel @Inject constructor(
         private val solvableItemRepository: SolvableItemRepository,
         private val bucketRepository: BucketRepository,
         private val context: Context

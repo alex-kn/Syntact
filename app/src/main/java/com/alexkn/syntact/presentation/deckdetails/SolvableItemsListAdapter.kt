@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.bucketdetails
+package com.alexkn.syntact.presentation.deckdetails
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,9 +10,6 @@ import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import org.apache.commons.lang3.time.DurationFormatUtils
-import java.time.Duration
-import java.time.Instant
 import java.util.function.Consumer
 
 
@@ -23,7 +20,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SolvableItemViewHolder {
 
         val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.bucket_details_item, parent, false)
+                .inflate(R.layout.deck_details_item, parent, false)
         return SolvableItemViewHolder(view)
     }
 

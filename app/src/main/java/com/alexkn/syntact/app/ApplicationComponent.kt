@@ -3,11 +3,11 @@ package com.alexkn.syntact.app
 import android.content.Context
 
 import com.alexkn.syntact.core.worker.FetchPhrasesWorker
-import com.alexkn.syntact.presentation.bucketdetails.BucketDetailsViewModel
-import com.alexkn.syntact.presentation.bucketlist.PlayMenuViewModel
-import com.alexkn.syntact.presentation.createbucket.CreateBucketViewModel
-import com.alexkn.syntact.presentation.createtemplate.CreateTemplateViewModel
-import com.alexkn.syntact.presentation.flashcard.FlashcardViewModel
+import com.alexkn.syntact.presentation.deckdetails.DeckDetailsViewModel
+import com.alexkn.syntact.presentation.decklist.DeckListViewModel
+import com.alexkn.syntact.presentation.deckselection.DeckSelectionViewModel
+import com.alexkn.syntact.presentation.deckcreation.DeckCreationViewModel
+import com.alexkn.syntact.presentation.deckboard.DeckBoardViewModel
 
 import javax.inject.Singleton
 
@@ -29,15 +29,15 @@ interface ApplicationComponent {
 
     fun inject(fetchPhrasesWorker: FetchPhrasesWorker)
 
-    fun playMenuViewModelFactory(): ViewModelFactory<PlayMenuViewModel>
+    fun playMenuViewModelFactory(): ViewModelFactory<DeckListViewModel>
 
-    fun createBucketViewModelFactory(): ViewModelFactory<CreateBucketViewModel>
+    fun createBucketViewModelFactory(): ViewModelFactory<DeckSelectionViewModel>
 
-    fun flashcardViewModelFactory(): ViewModelFactory<FlashcardViewModel>
+    fun flashcardViewModelFactory(): ViewModelFactory<DeckBoardViewModel>
 
-    fun bucketDetailsViewModelFactory(): ViewModelFactory<BucketDetailsViewModel>
+    fun bucketDetailsViewModelFactory(): ViewModelFactory<DeckDetailsViewModel>
 
-    fun createTemplateViewModelFactory(): ViewModelFactory<CreateTemplateViewModel>
+    fun createTemplateViewModelFactory(): ViewModelFactory<DeckCreationViewModel>
 }
 
 

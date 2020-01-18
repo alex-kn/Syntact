@@ -1,45 +1,39 @@
-package com.alexkn.syntact.presentation.bucketlist
+package com.alexkn.syntact.presentation.decklist
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
-import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.model.views.BucketDetail
-import com.alexkn.syntact.databinding.BucketListBucketCardBinding
+import com.alexkn.syntact.databinding.DeckListItemBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.button.MaterialButton
-import java.time.Instant
-import java.time.temporal.ChronoUnit.DAYS
 import kotlin.math.ceil
 
-class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHolder>() {
+class DeckListItemAdapter : ListItemAdapter<BucketDetail, DeckListItemAdapter.DeckListItemViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BucketViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckListItemViewHolder {
 
         val dataBinding = DataBindingUtil
-                .inflate<BucketListBucketCardBinding>(LayoutInflater.from(parent.context), R.layout.bucket_list_bucket_card, parent, false)
+                .inflate<DeckListItemBinding>(LayoutInflater.from(parent.context), R.layout.deck_list_item, parent, false)
 
         val drawable = ResourcesCompat.getDrawable(parent.resources, R.drawable.fr, null)
         dataBinding.flag = drawable
 
-
-        return BucketViewHolder(dataBinding)
+        return DeckListItemViewHolder(dataBinding)
     }
 
-    override fun onBindViewHolder(holder: BucketViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DeckListItemViewHolder, position: Int) {
 
         val bucket = list[position]
         holder.bindTo(bucket)
     }
 
-    class BucketViewHolder(private val binding: BucketListBucketCardBinding) : ListItemViewHolder<BucketDetail>(binding.root) {
+    class DeckListItemViewHolder(private val binding: DeckListItemBinding) : ListItemViewHolder<BucketDetail>(binding.root) {
 
         private lateinit var bucket: BucketDetail
 
@@ -68,13 +62,13 @@ class BucketAdapter : ListItemAdapter<BucketDetail, BucketAdapter.BucketViewHold
 
         private fun startFlashcards(view: View) {
 
-            val action = PlayMenuFragmentDirections
-                    .actionPlayMenuFragmentToFlashcardFragment(bucket.id)
+            val action = DeckListFragmentDirections
+                    .actionDeckListFragmentToDeckBoardFragment(bucket.id)
             Navigation.findNavController(view).navigate(action)
         }
 
         private fun showBucketDetails(view: View) {
-            val action = PlayMenuFragmentDirections.actionPlayMenuFragmentToBucketDetailsFragment(bucket.id)
+            val action = DeckListFragmentDirections.actionDeckListFragmentToDeckDetailsFragment(bucket.id)
             Navigation.findNavController(view).navigate(action)
         }
     }

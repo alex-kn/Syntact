@@ -1,4 +1,4 @@
-package com.alexkn.syntact.presentation.flashcard
+package com.alexkn.syntact.presentation.deckboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,7 +14,7 @@ import java.time.Instant
 import javax.inject.Inject
 
 
-class FlashcardViewModel @Inject constructor(
+class DeckBoardViewModel @Inject constructor(
         private val solvableItemRepository: SolvableItemRepository,
         private val bucketRepository: BucketRepository
 ) : ViewModel() {
