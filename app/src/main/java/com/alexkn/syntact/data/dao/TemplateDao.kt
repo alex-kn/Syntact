@@ -2,7 +2,6 @@ package com.alexkn.syntact.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.alexkn.syntact.data.dao.base.BaseDao
 import com.alexkn.syntact.data.model.Phrase
 import com.alexkn.syntact.data.model.Template
 
@@ -28,7 +27,7 @@ interface TemplateDao {
     fun findAll(): LiveData<List<Template>>
 
     @Query("SELECT * FROM Template t WHERE NOT EXISTS (SELECT * FROM Bucket b WHERE b.id = t.id)")
-    fun findAvailable():LiveData<List<Template>>
+    fun findAvailable(): LiveData<List<Template>>
 
     @Query("SELECT * FROM Phrase WHERE templateId = :templateId")
     fun findPhrasesByTemplateId(templateId: Long): LiveData<List<Phrase>>

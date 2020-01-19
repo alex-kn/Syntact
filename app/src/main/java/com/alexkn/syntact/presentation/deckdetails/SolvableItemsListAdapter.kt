@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import com.alexkn.syntact.R
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.dialog.MaterialAlertDialogBuilder

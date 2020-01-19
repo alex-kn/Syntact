@@ -36,7 +36,7 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.postValue(newSuggestions)
     }
 
-    fun createTemplate() = viewModelScope.launch {
+    fun createDeck() = viewModelScope.launch {
         templateRepository.createNewTemplate(_suggestions.value!!)
     }
 

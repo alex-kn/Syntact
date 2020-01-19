@@ -7,7 +7,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
-import com.alexkn.syntact.data.model.views.BucketDetail
+import com.alexkn.syntact.data.model.BucketDetail
 import com.alexkn.syntact.databinding.DeckListItemBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
@@ -49,7 +49,7 @@ class DeckListItemAdapter : ListItemAdapter<BucketDetail, DeckListItemAdapter.De
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
-            binding.progress = ceil(100 - bucket.dueCount.toDouble() / (bucket.itemCount - bucket.disabledCount) * 100).toInt()
+            binding.progress = ceil(100 - bucket.dueCount.toDouble() / bucket.itemCount * 100).toInt()
 
             val startButton = itemView.findViewById<MaterialButton>(R.id.startButton)
             startButton.setOnClickListener(this::startFlashcards)

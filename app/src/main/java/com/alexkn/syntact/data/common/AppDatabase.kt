@@ -1,19 +1,13 @@
 package com.alexkn.syntact.data.common
 
-import android.content.Context
-
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.alexkn.syntact.data.dao.*
 import com.alexkn.syntact.data.model.*
-
-import com.alexkn.syntact.data.model.views.BucketDetail
-import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.data.util.Converters
 
-@Database(entities = [SolvableItem::class, Bucket::class, Clue::class, Template::class, Phrase::class], views = [BucketDetail::class, PlayerStats::class], version = 67)
+@Database(entities = [SolvableItem::class, Bucket::class, Clue::class, Template::class, Phrase::class], views = [BucketDetail::class, PlayerStats::class], version = 68)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

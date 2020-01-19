@@ -5,7 +5,7 @@ import androidx.room.Dao
 import androidx.room.Query
 import com.alexkn.syntact.data.dao.base.BaseDao
 import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.views.PlayerStats
+import com.alexkn.syntact.data.model.PlayerStats
 
 @Dao
 interface PlayerStatsDao {

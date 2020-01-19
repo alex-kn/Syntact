@@ -6,7 +6,7 @@ import androidx.room.*
 import com.alexkn.syntact.data.dao.base.BaseDao
 import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 
 import java.time.Instant
 

@@ -99,11 +99,11 @@ class DeckBoardFragment : Fragment() {
         }
 
         viewModel.bucket!!.observe(this, Observer {
-            val progress = ceil((1 - it.dueCount.toDouble() / (it.itemCount - it.disabledCount)) * 100).toInt()
+            val progress = ceil((1 - it.dueCount.toDouble() / (it.itemCount)) * 100).toInt()
             binding.progressBar3.progress = progress
             binding.headerDue.text = it.dueCount.toString()
             dueCount = it.dueCount
-            binding.headerTotal.text = "/" + (it.itemCount - it.disabledCount).toString()
+            binding.headerTotal.text = "/" + (it.itemCount).toString()
             checkDone()
         })
 

@@ -1,11 +1,9 @@
 package com.alexkn.syntact.service
 
-import android.provider.ContactsContract
 import com.alexkn.syntact.data.common.Identifiable
 import com.alexkn.syntact.data.common.TemplateType
 import com.google.gson.annotations.SerializedName
-
-import java.util.Locale
+import java.util.*
 
 data class PhraseResponse(
         var id: Long,

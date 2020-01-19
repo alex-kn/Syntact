@@ -6,7 +6,7 @@ import androidx.room.Query
 
 import com.alexkn.syntact.data.dao.base.BaseDao
 import com.alexkn.syntact.data.model.Bucket
-import com.alexkn.syntact.data.model.views.BucketDetail
+import com.alexkn.syntact.data.model.BucketDetail
 
 @Dao
 interface BucketDao : BaseDao<Bucket> {

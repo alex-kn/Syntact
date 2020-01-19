@@ -40,8 +40,8 @@ class DeckDetailsFragment : Fragment() {
 
         viewModel.bucketDetail.observe(viewLifecycleOwner, Observer {
             header.text = it.name
-            phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount - it.disabledCount)
-            if (it.onDeviceCount == it.itemCount - it.disabledCount) {
+            phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount)
+            if (it.onDeviceCount == it.itemCount) {
                 downloadButton.setImageResource(R.drawable.ic_offline_pin_black_24dp)
                 downloadButton.isEnabled = false
             } else {

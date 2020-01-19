@@ -51,7 +51,7 @@ class DeckCreationFragment : Fragment() {
 
         setupSuggestionList()
 
-        createTemplateButton.setOnClickListener { viewModel.createTemplate() }
+        createTemplateButton.setOnClickListener { viewModel.createDeck() }
         addTextButton.setOnClickListener { onAddText() }
 
     }
@@ -99,6 +99,4 @@ class DeckCreationFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
     }
-
-
 }

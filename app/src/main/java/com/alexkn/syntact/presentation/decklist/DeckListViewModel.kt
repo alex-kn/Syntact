@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
-import com.alexkn.syntact.data.model.views.BucketDetail
-import com.alexkn.syntact.data.model.views.PlayerStats
 import com.alexkn.syntact.core.repository.BucketRepository
+import com.alexkn.syntact.data.model.BucketDetail
+import com.alexkn.syntact.data.model.PlayerStats
 import kotlinx.coroutines.launch
 
 import javax.inject.Inject

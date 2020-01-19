@@ -5,11 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.*
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
-import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.core.repository.BucketRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
 import com.alexkn.syntact.core.worker.FetchPhrasesWorker
+import com.alexkn.syntact.data.model.BucketDetail
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

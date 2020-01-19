@@ -5,11 +5,7 @@ import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.BucketDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
-import com.alexkn.syntact.data.model.Bucket
-import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.data.model.Template
-import com.alexkn.syntact.data.model.views.BucketDetail
-import com.alexkn.syntact.data.model.views.PlayerStats
+import com.alexkn.syntact.data.model.*
 import com.alexkn.syntact.service.SyntactService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
-import com.alexkn.syntact.data.model.views.BucketDetail
 import com.alexkn.syntact.core.repository.BucketRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
+import com.alexkn.syntact.data.model.BucketDetail
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant

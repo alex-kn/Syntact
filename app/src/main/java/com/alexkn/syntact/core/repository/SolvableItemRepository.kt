@@ -7,7 +7,7 @@ import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.cto.SolvableTranslationCto
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.alexkn.syntact.service.SyntactService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
