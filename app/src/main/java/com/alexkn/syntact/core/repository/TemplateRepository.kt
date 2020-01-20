@@ -56,6 +56,7 @@ class TemplateRepository @Inject constructor(
     }
 
     suspend fun createNewTemplate(suggestions: List<Suggestion>) {
+
         val phrases = suggestions.map {
             PhraseRequest(src = it.src, dest = it.dest, srcLang = it.srcLang, destLang = it.destLang)
         }

@@ -4,19 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
-import com.alexkn.syntact.core.repository.TemplateRepository
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 class DeckCreationViewModel @Inject constructor(
-        private val templateRepository: TemplateRepository,
+        private val deckRepository: DeckRepository,
         private val phraseSuggestionRepository: PhraseSuggestionRepository
 ) : ViewModel() {
 
-    private val srcLang = Locale.GERMAN
+    private val deckLang = Locale.GERMAN
     private val destLang = Locale.ENGLISH
     private val _suggestions = MutableLiveData<List<Suggestion>>(listOf())
 
@@ -26,7 +26,7 @@ class DeckCreationViewModel @Inject constructor(
         get() = _suggestions
 
     fun fetchSuggestions(keywordId: Int, text: String) = viewModelScope.launch {
-        val newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, srcLang, destLang)
+        val newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, deckLang, destLang)
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
         _suggestions.postValue((_suggestions.value!! + newSuggestions).sortedBy { it.id })
     }
@@ -36,8 +36,8 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.postValue(newSuggestions)
     }
 
-    fun createDeck() = viewModelScope.launch {
-        templateRepository.createNewTemplate(_suggestions.value!!)
+    fun createDeck(name: String) = viewModelScope.launch {
+        deckRepository.createNewDeck(name, deckLang, _suggestions.value!!)
     }
 
 

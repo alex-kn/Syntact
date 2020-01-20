@@ -25,42 +25,14 @@ import kotlin.math.roundToLong
 
 @Singleton
 class SolvableItemRepository @Inject constructor(
-        private val property: Property,
-        private val syntactService: SyntactService,
-        private val solvableItemDao: SolvableItemDao,
-        private val clueDao: ClueDao
+        private val solvableItemDao: SolvableItemDao
 ) {
 
     fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> = solvableItemDao.getSolvableTranslations(bucketId)
 
-    suspend fun findNextSolvableTranslation(bucketId: Long, time: Instant): SolvableTranslationCto? = withContext(Dispatchers.Default) {
-        val nextTranslation = solvableItemDao.getNextTranslationDueBefore(bucketId, time)
-
-        if (nextTranslation != null) {
-            if (nextTranslation.clue == null) {
-                val token = "Token " + property["api-auth-token"]
-                val translations = syntactService.getTranslations(token, nextTranslation.solvableItem.translationUrl, Locale.getDefault().language)
-                if (translations.size > 1) {
-                    Log.i(TAG, "Multiple Translations not yet supported, using first translation and discarding others")
-                }
-                if (translations.isEmpty()) {
-                    throw Exception("No TranslationResponse found for ${nextTranslation.solvableItem}")
-                }
-                val translation = translations[0]
-                val clue = Clue(
-                        id = translation.id,
-                        text = translation.text.capitalize(),
-                        solvableItemId = nextTranslation.solvableItem.id
-                )
-                clueDao.insert(clue)
-                Log.i(TAG, "Saved Clue $clue")
-                solvableItemDao.getNextTranslationDueBefore(bucketId, time)
-            } else nextTranslation
-
-        } else null
-
+    suspend fun findNextSolvableTranslation(bucketId: Long, time: Instant): SolvableTranslationCto? {
+        return solvableItemDao.getNextTranslationDueBefore(bucketId, time)
     }
-
 
     suspend fun disableSolvableItem(solvableTranslationCto: SolvableTranslationCto) {
 

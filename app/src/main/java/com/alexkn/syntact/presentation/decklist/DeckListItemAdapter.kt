@@ -7,14 +7,14 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
-import com.alexkn.syntact.data.model.BucketDetail
+import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.databinding.DeckListItemBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.google.android.material.button.MaterialButton
 import kotlin.math.ceil
 
-class DeckListItemAdapter : ListItemAdapter<BucketDetail, DeckListItemAdapter.DeckListItemViewHolder>() {
+class DeckListItemAdapter : ListItemAdapter<DeckDetail, DeckListItemAdapter.DeckListItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckListItemViewHolder {
 
@@ -33,13 +33,13 @@ class DeckListItemAdapter : ListItemAdapter<BucketDetail, DeckListItemAdapter.De
         holder.bindTo(bucket)
     }
 
-    class DeckListItemViewHolder(private val binding: DeckListItemBinding) : ListItemViewHolder<BucketDetail>(binding.root) {
+    class DeckListItemViewHolder(private val binding: DeckListItemBinding) : ListItemViewHolder<DeckDetail>(binding.root) {
 
-        private lateinit var bucket: BucketDetail
+        private lateinit var deck: DeckDetail
 
-        override fun bindTo(entity: BucketDetail) {
+        override fun bindTo(entity: DeckDetail) {
 
-            this.bucket = entity
+            this.deck = entity
 
             binding.bucket = entity
 
@@ -49,7 +49,7 @@ class DeckListItemAdapter : ListItemAdapter<BucketDetail, DeckListItemAdapter.De
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
-            binding.progress = ceil(100 - bucket.dueCount.toDouble() / bucket.itemCount * 100).toInt()
+            binding.progress = ceil(100 - deck.dueCount.toDouble() / deck.itemCount * 100).toInt()
 
             val startButton = itemView.findViewById<MaterialButton>(R.id.startButton)
             startButton.setOnClickListener(this::startFlashcards)
@@ -63,12 +63,12 @@ class DeckListItemAdapter : ListItemAdapter<BucketDetail, DeckListItemAdapter.De
         private fun startFlashcards(view: View) {
 
             val action = DeckListFragmentDirections
-                    .actionDeckListFragmentToDeckBoardFragment(bucket.id)
+                    .actionDeckListFragmentToDeckBoardFragment(deck.id)
             Navigation.findNavController(view).navigate(action)
         }
 
         private fun showBucketDetails(view: View) {
-            val action = DeckListFragmentDirections.actionDeckListFragmentToDeckDetailsFragment(bucket.id)
+            val action = DeckListFragmentDirections.actionDeckListFragmentToDeckDetailsFragment(deck.id)
             Navigation.findNavController(view).navigate(action)
         }
     }

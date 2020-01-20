@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 68,
-    "identityHash": "d1c198abc6cef5d1e2021ee295a378b2",
+    "identityHash": "80b9c8d91d78e5adc7e8c78186c251e3",
     "entities": [
       {
         "tableName": "SolvableItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `solvableItemText` TEXT NOT NULL, `lastSolved` INTEGER, `nextDueDate` INTEGER, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `disabled` INTEGER NOT NULL, `translationUrl` TEXT NOT NULL, `bucketId` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`bucketId`) REFERENCES `Bucket`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `solvableItemText` TEXT NOT NULL, `lastSolved` INTEGER, `nextDueDate` INTEGER, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `disabled` INTEGER NOT NULL, `translationUrl` TEXT NOT NULL, `deckId` INTEGER NOT NULL, PRIMARY KEY(`id`), FOREIGN KEY(`deckId`) REFERENCES `Deck`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -63,8 +63,8 @@
             "notNull": true
           },
           {
-            "fieldPath": "bucketId",
-            "columnName": "bucketId",
+            "fieldPath": "deckId",
+            "columnName": "deckId",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -77,21 +77,21 @@
         },
         "indices": [
           {
-            "name": "index_SolvableItem_bucketId",
+            "name": "index_SolvableItem_deckId",
             "unique": false,
             "columnNames": [
-              "bucketId"
+              "deckId"
             ],
-            "createSql": "CREATE INDEX IF NOT EXISTS `index_SolvableItem_bucketId` ON `${TABLE_NAME}` (`bucketId`)"
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_SolvableItem_deckId` ON `${TABLE_NAME}` (`deckId`)"
           }
         ],
         "foreignKeys": [
           {
-            "table": "Bucket",
+            "table": "Deck",
             "onDelete": "CASCADE",
             "onUpdate": "NO ACTION",
             "columns": [
-              "bucketId"
+              "deckId"
             ],
             "referencedColumns": [
               "id"
@@ -100,7 +100,7 @@
         ]
       },
       {
-        "tableName": "Bucket",
+        "tableName": "Deck",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `language` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `userLanguage` TEXT NOT NULL, `phrasesUrl` TEXT NOT NULL, `itemCount` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
@@ -320,8 +320,8 @@
     ],
     "views": [
       {
-        "viewName": "BucketDetail",
-        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT b.name, b.id, b.language, b.createdAt, b.itemCount, (SELECT count(*) FROM solvableitem s WHERE s.timesSolved > 0 AND s.bucketId = b.id) as solvedCount, (SELECT count(*) FROM solvableitem s JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.bucketId = b.id) as onDeviceCount, (SELECT count(*) FROM solvableitem s WHERE s.nextDueDate > (SELECT strftime('%s', 'now') || substr(strftime('%f', 'now'), 4)) AND s.bucketId = b.id) as dueCount FROM Bucket b"
+        "viewName": "DeckDetail",
+        "createSql": "CREATE VIEW `${VIEW_NAME}` AS SELECT b.name, b.id, b.language, b.createdAt, b.itemCount, (SELECT count(*) FROM solvableitem s WHERE s.timesSolved > 0 AND s.deckId = b.id) as solvedCount, (SELECT count(*) FROM solvableitem s JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.deckId = b.id) as onDeviceCount, (SELECT count(*) FROM solvableitem s WHERE s.nextDueDate > (SELECT strftime('%s', 'now') || substr(strftime('%f', 'now'), 4)) AND s.deckId = b.id) as dueCount FROM Deck b"
       },
       {
         "viewName": "PlayerStats",
@@ -330,7 +330,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd1c198abc6cef5d1e2021ee295a378b2')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '80b9c8d91d78e5adc7e8c78186c251e3')"
     ]
   }
 }

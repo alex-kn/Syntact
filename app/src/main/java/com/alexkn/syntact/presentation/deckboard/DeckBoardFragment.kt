@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +15,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.data.model.DeckDetail
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.alexkn.syntact.databinding.DeckBoardFragmentBinding
 import kotlinx.android.synthetic.main.deck_board_fragment.*
 import org.apache.commons.text.similarity.LevenshteinDistance
@@ -30,11 +31,7 @@ class DeckBoardFragment : Fragment() {
 
     private lateinit var imm: InputMethodManager
 
-    private var state = State.SOLVE
-
-    private var dueCount: Int = 1
-
-    private var animating = false
+    private var solving = true
 
     private var levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
 
@@ -50,94 +47,65 @@ class DeckBoardFragment : Fragment() {
                 .get(DeckBoardViewModel::class.java)
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
 
-        nextButton.isEnabled = false
+        viewModel.init(DeckBoardFragmentArgs.fromBundle(arguments!!).deckId)
 
-        nextButton.setOnClickListener {
-            if (State.SOLVE == state) {
-
-                val solved = viewModel.checkSolution(solutionInput.text.toString().trim())
-                if (solved) {
-                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
-                } else {
-                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_error))
-                }
-                animating = true
-                current.animate().translationYBy(-20f).alpha(.75f).setDuration(100).withEndAction {
-                    animating = false
-                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
-                    current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
-                    solutionInput.text?.clear()
-                    solutionInputLayout.visibility = View.INVISIBLE
-                    similarityBar.visibility = View.INVISIBLE
-                    solutionOutput.visibility = View.VISIBLE
-                    nextButton.text = "Next"
-                }.start()
-                state = State.SOLUTION
-                imm.hideSoftInputFromWindow(solutionInput.windowToken,
-                        InputMethodManager.HIDE_NOT_ALWAYS)
-            } else if (State.SOLUTION == state) {
-                nextButton.text = "Solve"
-                solutionInputLayout.visibility = View.VISIBLE
-                similarityBar.visibility = View.VISIBLE
-                solutionOutput.visibility = View.INVISIBLE
-
-                viewModel.fetchNext()
-                state = State.SOLVE
-                if (solutionInputLayout.requestFocus()) {
-                    imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
-                }
-            }
-        }
-
-        val bucketId = DeckBoardFragmentArgs.fromBundle(arguments!!).deckId
-        viewModel.init(bucketId)
+        viewModel.deck.observe(this, Observer(this::onDeckChanged))
+        viewModel.translation.observe(this, Observer(this::onSolvableTranslationChanged))
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())
-        if (solutionInputLayout.requestFocus()) {
-            imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
-        }
-
-        viewModel.bucket!!.observe(this, Observer {
-            val progress = ceil((1 - it.dueCount.toDouble() / (it.itemCount)) * 100).toInt()
-            binding.progressBar3.progress = progress
-            binding.headerDue.text = it.dueCount.toString()
-            dueCount = it.dueCount
-            binding.headerTotal.text = "/" + (it.itemCount).toString()
-            checkDone()
-        })
-
-        viewModel.translation.observe(this, Observer {
-            it?.let { cto ->
-                nextButton.isEnabled = true
-                loadTranslationProgress.visibility = View.GONE
-                doneOutput.visibility = View.GONE
-                binding.currentClue = cto.clue!!.text
-                binding.solutionOutput.text = it.solvableItem.text
-                similarityBar.max = it.solvableItem.text.length
-            } ?: run {
-                nextButton.isEnabled = false
-                loadTranslationProgress.visibility = if (dueCount > 0 && !animating) View.VISIBLE else View.GONE
-                checkDone()
-                binding.currentClue = ""
-                binding.solutionOutput.text = ""
-            }
-        })
-
-
+        nextFab.setOnClickListener { onNext() }
         backButton.setOnClickListener {
             Navigation.findNavController(it).popBackStack()
             imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
     }
 
-    private fun checkDone() {
-        val done = dueCount == 0 && !animating
-        if (done) loadTranslationProgress.visibility = View.GONE
-        doneOutput.visibility = if (done) View.VISIBLE else View.GONE
-        solutionInputLayout.visibility = if (done) View.GONE else View.VISIBLE
-        similarityBar.visibility = if (done) View.GONE else View.VISIBLE
-        if (done) imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+    private fun onDeckChanged(deck: DeckDetail) {
+        val progress = ceil((1 - deck.dueCount.toDouble() / (deck.itemCount)) * 100).toInt()
+        binding.progressBar3.progress = progress
+        binding.headerDue.text = deck.dueCount.toString()
+        binding.headerTotal.text = "/" + (deck.itemCount).toString()
+    }
+
+    private fun onSolvableTranslationChanged(translation: SolvableTranslationCto?) {
+        if (translation == null) {
+            nextFab.visibility = View.GONE
+            binding.currentClue = ""
+            binding.solutionOutput.text = ""
+        } else {
+            binding.currentClue = translation.clue.text
+            binding.solutionOutput.text = translation.solvableItem.text
+            similarityBar.max = translation.solvableItem.text.length
+            similarityBar.progress = 0
+            percentageOutput.text = "0 %"
+        }
+    }
+
+    private fun onNext() {
+        if (solving) {
+            val solved = viewModel.checkSolution(solutionInput.text.toString().trim())
+            if (solved) {
+                solutionInput.text?.clear()
+                viewModel.fetchNext()
+            } else {
+                solving = false
+                solutionInputLayout.visibility = View.INVISIBLE
+                similarityBar.visibility = View.INVISIBLE
+                percentageOutput.visibility = View.INVISIBLE
+                solutionOutput.visibility = View.VISIBLE
+                imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            }
+        } else {
+            viewModel.fetchNext()
+            solving = true
+            solutionInputLayout.visibility = View.VISIBLE
+            similarityBar.visibility = View.VISIBLE
+            percentageOutput.visibility = View.VISIBLE
+            solutionOutput.visibility = View.INVISIBLE
+            if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
+        }
     }
 
     inner class SolutionTextWatcher : TextWatcher {
@@ -146,27 +114,14 @@ class DeckBoardFragment : Fragment() {
             if (!s.isBlank()) {
                 val attempt = s.toString().trim()
                 val solution = viewModel.translation.value?.solvableItem?.text
-                solution.let { similarityBar.progress = similarityBar.max - levenshteinDistance.apply(attempt, solution) + 1 }
+                solution.let {
+                    similarityBar.progress = similarityBar.max - levenshteinDistance.apply(attempt, solution) + 1
+                    percentageOutput.text = (similarityBar.progress.toDouble() / similarityBar.max * 100).toString() + "%"
+                }
                 if (viewModel.peekSolution(attempt)) {
+                    viewModel.checkSolution(attempt)
                     s.clear()
-                    solutionInputLayout.visibility = View.INVISIBLE
-                    similarityBar.visibility = View.INVISIBLE
-                    solutionOutput.visibility = View.VISIBLE
-                    current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_success))
-
-                    animating = true
-                    current.animate().translationYBy(-20f).alpha(0.75f).setDuration(100).withEndAction {
-                        animating = false
-                        viewModel.fetchNext()
-                        solutionInputLayout.visibility = View.VISIBLE
-                        similarityBar.visibility = View.VISIBLE
-                        solutionOutput.visibility = View.INVISIBLE
-                        current.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.color_surface))
-                        current.animate().translationYBy(20f).alpha(1f).setDuration(100).start()
-                        if (solutionInputLayout.requestFocus()) {
-                            imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
-                        }
-                    }.start()
+                    viewModel.fetchNext()
                 }
             }
         }
@@ -175,7 +130,5 @@ class DeckBoardFragment : Fragment() {
 
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
     }
-
-    enum class State { SOLVE, SOLUTION }
 }
 

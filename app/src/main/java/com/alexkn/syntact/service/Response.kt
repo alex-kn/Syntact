@@ -9,7 +9,14 @@ data class PhraseResponse(
         var id: Long,
         var text: String,
         var language: Locale,
-        @SerializedName("translations") var translationsUrl: String
+        var translationsUrl: String? = null,
+        var translations: List<TranslationResponse>
+)
+
+data class TranslationResponse(
+        var id: Long,
+        var text: String,
+        var language: Locale
 )
 
 data class TemplateResponse(
@@ -22,11 +29,6 @@ data class TemplateResponse(
         var description: String
 ) : Identifiable<Long>
 
-data class TranslationResponse(
-        var id: Long,
-        var text: String,
-        var language: Locale
-)
 
 data class PhraseSuggestionResponse(
         var suggestions: List<Suggestion>

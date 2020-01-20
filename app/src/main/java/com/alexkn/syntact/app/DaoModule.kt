@@ -11,7 +11,7 @@ class DaoModule {
 
     @Singleton
     @Provides
-    fun provideBucketDao(appDatabase: AppDatabase): BucketDao = appDatabase.bucketDao()
+    fun provideBucketDao(appDatabase: AppDatabase): DeckDao = appDatabase.deckDao()
 
     @Singleton
     @Provides

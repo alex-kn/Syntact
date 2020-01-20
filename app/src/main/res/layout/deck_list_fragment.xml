@@ -9,6 +9,7 @@
     app:layoutDescription="@xml/bucket_list_fragment_scene">
 
 
+
     <ImageView
         android:id="@+id/avatar"
         android:layout_width="64dp"

@@ -5,8 +5,8 @@ import com.alexkn.syntact.data.common.Identifiable
 import java.time.Instant
 import java.util.*
 
-@DatabaseView("SELECT b.name, b.id, b.language, b.createdAt, b.itemCount, (SELECT count(*) FROM solvableitem s WHERE s.timesSolved > 0 AND s.bucketId = b.id) as solvedCount, (SELECT count(*) FROM solvableitem s JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.bucketId = b.id) as onDeviceCount, (SELECT count(*) FROM solvableitem s WHERE s.nextDueDate > (SELECT strftime('%s', 'now') || substr(strftime('%f', 'now'), 4)) AND s.bucketId = b.id) as dueCount FROM Bucket b")
-data class BucketDetail(
+@DatabaseView("SELECT b.name, b.id, b.language, b.createdAt, b.itemCount, (SELECT count(*) FROM solvableitem s WHERE s.timesSolved > 0 AND s.deckId = b.id) as solvedCount, (SELECT count(*) FROM solvableitem s JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.deckId = b.id) as onDeviceCount, (SELECT count(*) FROM solvableitem s WHERE (s.nextDueDate <= (SELECT strftime('%s', 'now') || substr(strftime('%f', 'now'), 4)) OR s.nextDueDate IS NULL) AND s.deckId = b.id) as dueCount FROM Deck b")
+data class DeckDetail(
         override var id: Long,
         var name: String,
         var language: Locale,

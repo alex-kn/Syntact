@@ -7,13 +7,13 @@ import com.alexkn.syntact.data.dao.*
 import com.alexkn.syntact.data.model.*
 import com.alexkn.syntact.data.util.Converters
 
-@Database(entities = [SolvableItem::class, Bucket::class, Clue::class, Template::class, Phrase::class], views = [BucketDetail::class, PlayerStats::class], version = 68)
+@Database(entities = [SolvableItem::class, Deck::class, Clue::class, Template::class, Phrase::class], views = [DeckDetail::class, PlayerStats::class], version = 70)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun solvableItemDao(): SolvableItemDao
 
-    abstract fun bucketDao(): BucketDao
+    abstract fun deckDao(): DeckDao
 
     abstract fun clueDao(): ClueDao
 

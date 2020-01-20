@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.model.Template
-import com.alexkn.syntact.core.repository.BucketRepository
+import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.TemplateRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -14,11 +14,11 @@ import javax.inject.Inject
 
 class DeckSelectionViewModel @Inject
 constructor(
-        private val bucketRepository: BucketRepository,
+        private val deckRepository: DeckRepository,
         private val templateRepository: TemplateRepository
 ) : ViewModel() {
 
-    var availableLanguages: List<Locale> = bucketRepository.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
+    var availableLanguages: List<Locale> = deckRepository.availableLanguages.filter { locale -> locale.language != Locale.getDefault().language }
 
 
     var availableTemplates: LiveData<List<Template>> = templateRepository.findTemplates()
@@ -36,7 +36,7 @@ constructor(
 
     fun addBucketFromExistingTemplate(template: Template) {
         GlobalScope.launch(Dispatchers.Default) {
-            bucketRepository.addBucketWithExistingTemplate(template)
+            deckRepository.addBucketWithExistingTemplate(template)
         }
     }
 

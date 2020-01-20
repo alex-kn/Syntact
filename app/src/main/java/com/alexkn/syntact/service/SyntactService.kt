@@ -15,13 +15,6 @@ interface SyntactService {
             @Url url: String
     ): List<PhraseResponse>
 
-    @GET
-    suspend fun getTranslations(
-            @Header("Authorization") token: String,
-            @Url url: String,
-            @Query("lang") lang: String
-    ): List<TranslationResponse>
-
     @GET("suggestions")
     suspend fun getPhraseSuggestions(
             @Header("Authorization") token: String,

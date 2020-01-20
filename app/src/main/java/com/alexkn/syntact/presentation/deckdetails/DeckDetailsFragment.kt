@@ -38,7 +38,7 @@ class DeckDetailsFragment : Fragment() {
 
         setupItemList()
 
-        viewModel.bucketDetail.observe(viewLifecycleOwner, Observer {
+        viewModel.deckDetail.observe(viewLifecycleOwner, Observer {
             header.text = it.name
             phrasesOnDeviceTextView.text = String.format("%d/%d available offline", it.onDeviceCount, it.itemCount)
             if (it.onDeviceCount == it.itemCount) {

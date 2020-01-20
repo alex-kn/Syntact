@@ -23,22 +23,12 @@ class SyntactServiceMock : SyntactService {
         )
     }
 
-    override suspend fun getTranslations(token: String, url: String, lang: String): List<TranslationResponse> {
-        Log.i(TAG, "getTranslations: Returning mocked response (URL $url, lang $lang)")
-        return when (url) {
-            "Hallo" -> listOf(TranslationResponse(id = 1, text = "Hello", language = Locale.ENGLISH))
-            "Bier" -> listOf(TranslationResponse(id = 2, text = "Beer", language = Locale.ENGLISH))
-            "Haus" -> listOf(TranslationResponse(id = 3, text = "House", language = Locale.ENGLISH))
-            else -> throw IllegalArgumentException("URL not configured")
-        }
-    }
-
     override suspend fun getPhrases(token: String, url: String): List<PhraseResponse> {
         Log.i(TAG, "getPhrases: Returning mocked response (URL $url)")
         return listOf(
-                PhraseResponse(id = 1, language = Locale.GERMAN, text = "Hallo", translationsUrl = "Hallo"),
-                PhraseResponse(id = 2, language = Locale.GERMAN, text = "Bier", translationsUrl = "Bier"),
-                PhraseResponse(id = 3, language = Locale.GERMAN, text = "Haus", translationsUrl = "Haus")
+                PhraseResponse(id = 1, language = Locale.GERMAN, text = "Hallo", translationsUrl = "Hallo", translations = listOf(TranslationResponse(id = 1, text = "Hello", language = Locale.ENGLISH))),
+                PhraseResponse(id = 2, language = Locale.GERMAN, text = "Bier", translationsUrl = "Bier", translations = listOf(TranslationResponse(id = 2, text = "Beer", language = Locale.ENGLISH))),
+                PhraseResponse(id = 3, language = Locale.GERMAN, text = "Haus", translationsUrl = "Haus", translations = listOf(TranslationResponse(id = 3, text = "House", language = Locale.ENGLISH)))
         )
     }
 

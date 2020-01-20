@@ -2,7 +2,6 @@ package com.alexkn.syntact.app
 
 import android.content.Context
 
-import com.alexkn.syntact.core.worker.FetchPhrasesWorker
 import com.alexkn.syntact.presentation.deckdetails.DeckDetailsViewModel
 import com.alexkn.syntact.presentation.decklist.DeckListViewModel
 import com.alexkn.syntact.presentation.deckselection.DeckSelectionViewModel
@@ -26,8 +25,6 @@ interface ApplicationComponent {
 
         fun build(): ApplicationComponent
     }
-
-    fun inject(fetchPhrasesWorker: FetchPhrasesWorker)
 
     fun playMenuViewModelFactory(): ViewModelFactory<DeckListViewModel>
 

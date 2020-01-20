@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.core.repository.BucketRepository
+import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.BucketDetail
+import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,10 +16,10 @@ import javax.inject.Inject
 
 class DeckBoardViewModel @Inject constructor(
         private val solvableItemRepository: SolvableItemRepository,
-        private val bucketRepository: BucketRepository
+        private val deckRepository: DeckRepository
 ) : ViewModel() {
 
-    var bucket: LiveData<BucketDetail>? = null
+    lateinit var deck: LiveData<DeckDetail>
         private set
 
     var translation: MutableLiveData<SolvableTranslationCto?> = MutableLiveData()
@@ -32,16 +32,13 @@ class DeckBoardViewModel @Inject constructor(
     fun init(bucketId: Long) {
 
         this.bucketId = bucketId
-        bucket = bucketRepository.getBucketDetail(bucketId)
+        deck = deckRepository.getBucketDetail(bucketId)
         fetchNext()
     }
 
     fun fetchNext() {
-        translation.value = null
         viewModelScope.launch(Dispatchers.Default) {
             val nextTranslation = solvableItemRepository.findNextSolvableTranslation(bucketId!!, Instant.now())
-            done = nextTranslation == null
-
             translation.postValue(nextTranslation)
         }
     }

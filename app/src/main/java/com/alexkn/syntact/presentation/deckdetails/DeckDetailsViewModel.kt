@@ -5,26 +5,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.*
-import com.alexkn.syntact.core.repository.BucketRepository
+import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.core.worker.FetchPhrasesWorker
-import com.alexkn.syntact.data.model.BucketDetail
+import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DeckDetailsViewModel @Inject constructor(
         private val solvableItemRepository: SolvableItemRepository,
-        private val bucketRepository: BucketRepository,
+        private val deckRepository: DeckRepository,
         private val context: Context
 ) : ViewModel() {
 
-    lateinit var bucketDetail: LiveData<BucketDetail>
+    lateinit var deckDetail: LiveData<DeckDetail>
 
     lateinit var translations: LiveData<List<SolvableTranslationCto>>
 
     fun init(bucketId: Long) {
-        bucketDetail = bucketRepository.getBucketDetail(bucketId)
+        deckDetail = deckRepository.getBucketDetail(bucketId)
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
 
@@ -33,16 +32,8 @@ class DeckDetailsViewModel @Inject constructor(
     }
 
     fun download() {
-        bucketDetail.value?.let { fetchSolvableItems(it.id) }
     }
 
-    private fun fetchSolvableItems(bucketId: Long, count: Int? = null) {
 
-        val data = Data.Builder().putLong("bucketId", bucketId)
-        count?.let { data.putInt("count", count) }
-        val constraints = Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
-        val workRequest = OneTimeWorkRequest.Builder(FetchPhrasesWorker::class.java).setInputData(data.build()).setConstraints(constraints).build()
-        WorkManager.getInstance(context).enqueueUniqueWork(FetchPhrasesWorker::class.java.name, ExistingWorkPolicy.KEEP, workRequest)
-    }
 
 }

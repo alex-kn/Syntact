@@ -51,7 +51,7 @@ class DeckCreationFragment : Fragment() {
 
         setupSuggestionList()
 
-        createTemplateButton.setOnClickListener { viewModel.createDeck() }
+        createTemplateButton.setOnClickListener { viewModel.createDeck("Test") }
         addTextButton.setOnClickListener { onAddText() }
 
     }

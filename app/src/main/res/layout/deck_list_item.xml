@@ -8,7 +8,7 @@
 
         <variable
             name="bucket"
-            type="com.alexkn.syntact.data.model.BucketDetail" />
+            type="com.alexkn.syntact.data.model.DeckDetail" />
 
         <variable
             name="progress"

@@ -10,19 +10,19 @@ import java.time.Instant
 import java.util.*
 
 @Entity
-data class Bucket(
-        @PrimaryKey override var id: Long = 0,
+data class Deck(
+        @PrimaryKey(autoGenerate = true) override var id: Long? = null,
         var name: String,
         var language: Locale,
         var createdAt: Instant = Instant.now(),
         var userLanguage: Locale,
-        var phrasesUrl: String,
+        var phrasesUrl: String? = null,
         var itemCount: Int = 0
 ) : Identifiable<Long>
 
-@Entity(foreignKeys = [ForeignKey(entity = Bucket::class, parentColumns = ["id"], childColumns = ["bucketId"], onDelete = ForeignKey.CASCADE)])
+@Entity(foreignKeys = [ForeignKey(entity = Deck::class, parentColumns = ["id"], childColumns = ["deckId"], onDelete = ForeignKey.CASCADE)])
 data class SolvableItem(
-        @PrimaryKey override var id: Long,
+        @PrimaryKey(autoGenerate = true) override var id: Long? = null,
         @ColumnInfo(name = "solvableItemText") var text: String,
         var lastSolved: Instant? = null,
         var nextDueDate: Instant? = null,
@@ -30,15 +30,15 @@ data class SolvableItem(
         var consecutiveCorrectAnswers: Int = 0,
         var timesSolved: Int = 0,
         var disabled: Boolean = false,
-        var translationUrl: String,
-        @ColumnInfo(index = true) var bucketId: Long
+        var translationUrl: String? = null,
+        @ColumnInfo(index = true) var deckId: Long? = null
 ) : Identifiable<Long>
 
 @Entity(foreignKeys = [ForeignKey(entity = SolvableItem::class, parentColumns = ["id"], childColumns = ["clueSolvableItemId"], onDelete = ForeignKey.CASCADE)])
 data class Clue(
-        @ColumnInfo(name = "clueId") @PrimaryKey var id: Long,
+        @ColumnInfo(name = "clueId") @PrimaryKey(autoGenerate = true) var id: Long? = null,
         @ColumnInfo(name = "clueText") var text: String,
-        @ColumnInfo(name = "clueSolvableItemId", index = true) var solvableItemId: Long
+        @ColumnInfo(name = "clueSolvableItemId", index = true) var solvableItemId: Long? = null
 )
 
 

@@ -5,8 +5,8 @@ import com.alexkn.syntact.data.common.Identifiable
 
 data class SolvableTranslationCto(
         @Embedded var solvableItem: SolvableItem,
-        @Embedded var clue: Clue?
+        @Embedded var clue: Clue
 ) : Identifiable<Long> {
-    override val id: Long
+    override val id: Long?
         get() = solvableItem.id
 }
