@@ -4,7 +4,10 @@ import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.Clue
 import com.alexkn.syntact.data.model.SolvableItem
 import com.alexkn.syntact.data.model.SolvableTranslationCto
-import com.nhaarman.mockito_kotlin.*
+import com.nhaarman.mockito_kotlin.argumentCaptor
+import com.nhaarman.mockito_kotlin.atLeastOnce
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Test
@@ -26,13 +29,8 @@ class SolvableItemRepositoryTest {
 
 
         for (i in 1..10) {
-            if (i == 5) {
-                solvableItemRepository.markPhraseIncorrect(solvableTranslation)
-            } else {
-                solvableItemRepository.markPhraseCorrect(solvableTranslation)
 
-            }
-
+            solvableItemRepository.markPhraseCorrect(solvableTranslation, 1.0)
 
             argumentCaptor<SolvableItem>().apply {
                 verify(daoMock, atLeastOnce()).update(capture())
