@@ -84,6 +84,19 @@
                 android:layout_margin="16dp">
 
                 <TextView
+                    android:id="@+id/doneOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You're done for now.\n Check back later."
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Subtitle2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,9 +116,9 @@
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="16dp"
+                    android:layout_marginEnd="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/percentageOutput"
+                    app:layout_constraintEnd_toStartOf="@+id/scoreOutput"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/solutionOutput" />
@@ -141,19 +154,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/color_transparent"
-                        android:gravity="bottom|end"
-                        android:layout_marginTop="16dp"
-                        android:hint="Type here"
                         android:inputType="textMultiLine"
                         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
-                    android:id="@+id/percentageOutput"
+                    android:id="@+id/scoreOutput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
+                    android:layout_marginVertical="16dp"
                     android:text="0%"
                     app:layout_constraintBottom_toBottomOf="@+id/similarityBar"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -176,17 +186,18 @@
             app:layout_constraintStart_toEndOf="@+id/backButton"
             app:layout_constraintTop_toTopOf="@+id/headerDue" />
 
-        <ProgressBar
-            android:id="@+id/progressBar3"
-            style="?android:attr/progressBarStyleHorizontal"
+        <TextView
+            android:id="@+id/scoreChangeOutput"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="32dp"
-            android:rotation="0"
-            app:layout_constraintBottom_toBottomOf="@+id/headerTotal"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+            app:layout_constraintBottom_toBottomOf="@+id/headerDue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="@+id/headerTotal" />
+            app:layout_constraintTop_toTopOf="@+id/headerDue"
+            tools:text="+15" />
 
         <TextView
             android:id="@+id/headerTotal"
@@ -204,7 +215,7 @@
             android:layout_margin="16dp"
             android:src="@drawable/ic_play_arrow_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,15 +1,18 @@
 package com.alexkn.syntact.presentation.deckboard
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
 import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.apache.commons.text.similarity.LevenshteinDistance
 import java.time.Instant
 import javax.inject.Inject
 
@@ -25,12 +28,25 @@ class DeckBoardViewModel @Inject constructor(
     var translation: MutableLiveData<SolvableTranslationCto?> = MutableLiveData()
         private set
 
+    private val levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
+    private val _maxScore: MutableLiveData<Int> = MutableLiveData(0)
+    private val _currentScore: MutableLiveData<Int> = MutableLiveData(0)
+
+    val maxScore: LiveData<Int>
+        get() = _maxScore
+
+    val currentScore: LiveData<Int>
+        get() = _currentScore
+
     var done = false
 
     private var bucketId: Long? = null
 
-    fun init(bucketId: Long) {
+    val scoreRatio: Double
+        get() = currentScore.value!!.toDouble() / maxScore.value!!
 
+
+    fun init(bucketId: Long) {
         this.bucketId = bucketId
         deck = deckRepository.getBucketDetail(bucketId)
         fetchNext()
@@ -40,26 +56,35 @@ class DeckBoardViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.Default) {
             val nextTranslation = solvableItemRepository.findNextSolvableTranslation(bucketId!!, Instant.now())
             translation.postValue(nextTranslation)
+            _maxScore.postValue(nextTranslation?.solvableItem?.text?.length ?: 0)
+            _currentScore.postValue(0)
         }
     }
 
-    fun peekSolution(solution: String): Boolean {
-
-        return if (translation.value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
-            viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.solvePhrase(translation.value!!) }
-            true
-        } else false
-    }
-
-    fun checkSolution(solution: String): Boolean {
-        return if (translation.value?.solvableItem?.text.equals(solution, ignoreCase = true)) {
-            viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.solvePhrase(translation.value!!) }
-            true
+    fun checkSolution(solution: String, peek: Boolean = false): Double {
+        val translationCto = translation.value
+        return if (translationCto == null) {
+            0.0
         } else {
-            viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.phraseIncorrect(translation.value!!) }
-            false
+            _currentScore.value = getCurrentScore(translationCto, solution)
+            _maxScore.value = translationCto.solvableItem.text.length
+            if (isAttemptCorrect(solution)) {
+                viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseCorrect(translationCto, scoreRatio) }
+            } else {
+                if (!peek) viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseIncorrect(translationCto, scoreRatio) }
+            }
+            scoreRatio
         }
-
     }
+
+    private fun getCurrentScore(translationCto: SolvableTranslationCto, solution: String): Int {
+        val value = translationCto.solvableItem.text.length - levenshteinDistance.apply(translationCto.solvableItem.text.toLowerCase(), solution.toLowerCase())
+        return if (value >= 0) value else 0
+    }
+
+    private fun isAttemptCorrect(attempt: String): Boolean {
+        return attempt.equals(translation.value?.solvableItem?.text, ignoreCase = true)
+    }
+
 
 }
