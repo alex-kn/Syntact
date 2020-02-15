@@ -11,6 +11,7 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.deck_list_fragment.*
 
 
@@ -31,14 +32,27 @@ class DeckListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
                 .get(DeckListViewModel::class.java)
 
+        val sheetBehavior = BottomSheetBehavior.from(contentLayout)
+        with(sheetBehavior) {
+            isFitToContents = false
+            isHideable = false
+            state = BottomSheetBehavior.STATE_EXPANDED
+            addBottomSheetCallback(BackdropSheetBehavior())
+        }
+
+        arrowUp.setOnClickListener {
+            when (sheetBehavior.state) {
+                BottomSheetBehavior.STATE_EXPANDED -> sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
+                else -> sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+            }
+        }
+
         createBucketFab.setOnClickListener(this::newBucket)
-        progressBar.max = goal
 
         setupDeckList()
 
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
             todayView.text = it.solvedToday.toString() + "/" + goal
-            progressBar.progress = it.solvedToday
         })
 
     }
@@ -54,5 +68,15 @@ class DeckListFragment : Fragment() {
     private fun newBucket(view: View) {
         val action = DeckListFragmentDirections.actionDeckListFragmentToDeckSelectionFragment()
         Navigation.findNavController(view).navigate(action)
+    }
+
+
+    inner class BackdropSheetBehavior : BottomSheetBehavior.BottomSheetCallback() {
+
+        override fun onSlide(bottomSheet: View, slideOffset: Float) {
+            arrowUp.rotation = slideOffset * -180
+        }
+
+        override fun onStateChanged(bottomSheet: View, newState: Int) = Unit
     }
 }
