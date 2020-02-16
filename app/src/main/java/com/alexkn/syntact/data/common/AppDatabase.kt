@@ -7,7 +7,7 @@ import com.alexkn.syntact.data.dao.*
 import com.alexkn.syntact.data.model.*
 import com.alexkn.syntact.data.util.Converters
 
-@Database(entities = [SolvableItem::class, Deck::class, Clue::class, Template::class, Phrase::class], views = [DeckDetail::class, PlayerStats::class], version = 70)
+@Database(entities = [SolvableItem::class, Deck::class, Clue::class, Template::class, Phrase::class], views = [DeckDetail::class, PlayerStats::class], version = 71)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

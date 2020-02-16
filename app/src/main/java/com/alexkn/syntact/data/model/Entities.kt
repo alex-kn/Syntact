@@ -16,7 +16,6 @@ data class Deck(
         var language: Locale,
         var createdAt: Instant = Instant.now(),
         var userLanguage: Locale,
-        var phrasesUrl: String? = null,
         var itemCount: Int = 0
 ) : Identifiable<Long>
 
@@ -29,8 +28,6 @@ data class SolvableItem(
         var easiness: Float = 2.5f,
         var consecutiveCorrectAnswers: Int = 0,
         var timesSolved: Int = 0,
-        var disabled: Boolean = false,
-        var translationUrl: String? = null,
         @ColumnInfo(index = true) var deckId: Long? = null
 ) : Identifiable<Long>
 
