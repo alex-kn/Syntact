@@ -3,13 +3,10 @@ package com.alexkn.syntact.presentation.deckdetails
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import androidx.work.*
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
 import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.data.model.SolvableTranslationCto
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DeckDetailsViewModel @Inject constructor(
@@ -27,9 +24,6 @@ class DeckDetailsViewModel @Inject constructor(
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
 
-    fun disableItem(solvableTranslationCto: SolvableTranslationCto) = viewModelScope.launch {
-        solvableItemRepository.disableSolvableItem(solvableTranslationCto)
-    }
 
     fun download() {
     }

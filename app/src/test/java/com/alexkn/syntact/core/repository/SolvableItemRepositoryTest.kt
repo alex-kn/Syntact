@@ -30,7 +30,12 @@ class SolvableItemRepositoryTest {
 
         for (i in 1..10) {
 
-            solvableItemRepository.markPhraseCorrect(solvableTranslation, 1.0)
+            if (i < 4) {
+                solvableItemRepository.markPhraseIncorrect(solvableTranslation, 0.3)
+            } else {
+
+                solvableItemRepository.markPhraseCorrect(solvableTranslation, 1.0)
+            }
 
             argumentCaptor<SolvableItem>().apply {
                 verify(daoMock, atLeastOnce()).update(capture())

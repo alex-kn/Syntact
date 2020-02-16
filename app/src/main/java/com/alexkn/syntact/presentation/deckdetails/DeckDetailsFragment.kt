@@ -55,7 +55,7 @@ class DeckDetailsFragment : Fragment() {
 
     private fun setupItemList() {
         val solvableItemsListAdapter = SolvableItemsListAdapter()
-        solvableItemsListAdapter.deleteItemListener = Consumer { viewModel.disableItem(it) }
+        solvableItemsListAdapter.deleteItemListener = Consumer { TODO("DELETE ITEM") }
         itemList.adapter = solvableItemsListAdapter
         val layoutManager = LinearLayoutManager(this.context)
         itemList.layoutManager = layoutManager

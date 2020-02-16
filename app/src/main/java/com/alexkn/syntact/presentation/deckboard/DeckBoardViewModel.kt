@@ -1,11 +1,9 @@
 package com.alexkn.syntact.presentation.deckboard
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
 import com.alexkn.syntact.data.model.DeckDetail
@@ -27,6 +25,8 @@ class DeckBoardViewModel @Inject constructor(
 
     var translation: MutableLiveData<SolvableTranslationCto?> = MutableLiveData()
         private set
+
+    lateinit var items: List<SolvableTranslationCto>
 
     private val levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
     private val _maxScore: MutableLiveData<Int> = MutableLiveData(0)
@@ -54,7 +54,7 @@ class DeckBoardViewModel @Inject constructor(
 
     fun fetchNext() {
         viewModelScope.launch(Dispatchers.Default) {
-            val nextTranslation = solvableItemRepository.findNextSolvableTranslation(bucketId!!, Instant.now())
+            val nextTranslation = solvableItemRepository.findNextSolvableItem(bucketId!!, Instant.now())
             translation.postValue(nextTranslation)
             _maxScore.postValue(nextTranslation?.solvableItem?.text?.length ?: 0)
             _currentScore.postValue(0)

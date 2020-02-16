@@ -6,6 +6,7 @@ import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import java.time.Instant
+import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,15 +24,31 @@ class SolvableItemRepository @Inject constructor(
 
     fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> = solvableItemDao.getSolvableTranslations(bucketId)
 
-    suspend fun findNextSolvableTranslation(bucketId: Long, time: Instant): SolvableTranslationCto? {
-        return solvableItemDao.getNextTranslationDueBefore(bucketId, time)
+    suspend fun findNextSolvableItem(deckId: Long, time: Instant): SolvableTranslationCto? {
+
+        var newItems = findNewItems(deckId, 20 - findItemsSolvedOnDay(deckId, time).size)
+        if (newItems.isNotEmpty()) return newItems[0]
+        var reviewItems = findItemsDueForReview(deckId, time)
+        return if (reviewItems.isNotEmpty()) reviewItems[0] else null
+        //TODO shuffle, new first, review first
     }
 
-    suspend fun disableSolvableItem(solvableTranslationCto: SolvableTranslationCto) {
+    suspend fun findItemsDueForReview(deckId: Long, time: Instant, limit: Int? = null): List<SolvableTranslationCto> {
 
-        val solvableItem = solvableTranslationCto.solvableItem
-        solvableItem.disabled = true
-        solvableItemDao.update(solvableItem)
+        val endOfDay = time.atZone(ZoneId.systemDefault()).withHour(23).withMinute(59).withSecond(59).toInstant()
+        return solvableItemDao.findSolvedItemsDueBefore(deckId, endOfDay, limit ?: 0)
+    }
+
+    suspend fun findNewItems(deckId: Long, limit: Int): List<SolvableTranslationCto> {
+
+        return solvableItemDao.findUnsolvedItems(deckId, limit)
+    }
+
+    suspend fun findItemsSolvedOnDay(deckId: Long, time: Instant): List<SolvableTranslationCto> {
+
+        val from = time.atZone(ZoneId.systemDefault()).withHour(23).withMinute(59).withSecond(59).toInstant()
+        val to = time.atZone(ZoneId.systemDefault()).withHour(0).withMinute(0).withSecond(0).toInstant()
+        return solvableItemDao.findItemsSolvedBetween(deckId, from, to)
     }
 
     suspend fun markPhraseCorrect(solvableTranslation: SolvableTranslationCto, scoreRatio: Double) {
