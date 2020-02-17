@@ -19,7 +19,10 @@ abstract class DeckDao : BaseDao<Deck> {
     abstract suspend fun find(id: Long): Deck
 
     @Query("SELECT * FROM Deck")
-    abstract fun findAll(): LiveData<List<Deck>>
+    abstract fun findAllLiveData(): LiveData<List<Deck>>
+
+    @Query("SELECT * FROM Deck")
+    abstract fun findAll(): List<Deck>
 
     @Query("SELECT * FROM Deck WHERE id = :id LIMIT 1")
     abstract fun findBucket(id: Long): LiveData<Deck>

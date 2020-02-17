@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -37,22 +38,48 @@ class DeckListFragment : Fragment() {
             isFitToContents = false
             isHideable = false
             state = BottomSheetBehavior.STATE_EXPANDED
-            addBottomSheetCallback(BackdropSheetBehavior())
         }
 
-        arrowUp.setOnClickListener {
+        backdropButton.setOnClickListener {
             when (sheetBehavior.state) {
-                BottomSheetBehavior.STATE_EXPANDED -> sheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED)
-                else -> sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
+                BottomSheetBehavior.STATE_EXPANDED -> collapse(sheetBehavior)
+                else -> expand(sheetBehavior)
             }
+        }
+
+        topLayout.setOnClickListener {
+            if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheetBehavior)
+        }
+
+        contentHeader.setOnClickListener {
+            if (sheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheetBehavior)
         }
 
         createBucketFab.setOnClickListener(this::newBucket)
 
         setupDeckList()
 
+        reviewsOutput.alpha = 0f
+        reviewsOutput.rotation = -45f
+        reviewsLabel.alpha = 0f
+        newCardsOutput.alpha = 0f
+        newCardsOutput.rotation = -45f
+        newCardsLabel.alpha = 0f
+
         viewModel.playerStats.observe(viewLifecycleOwner, Observer {
             todayView.text = it.solvedToday.toString() + "/" + goal
+        })
+
+        viewModel.newCards.observe(viewLifecycleOwner, Observer {
+            newCardsOutput.text = it.toString()
+            newCardsOutput.animate().alpha(1f).rotation(0f).setDuration(100).start()
+            newCardsLabel.animate().alpha(1f).setDuration(100).start()
+        })
+
+        viewModel.reviews.observe(viewLifecycleOwner, Observer {
+            reviewsOutput.text = it.toString()
+            reviewsOutput.animate().alpha(1f).rotation(0f).setDuration(100).start()
+            reviewsLabel.animate().alpha(1f).setDuration(100).start()
         })
 
     }
@@ -70,13 +97,22 @@ class DeckListFragment : Fragment() {
         Navigation.findNavController(view).navigate(action)
     }
 
-
-    inner class BackdropSheetBehavior : BottomSheetBehavior.BottomSheetCallback() {
-
-        override fun onSlide(bottomSheet: View, slideOffset: Float) {
-            arrowUp.rotation = slideOffset * -180
-        }
-
-        override fun onStateChanged(bottomSheet: View, newState: Int) = Unit
+    private fun expand(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
+        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        backdropButton.rotation = 180f
+        backdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
+            backdropButton.setImageResource(R.drawable.ic_baseline_account_circle_24)
+            backdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
+        }.start()
     }
+
+    private fun collapse(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
+        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        backdropButton.rotation = 0f
+        backdropButton.animate().rotation(90f).alpha(0.5f).setDuration(100).withEndAction {
+            backdropButton.setImageResource(R.drawable.ic_baseline_clear_24)
+            backdropButton.animate().rotation(180f).alpha(1f).setDuration(100).start()
+        }.start()
+    }
+
 }

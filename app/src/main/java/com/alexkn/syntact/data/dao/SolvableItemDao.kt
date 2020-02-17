@@ -25,6 +25,7 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.deckId = :deckId")
     abstract fun getSolvableTranslations(deckId: Long): LiveData<List<SolvableTranslationCto>>
 
+
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.deckId = :bucketId ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT 1")
     abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant): SolvableTranslationCto?
 
@@ -39,9 +40,6 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
 
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.id = :id")
     abstract suspend fun getSolvableTranslation(id: Long): SolvableTranslationCto
-
-    @Query("SELECT s.* FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.deckId = :deckId AND c.clueId  is null")
-    abstract suspend fun findSolvableItemsWithoutTranslation(deckId: Long): List<SolvableItem>
 
     @Delete
     abstract suspend fun deleteClue(clue: Clue)

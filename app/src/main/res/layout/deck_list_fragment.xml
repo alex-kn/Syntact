@@ -11,8 +11,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/color_primary"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -33,14 +34,33 @@
             android:id="@+id/todayView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingVertical="16dp"
 
-            android:paddingEnd="48dp"
+            android:paddingEnd="32dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textColor="@color/color_on_primary"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/backdropButton"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="5/20" />
+
+
+        <ImageButton
+            android:id="@+id/backdropButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_margin="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:padding="8dp"
+
+            android:scaleType="center"
+            android:tint="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -59,12 +79,68 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="3 Decks"
-                android:textColor="@color/color_on_primary" />
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/newCardsLabel"
+                    style="@style/TextAppearance.MyTheme.Overline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="New Cards"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/newCardsOutput"
+                    app:layout_constraintEnd_toStartOf="@id/newCardsOutput" />
+
+
+                <TextView
+                    android:id="@+id/newCardsOutput"
+                    style="@style/TextAppearance.MyTheme.Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintEnd_toEndOf="@id/guideline3"
+                    tools:text="20" />
+
+                <TextView
+                    android:id="@+id/reviewsLabel"
+                    style="@style/TextAppearance.MyTheme.Overline"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="Reviews"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/reviewsOutput"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsOutput" />
+
+
+                <TextView
+                    android:id="@+id/reviewsOutput"
+                    style="@style/TextAppearance.MyTheme.Headline2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:padding="16dp"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="200" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
 
@@ -79,6 +155,7 @@
 
 
             <LinearLayout
+                android:id="@+id/contentHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_list_header_background"
@@ -93,16 +170,6 @@
                     android:layout_weight="1"
                     android:text="21 Cards are due today" />
 
-                <ImageButton
-                    android:id="@+id/arrowUp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:rotation="180"
-                    android:tint="@color/color_on_surface"
-                    app:srcCompat="@drawable/ic_keyboard_arrow_up_black_24dp" />
 
             </LinearLayout>
 

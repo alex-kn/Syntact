@@ -59,6 +59,10 @@ class DeckRepository @Inject constructor(
         deckDao.delete(id)
     }
 
+    suspend fun findAll(): List<Deck> {
+        return deckDao.findAll()
+    }
+
     fun getBucketDetail(id: Long): LiveData<DeckDetail> {
         return deckDao.findBucketDetail(id)
     }
