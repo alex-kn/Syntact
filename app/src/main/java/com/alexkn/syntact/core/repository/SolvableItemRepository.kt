@@ -26,17 +26,17 @@ class SolvableItemRepository @Inject constructor(
 
     suspend fun findNextSolvableItem(deckId: Long, time: Instant): SolvableTranslationCto? {
 
-        var newItems = findNewItems(deckId, 20 - findItemsSolvedOnDay(deckId, time).size)
+        val newItems = findNewItems(deckId, 20 - findItemsSolvedOnDay(deckId, time).size)
         if (newItems.isNotEmpty()) return newItems[0]
-        var reviewItems = findItemsDueForReview(deckId, time)
+        val reviewItems = findItemsDueForReview(deckId, time)
         return if (reviewItems.isNotEmpty()) reviewItems[0] else null
         //TODO shuffle, new first, review first
     }
 
-    suspend fun findItemsDueForReview(deckId: Long, time: Instant, limit: Int? = null): List<SolvableTranslationCto> {
+    suspend fun findItemsDueForReview(deckId: Long, time: Instant): List<SolvableTranslationCto> {
 
         val endOfDay = time.atZone(ZoneId.systemDefault()).withHour(23).withMinute(59).withSecond(59).toInstant()
-        return solvableItemDao.findSolvedItemsDueBefore(deckId, endOfDay, limit ?: 0)
+        return solvableItemDao.findSolvedItemsDueBefore(deckId, endOfDay)
     }
 
     suspend fun findNewItems(deckId: Long, limit: Int): List<SolvableTranslationCto> {

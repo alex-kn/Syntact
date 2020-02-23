@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
@@ -51,8 +52,12 @@ class DeckCreationFragment : Fragment() {
 
         setupSuggestionList()
 
-        createTemplateButton.setOnClickListener { viewModel.createDeck("Test") }
+        createTemplateButton.setOnClickListener {
+            viewModel.createDeck("Test")
+            Navigation.findNavController(it).popBackStack()
+        }
         addTextButton.setOnClickListener { onAddText() }
+        backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
     }
 

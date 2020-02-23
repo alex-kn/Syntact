@@ -18,30 +18,68 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/settingsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:paddingStart="32dp"
+            android:alpha="0"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
 
-        <TextView
-            android:id="@+id/todayLabel"
+            android:textColor="@color/color_on_primary"
+
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/newLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="Today"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+            android:text="New"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             android:textColor="@color/color_on_primary"
-            app:layout_constraintBaseline_toBaselineOf="@+id/todayView"
-            app:layout_constraintEnd_toStartOf="@+id/todayView" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/newOutput"
+            app:layout_constraintEnd_toStartOf="@+id/newOutput" />
 
-        <TextView
-            android:id="@+id/todayView"
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/newOutput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
             android:paddingEnd="32dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/backdropButton"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="5/20" />
+            tools:text="168" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reviewsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reviews"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+            android:textColor="@color/color_on_primary"
+            app:layout_constraintBaseline_toBaselineOf="@+id/reviewsOutput"
+            app:layout_constraintStart_toEndOf="@+id/settingsLabel" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/reviewsOutput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+            android:textColor="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/reviewsLabel"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="20" />
 
 
         <ImageButton
@@ -60,6 +98,13 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -85,59 +130,68 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/newCardsLabel"
-                    style="@style/TextAppearance.MyTheme.Overline"
+                    android:id="@+id/newCardsSettingsLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="New Cards"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:text="Max New Cards Per Day"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_primary"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/newCardsOutput"
-                    app:layout_constraintEnd_toStartOf="@id/newCardsOutput" />
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/newCardsSettingsOutput"
+                    app:layout_constraintEnd_toStartOf="@+id/newCardsSettingsOutput"
+                    app:layout_constraintStart_toStartOf="parent" />
 
 
                 <TextView
-                    android:id="@+id/newCardsOutput"
-                    style="@style/TextAppearance.MyTheme.Headline2"
+                    android:id="@+id/newCardsSettingsOutput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
                     android:textColor="@color/color_on_primary"
-                    app:layout_constraintEnd_toEndOf="@id/guideline3"
-                    tools:text="20" />
-
-                <TextView
-                    android:id="@+id/reviewsLabel"
-                    style="@style/TextAppearance.MyTheme.Overline"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Reviews"
-                    android:textColor="@color/color_on_primary"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/reviewsOutput"
-                    app:layout_constraintEnd_toStartOf="@+id/reviewsOutput" />
-
-
-                <TextView
-                    android:id="@+id/reviewsOutput"
-                    style="@style/TextAppearance.MyTheme.Headline2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:padding="16dp"
-                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="200" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="20" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/guideline3"
-                    android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/reviewsSettingsLabel"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent="0.5" />
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:text="Max Reviews Per Day"
+
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_on_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/reviewsSettingsOutput"
+                    app:layout_constraintEnd_toStartOf="@+id/reviewsSettingsOutput"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/reviewsSettingsOutput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="500" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -150,7 +204,7 @@
             android:layout_height="match_parent"
             android:elevation="4dp"
             android:orientation="vertical"
-            app:behavior_peekHeight="56dp"
+            app:behavior_peekHeight="50dp"
             app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
 
 

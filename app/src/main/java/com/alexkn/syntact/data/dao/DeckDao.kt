@@ -5,12 +5,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
-
 import com.alexkn.syntact.data.dao.base.BaseDao
 import com.alexkn.syntact.data.model.*
 
 @Dao
 abstract class DeckDao : BaseDao<Deck> {
+
 
     @Query("DELETE FROM Deck where id = :id")
     abstract suspend fun delete(id: Long)

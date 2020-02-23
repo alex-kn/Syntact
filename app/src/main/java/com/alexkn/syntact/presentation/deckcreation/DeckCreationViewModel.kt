@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.service.Suggestion
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.postValue(newSuggestions)
     }
 
-    fun createDeck(name: String) = viewModelScope.launch {
+    fun createDeck(name: String) = GlobalScope.launch {
         deckRepository.createNewDeck(name, deckLang, _suggestions.value!!)
     }
 

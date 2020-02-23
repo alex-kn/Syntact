@@ -13,18 +13,17 @@ import java.time.Instant
 @Dao
 abstract class SolvableItemDao : BaseDao<SolvableItem> {
 
-    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.nextDueDate <= :time AND s.deckId = :deckId limit :limit")
-    abstract fun findSolvedItemsDueBefore(deckId: Long, time: Instant, limit: Int): List<SolvableTranslationCto>
+    @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.nextDueDate <= :time AND s.deckId = :deckId")
+    abstract suspend fun findSolvedItemsDueBefore(deckId: Long, time: Instant): List<SolvableTranslationCto>
 
     @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.timesSolved = 0 and s.deckId = :deckId limit :limit")
-    abstract fun findUnsolvedItems(deckId: Long, limit: Int): List<SolvableTranslationCto>
+    abstract suspend fun findUnsolvedItems(deckId: Long, limit: Int): List<SolvableTranslationCto>
 
     @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.lastSolved >= :from and s.lastSolved < :to and s.deckId = :deckId")
-    abstract fun findItemsSolvedBetween(deckId: Long, from: Instant, to: Instant): List<SolvableTranslationCto>
+    abstract suspend fun findItemsSolvedBetween(deckId: Long, from: Instant, to: Instant): List<SolvableTranslationCto>
 
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.deckId = :deckId")
     abstract fun getSolvableTranslations(deckId: Long): LiveData<List<SolvableTranslationCto>>
-
 
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE (s.nextDueDate <= :time OR s.nextDueDate is null)  AND s.deckId = :bucketId ORDER BY IFNULL(s.nextDueDate,16743703664000) LIMIT 1")
     abstract suspend fun getNextTranslationDueBefore(bucketId: Long, time: Instant): SolvableTranslationCto?

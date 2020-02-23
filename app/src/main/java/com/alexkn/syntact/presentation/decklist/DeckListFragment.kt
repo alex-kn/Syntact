@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -33,55 +34,41 @@ class DeckListFragment : Fragment() {
         viewModel = ViewModelProviders.of(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
                 .get(DeckListViewModel::class.java)
 
-        val sheetBehavior = BottomSheetBehavior.from(contentLayout)
-        with(sheetBehavior) {
+
+        val sheet = BottomSheetBehavior.from(contentLayout)
+        with(sheet) {
             isFitToContents = false
             isHideable = false
             state = BottomSheetBehavior.STATE_EXPANDED
         }
 
         backdropButton.setOnClickListener {
-            when (sheetBehavior.state) {
-                BottomSheetBehavior.STATE_EXPANDED -> collapse(sheetBehavior)
-                else -> expand(sheetBehavior)
+            when (sheet.state) {
+                BottomSheetBehavior.STATE_EXPANDED -> collapse(sheet)
+                else -> expand(sheet)
             }
         }
 
-        topLayout.setOnClickListener {
-            if (sheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheetBehavior)
-        }
+        topLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
+        contentHeader.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
 
-        contentHeader.setOnClickListener {
-            if (sheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheetBehavior)
-        }
-
-        createBucketFab.setOnClickListener(this::newBucket)
+        createBucketFab.setOnClickListener(this::createBucket)
 
         setupDeckList()
 
-        reviewsOutput.alpha = 0f
-        reviewsOutput.rotation = -45f
-        reviewsLabel.alpha = 0f
-        newCardsOutput.alpha = 0f
-        newCardsOutput.rotation = -45f
-        newCardsLabel.alpha = 0f
-
-        viewModel.playerStats.observe(viewLifecycleOwner, Observer {
-            todayView.text = it.solvedToday.toString() + "/" + goal
-        })
-
         viewModel.newCards.observe(viewLifecycleOwner, Observer {
-            newCardsOutput.text = it.toString()
-            newCardsOutput.animate().alpha(1f).rotation(0f).setDuration(100).start()
-            newCardsLabel.animate().alpha(1f).setDuration(100).start()
+            newCardsSettingsOutput.text = it.toString()
+            newOutput.text = "$it"
         })
 
         viewModel.reviews.observe(viewLifecycleOwner, Observer {
-            reviewsOutput.text = it.toString()
-            reviewsOutput.animate().alpha(1f).rotation(0f).setDuration(100).start()
-            reviewsLabel.animate().alpha(1f).setDuration(100).start()
+            reviewsSettingsOutput.text = it.toString()
+            reviewsSettingsOutput.animate().alpha(1f).rotation(0f).setDuration(100).start()
+            reviewsSettingsLabel.animate().alpha(1f).setDuration(100).start()
+            reviewsOutput.text = "$it"
         })
 
+        viewModel.init()
     }
 
     private fun setupDeckList() {
@@ -97,6 +84,11 @@ class DeckListFragment : Fragment() {
         Navigation.findNavController(view).navigate(action)
     }
 
+    private fun createBucket(view: View) {
+        val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment()
+        Navigation.findNavController(view).navigate(action)
+    }
+
     private fun expand(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         backdropButton.rotation = 180f
@@ -104,6 +96,8 @@ class DeckListFragment : Fragment() {
             backdropButton.setImageResource(R.drawable.ic_baseline_account_circle_24)
             backdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
         }.start()
+        animateOut(settingsLabel)
+        animateIn(newLabel, newOutput, reviewsLabel, reviewsOutput)
     }
 
     private fun collapse(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
@@ -113,6 +107,24 @@ class DeckListFragment : Fragment() {
             backdropButton.setImageResource(R.drawable.ic_baseline_clear_24)
             backdropButton.animate().rotation(180f).alpha(1f).setDuration(100).start()
         }.start()
+        animateOut(newLabel, newOutput, reviewsLabel, reviewsOutput)
+        animateIn(settingsLabel)
     }
 
+    private fun animateOut(vararg views: View) {
+        views.forEach {
+            it.animate().setDuration(200).alpha(0f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+                it.translationX = 0f
+            }.start()
+        }
+    }
+
+    private fun animateIn(vararg views: View) {
+        views.forEach {
+            it.translationX = -100f
+            it.animate().setDuration(200).alpha(1f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+                it.translationX = 0f
+            }.start()
+        }
+    }
 }
