@@ -17,19 +17,25 @@
 
         <TextView
             android:id="@+id/clueTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="TextView"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="128dp"
+            android:layout_marginTop="8dp"
+            android:gravity="end"
+            android:text="Clue Test"
             android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toStartOf="@id/deleteImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/solutionTextView" />
 
         <TextView
             android:id="@+id/solutionTextView"
             android:layout_width="0dp"
+            android:layout_marginEnd="136dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
+            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Bridge" />
@@ -52,11 +58,12 @@
             android:id="@+id/itemInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Solved 2 times"
             android:textAppearance="@style/TextAppearance.MyTheme.Caption"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/solutionTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/clueTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

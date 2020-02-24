@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.firebase.FirebaseApp
 import kotlinx.android.synthetic.main.deck_creation_fragment.*
@@ -30,7 +32,7 @@ class DeckCreationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(requireContext());
+        FirebaseApp.initializeApp(requireContext())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -50,6 +52,20 @@ class DeckCreationFragment : Fragment() {
             false
         }
 
+        val sheet = BottomSheetBehavior.from(deckCreationContentLayout)
+        with(sheet) {
+            isFitToContents = false
+            isHideable = false
+        }
+        expand(sheet)
+
+        deckCreationBackdropButton.setOnClickListener {
+            when (sheet.state) {
+                BottomSheetBehavior.STATE_EXPANDED -> collapse(sheet)
+                else -> expand(sheet)
+            }
+        }
+
         setupSuggestionList()
 
         createTemplateButton.setOnClickListener {
@@ -57,7 +73,7 @@ class DeckCreationFragment : Fragment() {
             Navigation.findNavController(it).popBackStack()
         }
         addTextButton.setOnClickListener { onAddText() }
-        backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
+//        backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
     }
 
@@ -69,7 +85,10 @@ class DeckCreationFragment : Fragment() {
         val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         suggestionList.addItemDecoration(dividerItemDecoration)
 
-        viewModel.suggestions.observe(viewLifecycleOwner, Observer(suggestionListAdapter::submitList))
+        viewModel.suggestions.observe(viewLifecycleOwner, Observer {
+            numberOfCardsOutput.text = it.size.toString()
+            suggestionListAdapter.submitList(it)
+        })
     }
 
     private fun onAddText() {
@@ -92,6 +111,36 @@ class DeckCreationFragment : Fragment() {
 
         viewModel.removeKeyword(chip.id)
         keywords.remove(chip.id)
+    }
+
+    private fun expand(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
+        sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+        deckCreationBackdropButton.rotation = 180f
+
+        header.animate().alpha(0.5f).setDuration(100).withEndAction {
+            header.text = "Type anything that comes to mind"
+            header.animate().alpha(1f).setDuration(100).start()
+        }.start()
+
+        deckCreationBackdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
+            deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_build_24)
+            deckCreationBackdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
+        }.start()
+    }
+
+    private fun collapse(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
+        sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+        deckCreationBackdropButton.rotation = 0f
+
+        header.animate().alpha(0.5f).setDuration(100).withEndAction {
+            header.text = "Tap here to view generated cards"
+            header.animate().alpha(1f).setDuration(100).start()
+        }.start()
+
+        deckCreationBackdropButton.animate().rotation(90f).alpha(0.5f).setDuration(100).withEndAction {
+            deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_list_24)
+            deckCreationBackdropButton.animate().rotation(180f).alpha(1f).setDuration(100).start()
+        }.start()
     }
 
     inner class KeywordInputWatcher : TextWatcher {

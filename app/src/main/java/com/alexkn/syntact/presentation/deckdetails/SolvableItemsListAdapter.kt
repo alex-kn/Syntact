@@ -33,7 +33,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
         holder.deleteButton.setOnClickListener {
             dialogBuilder
                     .setTitle("Delete Item")
-                    .setMessage("The Item will stop appearing in this Flashcard Stack")
+                    .setMessage("The Item will be delete from this Deck")
                     .setPositiveButton("Delete") { dialog, _ ->
                         deleteItemListener.accept(solvableTranslationCto)
                         dialog.dismiss()
