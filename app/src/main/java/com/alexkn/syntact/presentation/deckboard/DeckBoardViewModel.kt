@@ -68,10 +68,16 @@ class DeckBoardViewModel @Inject constructor(
         } else {
             _currentScore.value = getCurrentScore(translationCto, solution)
             _maxScore.value = translationCto.solvableItem.text.length
-            if (isAttemptCorrect(solution)) {
-                viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseCorrect(translationCto, scoreRatio) }
-            } else {
-                if (!peek) viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseIncorrect(translationCto, scoreRatio) }
+
+            if (!peek) {
+                if (scoreRatio >= 0.9) {
+                    viewModelScope.launch(Dispatchers.Default) {
+                        solvableItemRepository.markPhraseCorrect(translationCto, scoreRatio)
+                        fetchNext()
+                    }
+                } else {
+                    viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseIncorrect(translationCto, scoreRatio) }
+                }
             }
             scoreRatio
         }
@@ -82,7 +88,7 @@ class DeckBoardViewModel @Inject constructor(
         return if (value >= 0) value else 0
     }
 
-    private fun isAttemptCorrect(attempt: String): Boolean {
+    fun isAttemptCorrect(attempt: String, scoreRatio: Double? = 1.0): Boolean {
         return attempt.equals(translation.value?.solvableItem?.text, ignoreCase = true)
     }
 

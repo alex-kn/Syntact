@@ -21,7 +21,6 @@ import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.alexkn.syntact.databinding.DeckBoardFragmentBinding
 import kotlinx.android.synthetic.main.deck_board_fragment.*
-import kotlinx.android.synthetic.main.deck_board_fragment.view.*
 import kotlin.math.roundToInt
 
 
@@ -86,10 +85,9 @@ class DeckBoardFragment : Fragment() {
     private fun onNext() {
         if (solving) {
             val score = viewModel.checkSolution(solutionInput.text.toString().trim(), peek = false)
-            val solved = score > 0.5
+            val solved = score >= 0.9
             if (solved) {
                 solutionInput.text?.clear()
-                viewModel.fetchNext()
                 onSolved((score * 100).roundToInt())
             } else {
                 solving = false
@@ -115,7 +113,6 @@ class DeckBoardFragment : Fragment() {
 
         scoreAnimation.end()
         scoreChangeOutput.visibility = View.VISIBLE
-        scoreChangeOutput.text = "+ " + score.toString()
         val scaleAnimX = ObjectAnimator.ofFloat(scoreChangeOutput, "scaleX", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
         val scaleAnimY = ObjectAnimator.ofFloat(scoreChangeOutput, "scaleY", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
         val alphaAnim = ObjectAnimator.ofFloat(scoreChangeOutput, "alpha", 1f, 1f, 0f)
@@ -145,7 +142,7 @@ class DeckBoardFragment : Fragment() {
             val score = viewModel.checkSolution(s.toString().trim(), peek = true)
             if (!s.isBlank() && score == 1.0) {
                 s.clear()
-                viewModel.fetchNext()
+                viewModel.checkSolution(s.toString().trim(), peek = false)
                 onSolved((score * 100).roundToInt())
             }
         }
