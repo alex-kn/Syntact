@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -76,6 +77,16 @@ class DeckListFragment : Fragment() {
         languagesList.layoutManager = linearLayoutManager
         val bucketAdapter = DeckListItemAdapter()
         languagesList.adapter = bucketAdapter
+        languagesList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(languagesList, dx, dy)
+                if (dy > 0 && createBucketFab.isShown) {
+                    createBucketFab.hide()
+                } else if (dy < 0 && !createBucketFab.isShown) {
+                    createBucketFab.show()
+                }
+            }
+        })
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
 
@@ -85,6 +96,7 @@ class DeckListFragment : Fragment() {
     }
 
     private fun createBucket(view: View) {
+        createBucketFab.hide()
         val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment()
         Navigation.findNavController(view).navigate(action)
     }

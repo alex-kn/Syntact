@@ -16,7 +16,7 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON s.id = c.clueSolvableItemId WHERE s.nextDueDate <= :time AND s.deckId = :deckId")
     abstract suspend fun findSolvedItemsDueBefore(deckId: Long, time: Instant): List<SolvableTranslationCto>
 
-    @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.timesSolved = 0 and s.deckId = :deckId limit :limit")
+    @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.nextDueDate is null and s.deckId = :deckId limit :limit")
     abstract suspend fun findUnsolvedItems(deckId: Long, limit: Int): List<SolvableTranslationCto>
 
     @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.lastSolved >= :from and s.lastSolved < :to and s.deckId = :deckId")

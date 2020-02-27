@@ -127,13 +127,15 @@ class DeckBoardFragment : Fragment() {
     private fun onCurrentScoreChanged(currentScore: Int) {
 
         similarityBar.progress = currentScore
-        scoreOutput.text = (viewModel.scoreRatio * 100).toString() + " %"
+        val score = viewModel.scoreRatio * 100
+        if (!score.isNaN()) scoreOutput.text = score.roundToInt().toString() + " %"
     }
 
     private fun onMaxScoreChanged(maxScore: Int) {
 
         similarityBar.max = maxScore
-        scoreOutput.text = (viewModel.scoreRatio * 100).toString() + " %"
+        val score = viewModel.scoreRatio * 100
+        if (!score.isNaN()) scoreOutput.text = score.roundToInt().toString() + " %"
     }
 
     inner class SolutionTextWatcher : TextWatcher {

@@ -17,7 +17,7 @@
         android:fillAfter="true"
         android:fillBefore="true"
         android:fillEnabled="true"
-        android:fromYDelta="0.0%"
+        android:fromXDelta="0.0%"
         android:interpolator="@android:anim/accelerate_interpolator"
-        android:toYDelta="-4.999995%"/>
+        android:toXDelta="-4.999995%" />
 </set>
