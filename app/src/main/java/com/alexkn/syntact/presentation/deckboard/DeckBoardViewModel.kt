@@ -71,10 +71,7 @@ class DeckBoardViewModel @Inject constructor(
 
             if (!peek) {
                 if (scoreRatio >= 0.9) {
-                    viewModelScope.launch(Dispatchers.Default) {
-                        solvableItemRepository.markPhraseCorrect(translationCto, scoreRatio)
-                        fetchNext()
-                    }
+                    viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseCorrect(translationCto, scoreRatio) }
                 } else {
                     viewModelScope.launch(Dispatchers.Default) { solvableItemRepository.markPhraseIncorrect(translationCto, scoreRatio) }
                 }

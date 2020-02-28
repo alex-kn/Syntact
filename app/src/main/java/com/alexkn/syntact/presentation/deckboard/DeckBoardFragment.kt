@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -31,6 +32,7 @@ class DeckBoardFragment : Fragment() {
     private lateinit var imm: InputMethodManager
 
     private var solving = true
+    private var done = false
 
     private var scoreAnimation = AnimatorSet()
 
@@ -55,7 +57,7 @@ class DeckBoardFragment : Fragment() {
         viewModel.maxScore.observe(this, Observer(this::onMaxScoreChanged))
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())
-        nextFab.setOnClickListener { onNext() }
+        nextButton.setOnClickListener { onNext() }
         backButton.setOnClickListener {
             Navigation.findNavController(it).popBackStack()
             imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
@@ -65,15 +67,17 @@ class DeckBoardFragment : Fragment() {
     private fun onDeckChanged(deck: DeckDetail) {
         binding.headerDue.text = deck.dueCount.toString()
         binding.headerTotal.text = "/" + (deck.itemCount).toString()
-        if (deck.dueCount == 0) {
-            listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput).forEach { v -> v.visibility = View.INVISIBLE }
-            doneOutput.visibility = View.VISIBLE
-        }
+        done = deck.dueCount == 0
+    }
+
+    private fun onDone() {
+        listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput, nextButton).forEach { v -> v.visibility = View.INVISIBLE }
+        doneOutput.visibility = View.VISIBLE
     }
 
     private fun onSolvableTranslationChanged(translation: SolvableTranslationCto?) {
         if (translation == null) {
-            nextFab.visibility = View.GONE
+            nextButton.visibility = View.GONE
             binding.currentClue = ""
             binding.solutionOutput.text = ""
         } else {
@@ -84,42 +88,42 @@ class DeckBoardFragment : Fragment() {
 
     private fun onNext() {
         if (solving) {
+            solving = false
             val score = viewModel.checkSolution(solutionInput.text.toString().trim(), peek = false)
-            val solved = score >= 0.9
-            if (solved) {
-                solutionInput.text?.clear()
-                onSolved((score * 100).roundToInt())
-            } else {
-                solving = false
-                solutionInputLayout.visibility = View.INVISIBLE
-                similarityBar.visibility = View.INVISIBLE
-                scoreOutput.visibility = View.INVISIBLE
-                solutionOutput.visibility = View.VISIBLE
-                imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            }
+            solutionInput.text?.clear()
+            onSolved(score)
+            solutionInputLayout.visibility = View.INVISIBLE
+            similarityBar.visibility = View.INVISIBLE
+            scoreOutput.visibility = View.INVISIBLE
+            solutionOutput.visibility = View.VISIBLE
+            imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         } else {
-            viewModel.fetchNext()
-            solving = true
-            solutionInputLayout.visibility = View.VISIBLE
-            similarityBar.visibility = View.VISIBLE
-            scoreOutput.visibility = View.VISIBLE
-            solutionOutput.visibility = View.INVISIBLE
-            if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
+            if (done) onDone() else {
+                solving = true
+                viewModel.fetchNext()
+                solutionInputLayout.visibility = View.VISIBLE
+                similarityBar.visibility = View.VISIBLE
+                scoreOutput.visibility = View.VISIBLE
+                solutionOutput.visibility = View.INVISIBLE
+                if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
+            }
         }
     }
 
 
-    private fun onSolved(score: Int) {
+    private fun onSolved(score: Double) {
 
         scoreAnimation.end()
-        scoreChangeOutput.visibility = View.VISIBLE
-        val scaleAnimX = ObjectAnimator.ofFloat(scoreChangeOutput, "scaleX", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
-        val scaleAnimY = ObjectAnimator.ofFloat(scoreChangeOutput, "scaleY", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
-        val alphaAnim = ObjectAnimator.ofFloat(scoreChangeOutput, "alpha", 1f, 1f, 0f)
+        val view = if (score > 0.9) solvedIndicator else failedIndicator
+        view.visibility = View.VISIBLE
+        val scaleAnimX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
+        val scaleAnimY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
+        val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 1f, 0f)
         scaleAnimX.duration = 1000
         scaleAnimY.duration = 1000
         alphaAnim.duration = 1000
         scoreAnimation = AnimatorSet()
+        scoreAnimation.interpolator = AccelerateDecelerateInterpolator()
         scoreAnimation.playTogether(scaleAnimX, scaleAnimY, alphaAnim)
         scoreAnimation.start()
     }
@@ -142,11 +146,7 @@ class DeckBoardFragment : Fragment() {
 
         override fun afterTextChanged(s: Editable) {
             val score = viewModel.checkSolution(s.toString().trim(), peek = true)
-            if (!s.isBlank() && score == 1.0) {
-                s.clear()
-                viewModel.checkSolution(s.toString().trim(), peek = false)
-                onSolved((score * 100).roundToInt())
-            }
+            if (score == 1.0) onNext()
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
