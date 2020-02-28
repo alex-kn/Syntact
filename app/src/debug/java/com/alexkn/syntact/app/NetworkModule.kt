@@ -25,7 +25,7 @@ class NetworkModule {
 
         val gson = GsonBuilder().setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
-        return Retrofit.Builder().callbackExecutor(Executors.newSingleThreadExecutor())
+        return Retrofit.Builder().callbackExecutor(Executors.newCachedThreadPool())
                 .baseUrl("https://syntact-backend-wsrzejkcua-uc.a.run.app/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))

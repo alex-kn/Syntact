@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,79 +7,172 @@
     android:background="@color/color_background"
     tools:context=".presentation.deckdetails.DeckDetailsFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/color_background"
-        app:liftOnScroll="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/deckDetailsTopLayout"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@color/color_primary"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:contentDescription="back"
+            android:padding="12dp"
+            android:scaleType="centerCrop"
+            android:tint="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/header"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="58dp">
+            android:paddingStart="16dp"
+            android:text="Deck Details"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+            android:textColor="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/deckDetailsBackdropButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="false"
-                android:contentDescription="back"
-                android:paddingHorizontal="12dp"
-                android:paddingVertical="4dp"
-                android:scaleType="fitXY"
-                android:tint="@color/color_on_surface"
-                app:layout_constraintBottom_toBottomOf="@+id/header"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/header"
-                app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
-
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
-                app:layout_constraintStart_toEndOf="@+id/backButton"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="This is quite a very long text that needs a lot of space" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/deckDetailsBackdropButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp">
+            android:layout_gravity="end"
+            android:layout_margin="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:padding="8dp"
+            android:scaleType="center"
+            android:tint="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_show_chart_24" />
 
-            <TextView
-                android:id="@+id/phrasesOnDeviceTextView"
-                android:layout_width="0dp"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deckDetailsTopLayout">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color_primary"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/newCardsSettingsLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:text="Total number of cards"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_on_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/newCardsSettingsOutput"
+                    app:layout_constraintEnd_toStartOf="@+id/newCardsSettingsOutput"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/newCardsSettingsOutput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="20" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="4dp"
+            android:orientation="vertical"
+            app:behavior_peekHeight="50dp"
+            app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
+
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/downloadButton"
-                app:layout_constraintEnd_toStartOf="@+id/downloadButton"
-                app:layout_constraintTop_toTopOf="@+id/downloadButton"
-                tools:text="text" />
+                android:background="@drawable/ic_list_header_background"
+                android:clickable="true"
+                app:liftOnScroll="true">
 
-            <ImageButton
-                android:id="@+id/downloadButton"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="8dp"
-                android:tint="@color/color_on_surface"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_get_app_black_24dp" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                <LinearLayout
+                    android:id="@+id/deckDetailsContentHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    app:layout_anchor="@+id/suggestionList"
+                    app:layout_anchorGravity="center"
+                    app:liftOnScroll="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:text="German" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="English" />
+                </LinearLayout>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_background"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/itemList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

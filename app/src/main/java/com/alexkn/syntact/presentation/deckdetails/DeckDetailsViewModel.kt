@@ -25,9 +25,4 @@ class DeckDetailsViewModel @Inject constructor(
     }
 
 
-    fun download() {
-    }
-
-
-
 }
