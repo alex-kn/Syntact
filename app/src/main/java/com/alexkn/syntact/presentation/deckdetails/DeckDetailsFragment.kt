@@ -75,7 +75,10 @@ class DeckDetailsFragment : Fragment() {
         val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         itemList.addItemDecoration(dividerItemDecoration)
 
-        viewModel.translations.observe(viewLifecycleOwner, Observer(solvableItemsListAdapter::submitList))
+        viewModel.translations.observe(viewLifecycleOwner, Observer {
+            solvableItemsListAdapter.submitList(it)
+            totalCardsOutput.text = it.size.toString()
+        })
     }
 
     private fun expand(sheetBehavior: BottomSheetBehavior<CoordinatorLayout>) {

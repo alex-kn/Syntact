@@ -84,6 +84,41 @@
             android:orientation="vertical"
             android:padding="16dp">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/deckCreationNameLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="8dp"
+                    android:text="Name"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_on_primary"
+                    android:textSize="12sp"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/deckCreationNameInput"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+                <EditText
+                    android:id="@+id/deckCreationNameInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:padding="16dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                    android:textColor="@color/color_on_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/deckCreationNameLabel"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -178,7 +213,7 @@
                             android:id="@+id/keywordsInput"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginHorizontal="16dp"
+                            android:layout_marginStart="16dp"
                             android:ems="10"
                             android:gravity="start|top"
                             android:hint="Type here"
@@ -193,8 +228,8 @@
                             android:id="@+id/addTextButton"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
+                            android:enabled="false"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
                             android:text="ADD"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">

@@ -19,48 +19,30 @@
             android:id="@+id/clueTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="128dp"
             android:layout_marginTop="8dp"
             android:gravity="end"
             android:text="Clue Test"
             android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-            app:layout_constraintEnd_toStartOf="@id/deleteImage"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/solutionTextView" />
 
         <TextView
             android:id="@+id/solutionTextView"
             android:layout_width="0dp"
-            android:layout_marginEnd="136dp"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
-            app:layout_constraintEnd_toStartOf="@+id/deleteImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Bridge" />
 
-        <ImageButton
-            android:id="@+id/deleteImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:scaleType="center"
-            android:tint="@color/color_on_surface"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_delete_black_24dp" />
-
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/itemInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Solved 2 times"
-            android:textAppearance="@style/TextAppearance.MyTheme.Caption"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clueTextView" />

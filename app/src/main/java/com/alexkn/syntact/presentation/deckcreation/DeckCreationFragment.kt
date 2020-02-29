@@ -55,11 +55,13 @@ class DeckCreationFragment : Fragment() {
             false
         }
 
+        deckCreationNameInput.addTextChangedListener(NameInputWatcher())
+
         setupBackdrop()
         setupSuggestionList()
 
         finishDeckFab.setOnClickListener {
-            viewModel.createDeck("Test")
+            viewModel.createDeck(deckCreationNameInput.text.toString())
             imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             Navigation.findNavController(it).popBackStack()
         }
@@ -169,6 +171,16 @@ class DeckCreationFragment : Fragment() {
 
         override fun afterTextChanged(s: Editable) {
             addTextButton.isEnabled = !s.isBlank()
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) = Unit
+    }
+
+    inner class NameInputWatcher : TextWatcher {
+
+        override fun afterTextChanged(s: Editable) {
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

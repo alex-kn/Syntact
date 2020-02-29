@@ -85,7 +85,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/newCardsSettingsLabel"
+                    android:id="@+id/totalCardsLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -95,13 +95,13 @@
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_primary"
                     android:textSize="12sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/newCardsSettingsOutput"
-                    app:layout_constraintEnd_toStartOf="@+id/newCardsSettingsOutput"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/totalCardsOutput"
+                    app:layout_constraintEnd_toStartOf="@+id/totalCardsOutput"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
                 <TextView
-                    android:id="@+id/newCardsSettingsOutput"
+                    android:id="@+id/totalCardsOutput"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="16dp"

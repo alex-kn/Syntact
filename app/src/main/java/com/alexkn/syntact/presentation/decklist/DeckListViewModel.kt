@@ -24,9 +24,11 @@ constructor(
     val playerStats: LiveData<PlayerStats> = deckRepository.getPlayerStats()
 
     private val maxNew = 20
+    private val maxReviews = 500
 
     private val _newCards = MutableLiveData<Int>()
     private val _reviews = MutableLiveData<Int>()
+    private val _total = MutableLiveData<Int>()
 
     val newCards: LiveData<Int>
         get() = _newCards
@@ -34,6 +36,8 @@ constructor(
     val reviews: LiveData<Int>
         get() = _reviews
 
+    val total: LiveData<Int>
+        get() = _total
 
     fun init() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -54,6 +58,8 @@ constructor(
 
             _newCards.postValue(totalNewCards)
             _reviews.postValue(totalReviews)
+            _total.postValue(totalNewCards + totalReviews)
+
         }
     }
 }

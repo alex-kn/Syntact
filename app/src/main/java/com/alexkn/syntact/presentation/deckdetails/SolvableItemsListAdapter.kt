@@ -3,7 +3,6 @@ package com.alexkn.syntact.presentation.deckdetails
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.data.model.SolvableTranslationCto
@@ -30,16 +29,16 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
         val dialogBuilder = MaterialAlertDialogBuilder(holder.itemView.context)
 
-        holder.deleteButton.setOnClickListener {
-            dialogBuilder
-                    .setTitle("Delete Item")
-                    .setMessage("The Item will be delete from this Deck")
-                    .setPositiveButton("Delete") { dialog, _ ->
-                        deleteItemListener.accept(solvableTranslationCto)
-                        dialog.dismiss()
-                    }
-                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.create().show()
-        }
+//        holder.deleteButton.setOnClickListener {
+//            dialogBuilder
+//                    .setTitle("Delete Item")
+//                    .setMessage("The Item will be delete from this Deck")
+//                    .setPositiveButton("Delete") { dialog, _ ->
+//                        deleteItemListener.accept(solvableTranslationCto)
+//                        dialog.dismiss()
+//                    }
+//                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.create().show()
+//        }
 
         holder.bindTo(solvableTranslationCto)
     }
@@ -51,8 +50,6 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
         private val clueTextView: TextView = itemView.findViewById(R.id.clueTextView)
 
         private val itemInfo: TextView = itemView.findViewById(R.id.itemInfo)
-
-        val deleteButton: ImageButton = itemView.findViewById(R.id.deleteImage)
 
         override fun bindTo(entity: SolvableTranslationCto) {
 

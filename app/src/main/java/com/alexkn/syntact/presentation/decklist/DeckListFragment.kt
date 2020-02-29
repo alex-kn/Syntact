@@ -57,17 +57,9 @@ class DeckListFragment : Fragment() {
 
         setupDeckList()
 
-        viewModel.newCards.observe(viewLifecycleOwner, Observer {
-            newCardsSettingsOutput.text = it.toString()
-            newOutput.text = "$it"
-        })
-
-        viewModel.reviews.observe(viewLifecycleOwner, Observer {
-            reviewsSettingsOutput.text = it.toString()
-            reviewsSettingsOutput.animate().alpha(1f).rotation(0f).setDuration(100).start()
-            reviewsSettingsLabel.animate().alpha(1f).setDuration(100).start()
-            reviewsOutput.text = "$it"
-        })
+        viewModel.newCards.observe(viewLifecycleOwner, Observer { newOutput.text = "$it" })
+        viewModel.reviews.observe(viewLifecycleOwner, Observer { reviewsOutput.text = "$it" })
+        viewModel.total.observe(viewLifecycleOwner, Observer { deckListContentHeaderOutput.text = "$it Cards are due today" })
 
         viewModel.init()
     }
