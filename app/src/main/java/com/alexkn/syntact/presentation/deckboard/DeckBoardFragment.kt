@@ -71,15 +71,14 @@ class DeckBoardFragment : Fragment() {
     }
 
     private fun onDone() {
-        listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput, nextButton).forEach { v -> v.visibility = View.INVISIBLE }
+        listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput, nextButton, headerDue, textView, headerTotal)
+                .forEach { v -> v.visibility = View.INVISIBLE }
         doneOutput.visibility = View.VISIBLE
     }
 
     private fun onSolvableTranslationChanged(translation: SolvableTranslationCto?) {
         if (translation == null) {
-            nextButton.visibility = View.GONE
-            binding.currentClue = ""
-            binding.solutionOutput.text = ""
+            onDone()
         } else {
             binding.currentClue = translation.clue.text
             binding.solutionOutput.text = translation.solvableItem.text

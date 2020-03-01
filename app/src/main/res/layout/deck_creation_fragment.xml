@@ -208,12 +208,33 @@
                         android:layout_height="match_parent"
                         app:layout_scrollFlags="scroll|enterAlways|snap">
 
+                        <FrameLayout
+                            android:id="@+id/deckCreationFlagContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:padding="16dp"
+                            android:clickable="true"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+
+                            <ImageButton
+                                android:id="@+id/deckCreationFlagView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:adjustViewBounds="true"
+                                android:background="@drawable/frame"
+                                android:clickable="true"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/de" />
+                        </FrameLayout>
 
                         <EditText
                             android:id="@+id/keywordsInput"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
                             android:ems="10"
                             android:gravity="start|top"
                             android:hint="Type here"
@@ -221,15 +242,15 @@
                             android:inputType="text"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/addTextButton"
-                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/deckCreationFlagContainer"
                             app:layout_constraintTop_toTopOf="@id/addTextButton" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/addTextButton"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:layout_width="wrap_content"
-                            android:enabled="false"
                             android:layout_height="wrap_content"
+                            android:enabled="false"
                             android:text="ADD"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent">

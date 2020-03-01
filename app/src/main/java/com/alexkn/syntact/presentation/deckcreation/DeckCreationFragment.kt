@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.deckcreation
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,6 +11,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -25,6 +30,7 @@ import com.google.firebase.FirebaseApp
 import kotlinx.android.synthetic.main.deck_creation_fragment.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.topLayout
 import kotlinx.android.synthetic.main.deck_list_fragment.*
+import kotlin.math.max
 
 
 class DeckCreationFragment : Fragment() {
@@ -54,6 +60,15 @@ class DeckCreationFragment : Fragment() {
             if (actionId == EditorInfo.IME_ACTION_DONE) onAddText()
             false
         }
+
+        viewModel.suggestionLang.observe(viewLifecycleOwner, Observer {
+            val resId = resources.getIdentifier(it.language, "drawable", requireContext().packageName)
+            val drawable = ResourcesCompat.getDrawable(resources, resId, null)
+            deckCreationFlagView.setImageDrawable(drawable)
+        })
+
+        deckCreationFlagView.clipToOutline = true
+        deckCreationFlagContainer.setOnClickListener { viewModel.switchSuggestionLang() }
 
         deckCreationNameInput.addTextChangedListener(NameInputWatcher())
 
@@ -107,9 +122,15 @@ class DeckCreationFragment : Fragment() {
             }
         })
 
-        viewModel.suggestions.observe(viewLifecycleOwner, Observer {
-            numberOfCardsOutput.text = it.size.toString()
-            suggestionListAdapter.submitList(it)
+        viewModel.suggestions.observe(viewLifecycleOwner, Observer { suggestions ->
+            numberOfCardsOutput.text = suggestions.values.flatten().size.toString()
+            suggestionListAdapter.submitList(suggestions.toSortedMap().values.flatten())
+            var emptyChips = mutableListOf<Chip>()
+            suggestions.filter { it.value.isEmpty() }.keys.forEach {
+                val chip = keywordsChipGroup.findViewById<Chip>(it)
+                val color = ContextCompat.getColor(requireContext(), R.color.color_error)
+                chip.chipBackgroundColor = ColorStateList.valueOf(color)
+            }
         })
     }
 
@@ -119,6 +140,12 @@ class DeckCreationFragment : Fragment() {
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
         chip.isCheckable = false
+
+        val src = ResourcesCompat.getDrawable(resources, viewModel.suggestionFlag, null)!!.toBitmap()
+        val roundedSrc = RoundedBitmapDrawableFactory.create(resources, src)
+        roundedSrc.cornerRadius = max(src.width, src.height) / 2f
+        roundedSrc.isCircular = true
+        chip.chipIcon = roundedSrc
         chip.setOnCloseIconClickListener(this::onCloseChip)
         keywordsChipGroup.addView(chip)
         keywordsInput.text.clear()

@@ -30,8 +30,8 @@
     <!--text fields.-->
     <color name="color_background">#ffffff</color>
     <color name="color_surface">#ffffff</color>
-    <color name="color_error">#F44336</color>
-    <color name="color_success">#4CAF50</color>
+    <color name="color_error">#E57373</color>
+    <color name="color_success">#81C784</color>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
     <!--on which they appear.-->

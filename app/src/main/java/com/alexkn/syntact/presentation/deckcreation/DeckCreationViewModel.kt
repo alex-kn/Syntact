@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
+import com.alexkn.syntact.presentation.common.FlagDrawable
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -14,32 +15,47 @@ import javax.inject.Inject
 
 class DeckCreationViewModel @Inject constructor(
         private val deckRepository: DeckRepository,
-        private val phraseSuggestionRepository: PhraseSuggestionRepository
+        private val phraseSuggestionRepository: PhraseSuggestionRepository,
+        private val flagDrawable: FlagDrawable
 ) : ViewModel() {
 
     private val deckLang = Locale.GERMAN
-    private val destLang = Locale.ENGLISH
-    private val _suggestions = MutableLiveData<List<Suggestion>>(listOf())
+    private val userLang = Locale.ENGLISH
 
-    private var idSequence = 1L;
+    private var _suggestionLang = MutableLiveData<Locale>(deckLang)
+    private val _suggestions = MutableLiveData<Map<Int, List<Suggestion>>>(emptyMap())
 
-    val suggestions: LiveData<List<Suggestion>>
+    private var idSequence = 1L
+
+    val suggestionFlag: Int
+        get() = flagDrawable[suggestionLang.value!!]
+
+    val suggestionLang: LiveData<Locale>
+        get() = _suggestionLang
+
+    val suggestions: LiveData<Map<Int, List<Suggestion>>>
         get() = _suggestions
 
     fun fetchSuggestions(keywordId: Int, text: String) = viewModelScope.launch {
-        val newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, deckLang, destLang)
+        val srcLang = _suggestionLang.value!!
+        val destLang = if (srcLang == deckLang) userLang else deckLang
+        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, srcLang, destLang)
+        if (srcLang != deckLang) newSuggestions = newSuggestions.map { Suggestion(srcLang = it.destLang, destLang = it.srcLang, src = it.dest, dest = it.src) }
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
-        _suggestions.postValue((_suggestions.value!! + newSuggestions).sortedBy { it.id })
+
+        val newSuggestionMap = _suggestions.value!! + mapOf(keywordId to newSuggestions)
+        _suggestions.postValue(newSuggestionMap)
     }
 
     fun removeKeyword(keywordId: Int) {
-        val newSuggestions = _suggestions.value!!.toMutableList().filter { keywordId != it.keywordId }
+        val newSuggestions = _suggestions.value!!.toMutableMap().filter { it.key != keywordId }
         _suggestions.postValue(newSuggestions)
     }
 
-    fun createDeck(name: String) = GlobalScope.launch {
-        deckRepository.createNewDeck(name, deckLang, _suggestions.value!!)
-    }
+    fun createDeck(name: String) = GlobalScope.launch { deckRepository.createNewDeck(name, deckLang, _suggestions.value!!.toSortedMap().values.flatten()) }
 
+    fun switchSuggestionLang() {
+        _suggestionLang.value = if (suggestionLang.value == deckLang) userLang else deckLang
+    }
 
 }
