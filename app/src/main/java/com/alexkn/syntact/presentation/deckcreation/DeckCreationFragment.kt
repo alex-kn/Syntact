@@ -70,6 +70,7 @@ class DeckCreationFragment : Fragment() {
         deckCreationFlagView.clipToOutline = true
         deckCreationFlagContainer.setOnClickListener { viewModel.switchSuggestionLang() }
 
+        deckCreationNameInput.setText(viewModel.defaultDeckName)
         deckCreationNameInput.addTextChangedListener(NameInputWatcher())
 
         setupBackdrop()

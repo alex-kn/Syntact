@@ -27,6 +27,8 @@ class DeckCreationViewModel @Inject constructor(
 
     private var idSequence = 1L
 
+    val defaultDeckName = deckLang.displayLanguage
+
     val suggestionFlag: Int
         get() = flagDrawable[suggestionLang.value!!]
 
@@ -52,7 +54,9 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.postValue(newSuggestions)
     }
 
-    fun createDeck(name: String) = GlobalScope.launch { deckRepository.createNewDeck(name, deckLang, _suggestions.value!!.toSortedMap().values.flatten()) }
+    fun createDeck(name: String) = GlobalScope.launch {
+        deckRepository.createNewDeck(if (name.isBlank()) defaultDeckName else name, deckLang, _suggestions.value!!.toSortedMap().values.flatten())
+    }
 
     fun switchSuggestionLang() {
         _suggestionLang.value = if (suggestionLang.value == deckLang) userLang else deckLang
