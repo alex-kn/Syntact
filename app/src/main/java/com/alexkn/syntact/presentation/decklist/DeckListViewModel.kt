@@ -5,9 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.DeckRepository
+import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
 import com.alexkn.syntact.data.model.DeckDetail
 import com.alexkn.syntact.data.model.PlayerStats
+import com.alexkn.syntact.data.model.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -15,13 +17,16 @@ import javax.inject.Inject
 
 class DeckListViewModel @Inject
 constructor(
-        val deckRepository: DeckRepository,
-        val solvableItemRepository: SolvableItemRepository
+        private val deckRepository: DeckRepository,
+        private val solvableItemRepository: SolvableItemRepository,
+        private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
     val buckets: LiveData<List<DeckDetail>> = deckRepository.deckDetails
 
     val playerStats: LiveData<PlayerStats> = deckRepository.getPlayerStats()
+
+    val preferences: LiveData<Preferences> = preferencesRepository.find()
 
     private val maxNew = 20
     private val maxReviews = 500
@@ -49,7 +54,7 @@ constructor(
             deckRepository.findAll().forEach {
                 val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(it.id!!, Instant.now()).size
                 val findNewItems = solvableItemRepository.findNewItems(it.id!!, maxNew)
-                var newItems = findNewItems.size
+                val newItems = findNewItems.size
                 if (newItems - itemsSolvedToday >= 0) {
                     totalNewCards += newItems - itemsSolvedToday
                 }

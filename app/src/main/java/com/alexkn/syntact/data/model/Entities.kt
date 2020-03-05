@@ -38,6 +38,13 @@ data class Clue(
         @ColumnInfo(name = "clueSolvableItemId", index = true) var solvableItemId: Long? = null
 )
 
+@Entity
+data class Preferences(
+        @PrimaryKey(autoGenerate = true) override var id: Long? = null,
+        var language: Locale,
+        var nightMode: Int
+) : Identifiable<Long>
+
 
 @Entity
 data class Template(

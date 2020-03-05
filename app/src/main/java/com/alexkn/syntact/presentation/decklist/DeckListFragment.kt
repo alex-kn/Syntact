@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +16,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.deck_list_fragment.*
+import java.util.*
 
 
 class DeckListFragment : Fragment() {
@@ -23,6 +26,10 @@ class DeckListFragment : Fragment() {
     private lateinit var viewModel: DeckListViewModel
 
     private var goal: Int = 20
+
+    private lateinit var selectedLanguage: Locale
+
+    private lateinit var dialog: AlertDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -61,6 +68,17 @@ class DeckListFragment : Fragment() {
         viewModel.reviews.observe(viewLifecycleOwner, Observer { reviewsOutput.text = "$it" })
         viewModel.total.observe(viewLifecycleOwner, Observer { deckListContentHeaderOutput.text = "$it Cards are due today" })
 
+        viewModel.preferences.observe(viewLifecycleOwner, Observer {
+
+            if (it != null) {
+
+                userLanguageOutput.text = it.language.displayLanguage
+                buildLanguageDialog()
+            }
+        })
+        userLanguageOutput.setOnClickListener(View.OnClickListener {
+            dialog.show()
+        })
         viewModel.init()
     }
 
@@ -81,6 +99,22 @@ class DeckListFragment : Fragment() {
         })
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
+
+    private fun buildLanguageDialog() {
+
+        val choices: Array<CharSequence> = listOf(Locale.GERMAN, Locale.ENGLISH).map { it.language.toUpperCase() }.toTypedArray()
+
+        val checkedItem = choices.indexOf(viewModel.preferences.value?.language?.language?.toUpperCase() ?: 0)
+
+        dialog = MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Choose your Language")
+                .setPositiveButton("Ok", null)
+                .setNegativeButton("Cancel", null)
+                .setSingleChoiceItems(choices, checkedItem) { _, i ->
+                    selectedLanguage = Locale(choices[i].toString())
+                }.create()
+    }
+
 
     private fun newBucket(view: View) {
         val action = DeckListFragmentDirections.actionDeckListFragmentToDeckSelectionFragment()

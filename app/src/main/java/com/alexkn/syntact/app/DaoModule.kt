@@ -27,6 +27,10 @@ class DaoModule {
 
     @Singleton
     @Provides
-    fun provideTempalteDao(appDatabase: AppDatabase): TemplateDao = appDatabase.templateDao()
+    fun provideTemplateDao(appDatabase: AppDatabase): TemplateDao = appDatabase.templateDao()
+
+    @Singleton
+    @Provides
+    fun providePreferencesDao(appDatabase: AppDatabase): PreferencesDao = appDatabase.preferencesDao()
 
 }
