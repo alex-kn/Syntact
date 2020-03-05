@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/deckDetailsTopLayout"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="@color/color_primary"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,25 +20,40 @@
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="56dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:contentDescription="back"
             android:padding="12dp"
             android:scaleType="centerCrop"
             android:tint="@color/color_on_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/header"
+            android:id="@+id/headerExpanded"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
             android:paddingStart="16dp"
-            android:text="Deck Details"
+            android:text="Deck Name Deck Name Deck Name"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+            android:textColor="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/deckDetailsBackdropButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/headerCollapsed"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:alpha="0"
+            android:paddingStart="16dp"
+            android:text="Deck Settings"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -51,15 +66,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:padding="8dp"
             android:scaleType="center"
             android:tint="@color/color_on_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backButton"
             app:srcCompat="@drawable/ic_baseline_show_chart_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -72,48 +87,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/deckDetailsTopLayout">
 
-
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_primary"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:background="@color/color_primary">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/totalCardsLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:padding="8dp"
-                    android:text="Total number of cards"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                    android:textColor="@color/color_on_primary"
-                    android:textSize="12sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/totalCardsOutput"
-                    app:layout_constraintEnd_toStartOf="@+id/totalCardsOutput"
-                    app:layout_constraintStart_toStartOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/totalCardsLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Total number of cards"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/totalCardsOutput"
+                        app:layout_constraintEnd_toStartOf="@+id/totalCardsOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
 
 
-                <TextView
-                    android:id="@+id/totalCardsOutput"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
-                    android:textColor="@color/color_on_primary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="20" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/totalCardsOutput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="20" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/contentLayout"

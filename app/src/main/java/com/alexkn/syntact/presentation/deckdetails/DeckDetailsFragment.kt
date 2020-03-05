@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -55,10 +56,8 @@ class DeckDetailsFragment : Fragment() {
         deckDetailsTopLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
         deckDetailsContentHeader.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
 
-
-
-        viewModel.deckDetail.observe(viewLifecycleOwner, Observer {
-            //            header.text = it.name
+        viewModel.deck.observe(viewLifecycleOwner, Observer {
+            it?.let { headerExpanded.text = it.name }
         })
 
     }
@@ -85,6 +84,8 @@ class DeckDetailsFragment : Fragment() {
             deckDetailsBackdropButton.setImageResource(R.drawable.ic_baseline_show_chart_24)
             deckDetailsBackdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
         }.start()
+        animateIn(headerExpanded)
+        animateOut(headerCollapsed)
     }
 
     private fun collapse(sheetBehavior: BottomSheetBehavior<CoordinatorLayout>) {
@@ -94,5 +95,24 @@ class DeckDetailsFragment : Fragment() {
             deckDetailsBackdropButton.setImageResource(R.drawable.ic_baseline_clear_24)
             deckDetailsBackdropButton.animate().rotation(180f).alpha(1f).setDuration(100).start()
         }.start()
+        animateIn(headerCollapsed)
+        animateOut(headerExpanded)
+    }
+
+    private fun animateOut(vararg views: View) {
+        views.forEach {
+            it.animate().setDuration(200).alpha(0f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+                it.translationX = 0f
+            }.start()
+        }
+    }
+
+    private fun animateIn(vararg views: View) {
+        views.forEach {
+            it.translationX = -100f
+            it.animate().setDuration(200).alpha(1f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
+                it.translationX = 0f
+            }.start()
+        }
     }
 }

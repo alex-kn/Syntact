@@ -47,7 +47,6 @@ class DeckBoardFragment : Fragment() {
                 .get(DeckBoardViewModel::class.java)
 
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
 
         viewModel.init(DeckBoardFragmentArgs.fromBundle(arguments!!).deckId)
 
@@ -71,6 +70,7 @@ class DeckBoardFragment : Fragment() {
     }
 
     private fun onDone() {
+        imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput, nextButton, headerDue, textView, headerTotal)
                 .forEach { v -> v.visibility = View.INVISIBLE }
         doneOutput.visibility = View.VISIBLE
@@ -80,6 +80,7 @@ class DeckBoardFragment : Fragment() {
         if (translation == null) {
             onDone()
         } else {
+            if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
             binding.currentClue = translation.clue.text
             binding.solutionOutput.text = translation.solvableItem.text
         }
@@ -104,7 +105,6 @@ class DeckBoardFragment : Fragment() {
                 similarityBar.visibility = View.VISIBLE
                 scoreOutput.visibility = View.VISIBLE
                 solutionOutput.visibility = View.INVISIBLE
-                if (solutionInputLayout.requestFocus()) imm.showSoftInput(solutionInput, InputMethodManager.SHOW_IMPLICIT)
             }
         }
     }

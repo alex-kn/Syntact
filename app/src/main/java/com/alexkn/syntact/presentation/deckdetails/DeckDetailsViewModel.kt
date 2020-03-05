@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.DeckDetail
+import com.alexkn.syntact.data.model.Deck
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import javax.inject.Inject
 
@@ -15,12 +15,12 @@ class DeckDetailsViewModel @Inject constructor(
         private val context: Context
 ) : ViewModel() {
 
-    lateinit var deckDetail: LiveData<DeckDetail>
+    lateinit var deck: LiveData<Deck?>
 
     lateinit var translations: LiveData<List<SolvableTranslationCto>>
 
     fun init(bucketId: Long) {
-        deckDetail = deckRepository.getBucketDetail(bucketId)
+        deck = deckRepository.findDeck(bucketId)
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
 

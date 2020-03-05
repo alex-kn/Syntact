@@ -77,84 +77,93 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/topLayout">
 
-        <LinearLayout
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="50dp"
             android:background="@color/color_primary"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:scrollbarThumbVertical="@color/color_secondary"
+            android:scrollbars="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:background="@color/color_primary"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/deckCreationNameLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:padding="8dp"
-                    android:text="Name"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                    android:textColor="@color/color_on_primary"
-                    android:textSize="12sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/deckCreationNameInput"
-                    app:layout_constraintStart_toStartOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-
-                <EditText
-                    android:id="@+id/deckCreationNameInput"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:imeOptions="actionDone"
-                    android:inputType="text"
-                    android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
-                    android:textColor="@color/color_on_primary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/deckCreationNameLabel"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/deckCreationNameLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Name"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/deckCreationNameInput"
+                        app:layout_constraintStart_toStartOf="parent" />
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                    <EditText
+                        android:id="@+id/deckCreationNameInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionDone"
+                        android:inputType="textMultiLine"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/deckCreationNameLabel"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/numberOfCardsLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:padding="8dp"
-                    android:text="Number of cards"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                    android:textColor="@color/color_on_primary"
-                    android:textSize="12sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/numberOfCardsOutput"
-                    app:layout_constraintEnd_toStartOf="@+id/numberOfCardsOutput"
-                    app:layout_constraintStart_toStartOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-                <TextView
-                    android:id="@+id/numberOfCardsOutput"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
-                    android:textColor="@color/color_on_primary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="20" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/numberOfCardsLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Number of cards"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/numberOfCardsOutput"
+                        app:layout_constraintEnd_toStartOf="@+id/numberOfCardsOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
 
+
+                    <TextView
+                        android:id="@+id/numberOfCardsOutput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="20" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
 
         <LinearLayout
             android:id="@+id/deckCreationContentLayout"
@@ -212,8 +221,8 @@
                             android:id="@+id/deckCreationFlagContainer"
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
-                            android:padding="16dp"
                             android:clickable="true"
+                            android:padding="16dp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent">

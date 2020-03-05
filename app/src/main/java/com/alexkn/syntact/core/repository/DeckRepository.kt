@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.DeckDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
-import com.alexkn.syntact.data.dao.SolvableItemDao
 import com.alexkn.syntact.data.model.*
 import com.alexkn.syntact.service.Suggestion
 import com.alexkn.syntact.service.SyntactService
@@ -19,8 +18,7 @@ class DeckRepository @Inject constructor(
         private val syntactService: SyntactService,
         private val property: Property,
         private val deckDao: DeckDao,
-        private val playerStatsDao: PlayerStatsDao,
-        private val solvableItemDao: SolvableItemDao
+        private val playerStatsDao: PlayerStatsDao
 ) {
 
     val availableLanguages: MutableList<Locale> = property["available-languages"].split(",").map { Locale(it) }.toMutableList()
@@ -61,6 +59,10 @@ class DeckRepository @Inject constructor(
 
     suspend fun findAll(): List<Deck> {
         return deckDao.findAll()
+    }
+
+    fun findDeck(id: Long): LiveData<Deck?> {
+        return deckDao.findLive(id)
     }
 
     fun getBucketDetail(id: Long): LiveData<DeckDetail> {
