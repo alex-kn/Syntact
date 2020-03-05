@@ -23,12 +23,13 @@ import java.util.*
 
 class DeckListFragment : Fragment() {
 
-    private lateinit var viewModel: DeckListViewModel
+    private val langChoices = listOf<Locale>(Locale.GERMAN, Locale.ENGLISH, Locale.ITALIAN)
+
+    private var selectedLanguageIndex = -1
 
     private var goal: Int = 20
 
-    private lateinit var selectedLanguage: Locale
-
+    private lateinit var viewModel: DeckListViewModel
     private lateinit var dialog: AlertDialog
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,19 +45,11 @@ class DeckListFragment : Fragment() {
 
 
         val sheet = BottomSheetBehavior.from(contentLayout)
-        with(sheet) {
-            isFitToContents = false
-            isHideable = false
-            state = BottomSheetBehavior.STATE_EXPANDED
-        }
+        sheet.isFitToContents = false
+        sheet.isHideable = false
+        sheet.state = BottomSheetBehavior.STATE_EXPANDED
 
-        backdropButton.setOnClickListener {
-            when (sheet.state) {
-                BottomSheetBehavior.STATE_EXPANDED -> collapse(sheet)
-                else -> expand(sheet)
-            }
-        }
-
+        backdropButton.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) else expand(sheet) }
         topLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
         contentHeader.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
 
@@ -69,16 +62,12 @@ class DeckListFragment : Fragment() {
         viewModel.total.observe(viewLifecycleOwner, Observer { deckListContentHeaderOutput.text = "$it Cards are due today" })
 
         viewModel.preferences.observe(viewLifecycleOwner, Observer {
-
-            if (it != null) {
-
+            it?.let {
                 userLanguageOutput.text = it.language.displayLanguage
-                buildLanguageDialog()
+                buildLanguageDialog(it.language)
             }
         })
-        userLanguageOutput.setOnClickListener(View.OnClickListener {
-            dialog.show()
-        })
+        userLanguageOutput.setOnClickListener { dialog.show() }
         viewModel.init()
     }
 
@@ -100,19 +89,15 @@ class DeckListFragment : Fragment() {
         viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
 
-    private fun buildLanguageDialog() {
+    private fun buildLanguageDialog(currentLanguage: Locale) {
 
-        val choices: Array<CharSequence> = listOf(Locale.GERMAN, Locale.ENGLISH).map { it.language.toUpperCase() }.toTypedArray()
-
-        val checkedItem = choices.indexOf(viewModel.preferences.value?.language?.language?.toUpperCase() ?: 0)
-
+        val checkedItem = langChoices.indexOf(currentLanguage)
         dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Choose your Language")
-                .setPositiveButton("Ok", null)
+                .setPositiveButton("Ok") { _, _ -> if (selectedLanguageIndex != -1) viewModel.switchLanguage(langChoices[selectedLanguageIndex]) }
                 .setNegativeButton("Cancel", null)
-                .setSingleChoiceItems(choices, checkedItem) { _, i ->
-                    selectedLanguage = Locale(choices[i].toString())
-                }.create()
+                .setSingleChoiceItems(langChoices.map { it.displayLanguage }.toTypedArray(), checkedItem) { _, i -> selectedLanguageIndex = i }
+                .create()
     }
 
 

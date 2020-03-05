@@ -13,6 +13,7 @@ import com.alexkn.syntact.data.model.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
+import java.util.*
 import javax.inject.Inject
 
 class DeckListViewModel @Inject
@@ -23,24 +24,21 @@ constructor(
 ) : ViewModel() {
 
     val buckets: LiveData<List<DeckDetail>> = deckRepository.deckDetails
-
     val playerStats: LiveData<PlayerStats> = deckRepository.getPlayerStats()
-
-    val preferences: LiveData<Preferences> = preferencesRepository.find()
+    val preferences: LiveData<Preferences?> = preferencesRepository.find()
 
     private val maxNew = 20
     private val maxReviews = 500
 
     private val _newCards = MutableLiveData<Int>()
-    private val _reviews = MutableLiveData<Int>()
-    private val _total = MutableLiveData<Int>()
-
     val newCards: LiveData<Int>
         get() = _newCards
 
+    private val _reviews = MutableLiveData<Int>()
     val reviews: LiveData<Int>
         get() = _reviews
 
+    private val _total = MutableLiveData<Int>()
     val total: LiveData<Int>
         get() = _total
 
@@ -49,7 +47,6 @@ constructor(
 
             var totalNewCards = 0
             var totalReviews = 0
-
 
             deckRepository.findAll().forEach {
                 val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(it.id!!, Instant.now()).size
@@ -60,12 +57,14 @@ constructor(
                 }
                 totalReviews += solvableItemRepository.findItemsDueForReview(it.id!!, Instant.now()).size
             }
-
             _newCards.postValue(totalNewCards)
             _reviews.postValue(totalReviews)
             _total.postValue(totalNewCards + totalReviews)
-
         }
+    }
+
+    fun switchLanguage(language: Locale) = viewModelScope.launch {
+        preferencesRepository.switchLanguage(language)
     }
 }
 

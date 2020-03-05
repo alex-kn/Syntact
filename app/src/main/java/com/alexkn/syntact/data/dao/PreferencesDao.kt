@@ -10,9 +10,9 @@ import com.alexkn.syntact.data.model.Preferences
 abstract class PreferencesDao : BaseDao<Preferences> {
 
     @Query("SELECT * FROM Preferences LIMIT 1")
-    abstract suspend fun findFirst(): Preferences
+    abstract suspend fun findFirst(): Preferences?
 
     @Query("SELECT * FROM Preferences LIMIT 1")
-    abstract fun findFirstLive(): LiveData<Preferences>
+    abstract fun findFirstLive(): LiveData<Preferences?>
 
 }

@@ -28,9 +28,15 @@ class PreferencesRepository @Inject constructor(
         }
     }
 
-    fun find(): LiveData<Preferences> {
+    fun find(): LiveData<Preferences?> {
         return preferencesDao.findFirstLive()
     }
 
+    suspend fun switchLanguage(locale: Locale) {
+
+        val preferences = preferencesDao.findFirst()!!
+        preferences.language = locale
+        preferencesDao.update(preferences)
+    }
 
 }
