@@ -25,7 +25,7 @@ constructor(
 
     val buckets: LiveData<List<DeckDetail>> = deckRepository.deckDetails
     val playerStats: LiveData<PlayerStats> = deckRepository.getPlayerStats()
-    val preferences: LiveData<Preferences?> = preferencesRepository.find()
+    val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
     private val maxNew = 20
     private val maxReviews = 500

@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="@color/color_primary"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,24 +22,43 @@
         <ImageButton
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="56dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:contentDescription="back"
             android:padding="12dp"
             android:scaleType="centerCrop"
             android:tint="@color/color_on_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/deckCreationHeaderExpanded"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:paddingHorizontal="16dp"
+            android:text="Deck name"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+            android:textColor="@color/color_on_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/deckCreationBackdropButton"
+            app:layout_constraintStart_toEndOf="@+id/backButton"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Deck Name">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/deckCreationHeaderCollapsed"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="8dp"
+            android:alpha="0"
             android:paddingStart="16dp"
-            android:text="Create Deck"
+            android:text="New Deck"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -54,15 +73,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="16dp"
+            android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
             android:padding="8dp"
             android:scaleType="center"
             android:tint="@color/color_on_primary"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/backButton"
             app:srcCompat="@drawable/ic_baseline_build_24" />
 
 
@@ -97,6 +116,43 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/deckCreationLanguageLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Language"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/deckCreationLanguageOutput"
+                        app:layout_constraintEnd_toStartOf="@+id/deckCreationLanguageOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/deckCreationLanguageOutput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="English" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
                         android:id="@+id/deckCreationNameLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -115,10 +171,11 @@
                         android:id="@+id/deckCreationNameInput"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:gravity="end"
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:padding="16dp"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -153,7 +210,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:padding="16dp"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -289,6 +346,7 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:clickable="true"
+            android:visibility="invisible"
             android:src="@drawable/ic_baseline_check_24"
             app:layout_anchor="@id/suggestionList"
             app:layout_anchorGravity="bottom|right|end" />

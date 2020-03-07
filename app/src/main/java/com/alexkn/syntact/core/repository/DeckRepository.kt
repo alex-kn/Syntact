@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.DeckDao
 import com.alexkn.syntact.data.dao.PlayerStatsDao
+import com.alexkn.syntact.data.dao.PreferencesDao
 import com.alexkn.syntact.data.model.*
 import com.alexkn.syntact.service.Suggestion
 import com.alexkn.syntact.service.SyntactService
@@ -18,7 +19,8 @@ class DeckRepository @Inject constructor(
         private val syntactService: SyntactService,
         private val property: Property,
         private val deckDao: DeckDao,
-        private val playerStatsDao: PlayerStatsDao
+        private val playerStatsDao: PlayerStatsDao,
+        private val preferencesDao: PreferencesDao
 ) {
 
     val availableLanguages: MutableList<Locale> = property["available-languages"].split(",").map { Locale(it) }.toMutableList()
@@ -42,8 +44,8 @@ class DeckRepository @Inject constructor(
         deckDao.insert(deck, solvableTranslations)
     }
 
-    suspend fun createNewDeck(name: String, deckLang: Locale, phrases: List<Suggestion>) {
-        val deck = Deck(name = name, language = deckLang, userLanguage = Locale.getDefault(), itemCount = phrases.size)
+    suspend fun createNewDeck(name: String, deckLang: Locale, userLang: Locale, phrases: List<Suggestion>) {
+        val deck = Deck(name = name, language = deckLang, userLanguage = userLang, itemCount = phrases.size)
         val solvableTranslations = phrases.map { phrase ->
             when (deckLang) {
                 phrase.srcLang -> SolvableTranslationCto(SolvableItem(text = phrase.src), Clue(text = phrase.dest))

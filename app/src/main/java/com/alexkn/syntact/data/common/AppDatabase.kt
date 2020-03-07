@@ -25,5 +25,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun templateDao(): TemplateDao
 
     abstract fun preferencesDao(): PreferencesDao
+
 }
 

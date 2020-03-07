@@ -37,8 +37,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
-            android:paddingStart="16dp"
-            android:text="Deck Name Deck Name Deck Name"
+            android:paddingHorizontal="16dp"
+            android:text="Deck Name"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,8 +90,10 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_primary">
-
+            android:layout_marginBottom="50dp"
+            android:background="@color/color_primary"
+            android:scrollbarThumbVertical="@color/color_secondary"
+            android:scrollbars="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -141,6 +143,7 @@
             android:layout_height="match_parent"
             android:elevation="4dp"
             android:orientation="vertical"
+            android:background="@color/color_primary"
             app:behavior_peekHeight="50dp"
             app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
 

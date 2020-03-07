@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 72,
-    "identityHash": "232185950475ec3faec1b7e0b4f3c698",
+    "identityHash": "f68706c3afc8adf3210f26eef634fcca",
     "entities": [
       {
         "tableName": "SolvableItem",
@@ -301,13 +301,13 @@
       },
       {
         "tableName": "Preferences",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `language` TEXT NOT NULL, `nightMode` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `language` TEXT NOT NULL, `nightMode` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
-            "notNull": false
+            "notNull": true
           },
           {
             "fieldPath": "language",
@@ -326,7 +326,7 @@
           "columnNames": [
             "id"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
         "indices": [],
         "foreignKeys": []
@@ -344,7 +344,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '232185950475ec3faec1b7e0b4f3c698')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f68706c3afc8adf3210f26eef634fcca')"
     ]
   }
 }

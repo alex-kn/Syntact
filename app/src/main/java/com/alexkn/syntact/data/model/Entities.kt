@@ -40,7 +40,7 @@ data class Clue(
 
 @Entity
 data class Preferences(
-        @PrimaryKey(autoGenerate = true) override var id: Long? = null,
+        @PrimaryKey override var id: Long = 1L,
         var language: Locale,
         var nightMode: Int
 ) : Identifiable<Long>
