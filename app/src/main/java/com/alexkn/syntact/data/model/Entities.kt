@@ -16,7 +16,8 @@ data class Deck(
         var language: Locale,
         var createdAt: Instant = Instant.now(),
         var userLanguage: Locale,
-        var itemCount: Int = 0
+        var itemCount: Int = 0,
+        var newItemsPerDay: Int
 ) : Identifiable<Long>
 
 @Entity(foreignKeys = [ForeignKey(entity = Deck::class, parentColumns = ["id"], childColumns = ["deckId"], onDelete = ForeignKey.CASCADE)])

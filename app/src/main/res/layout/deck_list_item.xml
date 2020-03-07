@@ -7,8 +7,8 @@
     <data>
 
         <variable
-            name="bucket"
-            type="com.alexkn.syntact.data.model.DeckDetail" />
+            name="item"
+            type="com.alexkn.syntact.data.model.DeckListItem" />
 
         <variable
             name="progress"
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="@{bucket.name}"
+                android:text="@{item.deck.name}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="parent"
@@ -66,10 +66,10 @@
                 android:id="@+id/dueLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{Integer.toString(bucket.dueCount)}"
+                android:text="@{Integer.toString(item.newItemsToday)}"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dueProgressBar"
+                app:layout_constraintTop_toBottomOf="@+id/textView7"
                 tools:text="348" />
 
             <com.google.android.material.button.MaterialButton
@@ -94,22 +94,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/dueLabel"
                 tools:text="Start" />
 
-            <ProgressBar
-                android:id="@+id/dueProgressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:progress="@{progress}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView7" />
-
             <TextView
                 android:id="@+id/textView7"
+                android:text="@{item.deck.language.displayLanguage}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{bucket.language.displayLanguage}"
+                tools:text="Italian"
                 android:textAppearance="@style/TextAppearance.MyTheme.Caption"
                 app:layout_constraintStart_toStartOf="@+id/bucketNameLabel"
                 app:layout_constraintTop_toBottomOf="@+id/bucketNameLabel" />

@@ -97,6 +97,7 @@ class DeckCreationFragment : Fragment() {
         })
         deckCreationNameInput.addTextChangedListener { viewModel.setDeckName(it.toString()) }
 
+        deckCreationCardsPerDayInput.setText(viewModel.defaultNewCardsPerDay.toString())
         deckCreationLanguageOutput.setOnClickListener { dialog.show() }
 
         setupBackdrop()
@@ -104,12 +105,12 @@ class DeckCreationFragment : Fragment() {
 
         finishDeckFab.setOnClickListener {
             imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            if (viewModel.createDeck()) {
+            if (viewModel.createDeck(deckCreationCardsPerDayInput.text.toString())) {
                 Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "New Deck created.", Snackbar.LENGTH_SHORT).show()
                 Navigation.findNavController(it).popBackStack()
             } else {
                 collapse(sheet)
-                Snackbar.make(this.requireView(), "Please enter a name for your deck.", Snackbar.LENGTH_SHORT).show()
+                Handler().postDelayed({ Snackbar.make(this.requireView(), "Please enter a name for your deck.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.deckCreationHeaderLayout).show() }, 400)
             }
         }
 

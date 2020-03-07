@@ -116,6 +116,41 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/numberOfCardsLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Number of cards"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/numberOfCardsOutput"
+                        app:layout_constraintEnd_toStartOf="@+id/numberOfCardsOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/numberOfCardsOutput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="50" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
                         android:id="@+id/deckCreationLanguageLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -140,7 +175,7 @@
                         android:clickable="true"
                         android:gravity="end"
                         android:padding="16dp"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -159,6 +194,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
+                        android:paddingEnd="24dp"
                         android:text="Name"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
@@ -175,7 +211,8 @@
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:padding="16dp"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -190,26 +227,30 @@
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/numberOfCardsLabel"
+                        android:id="@+id/deckCreationCardsPerDayLabel"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:text="Number of cards"
+                        android:paddingEnd="24dp"
+                        android:text="New Cards Per Day"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/numberOfCardsOutput"
-                        app:layout_constraintEnd_toStartOf="@+id/numberOfCardsOutput"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/deckCreationCardsPerDayInput"
                         app:layout_constraintStart_toStartOf="parent" />
 
 
-                    <TextView
-                        android:id="@+id/numberOfCardsOutput"
-                        android:layout_width="0dp"
+                    <EditText
+                        android:id="@+id/deckCreationCardsPerDayInput"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
                         android:padding="16dp"
+                        android:selectAllOnFocus="true"
                         android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -346,8 +387,8 @@
             android:layout_gravity="end|bottom"
             android:layout_margin="16dp"
             android:clickable="true"
-            android:visibility="invisible"
             android:src="@drawable/ic_baseline_check_24"
+            android:visibility="invisible"
             app:layout_anchor="@id/suggestionList"
             app:layout_anchorGravity="bottom|right|end" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

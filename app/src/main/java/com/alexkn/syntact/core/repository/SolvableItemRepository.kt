@@ -24,9 +24,9 @@ class SolvableItemRepository @Inject constructor(
 
     fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> = solvableItemDao.getSolvableTranslations(bucketId)
 
-    suspend fun findNextSolvableItem(deckId: Long, time: Instant): SolvableTranslationCto? {
+    suspend fun findNextSolvableItem(deckId: Long, time: Instant, newItemsPerDay: Int): SolvableTranslationCto? {
 
-        val newItems = findNewItems(deckId, 20 - findItemsSolvedOnDay(deckId, time).size)
+        val newItems = findNewItems(deckId, newItemsPerDay - findItemsSolvedOnDay(deckId, time).size)
         if (newItems.isNotEmpty()) return newItems[0]
         val reviewItems = findItemsDueForReview(deckId, time)
         return if (reviewItems.isNotEmpty()) reviewItems[0] else null
@@ -46,8 +46,8 @@ class SolvableItemRepository @Inject constructor(
 
     suspend fun findItemsSolvedOnDay(deckId: Long, time: Instant): List<SolvableTranslationCto> {
 
-        val from = time.atZone(ZoneId.systemDefault()).withHour(23).withMinute(59).withSecond(59).toInstant()
-        val to = time.atZone(ZoneId.systemDefault()).withHour(0).withMinute(0).withSecond(0).toInstant()
+        val to = time.atZone(ZoneId.systemDefault()).withHour(23).withMinute(59).withSecond(59).toInstant()
+        val from = time.atZone(ZoneId.systemDefault()).withHour(0).withMinute(0).withSecond(0).toInstant()
         return solvableItemDao.findItemsSolvedBetween(deckId, from, to)
     }
 

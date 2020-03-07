@@ -9,7 +9,6 @@ import com.alexkn.syntact.data.util.Converters
 
 @Database(
         entities = [SolvableItem::class, Deck::class, Clue::class, Template::class, Phrase::class, Preferences::class],
-        views = [DeckDetail::class, PlayerStats::class],
         version = 72)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
@@ -19,8 +18,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun deckDao(): DeckDao
 
     abstract fun clueDao(): ClueDao
-
-    abstract fun playerStatsDao(): PlayerStatsDao
 
     abstract fun templateDao(): TemplateDao
 

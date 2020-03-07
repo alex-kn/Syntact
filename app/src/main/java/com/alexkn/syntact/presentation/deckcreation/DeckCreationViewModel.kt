@@ -27,7 +27,9 @@ class DeckCreationViewModel @Inject constructor(
 
     private var idSequence = 1L
 
-    lateinit var prefs: Preferences
+    private lateinit var prefs: Preferences
+
+    val defaultNewCardsPerDay = 20
 
     private val _deckLang = MutableLiveData<Locale?>()
     val deckLang: LiveData<Locale?>
@@ -71,14 +73,21 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.postValue(newSuggestions)
     }
 
-    fun createDeck(): Boolean {
+    fun createDeck(maxCardsPerDay: String): Boolean {
         if (_deckName.value!!.isBlank()) return false
+        val maxItemsPerDayInput = maxCardsPerDay.toIntOrNull() ?: 0
+        val maxItemsPerDay = when {
+            maxItemsPerDayInput < 1 -> 1
+            maxItemsPerDayInput > 1000 -> 1000
+            else -> maxItemsPerDayInput
+        }
         GlobalScope.launch {
             deckRepository.createNewDeck(
                     _deckName.value!!,
                     deckLang.value!!,
                     prefs.language,
-                    _suggestions.value!!.toSortedMap().values.flatten()
+                    _suggestions.value!!.toSortedMap().values.flatten(),
+                    maxItemsPerDay
             )
         }
         return true

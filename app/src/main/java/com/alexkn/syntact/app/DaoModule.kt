@@ -23,10 +23,6 @@ class DaoModule {
 
     @Singleton
     @Provides
-    fun providePlayerStatsDao(appDatabase: AppDatabase): PlayerStatsDao = appDatabase.playerStatsDao()
-
-    @Singleton
-    @Provides
     fun provideTemplateDao(appDatabase: AppDatabase): TemplateDao = appDatabase.templateDao()
 
     @Singleton

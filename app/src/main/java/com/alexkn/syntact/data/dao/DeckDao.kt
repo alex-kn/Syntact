@@ -6,7 +6,10 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import com.alexkn.syntact.data.dao.base.BaseDao
-import com.alexkn.syntact.data.model.*
+import com.alexkn.syntact.data.model.Clue
+import com.alexkn.syntact.data.model.Deck
+import com.alexkn.syntact.data.model.SolvableItem
+import com.alexkn.syntact.data.model.SolvableTranslationCto
 
 @Dao
 abstract class DeckDao : BaseDao<Deck> {
@@ -22,16 +25,10 @@ abstract class DeckDao : BaseDao<Deck> {
     abstract fun findAllLiveData(): LiveData<List<Deck>>
 
     @Query("SELECT * FROM Deck")
-    abstract fun findAll(): List<Deck>
+    abstract suspend fun findAll(): List<Deck>
 
     @Query("SELECT * FROM Deck WHERE id = :id LIMIT 1")
     abstract fun findLive(id: Long): LiveData<Deck?>
-
-    @Query("SELECT * FROM DeckDetail")
-    abstract fun findBucketDetails(): LiveData<List<DeckDetail>>
-
-    @Query("SELECT * FROM DeckDetail WHERE id = :id LIMIT 1")
-    abstract fun findBucketDetail(id: Long): LiveData<DeckDetail>
 
     @Transaction
     open suspend fun insert(deck: Deck, solvableTranslations: List<SolvableTranslationCto>) {

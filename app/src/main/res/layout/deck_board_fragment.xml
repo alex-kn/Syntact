@@ -39,14 +39,14 @@
             android:padding="12dp"
             android:scaleType="centerCrop"
             android:tint="@color/color_on_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/headerDue"
+            app:layout_constraintBottom_toBottomOf="@+id/headerSolved"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/headerDue"
+            app:layout_constraintTop_toTopOf="@+id/headerSolved"
             app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
 
         <TextView
-            android:id="@+id/headerDue"
+            android:id="@+id/headerSolved"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -77,7 +77,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headerDue">
+            app:layout_constraintTop_toBottomOf="@+id/headerSolved">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -194,12 +194,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="today"
+            android:paddingHorizontal="8dp"
+            android:text="solved today"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             android:textColor="@color/color_on_primary"
-            app:layout_constraintBottom_toBottomOf="@+id/headerDue"
-            app:layout_constraintStart_toEndOf="@+id/backButton"
-            app:layout_constraintTop_toTopOf="@+id/headerDue" />
+            app:layout_constraintBaseline_toBaselineOf="@+id/headerSolved"
+            app:layout_constraintStart_toEndOf="@+id/backButton" />
 
         <ImageView
             android:id="@+id/solvedIndicator"
@@ -213,9 +213,9 @@
             android:src="@drawable/ic_baseline_check_24"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:tint="@color/color_success"
-            app:layout_constraintBottom_toBottomOf="@+id/headerDue"
+            app:layout_constraintBottom_toBottomOf="@+id/headerSolved"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/headerDue" />
+            app:layout_constraintTop_toTopOf="@+id/headerSolved" />
 
         <ImageView
             android:id="@+id/failedIndicator"
@@ -229,19 +229,10 @@
             android:src="@drawable/ic_baseline_clear_24"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:tint="@color/color_error"
-            app:layout_constraintBottom_toBottomOf="@+id/headerDue"
+            app:layout_constraintBottom_toBottomOf="@+id/headerSolved"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/headerDue" />
+            app:layout_constraintTop_toTopOf="@+id/headerSolved" />
 
-        <TextView
-            android:id="@+id/headerTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-            android:textColor="@color/color_on_primary"
-            app:layout_constraintBaseline_toBaselineOf="@+id/headerDue"
-            app:layout_constraintStart_toEndOf="@+id/headerDue"
-            tools:text="/633" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

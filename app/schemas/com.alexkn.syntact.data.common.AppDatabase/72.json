@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 72,
-    "identityHash": "f68706c3afc8adf3210f26eef634fcca",
+    "identityHash": "cdc1bc880cbdfd38603c119ee69facaf",
     "entities": [
       {
         "tableName": "SolvableItem",
@@ -89,7 +89,7 @@
       },
       {
         "tableName": "Deck",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `language` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `userLanguage` TEXT NOT NULL, `itemCount` INTEGER NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `name` TEXT NOT NULL, `language` TEXT NOT NULL, `createdAt` INTEGER NOT NULL, `userLanguage` TEXT NOT NULL, `itemCount` INTEGER NOT NULL, `newItemsPerDay` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -124,6 +124,12 @@
           {
             "fieldPath": "itemCount",
             "columnName": "itemCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "newItemsPerDay",
+            "columnName": "newItemsPerDay",
             "affinity": "INTEGER",
             "notNull": true
           }
@@ -344,7 +350,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f68706c3afc8adf3210f26eef634fcca')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'cdc1bc880cbdfd38603c119ee69facaf')"
     ]
   }
 }

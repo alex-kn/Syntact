@@ -3,8 +3,6 @@ package com.alexkn.syntact.core.repository
 import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.data.dao.DeckDao
-import com.alexkn.syntact.data.dao.PlayerStatsDao
-import com.alexkn.syntact.data.dao.PreferencesDao
 import com.alexkn.syntact.data.model.*
 import com.alexkn.syntact.service.Suggestion
 import com.alexkn.syntact.service.SyntactService
@@ -18,21 +16,16 @@ import javax.inject.Singleton
 class DeckRepository @Inject constructor(
         private val syntactService: SyntactService,
         private val property: Property,
-        private val deckDao: DeckDao,
-        private val playerStatsDao: PlayerStatsDao,
-        private val preferencesDao: PreferencesDao
+        private val deckDao: DeckDao
 ) {
 
     val availableLanguages: MutableList<Locale> = property["available-languages"].split(",").map { Locale(it) }.toMutableList()
-
-    val deckDetails: LiveData<List<DeckDetail>>
-        get() = deckDao.findBucketDetails()
 
     suspend fun addBucketWithExistingTemplate(template: Template) = withContext(Dispatchers.Default) {
 
         val sourceLanguage = Locale.getDefault()
 
-        val deck = Deck(name = template.name, language = template.language, userLanguage = sourceLanguage, itemCount = template.count)
+        val deck = Deck(name = template.name, language = template.language, userLanguage = sourceLanguage, itemCount = template.count, newItemsPerDay = 20)
         val token = "Token " + property["api-auth-token"]
 
         val phrases = syntactService.getPhrases(token, template.phrasesUrl)
@@ -44,8 +37,8 @@ class DeckRepository @Inject constructor(
         deckDao.insert(deck, solvableTranslations)
     }
 
-    suspend fun createNewDeck(name: String, deckLang: Locale, userLang: Locale, phrases: List<Suggestion>) {
-        val deck = Deck(name = name, language = deckLang, userLanguage = userLang, itemCount = phrases.size)
+    suspend fun createNewDeck(name: String, deckLang: Locale, userLang: Locale, phrases: List<Suggestion>, maxCardsPerDay: Int) {
+        val deck = Deck(name = name, language = deckLang, userLanguage = userLang, itemCount = phrases.size, newItemsPerDay = maxCardsPerDay)
         val solvableTranslations = phrases.map { phrase ->
             when (deckLang) {
                 phrase.srcLang -> SolvableTranslationCto(SolvableItem(text = phrase.src), Clue(text = phrase.dest))
@@ -63,15 +56,15 @@ class DeckRepository @Inject constructor(
         return deckDao.findAll()
     }
 
+    fun findAllLive(): LiveData<List<Deck>> {
+        return deckDao.findAllLiveData()
+    }
+
     fun findDeck(id: Long): LiveData<Deck?> {
         return deckDao.findLive(id)
     }
 
-    fun getBucketDetail(id: Long): LiveData<DeckDetail> {
-        return deckDao.findBucketDetail(id)
-    }
-
-    fun getPlayerStats(): LiveData<PlayerStats> {
-        return playerStatsDao.find()
+    suspend fun find(id: Long): Deck {
+        return deckDao.find(id)
     }
 }

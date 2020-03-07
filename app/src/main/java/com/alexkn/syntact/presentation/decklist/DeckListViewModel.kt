@@ -7,8 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.DeckDetail
-import com.alexkn.syntact.data.model.PlayerStats
+import com.alexkn.syntact.data.model.DeckListItem
 import com.alexkn.syntact.data.model.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,12 +22,14 @@ constructor(
         private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
-    val buckets: LiveData<List<DeckDetail>> = deckRepository.deckDetails
-    val playerStats: LiveData<PlayerStats> = deckRepository.getPlayerStats()
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
     private val maxNew = 20
     private val maxReviews = 500
+
+    private val _decks = MutableLiveData<List<DeckListItem>>()
+    val decks: LiveData<List<DeckListItem>>
+        get() = _decks
 
     private val _newCards = MutableLiveData<Int>()
     val newCards: LiveData<Int>
@@ -43,20 +44,21 @@ constructor(
         get() = _total
 
     fun init() {
+
         viewModelScope.launch(Dispatchers.IO) {
 
             var totalNewCards = 0
             var totalReviews = 0
 
-            deckRepository.findAll().forEach {
+            val deckListItems = deckRepository.findAll().map {
                 val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(it.id!!, Instant.now()).size
-                val findNewItems = solvableItemRepository.findNewItems(it.id!!, maxNew)
-                val newItems = findNewItems.size
-                if (newItems - itemsSolvedToday >= 0) {
-                    totalNewCards += newItems - itemsSolvedToday
-                }
-                totalReviews += solvableItemRepository.findItemsDueForReview(it.id!!, Instant.now()).size
+                val newItems = solvableItemRepository.findNewItems(it.id!!, it.newItemsPerDay).size
+                val reviews = solvableItemRepository.findItemsDueForReview(it.id!!, Instant.now()).size
+                totalReviews += reviews
+                totalNewCards += newItems
+                DeckListItem(it, itemsSolvedToday, newItems, reviews)
             }
+            _decks.postValue(deckListItems)
             _newCards.postValue(totalNewCards)
             _reviews.postValue(totalReviews)
             _total.postValue(totalNewCards + totalReviews)

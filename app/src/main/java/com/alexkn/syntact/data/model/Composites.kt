@@ -10,3 +10,13 @@ data class SolvableTranslationCto(
     override val id: Long?
         get() = solvableItem.id
 }
+
+data class DeckListItem(
+        var deck: Deck,
+        var solvedToday: Int,
+        var newItemsToday: Int,
+        var reviewsToday: Int
+) : Identifiable<Long> {
+    override val id: Long?
+        get() = deck.id
+}

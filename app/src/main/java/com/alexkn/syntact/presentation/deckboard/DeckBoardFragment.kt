@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.data.model.DeckDetail
+import com.alexkn.syntact.data.model.DeckListItem
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.alexkn.syntact.databinding.DeckBoardFragmentBinding
 import kotlinx.android.synthetic.main.deck_board_fragment.*
@@ -63,15 +63,14 @@ class DeckBoardFragment : Fragment() {
         }
     }
 
-    private fun onDeckChanged(deck: DeckDetail) {
-        binding.headerDue.text = deck.dueCount.toString()
-        binding.headerTotal.text = "/" + (deck.itemCount).toString()
-        done = deck.dueCount == 0
+    private fun onDeckChanged(deck: DeckListItem) {
+        binding.headerSolved.text = deck.solvedToday.toString()
+        done = deck.newItemsToday == 0
     }
 
     private fun onDone() {
         imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-        listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput, nextButton, headerDue, textView, headerTotal)
+        listOf(textView4, similarityBar, solutionInputLayout, solutionOutput, scoreOutput, nextButton)
                 .forEach { v -> v.visibility = View.INVISIBLE }
         doneOutput.visibility = View.VISIBLE
     }
@@ -99,6 +98,8 @@ class DeckBoardFragment : Fragment() {
             imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         } else {
             if (done) onDone() else {
+                solvedIndicator.visibility = View.INVISIBLE
+                failedIndicator.visibility = View.INVISIBLE
                 solving = true
                 viewModel.fetchNext()
                 solutionInputLayout.visibility = View.VISIBLE
@@ -115,15 +116,13 @@ class DeckBoardFragment : Fragment() {
         scoreAnimation.end()
         val view = if (score > 0.9) solvedIndicator else failedIndicator
         view.visibility = View.VISIBLE
-        val scaleAnimX = ObjectAnimator.ofFloat(view, "scaleX", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
-        val scaleAnimY = ObjectAnimator.ofFloat(view, "scaleY", 1f, 1.2f, 1f, 1f, 1f, 1f, 1f)
-        val alphaAnim = ObjectAnimator.ofFloat(view, "alpha", 1f, 1f, 0f)
-        scaleAnimX.duration = 1000
-        scaleAnimY.duration = 1000
-        alphaAnim.duration = 1000
+        val scaleAnimX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1.2f, 1f)
+        val scaleAnimY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1.2f, 1f)
+        scaleAnimX.duration = 400
+        scaleAnimY.duration = 400
         scoreAnimation = AnimatorSet()
         scoreAnimation.interpolator = AccelerateDecelerateInterpolator()
-        scoreAnimation.playTogether(scaleAnimX, scaleAnimY, alphaAnim)
+        scoreAnimation.playTogether(scaleAnimX, scaleAnimY)
         scoreAnimation.start()
     }
 

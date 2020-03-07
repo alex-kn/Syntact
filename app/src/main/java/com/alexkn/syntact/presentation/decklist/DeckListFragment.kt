@@ -86,7 +86,7 @@ class DeckListFragment : Fragment() {
                 }
             }
         })
-        viewModel.buckets.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
+        viewModel.decks.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
 
     private fun buildLanguageDialog(currentLanguage: Locale) {

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.DeckDetail
+import com.alexkn.syntact.data.model.DeckListItem
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ class DeckBoardViewModel @Inject constructor(
         private val deckRepository: DeckRepository
 ) : ViewModel() {
 
-    lateinit var deck: LiveData<DeckDetail>
+    var deck: MutableLiveData<DeckListItem> = MutableLiveData()
         private set
 
     var translation: MutableLiveData<SolvableTranslationCto?> = MutableLiveData()
@@ -40,21 +40,30 @@ class DeckBoardViewModel @Inject constructor(
 
     var done = false
 
-    private var bucketId: Long? = null
+    private var newCardsPerDay: Int = 1
+
+    private var deckId: Long? = null
 
     val scoreRatio: Double
         get() = currentScore.value!!.toDouble() / maxScore.value!!
 
 
-    fun init(bucketId: Long) {
-        this.bucketId = bucketId
-        deck = deckRepository.getBucketDetail(bucketId)
+    fun init(deckId: Long) {
+        this.deckId = deckId
+
         fetchNext()
     }
 
     fun fetchNext() {
         viewModelScope.launch(Dispatchers.Default) {
-            val nextTranslation = solvableItemRepository.findNextSolvableItem(bucketId!!, Instant.now())
+            newCardsPerDay = deckRepository.find(deckId!!).newItemsPerDay
+            val d = deckRepository.find(deckId!!)
+            val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(d.id!!, Instant.now()).size
+            val newItems = solvableItemRepository.findNewItems(d.id!!, d.newItemsPerDay).size
+            val reviews = solvableItemRepository.findItemsDueForReview(d.id!!, Instant.now()).size
+            deck.postValue(DeckListItem(d, itemsSolvedToday, newItems, reviews))
+
+            val nextTranslation = solvableItemRepository.findNextSolvableItem(deckId!!, Instant.now(), newCardsPerDay)
             translation.postValue(nextTranslation)
             _maxScore.postValue(nextTranslation?.solvableItem?.text?.length ?: 0)
             _currentScore.postValue(0)
