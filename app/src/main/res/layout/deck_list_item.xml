@@ -53,23 +53,56 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Basic Bucket" />
 
+            <ImageView
+                android:id="@+id/solvedIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:cropToPadding="false"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_baseline_check_24"
+                android:tint="@color/color_success"
+                app:layout_constraintBottom_toBottomOf="@+id/textView7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Due"
+                android:text="new Today"
                 android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                app:layout_constraintBaseline_toBaselineOf="@+id/dueLabel"
+                app:layout_constraintBaseline_toBaselineOf="@+id/newTodayOutput"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/dueLabel"
+                android:id="@+id/newTodayOutput"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:text="@{Integer.toString(item.newItemsToday)}"
-                android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView7"
+                tools:text="348" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reviews Today"
+                android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                app:layout_constraintBaseline_toBaselineOf="@+id/reviewsTodayOutput"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/reviewsTodayOutput"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{Integer.toString(item.reviewsToday)}"
+                android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/newTodayOutput"
                 tools:text="348" />
 
             <com.google.android.material.button.MaterialButton
@@ -81,7 +114,7 @@
                 android:layout_marginEnd="8dp"
                 android:text="Options"
                 app:layout_constraintEnd_toStartOf="@id/startButton"
-                app:layout_constraintTop_toBottomOf="@+id/dueLabel"
+                app:layout_constraintTop_toBottomOf="@+id/reviewsTodayOutput"
                 tools:text="Options" />
 
             <com.google.android.material.button.MaterialButton
@@ -91,7 +124,7 @@
                 android:layout_marginTop="16dp"
                 android:text="Start"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dueLabel"
+                app:layout_constraintTop_toBottomOf="@+id/reviewsTodayOutput"
                 tools:text="Start" />
 
             <TextView

@@ -47,6 +47,8 @@ class DeckListItemAdapter : ListItemAdapter<DeckListItem, DeckListItemAdapter.De
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
+            binding.solvedIndicator.visibility = if (item.newItemsToday == 0 && item.reviewsToday == 0) View.VISIBLE else View.GONE
+
 //            val solvedToday = item.solvedToday.toDouble()
 //            val dueToday = item.newItemsToday + item.reviewsToday
 //            binding.progress = ceil(solvedToday / (dueToday + solvedToday) * 100).toInt()
