@@ -35,6 +35,8 @@ class DeckCreationViewModel @Inject constructor(
     val deckLang: LiveData<Locale?>
         get() = _deckLang
 
+    val userLang = MutableLiveData<Locale?>()
+
     private val _deckName = MutableLiveData<String?>()
     val deckName: LiveData<String?>
         get() = _deckName
@@ -51,7 +53,9 @@ class DeckCreationViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             prefs = preferencesRepository.find()
+            userLang.postValue(prefs.language)
         }
+
         _deckLang.value = Locale.GERMAN
         _suggestionLang.value = Locale.GERMAN
     }
@@ -71,6 +75,10 @@ class DeckCreationViewModel @Inject constructor(
     fun removeKeyword(keywordId: Int) {
         val newSuggestions = _suggestions.value!!.toMutableMap().filter { it.key != keywordId }
         _suggestions.postValue(newSuggestions)
+    }
+
+    fun clearKeywords() {
+        _suggestions.value = emptyMap()
     }
 
     fun createDeck(maxCardsPerDay: String): Boolean {
@@ -94,11 +102,20 @@ class DeckCreationViewModel @Inject constructor(
     }
 
     fun switchDeckLang(locale: Locale) {
+        clearKeywords()
         _deckLang.value = locale
     }
 
     fun setDeckName(name: String) {
         _deckName.value = name
+    }
+
+    fun switchSuggestionLangToDeckLang() {
+        _suggestionLang.value = deckLang.value
+    }
+
+    fun switchSuggestionLangToUserLang() {
+        _suggestionLang.value = userLang.value
     }
 
     fun switchSuggestionLang() {

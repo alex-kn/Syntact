@@ -13,6 +13,10 @@ class FlagDrawable @Inject constructor() {
         return when (locale) {
             Locale.GERMAN -> R.drawable.de
             Locale.ENGLISH -> R.drawable.en
+            Locale.ITALIAN -> R.drawable.it
+            Locale.CHINESE -> R.drawable.zh
+            Locale("swe") -> R.drawable.swe
+            Locale("es") -> R.drawable.es
             else -> throw UnsupportedLanguageException(locale)
         }
     }

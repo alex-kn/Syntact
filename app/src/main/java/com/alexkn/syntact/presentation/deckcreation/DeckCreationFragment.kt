@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -31,6 +32,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
+import kotlinx.android.synthetic.main.deck_creation_bottom_sheet.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.topLayout
 import kotlinx.android.synthetic.main.deck_list_fragment.*
@@ -49,6 +51,8 @@ class DeckCreationFragment : Fragment() {
     private lateinit var viewModel: DeckCreationViewModel
     private val keywords = mutableMapOf<Int, String>()
 
+    private var activeKeywordInput: EditText? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(requireContext())
@@ -64,23 +68,42 @@ class DeckCreationFragment : Fragment() {
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createTemplateViewModelFactory())
                 .get(DeckCreationViewModel::class.java)
 
-        if (keywordsInput.requestFocus()) imm.showSoftInput(keywordsInput, InputMethodManager.SHOW_IMPLICIT)
-        keywordsInput.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
-        keywordsInput.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) onAddText()
+
+        keywordsInputLeft.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) onAddText(v as EditText)
+            false
+        }
+        keywordsInputRight.setOnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) onAddText(v as EditText)
             false
         }
 
-        viewModel.suggestionLang.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                val resId = resources.getIdentifier(it.language, "drawable", requireContext().packageName)
-                val drawable = ResourcesCompat.getDrawable(resources, resId, null)
-                deckCreationFlagView.setImageDrawable(drawable)
-            }
+//        viewModel.suggestionLang.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                val resId = resources.getIdentifier(it.language, "drawable", requireContext().packageName)
+//                val drawable = ResourcesCompat.getDrawable(resources, resId, null)
+//                deckCreationFlagView.setImageDrawable(drawable)
+//            }
+//        })
+
+        viewModel.userLang.observe(viewLifecycleOwner, Observer {
+            keywordsInputRight.hint = it?.displayLanguage
         })
 
-        deckCreationFlagView.clipToOutline = true
-        deckCreationFlagContainer.setOnClickListener { viewModel.switchSuggestionLang() }
+        keywordsInputLeft.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
+        keywordsInputRight.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
+
+        keywordsInputLeft.setOnFocusChangeListener { v, _ ->
+            val editText = v as EditText
+            activeKeywordInput = editText
+            viewModel.switchSuggestionLangToDeckLang()
+        }
+        keywordsInputRight.setOnFocusChangeListener { v, _ ->
+            val editText = v as EditText
+            activeKeywordInput = editText
+            viewModel.switchSuggestionLangToUserLang()
+        }
+
         deckCreationNameInput.setText("My New Deck")
         viewModel.setDeckName("My New Deck")
 
@@ -88,6 +111,7 @@ class DeckCreationFragment : Fragment() {
         viewModel.deckLang.observe(viewLifecycleOwner, Observer {
             it?.let {
                 deckCreationLanguageOutput.text = it.displayLanguage
+                keywordsInputLeft.hint = it.displayLanguage
             }
         })
         viewModel.deckName.observe(viewLifecycleOwner, Observer {
@@ -114,7 +138,7 @@ class DeckCreationFragment : Fragment() {
             }
         }
 
-        addTextButton.setOnClickListener { onAddText() }
+        addTextButton.setOnClickListener { activeKeywordInput?.let { onAddText(it) } }
         backButton.setOnClickListener {
             imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             Navigation.findNavController(it).popBackStack()
@@ -176,8 +200,8 @@ class DeckCreationFragment : Fragment() {
                 .create()
     }
 
-    private fun onAddText() {
-        val text = keywordsInput.text.toString().trim()
+    private fun onAddText(v: EditText) {
+        val text = v.text.toString().trim()
 
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
@@ -190,7 +214,7 @@ class DeckCreationFragment : Fragment() {
         chip.chipIcon = roundedSrc
         chip.setOnCloseIconClickListener(this::onCloseChip)
         keywordsChipGroup.addView(chip)
-        keywordsInput.text.clear()
+        v.text.clear()
 
         viewModel.fetchSuggestions(chip.id, text)
         keywords[chip.id] = text
@@ -208,10 +232,10 @@ class DeckCreationFragment : Fragment() {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         deckCreationBackdropButton.rotation = 180f
 
-        header.animate().alpha(0.5f).setDuration(100).withEndAction {
-            header.text = "Type anything that comes to mind"
-            header.animate().alpha(1f).setDuration(100).start()
-        }.start()
+//        header.animate().alpha(0.5f).setDuration(100).withEndAction {
+//            header.text = "Type anything that comes to mind"
+//            header.animate().alpha(1f).setDuration(100).start()
+//        }.start()
 
         deckCreationBackdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
             deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_build_24)
@@ -225,12 +249,12 @@ class DeckCreationFragment : Fragment() {
     private fun collapse(sheetBehavior: BottomSheetBehavior<LinearLayout>) {
         Handler().postDelayed({ sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }, 100)
         deckCreationBackdropButton.rotation = 0f
-        imm.hideSoftInputFromWindow(keywordsInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        imm.hideSoftInputFromWindow(requireView().windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
 
-        header.animate().alpha(0.5f).setDuration(100).withEndAction {
-            header.text = "Tap here to view your Deck's cards"
-            header.animate().alpha(1f).setDuration(100).start()
-        }.start()
+//        header.animate().alpha(0.5f).setDuration(100).withEndAction {
+//            header.text = "Tap here to view your Deck's cards"
+//            header.animate().alpha(1f).setDuration(100).start()
+//        }.start()
 
         deckCreationBackdropButton.animate().rotation(90f).alpha(0.5f).setDuration(100).withEndAction {
             deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_list_24)

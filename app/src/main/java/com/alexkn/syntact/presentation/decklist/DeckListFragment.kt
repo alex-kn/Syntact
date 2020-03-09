@@ -91,12 +91,9 @@ class DeckListFragment : Fragment() {
 
     private fun buildLanguageDialog(currentLanguage: Locale) {
 
-        val checkedItem = langChoices.indexOf(currentLanguage)
         dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Choose your Language")
-                .setPositiveButton("Ok") { _, _ -> if (selectedLanguageIndex != -1) viewModel.switchLanguage(langChoices[selectedLanguageIndex]) }
-                .setNegativeButton("Cancel", null)
-                .setSingleChoiceItems(langChoices.map { it.displayLanguage }.toTypedArray(), checkedItem) { _, i -> selectedLanguageIndex = i }
+                .setTitle("Choose the Language of your new Deck")
+                .setItems(langChoices.map { it.displayLanguage }.toTypedArray()) { _, i -> viewModel.switchLanguage(langChoices[i]) }
                 .create()
     }
 
