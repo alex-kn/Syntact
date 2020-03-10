@@ -78,14 +78,6 @@ class DeckCreationFragment : Fragment() {
             false
         }
 
-//        viewModel.suggestionLang.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                val resId = resources.getIdentifier(it.language, "drawable", requireContext().packageName)
-//                val drawable = ResourcesCompat.getDrawable(resources, resId, null)
-//                deckCreationFlagView.setImageDrawable(drawable)
-//            }
-//        })
-
         viewModel.userLang.observe(viewLifecycleOwner, Observer {
             keywordsInputRight.hint = it?.displayLanguage
         })
@@ -129,12 +121,19 @@ class DeckCreationFragment : Fragment() {
 
         finishDeckFab.setOnClickListener {
             imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-            if (viewModel.createDeck(deckCreationCardsPerDayInput.text.toString())) {
-                Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "New Deck created.", Snackbar.LENGTH_SHORT).show()
-                Navigation.findNavController(it).popBackStack()
-            } else {
-                collapse(sheet)
-                Handler().postDelayed({ Snackbar.make(this.requireView(), "Please enter a name for your deck.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.deckCreationHeaderLayout).show() }, 400)
+            when {
+                viewModel.deckName.value.isNullOrBlank() -> {
+                    collapse(sheet)
+                    Handler().postDelayed({ Snackbar.make(requireView(), "Please enter a name for your deck.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.deckCreationHeaderLayout).show() }, 400)
+                }
+                viewModel.suggestions.value?.values.isNullOrEmpty() -> {
+                    Snackbar.make(requireView(), "Please add cards to your deck", Snackbar.LENGTH_SHORT).setAnchorView(R.id.finishDeckFab).show()
+                }
+                else -> {
+                    viewModel.createDeck(deckCreationCardsPerDayInput.text.toString())
+                    Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "New Deck created.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.finishDeckFab).show()
+                    Navigation.findNavController(it).popBackStack()
+                }
             }
         }
 
@@ -183,6 +182,7 @@ class DeckCreationFragment : Fragment() {
 
         viewModel.suggestions.observe(viewLifecycleOwner, Observer { suggestions ->
             numberOfCardsOutput.text = suggestions.values.flatten().size.toString()
+            suggestionListEmptyLabel.visibility = if (suggestions.values.firstOrNull().isNullOrEmpty()) View.VISIBLE else View.GONE
             suggestionListAdapter.submitList(suggestions.toSortedMap().values.flatten())
             suggestions.filter { it.value.isEmpty() }.keys.forEach {
                 val chip = keywordsChipGroup.findViewById<Chip>(it)

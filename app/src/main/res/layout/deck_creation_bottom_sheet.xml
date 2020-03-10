@@ -23,8 +23,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="24dp"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Type words to fill your deck with cards"
-            android:textAppearance="@style/TextAppearance.MyTheme.Body1"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +41,7 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/color_background"
+            android:background="@color/color_surface"
             app:liftOnScroll="true">
 
 
@@ -138,8 +139,18 @@
             android:id="@+id/suggestionList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_background"
+            android:background="@color/color_surface"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <TextView
+            android:id="@+id/suggestionListEmptyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:padding="48dp"
+            android:text="Your Deck has no cards yet.\nAdd words in either language to fill it with cards."
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

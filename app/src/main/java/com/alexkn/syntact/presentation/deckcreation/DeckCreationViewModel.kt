@@ -81,8 +81,7 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.value = emptyMap()
     }
 
-    fun createDeck(maxCardsPerDay: String): Boolean {
-        if (_deckName.value!!.isBlank()) return false
+    fun createDeck(maxCardsPerDay: String) {
         val maxItemsPerDayInput = maxCardsPerDay.toIntOrNull() ?: 0
         val maxItemsPerDay = when {
             maxItemsPerDayInput < 1 -> 1
@@ -98,7 +97,6 @@ class DeckCreationViewModel @Inject constructor(
                     maxItemsPerDay
             )
         }
-        return true
     }
 
     fun switchDeckLang(locale: Locale) {

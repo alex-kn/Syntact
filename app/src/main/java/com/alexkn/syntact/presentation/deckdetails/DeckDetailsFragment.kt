@@ -71,9 +71,9 @@ class DeckDetailsFragment : Fragment() {
         val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
         itemList.addItemDecoration(dividerItemDecoration)
 
-        viewModel.translations.observe(viewLifecycleOwner, Observer {
-            solvableItemsListAdapter.submitList(it)
-            totalCardsOutput.text = it.size.toString()
+        viewModel.translations.observe(viewLifecycleOwner, Observer { translations ->
+            solvableItemsListAdapter.submitList(translations.sortedBy { it.solvableItem.nextDueDate })
+            totalCardsOutput.text = translations.size.toString()
         })
     }
 

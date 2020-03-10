@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="bottom|clip_horizontal|center"
-    android:paddingHorizontal="16dp"
+    android:paddingHorizontal="8dp"
     android:paddingVertical="8dp">
 
 
@@ -15,38 +15,130 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <TextView
+            android:id="@+id/solutionTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="128dp"
+            android:padding="8dp"
+            android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Bridge" />
+
         <TextView
             android:id="@+id/clueTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="128dp"
             android:layout_marginTop="8dp"
             android:gravity="end"
+            android:padding="8dp"
             android:text="Clue Test"
             android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/solutionTextView" />
 
-        <TextView
-            android:id="@+id/solutionTextView"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.MyTheme.Subtitle1"
+            android:padding="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Bridge" />
+            app:layout_constraintTop_toBottomOf="@id/clueTextView">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/itemInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Solved 2 times"
-            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clueTextView" />
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:gravity="center">
 
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deckDetailsDueLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Due in"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deckDetailsDueOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_primary"
+                    tools:text="5 minutes" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deckDetailsStreakLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Streak"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deckDetailsStreakOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/deckDetailsStreakLabel"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="5" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deckDetailsEaseLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:text="Ease"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/deckDetailsEaseOutput"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_primary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/deckDetailsEaseLabel"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="5" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
