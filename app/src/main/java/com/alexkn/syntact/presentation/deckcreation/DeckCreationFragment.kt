@@ -43,7 +43,6 @@ import kotlin.math.max
 class DeckCreationFragment : Fragment() {
 
     private val langChoices = listOf<Locale>(Locale.GERMAN, Locale.ENGLISH, Locale.ITALIAN)
-    private var selectedLanguageIndex = -1
     private lateinit var dialog: AlertDialog
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
 
@@ -185,9 +184,9 @@ class DeckCreationFragment : Fragment() {
             suggestionListEmptyLabel.visibility = if (suggestions.values.firstOrNull().isNullOrEmpty()) View.VISIBLE else View.GONE
             suggestionListAdapter.submitList(suggestions.toSortedMap().values.flatten())
             suggestions.filter { it.value.isEmpty() }.keys.forEach {
-                val chip = keywordsChipGroup.findViewById<Chip>(it)
+                val chip = keywordsChipGroup.findViewById<Chip?>(it)
                 val color = ContextCompat.getColor(requireContext(), R.color.color_error)
-                chip.chipBackgroundColor = ColorStateList.valueOf(color)
+                chip?.chipBackgroundColor = ColorStateList.valueOf(color)
             }
         })
     }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.app.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.deck_list_fragment.*
@@ -28,7 +30,7 @@ class DeckListFragment : Fragment() {
     private var selectedLanguageIndex = -1
 
     private var goal: Int = 20
-
+    private lateinit var sheet: BottomSheetBehavior<LinearLayout>
     private lateinit var viewModel: DeckListViewModel
     private lateinit var dialog: AlertDialog
 
@@ -44,10 +46,10 @@ class DeckListFragment : Fragment() {
                 .get(DeckListViewModel::class.java)
 
 
-        val sheet = BottomSheetBehavior.from(contentLayout)
+        sheet = BottomSheetBehavior.from(contentLayout)
         sheet.isFitToContents = false
         sheet.isHideable = false
-        sheet.state = BottomSheetBehavior.STATE_EXPANDED
+        if (savedInstanceState?.let { it.getBoolean("collapsed") } == true) collapse(sheet) else expand(sheet)
 
         backdropButton.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) else expand(sheet) }
         topLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
@@ -55,20 +57,50 @@ class DeckListFragment : Fragment() {
 
         createBucketFab.setOnClickListener(this::createBucket)
 
+        deckListNightModeOutput.setOnClickListener { viewModel.switchNightMode() }
+
         setupDeckList()
 
         viewModel.newCards.observe(viewLifecycleOwner, Observer { newOutput.text = "$it" })
         viewModel.reviews.observe(viewLifecycleOwner, Observer { reviewsOutput.text = "$it" })
-        viewModel.total.observe(viewLifecycleOwner, Observer { deckListContentHeaderOutput.text = "$it Cards are due today" })
+        viewModel.total.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                0 -> {
+                    deckListContentHeaderOutput.text = ""
+                    deckListContentHeaderLabel.text = "You're done for the day"
+                }
+                1 -> {
+                    deckListContentHeaderOutput.text = "1"
+                    deckListContentHeaderLabel.text = " Card is due today"
+                }
+                else -> {
+                    deckListContentHeaderOutput.text = "$it"
+                    deckListContentHeaderLabel.text = " Cards are due today"
+
+                }
+            }
+        })
 
         viewModel.preferences.observe(viewLifecycleOwner, Observer {
             it?.let {
                 userLanguageOutput.text = it.language.displayLanguage
-                buildLanguageDialog(it.language)
+                (requireActivity() as MainActivity).setNightMode(it.nightMode)
+                deckListNightModeOutput.text = when (it.nightMode) {
+                    AppCompatDelegate.MODE_NIGHT_NO -> "No"
+                    AppCompatDelegate.MODE_NIGHT_YES -> "Yes"
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> "Auto"
+                    else -> ""
+                }
+                buildLanguageDialog()
             }
         })
         userLanguageOutput.setOnClickListener { dialog.show() }
         viewModel.init()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("collapsed", sheet.state == BottomSheetBehavior.STATE_COLLAPSED)
     }
 
     private fun setupDeckList() {
@@ -89,10 +121,10 @@ class DeckListFragment : Fragment() {
         viewModel.decks.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
 
-    private fun buildLanguageDialog(currentLanguage: Locale) {
+    private fun buildLanguageDialog() {
 
         dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Choose the Language of your new Deck")
+                .setTitle("Choose your Language")
                 .setItems(langChoices.map { it.displayLanguage }.toTypedArray()) { _, i -> viewModel.switchLanguage(langChoices[i]) }
                 .create()
     }

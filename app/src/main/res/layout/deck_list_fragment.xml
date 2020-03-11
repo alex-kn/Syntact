@@ -23,16 +23,16 @@
             android:id="@+id/settingsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
-            android:paddingStart="32dp"
             android:alpha="0"
+            android:paddingStart="32dp"
+            android:text="Settings"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
 
             android:textColor="@color/color_on_primary"
 
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/newLabel"
@@ -129,32 +129,34 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/newCardsSettingsLabel"
-                    android:layout_width="0dp"
+                    android:id="@+id/deckListNightModeLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="start"
                     android:padding="8dp"
-                    android:text="Max New Cards Per Day"
+                    android:text="Night mode"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_primary"
                     android:textSize="12sp"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/newCardsSettingsOutput"
-                    app:layout_constraintEnd_toStartOf="@+id/newCardsSettingsOutput"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/deckListNightModeOutput"
                     app:layout_constraintStart_toStartOf="parent" />
 
 
                 <TextView
-                    android:id="@+id/newCardsSettingsOutput"
-                    android:layout_width="0dp"
+                    android:id="@+id/deckListNightModeOutput"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="end"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
                     android:textColor="@color/color_on_primary"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="20" />
+                    tools:text="Yes" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -182,6 +184,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:gravity="end"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
@@ -217,12 +221,22 @@
 
                 <TextView
                     android:id="@+id/deckListContentHeaderOutput"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                    android:textColor="@color/color_primary"
+                    tools:text="1" />
+
+                <TextView
+                    android:id="@+id/deckListContentHeaderLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:paddingHorizontal="8dp"
-                    android:text="21 Cards are due today" />
+                    android:text=" Cards are due today"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
 
             </LinearLayout>
@@ -245,8 +259,8 @@
                     android:id="@+id/createBucketFab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="16dp"
                     android:layout_gravity="bottom|right"
+                    android:layout_margin="16dp"
                     android:src="@drawable/ic_add_black_24dp"
                     app:layout_anchor="@id/languagesList"
                     app:layout_anchorGravity="bottom|right|end" />

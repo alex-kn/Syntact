@@ -39,4 +39,8 @@ class PreferencesRepository @Inject constructor(
         preferencesDao.update(preferences)
     }
 
+    suspend fun save(preferences: Preferences) {
+        preferencesDao.update(preferences)
+    }
+
 }

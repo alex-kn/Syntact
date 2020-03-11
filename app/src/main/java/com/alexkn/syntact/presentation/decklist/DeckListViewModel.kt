@@ -1,5 +1,6 @@
 package com.alexkn.syntact.presentation.decklist
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,6 +24,7 @@ constructor(
 ) : ViewModel() {
 
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
+
 
     private val maxNew = 20
     private val maxReviews = 500
@@ -63,6 +65,13 @@ constructor(
             _reviews.postValue(totalReviews)
             _total.postValue(totalNewCards + totalReviews)
         }
+    }
+
+    fun switchNightMode() {
+        val nightModeChoices = arrayOf(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM, AppCompatDelegate.MODE_NIGHT_YES, AppCompatDelegate.MODE_NIGHT_NO)
+        val prefs = preferences.value!!
+        prefs.nightMode = nightModeChoices[(nightModeChoices.indexOf(prefs.nightMode) + 1) % nightModeChoices.size]
+        viewModelScope.launch(Dispatchers.IO) { preferencesRepository.save(prefs) }
     }
 
     fun switchLanguage(language: Locale) = viewModelScope.launch {
