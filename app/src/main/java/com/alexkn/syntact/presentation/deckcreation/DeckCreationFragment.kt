@@ -231,11 +231,6 @@ class DeckCreationFragment : Fragment() {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         deckCreationBackdropButton.rotation = 180f
 
-//        header.animate().alpha(0.5f).setDuration(100).withEndAction {
-//            header.text = "Type anything that comes to mind"
-//            header.animate().alpha(1f).setDuration(100).start()
-//        }.start()
-
         deckCreationBackdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
             deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_build_24)
             deckCreationBackdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
@@ -249,11 +244,6 @@ class DeckCreationFragment : Fragment() {
         Handler().postDelayed({ sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED }, 100)
         deckCreationBackdropButton.rotation = 0f
         imm.hideSoftInputFromWindow(requireView().windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
-
-//        header.animate().alpha(0.5f).setDuration(100).withEndAction {
-//            header.text = "Tap here to view your Deck's cards"
-//            header.animate().alpha(1f).setDuration(100).start()
-//        }.start()
 
         deckCreationBackdropButton.animate().rotation(90f).alpha(0.5f).setDuration(100).withEndAction {
             deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_list_24)

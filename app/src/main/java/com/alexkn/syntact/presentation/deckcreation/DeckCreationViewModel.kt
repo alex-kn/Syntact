@@ -77,10 +77,6 @@ class DeckCreationViewModel @Inject constructor(
         _suggestions.postValue(newSuggestions)
     }
 
-    fun clearKeywords() {
-        _suggestions.value = emptyMap()
-    }
-
     fun createDeck(maxCardsPerDay: String) {
         val maxItemsPerDayInput = maxCardsPerDay.toIntOrNull() ?: 0
         val maxItemsPerDay = when {
@@ -88,19 +84,21 @@ class DeckCreationViewModel @Inject constructor(
             maxItemsPerDayInput > 1000 -> 1000
             else -> maxItemsPerDayInput
         }
+        val phrases = _suggestions.value!!.toSortedMap().values.flatten()
+        val distinctPhrases = phrases.distinctBy { item -> item.copy(keywordId = null, id = null) }
         GlobalScope.launch {
             deckRepository.createNewDeck(
                     _deckName.value!!,
                     deckLang.value!!,
                     prefs.language,
-                    _suggestions.value!!.toSortedMap().values.flatten(),
+                    distinctPhrases,
                     maxItemsPerDay
             )
         }
     }
 
     fun switchDeckLang(locale: Locale) {
-        clearKeywords()
+        _suggestions.value = emptyMap()
         _deckLang.value = locale
     }
 
@@ -115,10 +113,5 @@ class DeckCreationViewModel @Inject constructor(
     fun switchSuggestionLangToUserLang() {
         _suggestionLang.value = userLang.value
     }
-
-    fun switchSuggestionLang() {
-        _suggestionLang.value = if (suggestionLang.value == deckLang.value!!) prefs.language else deckLang.value!!
-    }
-
 }
 

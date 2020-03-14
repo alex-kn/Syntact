@@ -34,8 +34,7 @@ class DeckListFragment : Fragment() {
     private lateinit var viewModel: DeckListViewModel
     private lateinit var dialog: AlertDialog
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         return inflater.inflate(R.layout.deck_list_fragment, container, false)
     }
