@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import kotlinx.android.synthetic.main.deck_details_fragment.*
 import java.util.function.Consumer
@@ -38,7 +39,6 @@ class DeckDetailsFragment : Fragment() {
 
         setupItemList()
 
-
         val sheet = BottomSheetBehavior.from(contentLayout)
         with(sheet) {
             isFitToContents = false
@@ -57,8 +57,17 @@ class DeckDetailsFragment : Fragment() {
         deckDetailsContentHeader.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
 
         viewModel.deck.observe(viewLifecycleOwner, Observer {
-            it?.let { headerExpanded.text = it.name }
+            it?.let {
+                headerExpanded.text = it.name
+                deckDetailsLeftLangOutput.text = it.language.displayLanguage
+                deckDetailsRightLangOutput.text = it.userLanguage.displayLanguage
+                deckDetailsLeftLangFlag.setImageDrawable(flagDrawableOf(it.language))
+                deckDetailsRightLangFlag.setImageDrawable(flagDrawableOf(it.userLanguage))
+            }
         })
+
+        deckDetailsLeftLangFlag.clipToOutline = true
+        deckDetailsRightLangFlag.clipToOutline = true
 
     }
 

@@ -8,7 +8,6 @@ import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.data.model.Preferences
-import com.alexkn.syntact.presentation.common.FlagDrawable
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -18,7 +17,6 @@ import javax.inject.Inject
 class DeckCreationViewModel @Inject constructor(
         private val deckRepository: DeckRepository,
         private val phraseSuggestionRepository: PhraseSuggestionRepository,
-        private val flagDrawable: FlagDrawable,
         private val preferencesRepository: PreferencesRepository
 ) : ViewModel() {
 
@@ -40,9 +38,6 @@ class DeckCreationViewModel @Inject constructor(
     private val _deckName = MutableLiveData<String?>()
     val deckName: LiveData<String?>
         get() = _deckName
-
-    val suggestionFlag: Int
-        get() = flagDrawable[suggestionLang.value!!]
 
     val suggestionLang: LiveData<Locale?>
         get() = _suggestionLang

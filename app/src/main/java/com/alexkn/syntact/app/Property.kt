@@ -1,21 +1,15 @@
 package com.alexkn.syntact.app
 
 import android.content.Context
-import android.content.res.Resources
 import android.util.Log
-
 import com.alexkn.syntact.R
-
 import java.io.IOException
-import java.io.InputStream
-import java.util.Properties
-
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Property @Inject
-constructor(context: Context) {
+class Property @Inject constructor(context: Context) {
 
     private lateinit var properties: Properties
 

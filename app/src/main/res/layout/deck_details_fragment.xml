@@ -141,16 +141,16 @@
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/color_primary"
             android:elevation="4dp"
             android:orientation="vertical"
-            android:background="@color/color_primary"
             app:behavior_peekHeight="50dp"
             app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
 
 
             <com.google.android.material.appbar.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/ic_list_header_background"
                 android:clickable="true"
                 app:liftOnScroll="true">
@@ -158,7 +158,7 @@
                 <LinearLayout
                     android:id="@+id/deckDetailsContentHeader"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:clickable="true"
                     android:orientation="horizontal"
                     android:padding="16dp"
@@ -166,20 +166,54 @@
                     app:layout_anchorGravity="center"
                     app:liftOnScroll="true">
 
+                    <ImageView
+                        android:id="@+id/deckDetailsLeftLangFlag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/frame"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/de" />
+
                     <TextView
+                        android:id="@+id/deckDetailsLeftLangOutput"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:paddingHorizontal="8dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:text="German" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:gravity="center"
+                        android:paddingHorizontal="8dp"
+                        android:text="-"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+
+                    <TextView
+                        android:id="@+id/deckDetailsRightLangOutput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
+                        android:paddingHorizontal="8dp"
                         android:gravity="end"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:text="English" />
+
+                    <ImageView
+                        android:id="@+id/deckDetailsRightLangFlag"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:background="@drawable/frame"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/en" />
+
                 </LinearLayout>
 
             </com.google.android.material.appbar.AppBarLayout>

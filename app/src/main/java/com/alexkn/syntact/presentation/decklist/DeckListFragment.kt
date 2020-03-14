@@ -147,6 +147,7 @@ class DeckListFragment : Fragment() {
             backdropButton.setImageResource(R.drawable.ic_baseline_account_circle_24)
             backdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
         }.start()
+        createBucketFab.show()
         animateOut(settingsLabel)
         animateIn(newLabel, newOutput, reviewsLabel, reviewsOutput)
     }
@@ -158,6 +159,7 @@ class DeckListFragment : Fragment() {
             backdropButton.setImageResource(R.drawable.ic_baseline_clear_24)
             backdropButton.animate().rotation(180f).alpha(1f).setDuration(100).start()
         }.start()
+        createBucketFab.hide()
         animateOut(newLabel, newOutput, reviewsLabel, reviewsOutput)
         animateIn(settingsLabel)
     }

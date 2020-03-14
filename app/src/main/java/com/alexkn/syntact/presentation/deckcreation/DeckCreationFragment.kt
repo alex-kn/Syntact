@@ -14,7 +14,6 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.widget.addTextChangedListener
@@ -27,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -67,6 +67,9 @@ class DeckCreationFragment : Fragment() {
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createTemplateViewModelFactory())
                 .get(DeckCreationViewModel::class.java)
 
+        deckCreationRightLangFlag.clipToOutline = true
+        deckCreationLeftLangFlag.clipToOutline = true
+
 
         keywordsInputLeft.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) onAddText(v as EditText)
@@ -79,6 +82,8 @@ class DeckCreationFragment : Fragment() {
 
         viewModel.userLang.observe(viewLifecycleOwner, Observer {
             keywordsInputRight.hint = it?.displayLanguage
+            deckCreationRightLangOutput.text = it?.displayLanguage
+            it?.let { deckCreationRightLangFlag.setImageDrawable(flagDrawableOf(it)) }
         })
 
         keywordsInputLeft.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
@@ -103,6 +108,8 @@ class DeckCreationFragment : Fragment() {
             it?.let {
                 deckCreationLanguageOutput.text = it.displayLanguage
                 keywordsInputLeft.hint = it.displayLanguage
+                deckCreationLeftLangOutput.text = it.displayLanguage
+                deckCreationLeftLangFlag.setImageDrawable(flagDrawableOf(it))
             }
         })
         viewModel.deckName.observe(viewLifecycleOwner, Observer {
@@ -200,13 +207,14 @@ class DeckCreationFragment : Fragment() {
     }
 
     private fun onAddText(v: EditText) {
+
         val text = v.text.toString().trim()
 
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
         chip.isCheckable = false
 
-        val src = ResourcesCompat.getDrawable(resources, viewModel.suggestionFlag, null)!!.toBitmap()
+        val src = flagDrawableOf(viewModel.suggestionLang.value!!).toBitmap()
         val roundedSrc = RoundedBitmapDrawableFactory.create(resources, src)
         roundedSrc.cornerRadius = max(src.width, src.height) / 2f
         roundedSrc.isCircular = true

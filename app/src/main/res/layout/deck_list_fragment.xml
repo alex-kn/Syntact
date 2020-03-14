@@ -213,7 +213,7 @@
             <LinearLayout
                 android:id="@+id/contentHeader"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/ic_list_header_background"
                 android:clickable="true"
                 android:orientation="horizontal"
@@ -255,18 +255,20 @@
 
                     />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/createBucketFab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|right"
-                    android:layout_margin="16dp"
-                    android:src="@drawable/ic_add_black_24dp"
-                    app:layout_anchor="@id/languagesList"
-                    app:layout_anchorGravity="bottom|right|end" />
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/createBucketFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="16dp"
+            android:clickable="true"
+            android:visibility="invisible"
+            android:src="@drawable/ic_add_black_24dp"
+            app:layout_anchor="@id/languagesList"
+            app:layout_anchorGravity="bottom|right|end" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

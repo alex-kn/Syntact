@@ -10,29 +10,63 @@
     app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/deckCreationHeaderLayout"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:orientation="horizontal">
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/deckCreationLeftLangFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/frame"
+            android:scaleType="centerCrop"
+            android:src="@drawable/de" />
 
         <TextView
-            android:id="@+id/deckCreationHeaderLeft"
-            android:layout_width="0dp"
+            android:id="@+id/deckCreationLeftLangOutput"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
+            android:layout_gravity="center"
             android:layout_weight="1"
+            android:paddingHorizontal="8dp"
+            android:text="German"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:gravity="center"
-            android:text="Type words to fill your deck with cards"
-            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:paddingHorizontal="8dp"
+            android:text="-"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
+        <TextView
+            android:id="@+id/deckCreationRightLangOutput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:paddingHorizontal="8dp"
+            android:text="English"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/deckCreationRightLangFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/frame"
+            android:scaleType="centerCrop"
+            android:src="@drawable/en" />
+
+    </LinearLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"

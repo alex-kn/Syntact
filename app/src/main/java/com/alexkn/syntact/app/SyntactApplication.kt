@@ -9,7 +9,6 @@ open class SyntactApplication : Application(), ApplicationComponentProvider {
     override fun onCreate() {
 
         super.onCreate()
-
         applicationComponent = DaggerApplicationComponent.builder().applicationContext(this).build()
     }
 }
