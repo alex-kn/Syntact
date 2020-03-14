@@ -48,23 +48,15 @@ class DeckRepository @Inject constructor(
         deckDao.insert(deck, solvableTranslations)
     }
 
-    suspend fun deleteBucket(id: Long) {
-        deckDao.delete(id)
-    }
+    suspend fun updateDeck(deck: Deck) = deckDao.update(deck)
 
-    suspend fun findAll(): List<Deck> {
-        return deckDao.findAll()
-    }
+    suspend fun deleteDeck(id: Long) = deckDao.delete(id)
 
-    fun findAllLive(): LiveData<List<Deck>> {
-        return deckDao.findAllLiveData()
-    }
+    suspend fun findAll(): List<Deck> = deckDao.findAll()
 
-    fun findDeck(id: Long): LiveData<Deck?> {
-        return deckDao.findLive(id)
-    }
+    fun findAllLive(): LiveData<List<Deck>> = deckDao.findAllLiveData()
 
-    suspend fun find(id: Long): Deck {
-        return deckDao.find(id)
-    }
+    fun findDeck(id: Long): LiveData<Deck?> = deckDao.findLive(id)
+
+    suspend fun find(id: Long): Deck = deckDao.find(id)
 }

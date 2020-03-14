@@ -134,8 +134,112 @@
                         tools:text="20" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/deckDetailsNameLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:paddingEnd="24dp"
+                        android:text="Name"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/deckDetailsNameInput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <EditText
+                        android:id="@+id/deckDetailsNameInput"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:padding="16dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/deckDetailsNameLabel"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/deckDetailsCardsPerDayLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:paddingEnd="24dp"
+                        android:text="New Cards Per Day"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/deckDetailsCardsPerDayInput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <EditText
+                        android:id="@+id/deckDetailsCardsPerDayInput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:padding="16dp"
+                        android:selectAllOnFocus="true"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline3"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="20" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/deckDetailsDeleteDeckButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="16dp"
+                    android:text="Delete Deck"
+                    android:textColor="@color/color_error"
+                    app:icon="@drawable/ic_delete_black_24dp"
+                    app:iconTint="@color/color_error" />
+
             </LinearLayout>
+
+
         </androidx.core.widget.NestedScrollView>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/deckDetailsSaveFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_baseline_save_24"
+            android:visibility="invisible"
+            app:layout_anchor="@id/contentLayout"
+            app:layout_anchorGravity="center|top" />
+
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/contentLayout"
@@ -182,17 +286,9 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:paddingHorizontal="8dp"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                        android:text="German" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:paddingHorizontal="8dp"
-                        android:text="-"
+                        android:text="German"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+
 
                     <TextView
                         android:id="@+id/deckDetailsRightLangOutput"
@@ -200,10 +296,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:paddingHorizontal="8dp"
                         android:gravity="end"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                        android:text="English" />
+                        android:paddingHorizontal="8dp"
+                        android:text="English"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
                     <ImageView
                         android:id="@+id/deckDetailsRightLangFlag"

@@ -21,7 +21,7 @@ class PreferencesRepository @Inject constructor(
             if (preferences == null) {
                 preferences = Preferences(
                         language = Locale.getDefault(),
-                        nightMode = AppCompatDelegate.MODE_NIGHT_YES
+                        nightMode = AppCompatDelegate.MODE_NIGHT_NO
                 )
                 preferencesDao.insert(preferences)
             }

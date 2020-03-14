@@ -27,9 +27,6 @@ class DeckListFragment : Fragment() {
 
     private val langChoices = listOf<Locale>(Locale.GERMAN, Locale.ENGLISH, Locale.ITALIAN)
 
-    private var selectedLanguageIndex = -1
-
-    private var goal: Int = 20
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
     private lateinit var viewModel: DeckListViewModel
     private lateinit var dialog: AlertDialog

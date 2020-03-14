@@ -137,7 +137,7 @@ class DeckCreationFragment : Fragment() {
                 }
                 else -> {
                     viewModel.createDeck(deckCreationCardsPerDayInput.text.toString())
-                    Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "New Deck created.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.finishDeckFab).show()
+                    Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "New Deck created.", Snackbar.LENGTH_SHORT).show()
                     Navigation.findNavController(it).popBackStack()
                 }
             }
@@ -164,7 +164,7 @@ class DeckCreationFragment : Fragment() {
             else expand(sheet)
         }
         topLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
-        deckCreationContentLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
+        deckCreationHeaderLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
     }
 
     private fun setupSuggestionList() {
@@ -202,7 +202,10 @@ class DeckCreationFragment : Fragment() {
 
         dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Choose the Language of your new Deck")
-                .setItems(langChoices.map { it.displayLanguage }.toTypedArray()) { _, i -> viewModel.switchDeckLang(langChoices[i]) }
+                .setItems(langChoices.map { it.displayLanguage }.toTypedArray()) { _, i ->
+                    viewModel.switchDeckLang(langChoices[i])
+                    keywords.clear()
+                }
                 .create()
     }
 

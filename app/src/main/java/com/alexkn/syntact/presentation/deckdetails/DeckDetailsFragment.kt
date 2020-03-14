@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.deck_details_fragment.*
 import java.util.function.Consumer
 
@@ -63,11 +65,28 @@ class DeckDetailsFragment : Fragment() {
                 deckDetailsRightLangOutput.text = it.userLanguage.displayLanguage
                 deckDetailsLeftLangFlag.setImageDrawable(flagDrawableOf(it.language))
                 deckDetailsRightLangFlag.setImageDrawable(flagDrawableOf(it.userLanguage))
+                deckDetailsNameInput.setText(it.name)
+                deckDetailsCardsPerDayInput.setText("${it.newItemsPerDay}")
             }
         })
 
         deckDetailsLeftLangFlag.clipToOutline = true
         deckDetailsRightLangFlag.clipToOutline = true
+
+        deckDetailsNameInput.addTextChangedListener { if (!it.isNullOrBlank() && sheet.state == BottomSheetBehavior.STATE_COLLAPSED) deckDetailsSaveFab.show() else deckDetailsSaveFab.hide() }
+        deckDetailsCardsPerDayInput.addTextChangedListener { if (!it.isNullOrBlank() && sheet.state == BottomSheetBehavior.STATE_COLLAPSED) deckDetailsSaveFab.show() else deckDetailsSaveFab.hide() }
+
+        deckDetailsSaveFab.setOnClickListener {
+            viewModel.save(deckDetailsNameInput.text.toString().trim(), deckDetailsCardsPerDayInput.text.toString().trim())
+            expand(sheet)
+            deckDetailsSaveFab.hide()
+            Snackbar.make(requireView(), "Deck saved.", Snackbar.LENGTH_SHORT).show()
+        }
+        deckDetailsDeleteDeckButton.setOnClickListener {
+            viewModel.deleteDeck()
+            Navigation.findNavController(it).popBackStack()
+            Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "Deck deleted.", Snackbar.LENGTH_SHORT).show()
+        }
 
     }
 
@@ -87,6 +106,7 @@ class DeckDetailsFragment : Fragment() {
     }
 
     private fun expand(sheetBehavior: BottomSheetBehavior<CoordinatorLayout>) {
+        deckDetailsSaveFab.visibility = View.INVISIBLE
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         deckDetailsBackdropButton.rotation = 180f
         deckDetailsBackdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
@@ -95,6 +115,12 @@ class DeckDetailsFragment : Fragment() {
         }.start()
         animateIn(headerExpanded)
         animateOut(headerCollapsed)
+        resetInputs()
+    }
+
+    private fun resetInputs() {
+        deckDetailsNameInput.setText(viewModel.deck.value?.name)
+        deckDetailsCardsPerDayInput.setText("${viewModel.deck.value?.newItemsPerDay}")
     }
 
     private fun collapse(sheetBehavior: BottomSheetBehavior<CoordinatorLayout>) {
