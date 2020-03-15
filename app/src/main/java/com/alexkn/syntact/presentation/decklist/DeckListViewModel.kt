@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
@@ -20,14 +21,16 @@ class DeckListViewModel @Inject
 constructor(
         private val deckRepository: DeckRepository,
         private val solvableItemRepository: SolvableItemRepository,
-        private val preferencesRepository: PreferencesRepository
+        private val preferencesRepository: PreferencesRepository,
+        private val property: Property
 ) : ViewModel() {
 
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
-
     private val maxNew = 20
     private val maxReviews = 500
+
+    val languageChoices = property["available-languages"].split(',').map { Locale(it) }
 
     private val _decks = MutableLiveData<List<DeckListItem>>()
     val decks: LiveData<List<DeckListItem>>
@@ -74,8 +77,8 @@ constructor(
         viewModelScope.launch(Dispatchers.IO) { preferencesRepository.save(prefs) }
     }
 
-    fun switchLanguage(language: Locale) = viewModelScope.launch {
-        preferencesRepository.switchLanguage(language)
+    fun switchLanguage(index: Int) = viewModelScope.launch {
+        preferencesRepository.switchLanguage(languageChoices[index])
     }
 }
 

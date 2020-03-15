@@ -20,12 +20,9 @@ import com.alexkn.syntact.app.MainActivity
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.deck_list_fragment.*
-import java.util.*
 
 
 class DeckListFragment : Fragment() {
-
-    private val langChoices = listOf<Locale>(Locale.GERMAN, Locale.ENGLISH, Locale.ITALIAN)
 
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
     private lateinit var viewModel: DeckListViewModel
@@ -114,6 +111,7 @@ class DeckListFragment : Fragment() {
                 }
             }
         })
+
         viewModel.decks.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
     }
 
@@ -121,7 +119,7 @@ class DeckListFragment : Fragment() {
 
         dialog = MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Choose your Language")
-                .setItems(langChoices.map { it.displayLanguage }.toTypedArray()) { _, i -> viewModel.switchLanguage(langChoices[i]) }
+                .setItems(viewModel.languageChoices.map { it.displayLanguage }.toTypedArray()) { _, i -> viewModel.switchLanguage(i) }
                 .create()
     }
 

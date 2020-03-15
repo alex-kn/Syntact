@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
@@ -17,7 +18,8 @@ import javax.inject.Inject
 class DeckCreationViewModel @Inject constructor(
         private val deckRepository: DeckRepository,
         private val phraseSuggestionRepository: PhraseSuggestionRepository,
-        private val preferencesRepository: PreferencesRepository
+        private val preferencesRepository: PreferencesRepository,
+        private val property: Property
 ) : ViewModel() {
 
     private var _suggestionLang: MutableLiveData<Locale?> = MutableLiveData()
@@ -28,6 +30,8 @@ class DeckCreationViewModel @Inject constructor(
     private lateinit var prefs: Preferences
 
     val defaultNewCardsPerDay = 20
+
+    var languageChoices: MutableLiveData<List<Locale>> = MutableLiveData(emptyList())
 
     private val _deckLang = MutableLiveData<Locale?>()
     val deckLang: LiveData<Locale?>
@@ -49,10 +53,11 @@ class DeckCreationViewModel @Inject constructor(
         viewModelScope.launch {
             prefs = preferencesRepository.find()
             userLang.postValue(prefs.language)
+            val choices = property["available-languages"].split(',').map { Locale(it) }.filterNot { it == prefs.language }
+            languageChoices.postValue(choices)
+            _suggestionLang.postValue(choices.first())
+            _deckLang.postValue(choices.first())
         }
-
-        _deckLang.value = Locale.GERMAN
-        _suggestionLang.value = Locale.GERMAN
     }
 
     fun fetchSuggestions(keywordId: Int, text: String) = viewModelScope.launch {
@@ -92,9 +97,9 @@ class DeckCreationViewModel @Inject constructor(
         }
     }
 
-    fun switchDeckLang(locale: Locale) {
+    fun switchDeckLang(index: Int) {
         _suggestions.value = emptyMap()
-        _deckLang.value = locale
+        _deckLang.value = languageChoices.value!![index]
     }
 
     fun setDeckName(name: String) {

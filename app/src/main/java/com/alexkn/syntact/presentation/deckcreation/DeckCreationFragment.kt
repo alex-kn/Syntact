@@ -36,13 +36,11 @@ import kotlinx.android.synthetic.main.deck_creation_bottom_sheet.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.topLayout
 import kotlinx.android.synthetic.main.deck_list_fragment.*
-import java.util.*
 import kotlin.math.max
 
 
 class DeckCreationFragment : Fragment() {
 
-    private val langChoices = listOf<Locale>(Locale.GERMAN, Locale.ENGLISH, Locale.ITALIAN)
     private lateinit var dialog: AlertDialog
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
 
@@ -200,13 +198,16 @@ class DeckCreationFragment : Fragment() {
 
     private fun buildLanguageDialog() {
 
-        dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Choose the Language of your new Deck")
-                .setItems(langChoices.map { it.displayLanguage }.toTypedArray()) { _, i ->
-                    viewModel.switchDeckLang(langChoices[i])
-                    keywords.clear()
-                }
-                .create()
+        viewModel.languageChoices.observe(viewLifecycleOwner, Observer { choices ->
+
+            dialog = MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Choose the Language of your new Deck")
+                    .setItems(choices.map { it.displayLanguage }.toTypedArray()) { _, i ->
+                        viewModel.switchDeckLang(i)
+                        keywords.clear()
+                    }
+                    .create()
+        })
     }
 
     private fun onAddText(v: EditText) {
