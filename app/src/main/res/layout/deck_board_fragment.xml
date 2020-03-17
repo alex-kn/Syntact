@@ -43,10 +43,10 @@
                 android:layout_height="56dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:contentDescription="back"
-                android:tint="@color/color_on_background"
+                android:contentDescription="@string/back_content_desc"
                 android:padding="12dp"
-            android:scaleType="centerCrop"
+                android:scaleType="centerCrop"
+                android:tint="@color/color_on_background"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
@@ -58,11 +58,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="8dp"
                 android:paddingHorizontal="16dp"
-                android:text="523"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="523" />
 
             <TextView
                 android:id="@+id/textView"
@@ -70,7 +70,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:paddingHorizontal="8dp"
-                android:text="solved today"
+                android:text="@string/solved_today_label"
                 android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                 app:layout_constraintBaseline_toBaselineOf="@+id/headerSolved"
                 app:layout_constraintStart_toEndOf="@+id/backButton" />
@@ -81,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/solvedindicator_content_desc"
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="center"
@@ -97,6 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:adjustViewBounds="true"
+                android:contentDescription="@string/failedindicator_content_desc"
                 android:cropToPadding="false"
                 android:padding="8dp"
                 android:scaleType="center"
@@ -135,7 +137,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:lineSpacingExtra="8dp"
-                    android:text="You're done for now\n Check back later"
+                    android:text="@string/done_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -215,7 +217,6 @@
                     android:id="@+id/scoreOutput"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0%"
                     app:layout_constraintBottom_toTopOf="@+id/similarityBar"
                     app:layout_constraintStart_toStartOf="@+id/similarityBar"
                     tools:text="28%" />
@@ -225,7 +226,7 @@
                     android:id="@+id/nextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="next"
+                    android:text="@string/next_button"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -233,9 +234,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
-
-
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

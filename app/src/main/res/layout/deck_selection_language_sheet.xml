@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/languageSheet"
+    style="@style/AppStandardBottomSheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    style="@style/AppStandardBottomSheet"
     android:clipChildren="true"
+    android:orientation="vertical"
     app:behavior_peekHeight="?attr/actionBarSize"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
@@ -23,8 +23,8 @@
             android:id="@+id/flagImage"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
-            android:layout_marginVertical="12dp"
             android:layout_marginHorizontal="24dp"
+            android:layout_marginVertical="12dp"
             android:adjustViewBounds="true"
             android:background="@drawable/frame"
             android:scaleType="fitEnd"
@@ -44,8 +44,7 @@
             app:layout_constraintEnd_toStartOf="@+id/flagImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="5 Templates"
-            android:text="0 Templates">
+            tools:text="5 Templates">
 
         </TextView>
 
@@ -53,8 +52,8 @@
             android:id="@+id/arrowUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:tint="@color/color_on_surface"
             android:layout_marginEnd="16dp"
+            android:tint="@color/color_on_surface"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"

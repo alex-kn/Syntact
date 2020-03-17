@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="back"
+                android:contentDescription="@string/back_content_desc"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
                 android:scaleType="centerCrop"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Choose"
+                android:text="@string/choose_label"
                 android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                 app:layout_constraintStart_toEndOf="@+id/backButton"
                 app:layout_constraintTop_toTopOf="parent" />

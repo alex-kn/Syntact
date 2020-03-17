@@ -22,13 +22,10 @@ constructor(
         private val deckRepository: DeckRepository,
         private val solvableItemRepository: SolvableItemRepository,
         private val preferencesRepository: PreferencesRepository,
-        private val property: Property
+        property: Property
 ) : ViewModel() {
 
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
-
-    private val maxNew = 20
-    private val maxReviews = 500
 
     val languageChoices = property["available-languages"].split(',').map { Locale(it) }
 

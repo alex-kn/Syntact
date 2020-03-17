@@ -3,6 +3,51 @@
     <string name="empty">_</string>
 
     <string name="active_languages_file_key">com.alexkn.syntact.activelanguages</string>
-    <string name="level_label">LEVEL</string>
-    <string name="streak_label">STREAK</string>
+
+    <string name="back_content_desc">back</string>
+
+    <!-- List -->
+    <string name="settings_label">Settings</string>
+    <string name="new_label">New</string>
+    <string name="reviews_label">Reviews</string>
+    <string name="night_mode_label">Night mode</string>
+    <string name="my_language_label">My Language</string>
+    <string name="due_cards_label">Cards are due today</string>
+    <string name="flag_content_desc">Flag</string>
+    <string name="new_today_label">new Today</string>
+    <string name="reviews_today_label">Reviews Today</string>
+    <string name="options_button">Options</string>
+    <string name="start_button">Start</string>
+
+    <!-- Board -->
+    <string name="solved_today_label">solved today</string>
+    <string name="solvedindicator_content_desc">solvedIndicator</string>
+    <string name="failedindicator_content_desc">failedIndicator</string>
+    <string name="done_label">You\'re done for now\n Check back later</string>
+    <string name="next_button">next</string>
+
+    <!-- Creation and Details -->
+    <string name="left_flag_label">left_flag</string>
+    <string name="right_flag_label">right_flag</string>
+    <string name="type_here_hint">Type here</string>
+    <string name="add_button">ADD</string>
+    <string name="no_cards_label">Your Deck has no cards yet.\nAdd words in either language to fill it with cards.</string>
+    <string name="new_deck_label">New Deck</string>
+    <string name="settings_content_desc">settings</string>
+    <string name="number_of_cards_label">Number of cards</string>
+    <string name="language_label">Language</string>
+    <string name="name_label">Name</string>
+    <string name="new_cards_per_day_label">New Cards Per Day</string>
+    <string name="deck_name_label">Deck name</string>
+    <string name="deck_settings_label">Deck Settings</string>
+    <string name="total_number_of_cards_label">Total number of cards</string>
+    <string name="delete_deck_button">Delete Deck</string>
+    <string name="due_in_label">Due in</string>
+    <string name="streak_label">Streak</string>
+    <string name="ease_label">Ease</string>
+
+    <!-- Selection -->
+    <string name="choose_label">Choose</string>
+    <string name="choose_button">Choose</string>
+
 </resources>

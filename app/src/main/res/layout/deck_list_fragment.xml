@@ -24,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:alpha="0"
-            android:paddingStart="32dp"
-            android:text="Settings"
+            android:paddingHorizontal="32dp"
+            android:text="@string/settings_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
 
             android:textColor="@color/color_on_primary"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="New"
+            android:text="@string/new_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBaseline_toBaselineOf="@+id/newOutput"
@@ -49,8 +49,6 @@
             android:id="@+id/newOutput"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:paddingEnd="32dp"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -62,7 +60,7 @@
             android:id="@+id/reviewsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reviews"
+            android:text="@string/reviews_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBaseline_toBaselineOf="@+id/reviewsOutput"
@@ -96,6 +94,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/settings_label"
             app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -135,7 +134,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:padding="8dp"
-                    android:text="Night mode"
+                    android:text="@string/night_mode_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_primary"
                     android:textSize="12sp"
@@ -170,7 +169,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:padding="8dp"
-                    android:text="My Language"
+                    android:text="@string/my_language_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_primary"
                     android:textSize="12sp"
@@ -222,7 +221,7 @@
                 <TextView
                     android:id="@+id/deckListContentHeaderOutput"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="end"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
@@ -232,10 +231,11 @@
                 <TextView
                     android:id="@+id/deckListContentHeaderLabel"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text=" Cards are due today"
+                    android:paddingHorizontal="4dp"
+                    android:text="@string/due_cards_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
 

@@ -25,7 +25,7 @@
             android:layout_height="56dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:contentDescription="back"
+            android:contentDescription="@string/back_content_desc"
             android:padding="12dp"
             android:scaleType="centerCrop"
             android:tint="@color/color_on_primary"
@@ -40,7 +40,6 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:paddingHorizontal="16dp"
-            android:text="Deck name"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,8 +56,8 @@
             android:layout_height="0dp"
             android:layout_marginVertical="8dp"
             android:alpha="0"
-            android:paddingStart="16dp"
-            android:text="New Deck"
+            android:paddingHorizontal="16dp"
+            android:text="@string/new_deck_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -82,6 +81,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/backButton"
+            android:contentDescription="@string/settings_content_desc"
             app:srcCompat="@drawable/ic_baseline_build_24" />
 
 
@@ -122,7 +122,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:text="Number of cards"
+                        android:text="@string/number_of_cards_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -157,7 +157,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:text="Language"
+                        android:text="@string/language_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -195,7 +195,7 @@
                         android:gravity="start"
                         android:padding="8dp"
                         android:paddingEnd="24dp"
-                        android:text="Name"
+                        android:text="@string/name_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -211,12 +211,14 @@
                         android:imeOptions="actionDone"
                         android:inputType="textMultiLine"
                         android:padding="16dp"
+                        android:hint="@string/deck_name_label"
                         android:selectAllOnFocus="true"
                         android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/deckCreationNameLabel"
+                        android:importantForAutofill="no"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -234,7 +236,7 @@
                         android:gravity="start"
                         android:padding="8dp"
                         android:paddingEnd="24dp"
-                        android:text="New Cards Per Day"
+                        android:text="@string/new_cards_per_day_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -256,6 +258,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:importantForAutofill="no"
                         tools:text="20" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

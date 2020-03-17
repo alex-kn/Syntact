@@ -23,7 +23,7 @@
             android:layout_height="56dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:contentDescription="back"
+            android:contentDescription="@string/back_content_desc"
             android:padding="12dp"
             android:scaleType="centerCrop"
             android:tint="@color/color_on_primary"
@@ -38,13 +38,13 @@
             android:layout_height="wrap_content"
             android:layout_marginVertical="8dp"
             android:paddingHorizontal="16dp"
-            android:text="Deck Name"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/deckDetailsBackdropButton"
             app:layout_constraintStart_toEndOf="@id/backButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Deck Name" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/headerCollapsed"
@@ -53,7 +53,7 @@
             android:layout_marginVertical="8dp"
             android:alpha="0"
             android:paddingStart="16dp"
-            android:text="Deck Settings"
+            android:text="@string/deck_settings_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -69,6 +69,7 @@
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:contentDescription="@string/settings_content_desc"
             android:padding="8dp"
             android:scaleType="center"
             android:tint="@color/color_on_primary"
@@ -112,7 +113,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:text="Total number of cards"
+                        android:text="@string/total_number_of_cards_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -146,7 +147,7 @@
                         android:gravity="start"
                         android:padding="8dp"
                         android:paddingEnd="24dp"
-                        android:text="Name"
+                        android:text="@string/name_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -160,6 +161,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
                         android:inputType="text"
                         android:padding="16dp"
                         android:selectAllOnFocus="true"
@@ -184,8 +186,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:paddingEnd="24dp"
-                        android:text="New Cards Per Day"
+                        android:text="@string/new_cards_per_day_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_primary"
                         android:textSize="12sp"
@@ -199,6 +200,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
                         android:inputType="number"
                         android:padding="16dp"
                         android:selectAllOnFocus="true"
@@ -219,7 +221,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:text="Delete Deck"
+                    android:text="@string/delete_deck_button"
                     android:textColor="@color/color_error"
                     app:icon="@drawable/ic_delete_black_24dp"
                     app:iconTint="@color/color_error" />
@@ -276,6 +278,7 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:background="@drawable/frame"
+                        android:contentDescription="@string/left_flag_label"
                         android:scaleType="centerCrop"
                         android:src="@drawable/de" />
 
@@ -286,8 +289,8 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"
                         android:paddingHorizontal="8dp"
-                        android:text="German"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        tools:text="German" />
 
 
                     <TextView
@@ -298,8 +301,8 @@
                         android:layout_weight="1"
                         android:gravity="end"
                         android:paddingHorizontal="8dp"
-                        android:text="English"
-                        android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        tools:text="English" />
 
                     <ImageView
                         android:id="@+id/deckDetailsRightLangFlag"
@@ -307,6 +310,7 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:background="@drawable/frame"
+                        android:contentDescription="@string/right_flag_label"
                         android:scaleType="centerCrop"
                         android:src="@drawable/en" />
 

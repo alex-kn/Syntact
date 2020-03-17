@@ -94,9 +94,5 @@ class DeckBoardViewModel @Inject constructor(
         return if (value >= 0) value else 0
     }
 
-    fun isAttemptCorrect(attempt: String, scoreRatio: Double? = 1.0): Boolean {
-        return attempt.equals(translation.value?.solvableItem?.text, ignoreCase = true)
-    }
-
 
 }

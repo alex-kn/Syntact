@@ -8,7 +8,6 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.time.Duration
 import java.time.Instant
@@ -30,7 +29,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
 
         val solvableTranslationCto = list[position]
 
-        val dialogBuilder = MaterialAlertDialogBuilder(holder.itemView.context)
+//        val dialogBuilder = MaterialAlertDialogBuilder(holder.itemView.context)
 
 //        holder.deleteButton.setOnClickListener {
 //            dialogBuilder
