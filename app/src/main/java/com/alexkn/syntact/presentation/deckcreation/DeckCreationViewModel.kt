@@ -55,9 +55,12 @@ class DeckCreationViewModel @Inject constructor(
             userLang.postValue(prefs.language)
             val choices = property["available-languages"].split(',').map { Locale(it) }.filterNot { it == prefs.language }
             languageChoices.postValue(choices)
-            _suggestionLang.postValue(choices.first())
-            _deckLang.postValue(choices.first())
         }
+    }
+
+    fun setLang(lang: String) {
+        _suggestionLang.postValue(Locale(lang))
+        _deckLang.postValue(Locale(lang))
     }
 
     fun fetchSuggestions(keywordId: Int, text: String) = viewModelScope.launch {

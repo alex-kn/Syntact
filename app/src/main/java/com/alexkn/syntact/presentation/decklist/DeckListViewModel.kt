@@ -22,12 +22,13 @@ constructor(
         private val deckRepository: DeckRepository,
         private val solvableItemRepository: SolvableItemRepository,
         private val preferencesRepository: PreferencesRepository,
-        property: Property
+        private val property: Property
 ) : ViewModel() {
 
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
     val languageChoices = property["available-languages"].split(',').map { Locale(it) }
+    lateinit var deckLanguageChoices: List<Locale>
 
     private val _decks = MutableLiveData<List<DeckListItem>>()
     val decks: LiveData<List<DeckListItem>>
@@ -48,6 +49,9 @@ constructor(
     fun init() {
 
         viewModelScope.launch(Dispatchers.IO) {
+
+            val prefs = preferencesRepository.find()
+            deckLanguageChoices = languageChoices.filterNot { it == prefs.language }
 
             var totalNewCards = 0
             var totalReviews = 0

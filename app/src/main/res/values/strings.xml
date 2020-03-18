@@ -18,6 +18,7 @@
     <string name="reviews_today_label">Reviews Today</string>
     <string name="options_button">Options</string>
     <string name="start_button">Start</string>
+    <string name="no_decks_label">You currently have no decks.\nTab the + below to get started.</string>
 
     <!-- Board -->
     <string name="solved_today_label">solved today</string>

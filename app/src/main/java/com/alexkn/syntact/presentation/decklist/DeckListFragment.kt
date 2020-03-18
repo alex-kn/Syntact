@@ -8,6 +8,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -48,7 +49,7 @@ class DeckListFragment : Fragment() {
         topLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
         contentHeader.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_COLLAPSED) expand(sheet) }
 
-        createBucketFab.setOnClickListener(this::createBucket)
+        createBucketFab.setOnClickListener { createBucket(it) }
 
         deckListNightModeOutput.setOnClickListener { viewModel.switchNightMode() }
 
@@ -112,7 +113,10 @@ class DeckListFragment : Fragment() {
             }
         })
 
-        viewModel.decks.observe(viewLifecycleOwner, Observer(bucketAdapter::submitList))
+        viewModel.decks.observe(viewLifecycleOwner, Observer {
+            bucketAdapter.submitList(it)
+            deckListEmptyLabel.isVisible = it.isEmpty()
+        })
     }
 
     private fun buildLanguageDialog() {
@@ -130,9 +134,17 @@ class DeckListFragment : Fragment() {
     }
 
     private fun createBucket(view: View) {
-        createBucketFab.hide()
-        val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment()
-        Navigation.findNavController(view).navigate(action)
+
+        MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Choose the Language of your new Deck")
+                .setItems(viewModel.deckLanguageChoices.map { it.displayLanguage }.toTypedArray()) { _, i ->
+                    val locale = viewModel.deckLanguageChoices[i]
+                    createBucketFab.hide()
+                    val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment(locale.language)
+                    Navigation.findNavController(view).navigate(action)
+                }
+                .show()
+
     }
 
     private fun expand(sheetBehavior: BottomSheetBehavior<LinearLayout>) {

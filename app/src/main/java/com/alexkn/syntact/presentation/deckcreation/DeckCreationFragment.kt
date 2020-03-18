@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,8 @@ import kotlin.math.max
 
 
 class DeckCreationFragment : Fragment() {
+
+    private val args: DeckCreationFragmentArgs by navArgs()
 
     private lateinit var dialog: AlertDialog
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
@@ -64,6 +67,8 @@ class DeckCreationFragment : Fragment() {
 
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.createTemplateViewModelFactory())
                 .get(DeckCreationViewModel::class.java)
+
+        viewModel.setLang(args.lang)
 
         deckCreationRightLangFlag.clipToOutline = true
         deckCreationLeftLangFlag.clipToOutline = true

@@ -17,6 +17,7 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.deck_details_fragment.*
 import java.util.function.Consumer
@@ -82,10 +83,18 @@ class DeckDetailsFragment : Fragment() {
             deckDetailsSaveFab.hide()
             Snackbar.make(requireView(), "Deck saved.", Snackbar.LENGTH_SHORT).show()
         }
+
         deckDetailsDeleteDeckButton.setOnClickListener {
-            viewModel.deleteDeck()
-            Navigation.findNavController(it).popBackStack()
-            Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "Deck deleted.", Snackbar.LENGTH_SHORT).show()
+            MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Delete Deck?")
+                    .setMessage("Really delete the Deck with all of its cards? This can not be undone!")
+                    .setPositiveButton("Delete") { _, _ ->
+                        viewModel.deleteDeck()
+                        Navigation.findNavController(it).popBackStack()
+                        Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "Deck deleted.", Snackbar.LENGTH_SHORT).show()
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
         }
 
     }

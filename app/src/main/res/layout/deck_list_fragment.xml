@@ -180,7 +180,7 @@
 
                 <TextView
                     android:id="@+id/userLanguageOutput"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:background="?attr/selectableItemBackgroundBorderless"
@@ -254,6 +254,17 @@
                     android:background="@color/color_surface"
 
                     />
+
+                <TextView
+                    android:id="@+id/deckListEmptyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="48dp"
+                    android:text="@string/no_decks_label"
+                    android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
+
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>
         </LinearLayout>

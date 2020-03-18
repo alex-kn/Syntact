@@ -32,10 +32,11 @@
             app:popExitAnim="@anim/fragment_close_enter" />
         <action
             android:id="@+id/action_deckListFragment_to_deckCreationFragment"
-            app:destination="@id/deckCreationFragment"  app:enterAnim="@anim/fragment_open_enter"
+            app:destination="@id/deckCreationFragment"
+            app:enterAnim="@anim/fragment_open_enter"
             app:exitAnim="@anim/fragment_close_exit"
             app:popEnterAnim="@anim/fragment_open_exit"
-            app:popExitAnim="@anim/fragment_close_enter"/>
+            app:popExitAnim="@anim/fragment_close_enter" />
     </fragment>
     <fragment
         android:id="@+id/deckBoardFragment"
@@ -50,7 +51,11 @@
         android:id="@+id/deckCreationFragment"
         android:name="com.alexkn.syntact.presentation.deckcreation.DeckCreationFragment"
         android:label="deck_creation_fragment"
-        tools:layout="@layout/deck_creation_fragment" />
+        tools:layout="@layout/deck_creation_fragment">
+        <argument
+            android:name="lang"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/deckDetailsFragment"
         android:name="com.alexkn.syntact.presentation.deckdetails.DeckDetailsFragment"
@@ -64,5 +69,5 @@
         android:id="@+id/deckSelectionFragment"
         android:name="com.alexkn.syntact.presentation.deckselection.DeckSelectionFragment"
         android:label="deck_selection_fragment"
-        tools:layout="@layout/deck_selection_fragment"/>
+        tools:layout="@layout/deck_selection_fragment" />
 </navigation>
