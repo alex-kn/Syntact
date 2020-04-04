@@ -75,13 +75,13 @@
             android:layout_marginEnd="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:clickable="true"
+            android:contentDescription="@string/settings_content_desc"
             android:padding="8dp"
             android:scaleType="center"
             android:tint="@color/color_on_primary"
             app:layout_constraintBottom_toBottomOf="@+id/backButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/backButton"
-            android:contentDescription="@string/settings_content_desc"
             app:srcCompat="@drawable/ic_baseline_build_24" />
 
 
@@ -208,17 +208,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="end"
+                        android:hint="@string/deck_name_label"
                         android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
                         android:inputType="textMultiLine"
                         android:padding="16dp"
-                        android:hint="@string/deck_name_label"
                         android:selectAllOnFocus="true"
                         android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
                         android:textColor="@color/color_on_primary"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/deckCreationNameLabel"
-                        android:importantForAutofill="no"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -250,6 +250,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="end"
                         android:imeOptions="actionDone"
+                        android:importantForAutofill="no"
                         android:inputType="number"
                         android:padding="16dp"
                         android:selectAllOnFocus="true"
@@ -258,10 +259,118 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:importantForAutofill="no"
                         tools:text="20" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/fullSentencesLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Full sentences"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/fullSentencesOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/fullSentencesOutput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Yes" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/relatedWordsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Related words"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/relatedWordsOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/relatedWordsOutput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Yes" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/numberOfGeneratedItemsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:padding="8dp"
+                        android:text="Number of generated items"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+                        android:textColor="@color/color_on_primary"
+                        android:textSize="12sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/numberOfGeneratedItemsOutput"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/numberOfGeneratedItemsOutput"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:clickable="true"
+                        android:gravity="end"
+                        android:padding="16dp"
+                        android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
+                        android:textColor="@color/color_on_primary"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="High" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

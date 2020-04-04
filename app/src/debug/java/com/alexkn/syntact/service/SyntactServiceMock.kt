@@ -3,7 +3,6 @@ package com.alexkn.syntact.service
 import android.util.Log
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.data.common.TemplateType
-import okhttp3.Response
 import java.util.*
 
 class SyntactServiceMock : SyntactService {
@@ -32,8 +31,18 @@ class SyntactServiceMock : SyntactService {
         )
     }
 
-    override suspend fun getPhraseSuggestions(token: String, phrase: String, srcLang: String, destLang: String): PhraseSuggestionResponse {
-        Log.i(TAG, "SyntactServiceMock: Returning mocked PhraseSuggestionResponse")
+    override suspend fun getSuggestionSentences(token: String, phrase: String, srcLang: String, destLang: String): PhraseSuggestionResponse {
+        Log.i(TAG, "SyntactServiceMock: Returning mocked Sentences")
+
+        return PhraseSuggestionResponse(listOf(
+                Suggestion(id = 1, src = "Hallo", dest = "Hello", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
+                Suggestion(id = 2, src = "Bier", dest = "Beer", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
+                Suggestion(id = 3, src = "Haus", dest = "House", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
+        ))
+    }
+
+    override suspend fun getSuggestionWords(token: String, phrase: String, srcLang: String, destLang: String, volume: Int): PhraseSuggestionResponse {
+        Log.i(TAG, "SyntactServiceMock: Returning mocked Words")
 
         return PhraseSuggestionResponse(listOf(
                 Suggestion(id = 1, src = "Hallo", dest = "Hello", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),

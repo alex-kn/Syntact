@@ -1,8 +1,6 @@
 package com.alexkn.syntact.service
 
-import okhttp3.Response
 import retrofit2.http.*
-import java.util.*
 
 interface SyntactService {
 
@@ -15,12 +13,21 @@ interface SyntactService {
             @Url url: String
     ): List<PhraseResponse>
 
-    @GET("suggestions")
-    suspend fun getPhraseSuggestions(
+    @GET("suggestions/sentences")
+    suspend fun getSuggestionSentences(
             @Header("Authorization") token: String,
             @Query("phrase") phrase: String,
             @Query("srcLang") srcLang: String,
             @Query("destLang") destLang: String
+    ): PhraseSuggestionResponse
+
+    @GET("suggestions/words")
+    suspend fun getSuggestionWords(
+            @Header("Authorization") token: String,
+            @Query("phrase") phrase: String,
+            @Query("srcLang") srcLang: String,
+            @Query("destLang") destLang: String,
+            @Query("volume") volume: Int
     ): PhraseSuggestionResponse
 
     @POST("templates")

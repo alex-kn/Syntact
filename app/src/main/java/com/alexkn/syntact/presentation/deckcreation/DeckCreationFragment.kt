@@ -125,6 +125,15 @@ class DeckCreationFragment : Fragment() {
         deckCreationCardsPerDayInput.setText(viewModel.defaultNewCardsPerDay.toString())
         deckCreationLanguageOutput.setOnClickListener { dialog.show() }
 
+        fullSentencesOutput.setOnClickListener { viewModel.switchFullSentences() }
+        viewModel.generateFullSentences.observe(viewLifecycleOwner, Observer { fullSentencesOutput.text = if (it) "Yes" else "No" })
+
+        relatedWordsOutput.setOnClickListener { viewModel.switchRelatedWords() }
+        viewModel.generateRelatedWords.observe(viewLifecycleOwner, Observer { relatedWordsOutput.text = if (it) "Yes" else "No" })
+
+        numberOfGeneratedItemsOutput.setOnClickListener { viewModel.switchNumberOfGeneratedItems() }
+        viewModel.numberOfGeneratedItems.observe(viewLifecycleOwner, Observer { numberOfGeneratedItemsOutput.text = it.toString() })
+
         setupBackdrop()
         setupSuggestionList()
 

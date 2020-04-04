@@ -33,6 +33,7 @@ class DeckCreationViewModel @Inject constructor(
 
     var languageChoices: MutableLiveData<List<Locale>> = MutableLiveData(emptyList())
 
+
     private val _deckLang = MutableLiveData<Locale?>()
     val deckLang: LiveData<Locale?>
         get() = _deckLang
@@ -48,6 +49,12 @@ class DeckCreationViewModel @Inject constructor(
 
     val suggestions: LiveData<Map<Int, List<Suggestion>>>
         get() = _suggestions
+
+    val generateFullSentences = MutableLiveData(true)
+
+    val generateRelatedWords = MutableLiveData(true)
+
+    val numberOfGeneratedItems = MutableLiveData(NumberOfItems.MEDIUM)
 
     init {
         viewModelScope.launch {
@@ -67,7 +74,7 @@ class DeckCreationViewModel @Inject constructor(
         val srcLangVal = _suggestionLang.value!!
         val deckLangVal = deckLang.value!!
         val destLang = if (srcLangVal == deckLangVal) prefs.language else deckLangVal
-        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, srcLangVal, destLang)
+        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, srcLangVal, destLang, generateFullSentences.value!!, generateRelatedWords.value!!, numberOfGeneratedItems.value!!.value)
         if (srcLangVal != deckLangVal) newSuggestions = newSuggestions.map { Suggestion(srcLang = it.destLang, destLang = it.srcLang, src = it.dest, dest = it.src) }
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
 
@@ -98,6 +105,18 @@ class DeckCreationViewModel @Inject constructor(
                     maxItemsPerDay
             )
         }
+    }
+
+    fun switchFullSentences() {
+        generateFullSentences.value = !generateFullSentences.value!!
+    }
+
+    fun switchRelatedWords() {
+        generateRelatedWords.value = !generateRelatedWords.value!!
+    }
+
+    fun switchNumberOfGeneratedItems() {
+        numberOfGeneratedItems.value = numberOfGeneratedItems.value!!.next()
     }
 
     fun switchDeckLang(index: Int) {

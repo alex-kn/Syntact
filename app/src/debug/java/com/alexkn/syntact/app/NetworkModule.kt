@@ -15,10 +15,6 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
-//    @Singleton
-//    @Provides
-//    fun provideSyntactService(): SyntactService = SyntactServiceMock()
-
     @Singleton
     @Provides
     fun provideSyntactService(okHttpClient: OkHttpClient): SyntactService {
@@ -26,7 +22,7 @@ class NetworkModule {
         val gson = GsonBuilder().setFieldNamingStrategy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create()
 
         return Retrofit.Builder().callbackExecutor(Executors.newCachedThreadPool())
-                .baseUrl("https://syntact-backend-wsrzejkcua-uc.a.run.app/")
+                .baseUrl("https://alexknittel.dev/api/v1/")
                 .client(okHttpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
