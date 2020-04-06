@@ -17,6 +17,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/deckCreationItemRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom|clip_horizontal|center"
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/srcTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -40,7 +41,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Source Text" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/destTextView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

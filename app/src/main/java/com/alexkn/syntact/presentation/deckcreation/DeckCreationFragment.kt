@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
@@ -181,6 +183,8 @@ class DeckCreationFragment : Fragment() {
 
     private fun setupSuggestionList() {
         val suggestionListAdapter = DeckCreationItemAdapter()
+        suggestionListAdapter.onDeleteListener = { Log.i(TAG, "Delete Item $it") }
+        suggestionListAdapter.onSaveListener = { Log.i(TAG, "Save Item $it") }
         suggestionList.adapter = suggestionListAdapter
         val layoutManager = LinearLayoutManager(requireContext())
         suggestionList.layoutManager = layoutManager

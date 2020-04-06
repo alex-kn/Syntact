@@ -2,15 +2,19 @@ package com.alexkn.syntact.presentation.deckcreation
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.alexkn.syntact.R
 import com.alexkn.syntact.databinding.DeckCreationItemBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
+import com.alexkn.syntact.presentation.deckcreation.detail.DeckCreationDetailDialog
 import com.alexkn.syntact.service.Suggestion
 
 class DeckCreationItemAdapter : ListItemAdapter<Suggestion, DeckCreationItemAdapter.DeckCreationItemViewHolder>() {
 
+    lateinit var onDeleteListener: (Long) -> Unit
+    lateinit var onSaveListener: (Suggestion) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckCreationItemViewHolder {
 
@@ -21,7 +25,19 @@ class DeckCreationItemAdapter : ListItemAdapter<Suggestion, DeckCreationItemAdap
     }
 
     override fun onBindViewHolder(holder: DeckCreationItemViewHolder, position: Int) {
+
         val phraseSuggestionResponse = list[position]
+
+        holder.itemView.setOnClickListener {
+
+            with(DeckCreationDetailDialog()) {
+                onDelete = onDeleteListener
+                onSave = onSaveListener
+                bindTo(phraseSuggestionResponse)
+                show((holder.itemView.context as AppCompatActivity).supportFragmentManager, DeckCreationDetailDialog::class.simpleName)
+            }
+
+        }
         holder.bindTo(phraseSuggestionResponse)
     }
 

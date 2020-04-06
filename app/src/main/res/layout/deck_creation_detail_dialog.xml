@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="24dp"
+    android:background="@drawable/rounded_rect_8"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="8dp"
+
+    android:transitionName="root_transition">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/deckCreationDetailOverlineTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Suggestion"
+        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/deckCreationDetailTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="Edit this Suggestion or use it to generate more Words for your Deck."
+        android:textAppearance="@style/TextAppearance.MyTheme.Subtitle2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deckCreationDetailOverlineTextView" />
+
+    <LinearLayout
+        android:id="@+id/topItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/deckCreationDetailTitleTextView">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/topItemOutput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
+            tools:text="This is a Phrase" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomItemLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="24dp"
+        android:gravity="end"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topItemLayout">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/bottomItemOutput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"
+            tools:text="This is a another Phrase" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/deckCreationDetailButtonLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomItemLayout"
+        tools:layout_editor_absoluteX="16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deckCreationDetailAddButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Generate more like this" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deckCreationDetailDeleteButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Delete this suggestion"
+            android:textColor="@color/color_error" />
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

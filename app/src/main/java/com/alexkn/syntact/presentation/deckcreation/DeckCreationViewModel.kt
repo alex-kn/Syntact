@@ -52,9 +52,9 @@ class DeckCreationViewModel @Inject constructor(
 
     val generateFullSentences = MutableLiveData(true)
 
-    val generateRelatedWords = MutableLiveData(true)
+    val generateRelatedWords = MutableLiveData(false)
 
-    val numberOfGeneratedItems = MutableLiveData(NumberOfItems.MEDIUM)
+    val numberOfGeneratedItems = MutableLiveData(NumberOfItems.LOW)
 
     init {
         viewModelScope.launch {
