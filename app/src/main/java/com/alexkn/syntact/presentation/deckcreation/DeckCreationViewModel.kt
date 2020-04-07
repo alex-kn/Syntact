@@ -22,7 +22,6 @@ class DeckCreationViewModel @Inject constructor(
         private val property: Property
 ) : ViewModel() {
 
-    private var _suggestionLang: MutableLiveData<Locale?> = MutableLiveData()
     private val _suggestions = MutableLiveData<Map<Int, List<Suggestion>>>(emptyMap())
 
     private var idSequence = 1L
@@ -44,9 +43,6 @@ class DeckCreationViewModel @Inject constructor(
     val deckName: LiveData<String?>
         get() = _deckName
 
-    val suggestionLang: LiveData<Locale?>
-        get() = _suggestionLang
-
     val suggestions: LiveData<Map<Int, List<Suggestion>>>
         get() = _suggestions
 
@@ -66,20 +62,37 @@ class DeckCreationViewModel @Inject constructor(
     }
 
     fun setLang(lang: String) {
-        _suggestionLang.postValue(Locale(lang))
         _deckLang.postValue(Locale(lang))
     }
 
-    fun fetchSuggestions(keywordId: Int, text: String) = viewModelScope.launch {
-        val srcLangVal = _suggestionLang.value!!
+    fun fetchSuggestions(keywordId: Int, text: String, suggestionLang: Locale) = viewModelScope.launch {
+        val currentSuggestions = _suggestions.value!!
         val deckLangVal = deckLang.value!!
-        val destLang = if (srcLangVal == deckLangVal) prefs.language else deckLangVal
-        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, srcLangVal, destLang, generateFullSentences.value!!, generateRelatedWords.value!!, numberOfGeneratedItems.value!!.value)
-        if (srcLangVal != deckLangVal) newSuggestions = newSuggestions.map { Suggestion(srcLang = it.destLang, destLang = it.srcLang, src = it.dest, dest = it.src) }
+        val destLang = if (suggestionLang == deckLangVal) prefs.language else deckLangVal
+        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang, generateFullSentences.value!!, generateRelatedWords.value!!, numberOfGeneratedItems.value!!.value)
+        if (suggestionLang != deckLangVal) newSuggestions = swapLanguage(newSuggestions)
+
+        newSuggestions = newSuggestions.filterNot { new ->
+            currentSuggestions.values.flatten().any { old ->
+                0 == compareValuesBy(old, new, { it.src }, { it.dest }, { it.srcLang.language }, { it.destLang.language })
+            }
+        }
+
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
 
-        val newSuggestionMap = _suggestions.value!! + mapOf(keywordId to newSuggestions)
+        val newSuggestionMap = currentSuggestions + mapOf(keywordId to newSuggestions)
         _suggestions.postValue(newSuggestionMap)
+    }
+
+    private fun swapLanguage(newSuggestions: List<Suggestion>): List<Suggestion> {
+        return newSuggestions.map { Suggestion(srcLang = it.destLang, destLang = it.srcLang, src = it.dest, dest = it.src) }
+    }
+
+    fun removeItem(suggestion: Suggestion) {
+        val suggestions = _suggestions.value!!.toMutableMap()
+        val filteredSuggestions = suggestions[suggestion.keywordId]!!.filterNot { it.id == suggestion.id }
+        suggestions.replace(suggestion.keywordId!!, filteredSuggestions)
+        _suggestions.postValue(suggestions)
     }
 
     fun removeKeyword(keywordId: Int) {
@@ -126,14 +139,6 @@ class DeckCreationViewModel @Inject constructor(
 
     fun setDeckName(name: String) {
         _deckName.value = name
-    }
-
-    fun switchSuggestionLangToDeckLang() {
-        _suggestionLang.value = deckLang.value
-    }
-
-    fun switchSuggestionLangToUserLang() {
-        _suggestionLang.value = userLang.value
     }
 }
 

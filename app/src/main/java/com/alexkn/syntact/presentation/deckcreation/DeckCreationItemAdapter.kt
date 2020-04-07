@@ -13,7 +13,7 @@ import com.alexkn.syntact.service.Suggestion
 
 class DeckCreationItemAdapter : ListItemAdapter<Suggestion, DeckCreationItemAdapter.DeckCreationItemViewHolder>() {
 
-    lateinit var onDeleteListener: (Long) -> Unit
+    lateinit var onDeleteListener: (Suggestion) -> Unit
     lateinit var onSaveListener: (Suggestion) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckCreationItemViewHolder {

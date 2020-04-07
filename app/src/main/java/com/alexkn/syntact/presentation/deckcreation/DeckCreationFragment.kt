@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,7 +27,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
@@ -39,6 +37,7 @@ import kotlinx.android.synthetic.main.deck_creation_bottom_sheet.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.*
 import kotlinx.android.synthetic.main.deck_creation_fragment.topLayout
 import kotlinx.android.synthetic.main.deck_list_fragment.*
+import java.util.*
 import kotlin.math.max
 
 
@@ -54,6 +53,7 @@ class DeckCreationFragment : Fragment() {
     private val keywords = mutableMapOf<Int, String>()
 
     private var activeKeywordInput: EditText? = null
+    private lateinit var suggestionLang: Locale
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,6 +71,7 @@ class DeckCreationFragment : Fragment() {
                 .get(DeckCreationViewModel::class.java)
 
         viewModel.setLang(args.lang)
+        suggestionLang = Locale(args.lang)
 
         deckCreationRightLangFlag.clipToOutline = true
         deckCreationLeftLangFlag.clipToOutline = true
@@ -97,12 +98,12 @@ class DeckCreationFragment : Fragment() {
         keywordsInputLeft.setOnFocusChangeListener { v, _ ->
             val editText = v as EditText
             activeKeywordInput = editText
-            viewModel.switchSuggestionLangToDeckLang()
+            suggestionLang = viewModel.deckLang.value!!
         }
         keywordsInputRight.setOnFocusChangeListener { v, _ ->
             val editText = v as EditText
             activeKeywordInput = editText
-            viewModel.switchSuggestionLangToUserLang()
+            suggestionLang = viewModel.userLang.value!!
         }
 
         deckCreationNameInput.setText("My New Deck")
@@ -183,8 +184,11 @@ class DeckCreationFragment : Fragment() {
 
     private fun setupSuggestionList() {
         val suggestionListAdapter = DeckCreationItemAdapter()
-        suggestionListAdapter.onDeleteListener = { Log.i(TAG, "Delete Item $it") }
-        suggestionListAdapter.onSaveListener = { Log.i(TAG, "Save Item $it") }
+        suggestionListAdapter.onDeleteListener = { viewModel.removeItem(it) }
+        suggestionListAdapter.onSaveListener = {
+//            addKeywordChip(it.src.split(' ')[1], it.srcLang)
+            addKeywordChip(it.dest.split(' ')[1], it.destLang)
+        }
         suggestionList.adapter = suggestionListAdapter
         val layoutManager = LinearLayoutManager(requireContext())
         suggestionList.layoutManager = layoutManager
@@ -229,23 +233,24 @@ class DeckCreationFragment : Fragment() {
     }
 
     private fun onAddText(v: EditText) {
-
         val text = v.text.toString().trim()
+        addKeywordChip(text, suggestionLang)
+        v.text.clear()
+    }
 
+    private fun addKeywordChip(text: String, lang: Locale) {
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
         chip.isCheckable = false
 
-        val src = flagDrawableOf(viewModel.suggestionLang.value!!).toBitmap()
+        val src = flagDrawableOf(lang).toBitmap()
         val roundedSrc = RoundedBitmapDrawableFactory.create(resources, src)
         roundedSrc.cornerRadius = max(src.width, src.height) / 2f
         roundedSrc.isCircular = true
         chip.chipIcon = roundedSrc
         chip.setOnCloseIconClickListener(this::onCloseChip)
         keywordsChipGroup.addView(chip)
-        v.text.clear()
-
-        viewModel.fetchSuggestions(chip.id, text)
+        viewModel.fetchSuggestions(chip.id, text, lang)
         keywords[chip.id] = text
     }
 

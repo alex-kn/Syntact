@@ -4,8 +4,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
 import com.alexkn.syntact.data.dao.PreferencesDao
 import com.alexkn.syntact.data.model.Preferences
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -16,7 +15,7 @@ class PreferencesRepository @Inject constructor(
 ) {
 
     init {
-        GlobalScope.launch {
+        runBlocking {
             var preferences = preferencesDao.findFirst()
             if (preferences == null) {
                 preferences = Preferences(
