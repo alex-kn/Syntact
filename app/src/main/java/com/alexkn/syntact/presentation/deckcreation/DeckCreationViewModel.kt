@@ -9,6 +9,7 @@ import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.data.model.Preferences
+import com.alexkn.syntact.presentation.common.handler
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,7 +32,6 @@ class DeckCreationViewModel @Inject constructor(
     val defaultNewCardsPerDay = 20
 
     var languageChoices: MutableLiveData<List<Locale>> = MutableLiveData(emptyList())
-
 
     private val _deckLang = MutableLiveData<Locale?>()
     val deckLang: LiveData<Locale?>
@@ -65,21 +65,23 @@ class DeckCreationViewModel @Inject constructor(
         _deckLang.postValue(Locale(lang))
     }
 
-    fun fetchSuggestions(keywordId: Int, text: String, suggestionLang: Locale) = viewModelScope.launch {
-        val currentSuggestions = _suggestions.value!!
+    fun fetchSuggestions(keywordId: Int, text: String, suggestionLang: Locale) = viewModelScope.launch(handler()) {
         val deckLangVal = deckLang.value!!
         val destLang = if (suggestionLang == deckLangVal) prefs.language else deckLangVal
         var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang, generateFullSentences.value!!, generateRelatedWords.value!!, numberOfGeneratedItems.value!!.value)
         if (suggestionLang != deckLangVal) newSuggestions = swapLanguage(newSuggestions)
+        newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
+        addNewSuggestions(keywordId, newSuggestions)
+    }
 
-        newSuggestions = newSuggestions.filterNot { new ->
+    @Synchronized
+    private fun addNewSuggestions(keywordId: Int, suggestionList: List<Suggestion>) {
+        val currentSuggestions = _suggestions.value!!
+        val newSuggestions = suggestionList.filterNot { new ->
             currentSuggestions.values.flatten().any { old ->
                 0 == compareValuesBy(old, new, { it.src }, { it.dest }, { it.srcLang.language }, { it.destLang.language })
             }
         }
-
-        newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
-
         val newSuggestionMap = currentSuggestions + mapOf(keywordId to newSuggestions)
         _suggestions.postValue(newSuggestionMap)
     }

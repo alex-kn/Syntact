@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.presentation.common.flagDrawableOf
+import com.alexkn.syntact.service.Suggestion
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -76,6 +79,11 @@ class DeckCreationFragment : Fragment() {
         deckCreationRightLangFlag.clipToOutline = true
         deckCreationLeftLangFlag.clipToOutline = true
 
+        viewModel.userLang.observe(viewLifecycleOwner, Observer {
+            keywordsInputRight.hint = it?.displayLanguage
+            deckCreationRightLangOutput.text = it?.displayLanguage
+            it?.let { deckCreationRightLangFlag.setImageDrawable(flagDrawableOf(it)) }
+        })
 
         keywordsInputLeft.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) onAddText(v as EditText)
@@ -86,11 +94,7 @@ class DeckCreationFragment : Fragment() {
             false
         }
 
-        viewModel.userLang.observe(viewLifecycleOwner, Observer {
-            keywordsInputRight.hint = it?.displayLanguage
-            deckCreationRightLangOutput.text = it?.displayLanguage
-            it?.let { deckCreationRightLangFlag.setImageDrawable(flagDrawableOf(it)) }
-        })
+
 
         keywordsInputLeft.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
         keywordsInputRight.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
@@ -110,6 +114,7 @@ class DeckCreationFragment : Fragment() {
         viewModel.setDeckName("My New Deck")
 
         buildLanguageDialog()
+
         viewModel.deckLang.observe(viewLifecycleOwner, Observer {
             it?.let {
                 deckCreationLanguageOutput.text = it.displayLanguage
@@ -185,10 +190,7 @@ class DeckCreationFragment : Fragment() {
     private fun setupSuggestionList() {
         val suggestionListAdapter = DeckCreationItemAdapter()
         suggestionListAdapter.onDeleteListener = { viewModel.removeItem(it) }
-        suggestionListAdapter.onSaveListener = {
-//            addKeywordChip(it.src.split(' ')[1], it.srcLang)
-            addKeywordChip(it.dest.split(' ')[1], it.destLang)
-        }
+        suggestionListAdapter.onSaveListener = { generateFromSuggestion(it) }
         suggestionList.adapter = suggestionListAdapter
         val layoutManager = LinearLayoutManager(requireContext())
         suggestionList.layoutManager = layoutManager
@@ -216,6 +218,16 @@ class DeckCreationFragment : Fragment() {
                 chip?.chipBackgroundColor = ColorStateList.valueOf(color)
             }
         })
+    }
+
+    private fun generateFromSuggestion(suggestion: Suggestion) {
+        val regex = Regex("[A-Za-zÄÜÖäüö]+")//TODO
+        regex.findAll(suggestion.src).map { it.value }.forEach {
+            addKeywordChip(it, suggestion.srcLang)
+        }
+        regex.findAll(suggestion.dest).map { it.value }.forEach {
+            addKeywordChip(it, suggestion.destLang)
+        }
     }
 
     private fun buildLanguageDialog() {
@@ -250,7 +262,13 @@ class DeckCreationFragment : Fragment() {
         chip.chipIcon = roundedSrc
         chip.setOnCloseIconClickListener(this::onCloseChip)
         keywordsChipGroup.addView(chip)
-        viewModel.fetchSuggestions(chip.id, text, lang)
+
+        try {
+            viewModel.fetchSuggestions(chip.id, text, lang)
+        } catch (e: Exception) {
+            Log.e(TAG, "DeckCreationFragment: ", e)
+        }
+
         keywords[chip.id] = text
     }
 
