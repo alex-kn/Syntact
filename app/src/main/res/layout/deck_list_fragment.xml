@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/color_primary"
+    android:background="@color/color_backdrop"
     tools:context=".presentation.decklist.DeckListFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="0dp"
         android:layout_height="56dp"
-        android:background="@color/color_primary"
+        android:background="@color/color_backdrop"
         android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
             android:text="@string/settings_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
 
-            android:textColor="@color/color_on_primary"
+            android:textColor="@color/color_on_backdrop"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,7 @@
             android:layout_marginEnd="8dp"
             android:text="@string/new_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-            android:textColor="@color/color_on_primary"
+            android:textColor="@color/color_on_backdrop"
             app:layout_constraintBaseline_toBaselineOf="@+id/newOutput"
             app:layout_constraintEnd_toStartOf="@+id/newOutput" />
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
-            android:textColor="@color/color_on_primary"
+            android:textColor="@color/color_on_backdrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline2"
             app:layout_constraintTop_toTopOf="parent"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:text="@string/reviews_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-            android:textColor="@color/color_on_primary"
+            android:textColor="@color/color_on_backdrop"
             app:layout_constraintBaseline_toBaselineOf="@+id/reviewsOutput"
             app:layout_constraintStart_toEndOf="@+id/settingsLabel" />
 
@@ -73,7 +73,7 @@
             android:layout_marginStart="8dp"
 
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
-            android:textColor="@color/color_on_primary"
+            android:textColor="@color/color_on_backdrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/reviewsLabel"
             app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +90,7 @@
             android:padding="8dp"
 
             android:scaleType="center"
-            android:tint="@color/color_on_primary"
+            android:tint="@color/color_on_backdrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -118,7 +118,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_primary"
+            android:background="@color/color_backdrop"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -136,7 +136,7 @@
                     android:padding="8dp"
                     android:text="@string/night_mode_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                    android:textColor="@color/color_on_primary"
+                    android:textColor="@color/color_on_backdrop"
                     android:textSize="12sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/deckListNightModeOutput"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -151,7 +151,7 @@
                     android:gravity="end"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
-                    android:textColor="@color/color_on_primary"
+                    android:textColor="@color/color_on_backdrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -171,7 +171,7 @@
                     android:padding="8dp"
                     android:text="@string/my_language_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                    android:textColor="@color/color_on_primary"
+                    android:textColor="@color/color_on_backdrop"
                     android:textSize="12sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/userLanguageOutput"
                     app:layout_constraintEnd_toStartOf="@+id/userLanguageOutput"
@@ -188,7 +188,7 @@
                     android:gravity="end"
                     android:padding="16dp"
                     android:textAppearance="@style/TextAppearance.MyTheme.Headline2"
-                    android:textColor="@color/color_on_primary"
+                    android:textColor="@color/color_on_backdrop"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"

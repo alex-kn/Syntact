@@ -30,15 +30,16 @@
     <!--text fields.-->
     <color name="color_background">#ffffff</color>
     <color name="color_surface">#ffffff</color>
+    <color name="color_backdrop">@color/color_primary</color>
     <color name="color_error">#E57373</color>
     <color name="color_success">#81C784</color>
-
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
     <!--on which they appear.-->
     <color name="color_on_primary">#ffffff</color>
     <color name="color_on_secondary">#000000</color>
     <color name="color_on_background">#000000</color>
     <color name="color_on_surface">#000000</color>
+    <color name="color_on_backdrop">@color/color_on_primary</color>
     <color name="color_on_error">#ffffff</color>
 
     <color name="color_transparent">#00000000</color>

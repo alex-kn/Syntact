@@ -64,12 +64,12 @@ class DeckCreationDetailDialog : DialogFragment() {
             materialTextView.layoutParams = layoutParams
             materialTextView.setTextAppearance(R.style.TextAppearance_MyTheme_Headline5)
             materialTextView.text = it
-            materialTextView.setBackgroundResource(R.drawable.rounded)
+            materialTextView.setBackgroundResource(R.drawable.rounded_activatable)
 
             layout.addView(materialTextView)
             materialTextView.setOnClickListener { v ->
                 val textView = v as MaterialTextView
-                if (v.isActivated) keywordsToAdd[locale]!!.remove(it) else keywordsToAdd[locale]!!.add(it)
+                if (textView.isActivated) keywordsToAdd[locale]!!.remove(it) else keywordsToAdd[locale]!!.add(it)
                 materialTextView.isActivated = !materialTextView.isActivated
             }
 

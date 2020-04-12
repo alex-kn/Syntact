@@ -12,7 +12,7 @@
     <!--this file.-->
 
     <!--Experiment with ShapeAppearance properties such as cornerFamily (either ‘cut’ or -->
-    <!--‘rounded’) and corner size. Alternatively, customize each ShapeAppearance on a -->
+    <!--‘rounded_activatable’) and corner size. Alternatively, customize each ShapeAppearance on a -->
     <!--per-corner basis with cornerFamilyTopLeft, cornerFamilyTopRight, cornerFamilyBottomLeft, -->
     <!--cornerFamilyBottomRight and cornerSizeTopRight, cornerSizeTopLeft, cornerSizeBottomLeft -->
     <!--and cornerSizeBottomRight.-->

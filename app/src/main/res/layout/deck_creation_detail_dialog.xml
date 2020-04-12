@@ -50,41 +50,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/deckCreationDetailTitleTextView">
 
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Ich"-->
-        <!--            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"-->
-        <!--            android:background="@drawable/rounded"/>-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="freue"-->
-        <!--            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"-->
-        <!--            android:background="@drawable/rounded"/>-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="mich,"-->
-        <!--            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"-->
-        <!--            android:background="@drawable/rounded"/>-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="Sie"-->
-        <!--            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"-->
-        <!--            android:background="@drawable/rounded"/>-->
-
-        <!--        <TextView-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="kennenzulernen."-->
-        <!--            android:textAppearance="@style/TextAppearance.MyTheme.Headline5"-->
-        <!--            android:background="@drawable/rounded"/>-->
-
     </com.google.android.flexbox.FlexboxLayout>
 
     <com.google.android.flexbox.FlexboxLayout
@@ -104,7 +69,7 @@
 
     <LinearLayout
         android:id="@+id/deckCreationDetailButtonLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:gravity="center"
@@ -117,14 +82,14 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deckCreationDetailAddButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Generate more like this" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deckCreationDetailDeleteButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Delete this suggestion"
             android:textColor="@color/color_error" />
@@ -132,7 +97,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deckCreationDetailCancelButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cancel" />
 
