@@ -64,8 +64,8 @@ class DeckDetailsFragment : Fragment() {
                 headerExpanded.text = it.name
                 deckDetailsLeftLangOutput.text = it.language.displayLanguage
                 deckDetailsRightLangOutput.text = it.userLanguage.displayLanguage
-                deckDetailsLeftLangFlag.setImageDrawable(flagDrawableOf(it.language))
-                deckDetailsRightLangFlag.setImageDrawable(flagDrawableOf(it.userLanguage))
+                deckDetailsLeftLangFlag.setImageDrawable(resources.flagDrawableOf(it.language))
+                deckDetailsRightLangFlag.setImageDrawable(resources.flagDrawableOf(it.userLanguage))
                 deckDetailsNameInput.setText(it.name)
                 deckDetailsCardsPerDayInput.setText("${it.newItemsPerDay}")
             }

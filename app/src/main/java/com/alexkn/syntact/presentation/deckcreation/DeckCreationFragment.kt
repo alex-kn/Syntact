@@ -81,7 +81,7 @@ class DeckCreationFragment : Fragment() {
         viewModel.userLang.observe(viewLifecycleOwner, Observer {
             keywordsInputRight.hint = it?.displayLanguage
             deckCreationRightLangOutput.text = it?.displayLanguage
-            it?.let { deckCreationRightLangFlag.setImageDrawable(flagDrawableOf(it)) }
+            it?.let { deckCreationRightLangFlag.setImageDrawable(resources.flagDrawableOf(it)) }
         })
 
         keywordsInputLeft.setOnEditorActionListener { v, actionId, _ ->
@@ -119,7 +119,7 @@ class DeckCreationFragment : Fragment() {
                 deckCreationLanguageOutput.text = it.displayLanguage
                 keywordsInputLeft.hint = it.displayLanguage
                 deckCreationLeftLangOutput.text = it.displayLanguage
-                deckCreationLeftLangFlag.setImageDrawable(flagDrawableOf(it))
+                deckCreationLeftLangFlag.setImageDrawable(resources.flagDrawableOf(it))
             }
         })
         viewModel.deckName.observe(viewLifecycleOwner, Observer {
@@ -257,7 +257,7 @@ class DeckCreationFragment : Fragment() {
         chip.text = text
         chip.isCheckable = false
 
-        val src = flagDrawableOf(lang).toBitmap()
+        val src = resources.flagDrawableOf(lang).toBitmap()
         val roundedSrc = RoundedBitmapDrawableFactory.create(resources, src)
         roundedSrc.cornerRadius = max(src.width, src.height) / 2f
         roundedSrc.isCircular = true
