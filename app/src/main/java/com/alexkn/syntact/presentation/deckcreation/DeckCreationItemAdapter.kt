@@ -10,11 +10,12 @@ import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import com.alexkn.syntact.presentation.deckcreation.detail.DeckCreationDetailDialog
 import com.alexkn.syntact.service.Suggestion
+import java.util.*
 
 class DeckCreationItemAdapter : ListItemAdapter<Suggestion, DeckCreationItemAdapter.DeckCreationItemViewHolder>() {
 
     lateinit var onDeleteListener: (Suggestion) -> Unit
-    lateinit var onSaveListener: (Suggestion) -> Unit
+    lateinit var onSaveListener: (Map<Locale, Set<String>>) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeckCreationItemViewHolder {
 

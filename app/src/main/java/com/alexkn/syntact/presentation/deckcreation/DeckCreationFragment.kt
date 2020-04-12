@@ -30,7 +30,6 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.presentation.common.flagDrawableOf
-import com.alexkn.syntact.service.Suggestion
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -220,13 +219,12 @@ class DeckCreationFragment : Fragment() {
         })
     }
 
-    private fun generateFromSuggestion(suggestion: Suggestion) {
+    private fun generateFromSuggestion(keywordMap: Map<Locale, Set<String>>) {
         val regex = Regex("[A-Za-zÄÜÖäüö]+")//TODO
-        regex.findAll(suggestion.src).map { it.value }.forEach {
-            addKeywordChip(it, suggestion.srcLang)
-        }
-        regex.findAll(suggestion.dest).map { it.value }.forEach {
-            addKeywordChip(it, suggestion.destLang)
+        keywordMap.forEach { (locale, keywords) ->
+            keywords.forEach {
+                addKeywordChip(regex.find(it)!!.value, locale)
+            }
         }
     }
 
@@ -250,7 +248,11 @@ class DeckCreationFragment : Fragment() {
         v.text.clear()
     }
 
-    private fun addKeywordChip(text: String, lang: Locale) {
+    private fun addKeywordChip(t: String, lang: Locale) {
+
+        val regex = Regex("[A-Za-zÄÜÖäüö]+")
+        val text = regex.find(t)!!.value
+
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
         chip.isCheckable = false

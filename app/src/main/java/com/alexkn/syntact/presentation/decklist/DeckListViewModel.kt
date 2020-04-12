@@ -48,7 +48,7 @@ constructor(
 
     fun init() {
 
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.Default) {
 
             val prefs = preferencesRepository.find()
             deckLanguageChoices = languageChoices.filterNot { it == prefs.language }
