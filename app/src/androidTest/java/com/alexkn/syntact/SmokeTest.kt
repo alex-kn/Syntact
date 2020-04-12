@@ -3,17 +3,19 @@ package com.alexkn.syntact
 import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.*
+import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.*
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.alexkn.syntact.app.MainActivity
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.*
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,24 +39,24 @@ class SmokeTest {
 
     @After
     fun tearDown() {
-        Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
+        Dispatchers.resetMain()
         testCoroutineScope.cleanupTestCoroutines()
     }
 
     @Test
     fun smokeTest() = runBlockingTest {
         onView(withId(R.id.createBucketFab)).perform(click())
-        onView(withId(R.id.header)).check(matches(withText("Choose")))
-        onView(allOf(withId(R.id.chooseButton), isDisplayed())).perform(click())
-        onView(withId(R.id.startButton)).perform(click())
+        onView(withId(R.id.keywordsInputLeft)).perform(click())
         val inputMethodManager = InstrumentationRegistry.getInstrumentation().targetContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         assertThat(inputMethodManager.isAcceptingText, `is`(true))
-        onView(withId(R.id.textView4)).check(matches(withText("Hello")))
-        onView(withId(R.id.solutionInput)).perform(typeText("Katze"))
-        onView(withId(R.id.solutionInputLayout)).check(matches(hasFocus()))
-        onView(withId(R.id.textView4)).check(matches(withText("Hello")))
-        onView(withId(R.id.solutionInput)).perform(clearText(), typeText("Hallo"))
-        onView(withId(R.id.textView4)).check(matches(withText("Beer")))
-        onView(withId(R.id.solutionInputLayout)).check(matches(hasFocus()))
+        onView(withId(R.id.keywordsInputLeft)).perform(typeText("Ich"))
+        onView(withId(R.id.addTextButton)).perform(click())
+
+        onView(allOf(withId(R.id.deckCreationItemRoot), isDisplayed())).perform(click())
+        onView(withId(R.id.deckCreationDetailCancelButton)).perform(click())
+        onView(withId(R.id.finishDeckFab)).perform(click())
+
+        onView(anyOf(withId(R.id.bucketNameLabel))).check(matches(isDisplayed()))
+
     }
 }

@@ -7,8 +7,6 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs"
 apply plugin: 'com.google.gms.google-services'
 
-apply plugin: 'de.mannodermaus.android-junit5'
-
 android {
     androidExtensions {
         experimental = true
@@ -136,12 +134,11 @@ dependencies {
 
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.6.0'
-    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.6.0'
     testImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha04'
+    // Required -- JUnit 4 framework
+    testImplementation 'junit:junit:4.13'
+    testImplementation 'org.mockito:mockito-core:3.3.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha05'
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation 'androidx.test:core-ktx:1.2.0'
     testImplementation 'androidx.test.ext:junit-ktx:1.1.1'

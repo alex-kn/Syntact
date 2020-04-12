@@ -35,9 +35,7 @@ class SyntactServiceMock : SyntactService {
         Log.i(TAG, "SyntactServiceMock: Returning mocked Sentences")
 
         return PhraseSuggestionResponse(listOf(
-                Suggestion(id = 1, src = "Hallo", dest = "Hello", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
-                Suggestion(id = 2, src = "Bier", dest = "Beer", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH),
-                Suggestion(id = 3, src = "Haus", dest = "House", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
+                Suggestion(id = 1, src = "Das ist ein deutscher Satz", dest = "This is an english sentence", srcLang = Locale.GERMAN, destLang = Locale.ENGLISH)
         ))
     }
 
