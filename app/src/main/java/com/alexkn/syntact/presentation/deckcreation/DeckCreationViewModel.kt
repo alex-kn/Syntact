@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.core.model.Preferences
+import com.alexkn.syntact.core.repository.ConfigRepository
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
@@ -20,7 +20,7 @@ class DeckCreationViewModel @Inject constructor(
         private val deckRepository: DeckRepository,
         private val phraseSuggestionRepository: PhraseSuggestionRepository,
         private val preferencesRepository: PreferencesRepository,
-        private val property: Property
+        private val configRepository: ConfigRepository
 ) : ViewModel() {
 
     private val _suggestions = MutableLiveData<Map<Int, List<Suggestion>>>(emptyMap())
@@ -51,7 +51,7 @@ class DeckCreationViewModel @Inject constructor(
         viewModelScope.launch {
             prefs = preferencesRepository.find()
             userLang.postValue(prefs.language)
-            val choices = property["available-languages"].split(',').map { Locale(it) }.filterNot { it == prefs.language }
+            val choices = configRepository.availableLanguages.filterNot { it == prefs.language }
             languageChoices.postValue(choices)
         }
     }

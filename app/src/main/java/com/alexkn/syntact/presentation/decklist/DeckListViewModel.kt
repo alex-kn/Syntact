@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.core.model.DeckListItem
 import com.alexkn.syntact.core.model.Preferences
+import com.alexkn.syntact.core.repository.ConfigRepository
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
@@ -22,12 +22,12 @@ constructor(
         private val deckRepository: DeckRepository,
         private val solvableItemRepository: SolvableItemRepository,
         private val preferencesRepository: PreferencesRepository,
-        private val property: Property
+        private val configRepository: ConfigRepository
 ) : ViewModel() {
 
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
-    val languageChoices = property["available-languages"].split(',').map { Locale(it) }
+    val languageChoices = configRepository.availableLanguages
 
     private val _decks = MutableLiveData<List<DeckListItem>>()
     val decks: LiveData<List<DeckListItem>>
