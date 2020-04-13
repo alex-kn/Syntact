@@ -46,7 +46,7 @@ class SmokeTest {
     }
 
     @Test
-    fun deckIsCreated() = runBlockingTest {
+    fun createNewDeck() = runBlockingTest {
         onView(withId(R.id.createBucketFab)).perform(click())
 
         onView(withId(R.id.deckListLanguageList))

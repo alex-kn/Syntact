@@ -3,8 +3,8 @@ package com.alexkn.syntact.data.dao
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Query
+import com.alexkn.syntact.core.model.Preferences
 import com.alexkn.syntact.data.dao.base.BaseDao
-import com.alexkn.syntact.data.model.Preferences
 
 @Dao
 abstract class PreferencesDao : BaseDao<Preferences> {

@@ -2,9 +2,11 @@ package com.alexkn.syntact.core.repository
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.LiveData
+import com.alexkn.syntact.core.model.Preferences
 import com.alexkn.syntact.data.dao.PreferencesDao
-import com.alexkn.syntact.data.model.Preferences
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,7 +17,7 @@ class PreferencesRepository @Inject constructor(
 ) {
 
     init {
-        runBlocking {
+        GlobalScope.launch(Dispatchers.IO) {
             var preferences = preferencesDao.findFirst()
             if (preferences == null) {
                 preferences = Preferences(

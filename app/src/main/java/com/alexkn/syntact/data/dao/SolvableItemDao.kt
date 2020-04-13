@@ -2,12 +2,10 @@ package com.alexkn.syntact.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-
+import com.alexkn.syntact.core.model.Clue
+import com.alexkn.syntact.core.model.SolvableItem
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.base.BaseDao
-import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.data.model.SolvableTranslationCto
-
 import java.time.Instant
 
 @Dao

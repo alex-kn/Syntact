@@ -7,7 +7,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
-import com.alexkn.syntact.data.model.DeckListItem
+import com.alexkn.syntact.core.model.DeckListItem
 import com.alexkn.syntact.databinding.DeckListItemBinding
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder

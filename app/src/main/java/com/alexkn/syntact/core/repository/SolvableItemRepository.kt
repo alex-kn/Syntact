@@ -3,8 +3,8 @@ package com.alexkn.syntact.core.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.TAG
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.SolvableItemDao
-import com.alexkn.syntact.data.model.SolvableTranslationCto
 import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit

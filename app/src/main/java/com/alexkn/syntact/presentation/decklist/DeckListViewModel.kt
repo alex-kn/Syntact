@@ -6,11 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.app.Property
+import com.alexkn.syntact.core.model.DeckListItem
+import com.alexkn.syntact.core.model.Preferences
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.DeckListItem
-import com.alexkn.syntact.data.model.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -28,7 +28,6 @@ constructor(
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
     val languageChoices = property["available-languages"].split(',').map { Locale(it) }
-    lateinit var deckLanguageChoices: List<Locale>
 
     private val _decks = MutableLiveData<List<DeckListItem>>()
     val decks: LiveData<List<DeckListItem>>
@@ -46,29 +45,24 @@ constructor(
     val total: LiveData<Int>
         get() = _total
 
-    fun init() {
+    fun refreshDeckList(userLang: Locale) = viewModelScope.launch(Dispatchers.Default) {
 
-        viewModelScope.launch(Dispatchers.Default) {
+        var totalNewCards = 0
+        var totalReviews = 0
 
-            val prefs = preferencesRepository.find()
-            deckLanguageChoices = languageChoices.filterNot { it == prefs.language }
-
-            var totalNewCards = 0
-            var totalReviews = 0
-
-            val deckListItems = deckRepository.findAll().map {
-                val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(it.id!!, Instant.now()).size
-                val newItems = solvableItemRepository.findNewItems(it.id!!, it.newItemsPerDay).size
-                val reviews = solvableItemRepository.findItemsDueForReview(it.id!!, Instant.now()).size
-                totalReviews += reviews
-                totalNewCards += newItems
-                DeckListItem(it, itemsSolvedToday, newItems, reviews)
-            }
-            _decks.postValue(deckListItems)
-            _newCards.postValue(totalNewCards)
-            _reviews.postValue(totalReviews)
-            _total.postValue(totalNewCards + totalReviews)
+        val deckListItems = deckRepository.find(userLang).map {
+            val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(it.id!!, Instant.now()).size
+            val newItems = solvableItemRepository.findNewItems(it.id!!, it.newItemsPerDay).size
+            val reviews = solvableItemRepository.findItemsDueForReview(it.id!!, Instant.now()).size
+            totalReviews += reviews
+            totalNewCards += newItems
+            DeckListItem(it, itemsSolvedToday, newItems, reviews)
         }
+        _decks.postValue(deckListItems)
+        _newCards.postValue(totalNewCards)
+        _reviews.postValue(totalReviews)
+        _total.postValue(totalNewCards + totalReviews)
+
     }
 
     fun switchNightMode() {

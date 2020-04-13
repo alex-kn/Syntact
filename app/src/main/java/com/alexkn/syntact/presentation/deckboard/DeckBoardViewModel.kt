@@ -4,10 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.core.model.DeckListItem
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.DeckListItem
-import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.commons.text.similarity.LevenshteinDistance

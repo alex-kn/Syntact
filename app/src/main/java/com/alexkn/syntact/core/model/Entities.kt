@@ -1,11 +1,10 @@
-package com.alexkn.syntact.data.model
+package com.alexkn.syntact.core.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import com.alexkn.syntact.data.common.Identifiable
-import com.alexkn.syntact.data.common.TemplateType
 import java.time.Instant
 import java.util.*
 
@@ -44,23 +43,4 @@ data class Preferences(
         @PrimaryKey override var id: Long = 1L,
         var language: Locale,
         var nightMode: Int
-) : Identifiable<Long>
-
-
-@Entity
-data class Template(
-        @PrimaryKey override val id: Long,
-        var name: String,
-        var templateType: TemplateType,
-        var language: Locale,
-        var phrasesUrl: String,
-        var count: Int,
-        var description: String
-) : Identifiable<Long>
-
-@Entity(foreignKeys = [ForeignKey(entity = Template::class, parentColumns = ["id"], childColumns = ["templateId"], onDelete = ForeignKey.CASCADE)])
-data class Phrase(
-        @PrimaryKey override var id: Long,
-        var text: String,
-        @ColumnInfo(index = true) var templateId: Long
 ) : Identifiable<Long>

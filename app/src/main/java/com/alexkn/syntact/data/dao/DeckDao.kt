@@ -5,11 +5,12 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
+import com.alexkn.syntact.core.model.Clue
+import com.alexkn.syntact.core.model.Deck
+import com.alexkn.syntact.core.model.SolvableItem
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.base.BaseDao
-import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.Deck
-import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.data.model.SolvableTranslationCto
+import java.util.*
 
 @Dao
 abstract class DeckDao : BaseDao<Deck> {
@@ -20,6 +21,9 @@ abstract class DeckDao : BaseDao<Deck> {
 
     @Query("SELECT * FROM Deck where id = :id")
     abstract suspend fun find(id: Long): Deck
+
+    @Query("SELECT * FROM DECK WHERE userLanguage = :userLanguage")
+    abstract suspend fun find(userLanguage: Locale): List<Deck>
 
     @Query("SELECT * FROM Deck")
     abstract fun findAllLiveData(): LiveData<List<Deck>>

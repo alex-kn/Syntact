@@ -3,10 +3,10 @@ package com.alexkn.syntact.presentation.deckdetails
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.core.model.Deck
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
-import com.alexkn.syntact.data.model.Deck
-import com.alexkn.syntact.data.model.SolvableTranslationCto
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

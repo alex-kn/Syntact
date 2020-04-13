@@ -1,4 +1,4 @@
-package com.alexkn.syntact.data.model
+package com.alexkn.syntact.core.model
 
 import androidx.room.Embedded
 import com.alexkn.syntact.data.common.Identifiable

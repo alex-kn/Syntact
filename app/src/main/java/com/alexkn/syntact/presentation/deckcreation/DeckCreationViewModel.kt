@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexkn.syntact.app.Property
+import com.alexkn.syntact.core.model.Preferences
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
-import com.alexkn.syntact.data.model.Preferences
 import com.alexkn.syntact.presentation.common.handler
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.GlobalScope
@@ -46,11 +46,6 @@ class DeckCreationViewModel @Inject constructor(
     val suggestions: LiveData<Map<Int, List<Suggestion>>>
         get() = _suggestions
 
-    val generateFullSentences = MutableLiveData(true)
-
-    val generateRelatedWords = MutableLiveData(false)
-
-    val numberOfGeneratedItems = MutableLiveData(NumberOfItems.LOW)
 
     init {
         viewModelScope.launch {
@@ -68,7 +63,7 @@ class DeckCreationViewModel @Inject constructor(
     fun fetchSuggestions(keywordId: Int, text: String, suggestionLang: Locale) = viewModelScope.launch(handler()) {
         val deckLangVal = deckLang.value!!
         val destLang = if (suggestionLang == deckLangVal) prefs.language else deckLangVal
-        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang, generateFullSentences.value!!, generateRelatedWords.value!!, numberOfGeneratedItems.value!!.value)
+        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang)
         if (suggestionLang != deckLangVal) newSuggestions = swapLanguage(newSuggestions)
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
         addNewSuggestions(keywordId, newSuggestions)
@@ -120,18 +115,6 @@ class DeckCreationViewModel @Inject constructor(
                     maxItemsPerDay
             )
         }
-    }
-
-    fun switchFullSentences() {
-        generateFullSentences.value = !generateFullSentences.value!!
-    }
-
-    fun switchRelatedWords() {
-        generateRelatedWords.value = !generateRelatedWords.value!!
-    }
-
-    fun switchNumberOfGeneratedItems() {
-        numberOfGeneratedItems.value = numberOfGeneratedItems.value!!.next()
     }
 
     fun switchDeckLang(index: Int) {

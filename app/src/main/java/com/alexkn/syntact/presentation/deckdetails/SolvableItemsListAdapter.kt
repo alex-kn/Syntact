@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.alexkn.syntact.R
-import com.alexkn.syntact.data.model.SolvableTranslationCto
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
 import org.apache.commons.lang3.time.DurationFormatUtils

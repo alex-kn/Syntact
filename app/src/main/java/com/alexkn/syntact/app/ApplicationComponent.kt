@@ -1,17 +1,13 @@
 package com.alexkn.syntact.app
 
 import android.content.Context
-
+import com.alexkn.syntact.presentation.deckboard.DeckBoardViewModel
+import com.alexkn.syntact.presentation.deckcreation.DeckCreationViewModel
 import com.alexkn.syntact.presentation.deckdetails.DeckDetailsViewModel
 import com.alexkn.syntact.presentation.decklist.DeckListViewModel
-import com.alexkn.syntact.presentation.deckselection.DeckSelectionViewModel
-import com.alexkn.syntact.presentation.deckcreation.DeckCreationViewModel
-import com.alexkn.syntact.presentation.deckboard.DeckBoardViewModel
-
-import javax.inject.Singleton
-
 import dagger.BindsInstance
 import dagger.Component
+import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [NetworkModule::class, DatabaseModule::class, DaoModule::class])
@@ -27,8 +23,6 @@ interface ApplicationComponent {
     }
 
     fun playMenuViewModelFactory(): ViewModelFactory<DeckListViewModel>
-
-    fun createBucketViewModelFactory(): ViewModelFactory<DeckSelectionViewModel>
 
     fun flashcardViewModelFactory(): ViewModelFactory<DeckBoardViewModel>
 

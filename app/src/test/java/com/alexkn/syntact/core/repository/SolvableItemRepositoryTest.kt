@@ -1,9 +1,9 @@
 package com.alexkn.syntact.core.repository
 
+import com.alexkn.syntact.core.model.Clue
+import com.alexkn.syntact.core.model.SolvableItem
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.SolvableItemDao
-import com.alexkn.syntact.data.model.Clue
-import com.alexkn.syntact.data.model.SolvableItem
-import com.alexkn.syntact.data.model.SolvableTranslationCto
 import com.nhaarman.mockito_kotlin.argumentCaptor
 import com.nhaarman.mockito_kotlin.atLeastOnce
 import com.nhaarman.mockito_kotlin.mock

@@ -18,8 +18,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
-import com.alexkn.syntact.data.model.DeckListItem
-import com.alexkn.syntact.data.model.SolvableTranslationCto
+import com.alexkn.syntact.core.model.DeckListItem
+import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.databinding.DeckBoardFragmentBinding
 import kotlinx.android.synthetic.main.deck_board_fragment.*
 import kotlin.math.roundToInt

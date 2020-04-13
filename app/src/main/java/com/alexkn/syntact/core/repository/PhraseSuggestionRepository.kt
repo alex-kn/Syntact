@@ -14,24 +14,14 @@ class PhraseSuggestionRepository @Inject constructor(
         private val authenticationProvider: AuthProv
 ) {
 
-    suspend fun fetchSuggestions(text: String, srcLang: Locale, destLang: Locale, generateFullSentences: Boolean, generateRelatedWords: Boolean, volume: Int) = coroutineScope {
+    suspend fun fetchSuggestions(text: String, srcLang: Locale, destLang: Locale) = coroutineScope {
         val token = authenticationProvider.requestToken()
 
         val sentences = async {
-            if (generateFullSentences) {
-                syntactService.getSuggestionSentences("Bearer $token", text, srcLang.language, destLang.language).suggestions
-            } else emptyList()
+            syntactService.getSuggestionSentences("Bearer $token", text, srcLang.language, destLang.language).suggestions
         }
 
-        val words = async {
-            if (generateRelatedWords) {
-                syntactService.getSuggestionWords("Bearer $token", text, srcLang.language, destLang.language, volume).suggestions
-            } else emptyList()
-        }
-
-        words.await() + sentences.await()
-
-
+        sentences.await()
     }
 
 }

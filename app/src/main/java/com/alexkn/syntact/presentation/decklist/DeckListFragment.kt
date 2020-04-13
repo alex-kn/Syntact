@@ -23,6 +23,7 @@ import com.alexkn.syntact.presentation.decklist.dialog.DeckListLanguageDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.deck_list_fragment.*
+import java.util.*
 
 
 class DeckListFragment : Fragment() {
@@ -88,10 +89,10 @@ class DeckListFragment : Fragment() {
                     else -> ""
                 }
                 buildLanguageDialog()
+                viewModel.refreshDeckList(it.language)
             }
         })
         userLanguageOutput.setOnClickListener { dialog.show() }
-        viewModel.init()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -129,24 +130,24 @@ class DeckListFragment : Fragment() {
                 .create()
     }
 
-    private fun newBucket(view: View) {
-        val action = DeckListFragmentDirections.actionDeckListFragmentToDeckSelectionFragment()
-        Navigation.findNavController(view).navigate(action)
-    }
-
     private fun createBucket(view: View) {
 
         val userLang = viewModel.preferences.value!!.language
 
-        with(DeckListLanguageDialog()) {
-            bindTo(viewModel.deckLanguageChoices.map { userLang to it }) {
-                this@DeckListFragment.createBucketFab.hide()
-                val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment(it.language)
-                Navigation.findNavController(view).navigate(action)
-                dismiss()
+        if (userLang != Locale.ENGLISH) {
+            createBucketFab.hide()
+            val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment(Locale.ENGLISH.language)
+            Navigation.findNavController(view).navigate(action)
+        } else {
+            with(DeckListLanguageDialog()) {
+                bindTo(viewModel.languageChoices.map { userLang to it }.filter { it.first != it.second }) {
+                    this@DeckListFragment.createBucketFab.hide()
+                    val action = DeckListFragmentDirections.actionDeckListFragmentToDeckCreationFragment(it.language)
+                    Navigation.findNavController(view).navigate(action)
+                    dismiss()
+                }
+                show((this@DeckListFragment.requireContext() as AppCompatActivity).supportFragmentManager, DeckListLanguageDialog::class.simpleName)
             }
-            show((this@DeckListFragment.requireContext() as AppCompatActivity).supportFragmentManager, DeckListLanguageDialog::class.simpleName)
-
         }
 
     }

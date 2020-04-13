@@ -1,11 +1,9 @@
-package com.alexkn.syntact.data.util
+package com.alexkn.syntact.data.common.util
 
 import androidx.room.TypeConverter
-
 import com.alexkn.syntact.data.common.TemplateType
-
 import java.time.Instant
-import java.util.Locale
+import java.util.*
 
 class Converters {
 
