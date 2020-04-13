@@ -1,7 +1,6 @@
 package com.alexkn.syntact.data.common.util
 
 import androidx.room.TypeConverter
-import com.alexkn.syntact.data.common.TemplateType
 import java.time.Instant
 import java.util.*
 
@@ -18,12 +17,6 @@ class Converters {
 
     @TypeConverter
     fun toString(locale: Locale?) = locale?.language
-
-    @TypeConverter
-    fun toTemplateType(value: String?) = value?.let(TemplateType::valueOf)
-
-    @TypeConverter
-    fun toString(templateType: TemplateType?) = templateType?.name
 }
 
 

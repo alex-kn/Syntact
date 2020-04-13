@@ -1,4 +1,4 @@
-package com.alexkn.syntact.data.common
+package com.alexkn.syntact.data
 
 import androidx.room.Database
 import androidx.room.RoomDatabase

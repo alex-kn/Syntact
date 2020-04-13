@@ -1,10 +1,8 @@
 package com.alexkn.syntact.presentation.common
 
 import android.view.View
-
-import com.alexkn.syntact.data.common.Identifiable
-
 import androidx.recyclerview.widget.RecyclerView
+import com.alexkn.syntact.core.model.Identifiable
 
 abstract class ListItemViewHolder<T : Identifiable<*>>(v: View) : RecyclerView.ViewHolder(v) {
 

@@ -1,6 +1,6 @@
-package com.alexkn.syntact.app
+package com.alexkn.syntact.data.config
 
-import com.alexkn.syntact.data.common.AppDatabase
+import com.alexkn.syntact.data.AppDatabase
 import com.alexkn.syntact.data.dao.ClueDao
 import com.alexkn.syntact.data.dao.DeckDao
 import com.alexkn.syntact.data.dao.PreferencesDao

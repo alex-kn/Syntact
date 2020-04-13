@@ -1,10 +1,9 @@
 package com.alexkn.syntact.presentation.common
 
-import com.alexkn.syntact.data.common.Identifiable
-
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.alexkn.syntact.core.model.Identifiable
 
 abstract class ListItemAdapter<T : Identifiable<*>, S : RecyclerView.ViewHolder> : RecyclerView.Adapter<S>() {
 

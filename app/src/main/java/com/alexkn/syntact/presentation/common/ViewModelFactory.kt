@@ -1,4 +1,4 @@
-package com.alexkn.syntact.app
+package com.alexkn.syntact.presentation.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

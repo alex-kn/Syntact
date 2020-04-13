@@ -1,4 +1,4 @@
-package com.alexkn.syntact.app
+package com.alexkn.syntact.presentation
 
 import android.content.Context
 import android.graphics.Rect
@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
     }
 
@@ -28,9 +27,7 @@ class MainActivity : AppCompatActivity() {
         delegate.localNightMode = nightMode
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
-    }
+    override fun onSupportNavigateUp(): Boolean = Navigation.findNavController(this, R.id.nav_host_fragment).navigateUp()
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         if (event.action == MotionEvent.ACTION_DOWN) {

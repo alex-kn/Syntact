@@ -1,8 +1,8 @@
 package com.alexkn.syntact.presentation.common
 
 import android.annotation.SuppressLint
-import com.alexkn.syntact.data.common.Identifiable
 import androidx.recyclerview.widget.DiffUtil
+import com.alexkn.syntact.core.model.Identifiable
 
 class DiffCallback<T : Identifiable<*>> : DiffUtil.ItemCallback<T>() {
 

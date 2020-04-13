@@ -15,7 +15,7 @@
         android:theme="@style/MyTheme.DayNight"
         android:windowSoftInputMode="stateHidden|adjustResize"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".app.MainActivity">
+        <activity android:name=".presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -11,7 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.alexkn.syntact.app.MainActivity
+import com.alexkn.syntact.presentation.MainActivity
 import com.alexkn.syntact.presentation.decklist.dialog.DeckListLanguageDialogItemAdaper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

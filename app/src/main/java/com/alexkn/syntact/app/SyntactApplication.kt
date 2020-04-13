@@ -13,3 +13,6 @@ open class SyntactApplication : Application(), ApplicationComponentProvider {
         applicationComponent = DaggerApplicationComponent.builder().applicationContext(this).build()
     }
 }
+
+val Any.TAG: String
+    get() = javaClass.simpleName

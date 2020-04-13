@@ -1,6 +1,9 @@
 package com.alexkn.syntact.app
 
 import android.content.Context
+import com.alexkn.syntact.data.config.DaoModule
+import com.alexkn.syntact.data.config.DatabaseModule
+import com.alexkn.syntact.presentation.common.ViewModelFactory
 import com.alexkn.syntact.presentation.deckboard.DeckBoardViewModel
 import com.alexkn.syntact.presentation.deckcreation.DeckCreationViewModel
 import com.alexkn.syntact.presentation.deckdetails.DeckDetailsViewModel
@@ -31,4 +34,6 @@ interface ApplicationComponent {
     fun createTemplateViewModelFactory(): ViewModelFactory<DeckCreationViewModel>
 }
 
-
+interface ApplicationComponentProvider {
+    val applicationComponent: ApplicationComponent
+}

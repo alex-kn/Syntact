@@ -1,4 +1,4 @@
-package com.alexkn.syntact.data.common
+package com.alexkn.syntact.core.model
 
 interface Identifiable<T> {
     val id: T?
