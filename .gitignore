@@ -33,4 +33,4 @@ captures/
 
 \.idea/
 /app/google-services.json
-/app/src/main/assets/
+/app/src/main/assets/config/
