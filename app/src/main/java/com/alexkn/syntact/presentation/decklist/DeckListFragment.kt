@@ -61,20 +61,9 @@ class DeckListFragment : Fragment() {
         viewModel.newCards.observe(viewLifecycleOwner, Observer { newOutput.text = "$it" })
         viewModel.reviews.observe(viewLifecycleOwner, Observer { reviewsOutput.text = "$it" })
         viewModel.total.observe(viewLifecycleOwner, Observer {
-            when (it) {
-                0 -> {
-                    deckListContentHeaderOutput.text = ""
-                    deckListContentHeaderLabel.text = "You're done for the day"
-                }
-                1 -> {
-                    deckListContentHeaderOutput.text = "1"
-                    deckListContentHeaderLabel.text = " Card is due today"
-                }
-                else -> {
-                    deckListContentHeaderOutput.text = "$it"
-                    deckListContentHeaderLabel.text = " Cards are due today"
-
-                }
+            deckListContentHeaderLabel.text = when (it) {
+                0 -> resources.getString(R.string.deck_list_list_header_done)
+                else -> resources.getString(R.string.deck_list_list_header_not_done)
             }
         })
 
@@ -83,9 +72,9 @@ class DeckListFragment : Fragment() {
                 userLanguageOutput.text = it.language.displayLanguage
                 (requireActivity() as MainActivity).setNightMode(it.nightMode)
                 deckListNightModeOutput.text = when (it.nightMode) {
-                    AppCompatDelegate.MODE_NIGHT_NO -> "No"
-                    AppCompatDelegate.MODE_NIGHT_YES -> "Yes"
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> "Auto"
+                    AppCompatDelegate.MODE_NIGHT_NO -> resources.getString(R.string.no)
+                    AppCompatDelegate.MODE_NIGHT_YES -> resources.getString(R.string.yes)
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> resources.getString(R.string.auto)
                     else -> ""
                 }
                 buildLanguageDialog()

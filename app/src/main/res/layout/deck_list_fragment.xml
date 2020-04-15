@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:alpha="0"
             android:paddingHorizontal="32dp"
-            android:text="@string/settings_label"
+            android:text="@string/deck_list_settings_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
 
             android:textColor="@color/color_on_backdrop"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@string/new_label"
+            android:text="@string/deck_list_new_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             android:textColor="@color/color_on_backdrop"
             app:layout_constraintBaseline_toBaselineOf="@+id/newOutput"
@@ -60,7 +60,7 @@
             android:id="@+id/reviewsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/reviews_label"
+            android:text="@string/deck_list_reviews_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Overline"
             android:textColor="@color/color_on_backdrop"
             app:layout_constraintBaseline_toBaselineOf="@+id/reviewsOutput"
@@ -94,7 +94,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/settings_label"
+            android:contentDescription="@string/settings_content_desc"
             app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -134,7 +134,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:padding="8dp"
-                    android:text="@string/night_mode_label"
+                    android:text="@string/deck_list_night_mode_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_backdrop"
                     android:textSize="12sp"
@@ -169,7 +169,7 @@
                     android:layout_weight="1"
                     android:gravity="start"
                     android:padding="8dp"
-                    android:text="@string/my_language_label"
+                    android:text="@string/deck_list_my_language_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     android:textColor="@color/color_on_backdrop"
                     android:textSize="12sp"
@@ -218,24 +218,14 @@
                 android:orientation="horizontal"
                 android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/deckListContentHeaderOutput"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-                    android:textColor="@color/color_primary"
-                    tools:text="1" />
 
                 <TextView
                     android:id="@+id/deckListContentHeaderLabel"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
+                    android:gravity="center"
                     android:paddingHorizontal="4dp"
-                    android:text="@string/due_cards_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
 
@@ -262,7 +252,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:padding="48dp"
-                    android:text="@string/no_decks_label"
+                    android:text="@string/deck_list_empty_list_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
 

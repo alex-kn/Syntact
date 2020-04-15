@@ -4,51 +4,61 @@
 
     <string name="active_languages_file_key">com.alexkn.syntact.activelanguages</string>
 
-    <string name="back_content_desc">back</string>
-
-    <!-- List Back -->
-    <string name="settings_label">Settings</string>
-    <string name="new_label">New</string>
-    <string name="reviews_label">Reviews</string>
-    <string name="night_mode_label">Night mode</string>
-    <string name="my_language_label">My Language</string>
-    <string name="due_cards_label">Cards are due today</string>
+    <!-- Common -->
+    <string name="back_content_desc">Back</string>
     <string name="flag_content_desc">Flag</string>
-    <string name="new_today_label">new Today</string>
-    <string name="reviews_today_label">Reviews Today</string>
-    <string name="options_button">Options</string>
-    <string name="start_button">Start</string>
-    <string name="no_decks_label">You currently have no decks.\nTab the + below to get started.</string>
+    <string name="settings_content_desc">settings</string>
+
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="auto">Auto</string>
+
+    <!-- List -->
+    <!-- List Back -->
+    <string name="deck_list_settings_label">Settings</string>
+    <string name="deck_list_night_mode_label">Night mode</string>
+    <string name="deck_list_my_language_label">My Language</string>
+    <!-- List Front -->
+    <string name="deck_list_new_label">New</string>
+    <string name="deck_list_reviews_label">Reviews</string>
+    <string name="deck_list_list_header_done">Cards are due today</string>
+    <string name="deck_list_list_header_not_done">Welcome Back</string>
+    <string name="deck_list_new_today_label">New Today</string>
+    <string name="deck_list_reviews_today_label">Reviews Today</string>
+    <string name="deck_list_options_button">Options</string>
+    <string name="deck_list_start_button">Start</string>
+    <string name="deck_list_empty_list_label">You currently have no decks.\n\nTab the + below to get started.</string>
+    <!-- List Language Dialog -->
 
     <!-- Board -->
-    <string name="solved_today_label">solved today</string>
-    <string name="solvedindicator_content_desc">solvedIndicator</string>
-    <string name="failedindicator_content_desc">failedIndicator</string>
-    <string name="done_label">You\'re done for now\n Check back later</string>
-    <string name="next_button">next</string>
+    <string name="deck_board_solved_today_label">solved today</string>
+    <string name="deck_board_done_label">You\'re done for now\n Check back later</string>
+    <string name="deck_board_next_button">next</string>
+    <string name="deck_board_solvedindicator_content_desc">Solved</string>
+    <string name="deck_board_failedindicator_content_desc">Failed</string>
 
-    <!-- Creation and Details -->
-    <string name="left_flag_label">left_flag</string>
-    <string name="right_flag_label">right_flag</string>
-    <string name="type_here_hint">Type here</string>
-    <string name="add_button">ADD</string>
-    <string name="no_cards_label">Your Deck has no cards yet.\nAdd words in either language to fill it with cards.</string>
-    <string name="new_deck_label">New Deck</string>
-    <string name="settings_content_desc">settings</string>
-    <string name="number_of_cards_label">Number of cards</string>
-    <string name="language_label">Language</string>
-    <string name="name_label">Name</string>
-    <string name="new_cards_per_day_label">New Cards Per Day</string>
-    <string name="deck_name_label">Deck name</string>
-    <string name="deck_settings_label">Deck Settings</string>
-    <string name="total_number_of_cards_label">Total number of cards</string>
-    <string name="delete_deck_button">Delete Deck</string>
-    <string name="due_in_label">Due in</string>
-    <string name="streak_label">Streak</string>
-    <string name="ease_label">Ease</string>
+    <!-- Creation -->
+    <!-- Creation Back -->
+    <string name="deck_creation_new_deck_label">New Deck</string>
+    <string name="deck_creation_number_of_cards_label">Number of cards</string>
+    <string name="deck_creation_language_label">Language</string>
+    <string name="deck_creation_name_label">Name</string>
+    <string name="deck_creation_new_cards_per_day_label">New Cards Per Day</string>
+    <!-- Creation Front -->
+    <string name="deck_creation_add_button">Add</string>
+    <string name="deck_creation_empty_list_label">Your Deck has no cards yet.\n\nAdd words in either language to fill it with cards.</string>
+    <!-- Creation Item Dialog -->
 
-    <!-- Selection -->
-    <string name="choose_label">Choose</string>
-    <string name="choose_button">Choose</string>
+    <!-- Details -->
+    <!-- Details Back -->
+    <string name="deck_details_deck_settings_label">Deck Settings</string>
+    <string name="deck_details_total_number_of_cards_label">Total number of cards</string>
+    <string name="deck_details_name_label">Name</string>
+    <string name="deck_details_new_cards_per_day_label">New Cards Per Day</string>
+    <string name="deck_details_delete_deck_button">Delete Deck</string>
+    <!-- Details Front -->
+    <string name="deck_details_due_in_label">Due</string>
+    <string name="deck_details_streak_label">Streak</string>
+    <string name="deck_details_ease_label">Ease</string>
 
 </resources>

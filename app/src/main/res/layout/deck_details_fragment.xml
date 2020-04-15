@@ -53,7 +53,7 @@
             android:layout_marginVertical="8dp"
             android:alpha="0"
             android:paddingStart="16dp"
-            android:text="@string/deck_settings_label"
+            android:text="@string/deck_details_deck_settings_label"
             android:textAppearance="@style/TextAppearance.MyTheme.Headline4"
             android:textColor="@color/color_on_backdrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -113,7 +113,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:text="@string/total_number_of_cards_label"
+                        android:text="@string/deck_details_total_number_of_cards_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_backdrop"
                         android:textSize="12sp"
@@ -147,7 +147,8 @@
                         android:gravity="start"
                         android:padding="8dp"
                         android:paddingEnd="24dp"
-                        android:text="@string/name_label"
+                        android:labelFor="@id/deckDetailsNameInput"
+                        android:text="@string/deck_details_name_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_backdrop"
                         android:textSize="12sp"
@@ -186,7 +187,7 @@
                         android:layout_weight="1"
                         android:gravity="start"
                         android:padding="8dp"
-                        android:text="@string/new_cards_per_day_label"
+                        android:text="@string/deck_details_new_cards_per_day_label"
                         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                         android:textColor="@color/color_on_backdrop"
                         android:textSize="12sp"
@@ -221,7 +222,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
-                    android:text="@string/delete_deck_button"
+                    android:text="@string/deck_details_delete_deck_button"
                     android:textColor="@color/color_error"
                     app:icon="@drawable/ic_delete_black_24dp"
                     app:iconTint="@color/color_error" />
@@ -278,7 +279,7 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:background="@drawable/frame"
-                        android:contentDescription="@string/left_flag_label"
+                        android:contentDescription="@string/flag_content_desc"
                         android:scaleType="centerCrop"
                         android:src="@drawable/de" />
 
@@ -310,7 +311,7 @@
                         android:layout_height="match_parent"
                         android:adjustViewBounds="true"
                         android:background="@drawable/frame"
-                        android:contentDescription="@string/right_flag_label"
+                        android:contentDescription="@string/flag_content_desc"
                         android:scaleType="centerCrop"
                         android:src="@drawable/en" />
 

@@ -13,27 +13,15 @@
     android:transitionName="root_transition">
 
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/deckCreationDetailOverlineTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Choose Language"
-        android:textAppearance="@style/TextAppearance.MyTheme.Overline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/deckCreationDetailTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="Choose a Language for your new Deck"
         android:textAppearance="@style/TextAppearance.MyTheme.Headline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/deckCreationDetailOverlineTextView" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@id/deckListLanguageList"

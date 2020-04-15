@@ -61,7 +61,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    android:text="@string/due_in_label"
+                    android:text="@string/deck_details_due_in_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline" />
 
                 <com.google.android.material.textview.MaterialTextView
@@ -86,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    android:text="@string/streak_label"
+                    android:text="@string/deck_details_streak_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +117,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="4dp"
-                    android:text="@string/ease_label"
+                    android:text="@string/deck_details_ease_label"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
