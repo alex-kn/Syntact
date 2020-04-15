@@ -19,16 +19,16 @@ class ConfigRepository @Inject constructor(context: Context) {
             Locale.GERMAN,
             Locale("es"),
             Locale.ITALIAN,
-            Locale.FRENCH,
-            Locale("zh"),
-            Locale("swe")
+            Locale.FRENCH
     )
         private set
 
     init {
         try {
-            context.assets.open("app.properties").use {
-                properties.load(it)
+            if (!context.assets.list("config").isNullOrEmpty()) {
+                context.assets.open("config/app.properties").use { properties.load(it) }
+            } else {
+                context.assets.open("app.properties").use { properties.load(it) }
             }
         } catch (e: IOException) {
             Log.e(TAG, "loadProperties: Unable to open config file.", e)

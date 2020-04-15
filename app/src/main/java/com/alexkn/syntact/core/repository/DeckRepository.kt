@@ -1,22 +1,18 @@
 package com.alexkn.syntact.core.repository
 
 import androidx.lifecycle.LiveData
-import com.alexkn.syntact.app.Property
 import com.alexkn.syntact.core.model.Clue
 import com.alexkn.syntact.core.model.Deck
 import com.alexkn.syntact.core.model.SolvableItem
 import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.DeckDao
 import com.alexkn.syntact.service.Suggestion
-import com.alexkn.syntact.service.SyntactService
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class DeckRepository @Inject constructor(
-        private val syntactService: SyntactService,
-        private val property: Property,
         private val deckDao: DeckDao
 ) {
 

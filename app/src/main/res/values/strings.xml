@@ -6,7 +6,7 @@
 
     <string name="back_content_desc">back</string>
 
-    <!-- List -->
+    <!-- List Back -->
     <string name="settings_label">Settings</string>
     <string name="new_label">New</string>
     <string name="reviews_label">Reviews</string>
