@@ -29,6 +29,8 @@
     <string name="deck_list_start_button">Start</string>
     <string name="deck_list_empty_list_label">You currently have no decks.\n\nTab the + below to get started.</string>
     <!-- List Language Dialog -->
+    <string name="deck_list_language_dialog_header">Choose a Language for your new Deck</string>
+    <string name="deck_list_language_dialog_cancel_button">Cancel</string>
 
     <!-- Board -->
     <string name="deck_board_solved_today_label">solved today</string>
@@ -48,6 +50,11 @@
     <string name="deck_creation_add_button">Add</string>
     <string name="deck_creation_empty_list_label">Your Deck has no cards yet.\n\nAdd words in either language to fill it with cards.</string>
     <!-- Creation Item Dialog -->
+    <string name="deck_creation_detail_dialog_overline">Suggestion</string>
+    <string name="deck_creation_detail_dialog_header">Edit this Suggestion or use it to generate more Words for your Deck.</string>
+    <string name="deck_creation_detail_dialog_generate_button">Generate more like this</string>
+    <string name="deck_creation_detail_dialog_delete_button">Delete this suggestion</string>
+    <string name="deck_creation_detail_dialog_cancel_button">Cancel</string>
 
     <!-- Details -->
     <!-- Details Back -->
@@ -60,5 +67,6 @@
     <string name="deck_details_due_in_label">Due</string>
     <string name="deck_details_streak_label">Streak</string>
     <string name="deck_details_ease_label">Ease</string>
+
 
 </resources>

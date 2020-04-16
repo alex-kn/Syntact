@@ -116,10 +116,10 @@
                     android:layout_height="wrap_content"
                     android:gravity="end|top"
                     android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
                     android:inputType="text"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/addTextButton"
-                    android:importantForAutofill="no"
                     app:layout_constraintTop_toTopOf="@id/addTextButton" />
 
                 <com.google.android.material.button.MaterialButton

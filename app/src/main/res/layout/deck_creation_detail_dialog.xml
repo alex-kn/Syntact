@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Suggestion"
+        android:text="@string/deck_creation_detail_dialog_overline"
         android:textAppearance="@style/TextAppearance.MyTheme.Overline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="Edit this Suggestion or use it to generate more Words for your Deck."
+        android:text="@string/deck_creation_detail_dialog_header"
         android:textAppearance="@style/TextAppearance.MyTheme.Subtitle2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,14 +84,14 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Generate more like this" />
+            android:text="@string/deck_creation_detail_dialog_generate_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/deckCreationDetailDeleteButton"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Delete this suggestion"
+            android:text="@string/deck_creation_detail_dialog_delete_button"
             android:textColor="@color/color_error" />
 
         <com.google.android.material.button.MaterialButton
@@ -99,7 +99,7 @@
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel" />
+            android:text="@string/deck_creation_detail_dialog_cancel_button" />
 
 
     </LinearLayout>

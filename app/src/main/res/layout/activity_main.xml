@@ -8,7 +8,6 @@
     android:background="@color/color_backdrop"
     tools:context=".presentation.MainActivity">
 
-
     <fragment
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
