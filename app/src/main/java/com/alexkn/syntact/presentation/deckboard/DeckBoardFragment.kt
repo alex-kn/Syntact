@@ -65,7 +65,7 @@ class DeckBoardFragment : Fragment() {
 
     private fun onDeckChanged(deck: DeckListItem) {
         binding.headerSolved.text = deck.solvedToday.toString()
-        done = deck.newItemsToday == 0
+        done = deck.newItemsToday + deck.reviewsToday == 0
     }
 
     private fun onDone() {

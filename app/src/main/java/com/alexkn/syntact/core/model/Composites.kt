@@ -13,6 +13,7 @@ data class SolvableTranslationCto(
 data class DeckListItem(
         var deck: Deck,
         var solvedToday: Int,
+        var attemptedToday: Int,
         var newItemsToday: Int,
         var reviewsToday: Int
 ) : Identifiable<Long> {

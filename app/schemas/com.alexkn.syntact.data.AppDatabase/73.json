@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 73,
-    "identityHash": "c24788041ecf635a89efc89023931698",
+    "identityHash": "e617eea07947da72f7cbfe740b4dde14",
     "entities": [
       {
         "tableName": "SolvableItem",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `solvableItemText` TEXT NOT NULL, `lastSolved` INTEGER, `nextDueDate` INTEGER, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `deckId` INTEGER, FOREIGN KEY(`deckId`) REFERENCES `Deck`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `solvableItemText` TEXT NOT NULL, `lastSolved` INTEGER, `lastFailed` INTEGER, `lastAttempt` INTEGER, `nextDueDate` INTEGER, `firstSeen` INTEGER, `easiness` REAL NOT NULL, `consecutiveCorrectAnswers` INTEGER NOT NULL, `timesSolved` INTEGER NOT NULL, `deckId` INTEGER, FOREIGN KEY(`deckId`) REFERENCES `Deck`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "id",
@@ -27,8 +27,26 @@
             "notNull": false
           },
           {
+            "fieldPath": "lastFailed",
+            "columnName": "lastFailed",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "lastAttempt",
+            "columnName": "lastAttempt",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
             "fieldPath": "nextDueDate",
             "columnName": "nextDueDate",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "firstSeen",
+            "columnName": "firstSeen",
             "affinity": "INTEGER",
             "notNull": false
           },
@@ -232,7 +250,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'c24788041ecf635a89efc89023931698')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e617eea07947da72f7cbfe740b4dde14')"
     ]
   }
 }

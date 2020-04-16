@@ -47,23 +47,16 @@ class DeckListItemAdapter : ListItemAdapter<DeckListItem, DeckListItemAdapter.De
             val drawable = ResourcesCompat.getDrawable(itemView.resources, resId, null)
             binding.flag = drawable
 
-            binding.solvedIndicator.visibility = if (item.newItemsToday == 0 && item.reviewsToday == 0) View.VISIBLE else View.GONE
-
-//            val solvedToday = item.solvedToday.toDouble()
-//            val dueToday = item.newItemsToday + item.reviewsToday
-//            binding.progress = ceil(solvedToday / (dueToday + solvedToday) * 100).toInt()
+            binding.solvedIndicator.visibility = if (item.newItemsToday + item.reviewsToday == 0) View.VISIBLE else View.GONE
 
             val startButton = itemView.findViewById<MaterialButton>(R.id.startButton)
             startButton.setOnClickListener(this::startFlashcards)
 
             val optionsButton = itemView.findViewById<MaterialButton>(R.id.optionsButton)
             optionsButton.setOnClickListener(this::showBucketDetails)
-
-
         }
 
         private fun startFlashcards(view: View) {
-
             val action = DeckListFragmentDirections
                     .actionDeckListFragmentToDeckBoardFragment(item.deck.id!!)
             Navigation.findNavController(view).navigate(action)

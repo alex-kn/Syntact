@@ -20,6 +20,12 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
     @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.lastSolved >= :from and s.lastSolved < :to and s.deckId = :deckId")
     abstract suspend fun findItemsSolvedBetween(deckId: Long, from: Instant, to: Instant): List<SolvableTranslationCto>
 
+    @Query("select * from SolvableItem s left join Clue C on s.id = C.clueSolvableItemId where s.lastAttempt >= :from and s.lastAttempt < :to and s.deckId = :deckId")
+    abstract suspend fun findItemsAttemptedBetween(deckId: Long, from: Instant, to: Instant): List<SolvableTranslationCto>
+
+    @Query("select count(*) from SolvableItem s where s.firstSeen >= :from and s.firstSeen < :to and s.deckId = :deckId")
+    abstract suspend fun findItemsFirstSeenBetweenCount(deckId: Long, from: Instant, to: Instant): Int
+
     @Query("SELECT * FROM solvableitem s LEFT JOIN clue c ON (s.id = c.clueSolvableItemId) WHERE s.deckId = :deckId")
     abstract fun getSolvableTranslations(deckId: Long): LiveData<List<SolvableTranslationCto>>
 

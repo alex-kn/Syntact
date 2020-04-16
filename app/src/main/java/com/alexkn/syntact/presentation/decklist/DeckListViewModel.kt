@@ -52,11 +52,12 @@ constructor(
 
         val deckListItems = deckRepository.find(userLang).map {
             val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(it.id!!, Instant.now()).size
-            val newItems = solvableItemRepository.findNewItems(it.id!!, it.newItemsPerDay).size
+            val itemsAttemptedToday = solvableItemRepository.findItemsAttemptedOnDay(it.id!!, Instant.now()).size
+            val newItems = solvableItemRepository.findNewItemsForToday(it.id!!, it.newItemsPerDay).size
             val reviews = solvableItemRepository.findItemsDueForReview(it.id!!, Instant.now()).size
             totalReviews += reviews
             totalNewCards += newItems
-            DeckListItem(it, itemsSolvedToday, newItems, reviews)
+            DeckListItem(it, itemsSolvedToday, itemsAttemptedToday, newItems, reviews)
         }
         _decks.postValue(deckListItems)
         _newCards.postValue(totalNewCards)

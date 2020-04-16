@@ -59,9 +59,10 @@ class DeckBoardViewModel @Inject constructor(
             newCardsPerDay = deckRepository.find(deckId!!).newItemsPerDay
             val d = deckRepository.find(deckId!!)
             val itemsSolvedToday = solvableItemRepository.findItemsSolvedOnDay(d.id!!, Instant.now()).size
-            val newItems = solvableItemRepository.findNewItems(d.id!!, d.newItemsPerDay).size
+            val itemsAttemptedToday = solvableItemRepository.findItemsAttemptedOnDay(d.id!!, Instant.now()).size
+            val newItems = solvableItemRepository.findNewItemsForToday(d.id!!, d.newItemsPerDay).size
             val reviews = solvableItemRepository.findItemsDueForReview(d.id!!, Instant.now()).size
-            deck.postValue(DeckListItem(d, itemsSolvedToday, newItems, reviews))
+            deck.postValue(DeckListItem(d, itemsSolvedToday, itemsAttemptedToday, newItems, reviews))
 
             val nextTranslation = solvableItemRepository.findNextSolvableItem(deckId!!, Instant.now(), newCardsPerDay)
             translation.postValue(nextTranslation)

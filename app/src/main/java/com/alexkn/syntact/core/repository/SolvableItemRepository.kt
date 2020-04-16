@@ -3,6 +3,8 @@ package com.alexkn.syntact.core.repository
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.alexkn.syntact.app.TAG
+import com.alexkn.syntact.core.common.util.atEndOfDay
+import com.alexkn.syntact.core.common.util.atStartOfDay
 import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.SolvableItemDao
 import java.time.Instant
@@ -26,7 +28,7 @@ class SolvableItemRepository @Inject constructor(
 
     suspend fun findNextSolvableItem(deckId: Long, time: Instant, newItemsPerDay: Int): SolvableTranslationCto? {
 
-        val newItems = findNewItems(deckId, newItemsPerDay - findItemsSolvedOnDay(deckId, time).size)
+        val newItems = findNewItemsForToday(deckId, newItemsPerDay)
         if (newItems.isNotEmpty()) return newItems[0]
         val reviewItems = findItemsDueForReview(deckId, time)
         return if (reviewItems.isNotEmpty()) reviewItems[0] else null
@@ -39,16 +41,17 @@ class SolvableItemRepository @Inject constructor(
         return solvableItemDao.findSolvedItemsDueBefore(deckId, endOfDay)
     }
 
-    suspend fun findNewItems(deckId: Long, limit: Int): List<SolvableTranslationCto> {
-
-        return solvableItemDao.findUnsolvedItems(deckId, limit)
+    suspend fun findNewItemsForToday(deckId: Long, limit: Int): List<SolvableTranslationCto> {
+        val firstSeenTodayCount = solvableItemDao.findItemsFirstSeenBetweenCount(deckId, Instant.now().atStartOfDay(), Instant.now())
+        return solvableItemDao.findUnsolvedItems(deckId, limit - firstSeenTodayCount)
     }
 
     suspend fun findItemsSolvedOnDay(deckId: Long, time: Instant): List<SolvableTranslationCto> {
+        return solvableItemDao.findItemsSolvedBetween(deckId, time.atStartOfDay(), time.atEndOfDay())
+    }
 
-        val to = time.atZone(ZoneId.systemDefault()).withHour(23).withMinute(59).withSecond(59).toInstant()
-        val from = time.atZone(ZoneId.systemDefault()).withHour(0).withMinute(0).withSecond(0).toInstant()
-        return solvableItemDao.findItemsSolvedBetween(deckId, from, to)
+    suspend fun findItemsAttemptedOnDay(deckId: Long, time: Instant): List<SolvableTranslationCto> {
+        return solvableItemDao.findItemsAttemptedBetween(deckId, time.atStartOfDay(), time.atEndOfDay())
     }
 
     suspend fun markPhraseCorrect(solvableTranslation: SolvableTranslationCto, scoreRatio: Double) {
@@ -70,7 +73,10 @@ class SolvableItemRepository @Inject constructor(
         solvableItem.consecutiveCorrectAnswers = consecutiveCorrectAnswers
         solvableItem.nextDueDate = nextDueDate
         solvableItem.lastSolved = Instant.now()
-        solvableItem.timesSolved = solvableItem.timesSolved + 1
+        if (solvableItem.lastAttempt == null) solvableItem.firstSeen = Instant.now()
+        solvableItem.lastAttempt = Instant.now()
+        solvableItem.timesSolved += 1
+
 
         solvableItemDao.update(solvableItem)
         Log.d(TAG, "markPhraseCorrect: $solvableItem (Updated)")
@@ -93,7 +99,10 @@ class SolvableItemRepository @Inject constructor(
 
         solvableItem.easiness = easiness
         solvableItem.consecutiveCorrectAnswers = consecutiveCorrectAnswers
+        if (solvableItem.lastAttempt == null) solvableItem.firstSeen = Instant.now()
         solvableItem.nextDueDate = nextDueDate
+        solvableItem.lastFailed = Instant.now()
+        solvableItem.lastAttempt = Instant.now()
 
         solvableItemDao.update(solvableItem)
         Log.d(TAG, "markPhraseIncorrect: $solvableItem (Updated)")
