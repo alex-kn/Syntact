@@ -21,8 +21,11 @@
     <!-- List Front -->
     <string name="deck_list_new_label">New</string>
     <string name="deck_list_reviews_label">Reviews</string>
-    <string name="deck_list_list_header_done">Cards are due today</string>
-    <string name="deck_list_list_header_not_done">Welcome Back</string>
+    <plurals name="deck_list_list_header">
+        <item quantity="one">%1$d Card is due today</item>
+        <item quantity="other">%1$d Cards are due today</item>
+    </plurals>
+    <string name="deck_list_list_header_done">You\'re done for today</string>
     <string name="deck_list_new_today_label">New Today</string>
     <string name="deck_list_reviews_today_label">Reviews Today</string>
     <string name="deck_list_options_button">Options</string>
@@ -45,6 +48,7 @@
     <string name="deck_creation_number_of_cards_label">Number of cards</string>
     <string name="deck_creation_language_label">Language</string>
     <string name="deck_creation_name_label">Name</string>
+    <string name="deck_creation_default_name">My new Deck</string>
     <string name="deck_creation_new_cards_per_day_label">New Cards Per Day</string>
     <!-- Creation Front -->
     <string name="deck_creation_add_button">Add</string>

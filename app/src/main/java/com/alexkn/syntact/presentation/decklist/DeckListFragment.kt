@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.MainActivity
+import com.alexkn.syntact.presentation.common.animateIn
+import com.alexkn.syntact.presentation.common.animateOut
 import com.alexkn.syntact.presentation.decklist.dialog.DeckListLanguageDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -42,11 +43,10 @@ class DeckListFragment : Fragment() {
         viewModel = ViewModelProvider(this, (activity!!.application as ApplicationComponentProvider).applicationComponent.playMenuViewModelFactory())
                 .get(DeckListViewModel::class.java)
 
-
         sheet = BottomSheetBehavior.from(contentLayout)
         sheet.isFitToContents = false
         sheet.isHideable = false
-        if (savedInstanceState?.let { it.getBoolean("collapsed") } == true) collapse(sheet) else expand(sheet)
+        if (savedInstanceState?.getBoolean("collapsed") == true) collapse(sheet) else expand(sheet)
 
         backdropButton.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) else expand(sheet) }
         topLayout.setOnClickListener { if (sheet.state == BottomSheetBehavior.STATE_EXPANDED) collapse(sheet) }
@@ -63,7 +63,7 @@ class DeckListFragment : Fragment() {
         viewModel.total.observe(viewLifecycleOwner, Observer {
             deckListContentHeaderLabel.text = when (it) {
                 0 -> resources.getString(R.string.deck_list_list_header_done)
-                else -> resources.getString(R.string.deck_list_list_header_not_done)
+                else -> resources.getQuantityString(R.plurals.deck_list_list_header, it, it)
             }
         })
 
@@ -165,20 +165,4 @@ class DeckListFragment : Fragment() {
         animateIn(settingsLabel)
     }
 
-    private fun animateOut(vararg views: View) {
-        views.forEach {
-            it.animate().setDuration(200).alpha(0f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
-                it.translationX = 0f
-            }.start()
-        }
-    }
-
-    private fun animateIn(vararg views: View) {
-        views.forEach {
-            it.translationX = -100f
-            it.animate().setDuration(200).alpha(1f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
-                it.translationX = 0f
-            }.start()
-        }
-    }
 }

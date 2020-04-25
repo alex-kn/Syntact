@@ -8,7 +8,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -29,6 +28,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
+import com.alexkn.syntact.presentation.common.animateIn
+import com.alexkn.syntact.presentation.common.animateOut
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
@@ -55,7 +56,10 @@ class DeckCreationFragment : Fragment() {
     private val keywords = mutableMapOf<Int, String>()
 
     private var activeKeywordInput: EditText? = null
-    private lateinit var suggestionLang: Locale
+    private val suggestionLang: Locale
+        get() = if (leftInputActive) viewModel.deckLang.value!! else viewModel.userLang.value!!
+
+    private var leftInputActive = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +77,6 @@ class DeckCreationFragment : Fragment() {
                 .get(DeckCreationViewModel::class.java)
 
         viewModel.setLang(args.lang)
-        suggestionLang = Locale(args.lang)
 
         deckCreationRightLangFlag.clipToOutline = true
         deckCreationLeftLangFlag.clipToOutline = true
@@ -94,22 +97,21 @@ class DeckCreationFragment : Fragment() {
         }
 
 
-
         keywordsInputLeft.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
         keywordsInputRight.addTextChangedListener { addTextButton.isEnabled = !(it?.isBlank() ?: true) }
 
         keywordsInputLeft.setOnFocusChangeListener { v, _ ->
             val editText = v as EditText
             activeKeywordInput = editText
-            suggestionLang = viewModel.deckLang.value!!
+            leftInputActive = true
         }
         keywordsInputRight.setOnFocusChangeListener { v, _ ->
             val editText = v as EditText
             activeKeywordInput = editText
-            suggestionLang = viewModel.userLang.value!!
+            leftInputActive = false
         }
 
-        deckCreationNameInput.setText("My New Deck")
+        deckCreationNameInput.setText(resources.getString(R.string.deck_creation_default_name))
         viewModel.setDeckName("My New Deck")
 
         buildLanguageDialog()
@@ -298,23 +300,6 @@ class DeckCreationFragment : Fragment() {
         finishDeckFab.hide()
         animateIn(deckCreationHeaderCollapsed)
         animateOut(deckCreationHeaderExpanded)
-    }
-
-    private fun animateOut(vararg views: View) {
-        views.forEach {
-            it.animate().setDuration(200).alpha(0f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
-                it.translationX = 0f
-            }.start()
-        }
-    }
-
-    private fun animateIn(vararg views: View) {
-        views.forEach {
-            it.translationX = -100f
-            it.animate().setDuration(200).alpha(1f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
-                it.translationX = 0f
-            }.start()
-        }
     }
 
 }

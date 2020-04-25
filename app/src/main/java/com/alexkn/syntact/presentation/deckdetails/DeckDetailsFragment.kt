@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -15,6 +14,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.ApplicationComponentProvider
+import com.alexkn.syntact.presentation.common.animateIn
+import com.alexkn.syntact.presentation.common.animateOut
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -143,20 +144,5 @@ class DeckDetailsFragment : Fragment() {
         animateOut(headerExpanded)
     }
 
-    private fun animateOut(vararg views: View) {
-        views.forEach {
-            it.animate().setDuration(200).alpha(0f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
-                it.translationX = 0f
-            }.start()
-        }
-    }
 
-    private fun animateIn(vararg views: View) {
-        views.forEach {
-            it.translationX = -100f
-            it.animate().setDuration(200).alpha(1f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {
-                it.translationX = 0f
-            }.start()
-        }
-    }
 }
