@@ -20,6 +20,7 @@
         android:id="@+id/deckCreationItemRoot"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:gravity="bottom|clip_horizontal|center"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">

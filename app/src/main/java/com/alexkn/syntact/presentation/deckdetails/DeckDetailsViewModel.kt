@@ -26,16 +26,18 @@ class DeckDetailsViewModel @Inject constructor(
         translations = solvableItemRepository.getSolvableTranslations(bucketId)
     }
 
-    fun save(name: String, maxCardsPerDay: String) {
+    fun save(name: String, maxCardsPerDay: String) = viewModelScope.launch(Dispatchers.IO) {
         val deck = deck.value!!
         deck.name = name
         deck.newItemsPerDay = maxCardsPerDay.toIntOrNull() ?: 0
-        viewModelScope.launch(Dispatchers.IO) { deckRepository.updateDeck(deck) }
+        deckRepository.updateDeck(deck)
     }
 
-    fun deleteDeck() {
-        GlobalScope.launch(Dispatchers.IO) { deckRepository.deleteDeck(deck.value!!.id!!) }
+    fun deleteDeck() = GlobalScope.launch(Dispatchers.IO) {
+        deckRepository.deleteDeck(deck.value!!.id!!)
     }
 
-
+    fun deleteCard(solvableTranslationCto: SolvableTranslationCto) = viewModelScope.launch(Dispatchers.IO) {
+        solvableItemRepository.deleteSolvableTranslationCto(solvableTranslationCto)
+    }
 }

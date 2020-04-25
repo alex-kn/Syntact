@@ -3,6 +3,7 @@ package com.alexkn.syntact.presentation.common
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 
+
 fun animateOut(vararg views: View) {
     views.forEach {
         it.animate().setDuration(200).alpha(0f).translationXBy(100f).setInterpolator(AccelerateDecelerateInterpolator()).withEndAction {

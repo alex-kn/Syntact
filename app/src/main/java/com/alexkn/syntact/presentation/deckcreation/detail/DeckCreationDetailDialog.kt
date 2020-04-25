@@ -2,6 +2,7 @@ package com.alexkn.syntact.presentation.deckcreation.detail
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.InsetDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,11 +27,11 @@ class DeckCreationDetailDialog : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.setBackgroundDrawable(InsetDrawable(ColorDrawable(Color.TRANSPARENT), 32))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
         return inflater.inflate(R.layout.deck_creation_detail_dialog, container, false)
     }
@@ -71,6 +72,7 @@ class DeckCreationDetailDialog : DialogFragment() {
                 val textView = v as MaterialTextView
                 if (textView.isActivated) keywordsToAdd[locale]!!.remove(it) else keywordsToAdd[locale]!!.add(it)
                 materialTextView.isActivated = !materialTextView.isActivated
+                deckCreationDetailAddButton.isEnabled = keywordsToAdd.isNotEmpty()
             }
 
         }

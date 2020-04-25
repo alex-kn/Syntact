@@ -21,7 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.deck_details_fragment.*
-import java.util.function.Consumer
 
 
 class DeckDetailsFragment : Fragment() {
@@ -102,7 +101,7 @@ class DeckDetailsFragment : Fragment() {
 
     private fun setupItemList() {
         val solvableItemsListAdapter = SolvableItemsListAdapter()
-        solvableItemsListAdapter.deleteItemListener = Consumer { TODO("DELETE ITEM") }
+        solvableItemsListAdapter.onDeleteListener = { viewModel.deleteCard(it) }
         itemList.adapter = solvableItemsListAdapter
         val layoutManager = LinearLayoutManager(this.context)
         itemList.layoutManager = layoutManager

@@ -1,8 +1,11 @@
 package com.alexkn.syntact.presentation.deckboard
 
 import android.animation.AnimatorSet
+import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -35,6 +38,8 @@ class DeckBoardFragment : Fragment() {
     private var done = false
 
     private var scoreAnimation = AnimatorSet()
+
+    private var animator: ValueAnimator? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.deck_board_fragment, container, false)
@@ -98,6 +103,7 @@ class DeckBoardFragment : Fragment() {
             imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         } else {
             if (done) onDone() else {
+                animator?.reverse()
                 solvedIndicator.visibility = View.INVISIBLE
                 failedIndicator.visibility = View.INVISIBLE
                 solving = true
@@ -113,8 +119,9 @@ class DeckBoardFragment : Fragment() {
 
     private fun onSolved(score: Double) {
 
+        val solved = score > 0.9
         scoreAnimation.end()
-        val view = if (score > 0.9) solvedIndicator else failedIndicator
+        val view = if (solved) solvedIndicator else failedIndicator
         view.visibility = View.VISIBLE
         val scaleAnimX = ObjectAnimator.ofFloat(view, "scaleX", 0f, 1.2f, 1f)
         val scaleAnimY = ObjectAnimator.ofFloat(view, "scaleY", 0f, 1.2f, 1f)
@@ -124,21 +131,38 @@ class DeckBoardFragment : Fragment() {
         scoreAnimation.interpolator = AccelerateDecelerateInterpolator()
         scoreAnimation.playTogether(scaleAnimX, scaleAnimY)
         scoreAnimation.start()
+
+        animateSolved(motionLayout, solved)
     }
 
     private fun onCurrentScoreChanged(currentScore: Int) {
 
         similarityBar.progress = currentScore
         val score = viewModel.scoreRatio * 100
-        if (!score.isNaN()) scoreOutput.text = score.roundToInt().toString() + " %"
+        if (!score.isNaN()) scoreOutput.text = resources.getString(R.string.percent, score.roundToInt())
     }
 
     private fun onMaxScoreChanged(maxScore: Int) {
 
         similarityBar.max = maxScore
         val score = viewModel.scoreRatio * 100
-        if (!score.isNaN()) scoreOutput.text = score.roundToInt().toString() + " %"
+        if (!score.isNaN()) scoreOutput.text = resources.getString(R.string.percent, score.roundToInt())
     }
+
+    private fun animateSolved(targetView: View, solved: Boolean) {
+
+        val surface = resources.getColor(R.color.color_surface, null)
+        val color = resources.getColor(if (solved) R.color.color_success else R.color.color_error, null)
+        val background = targetView.background as GradientDrawable
+
+        animator = ValueAnimator.ofObject(ArgbEvaluator(), surface, color).apply {
+            addUpdateListener { animator -> background.setColor(animator.animatedValue as Int) }
+            interpolator = AccelerateDecelerateInterpolator()
+            duration = 100
+            start()
+        }
+    }
+
 
     inner class SolutionTextWatcher : TextWatcher {
 

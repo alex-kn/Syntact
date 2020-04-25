@@ -54,6 +54,10 @@ class SolvableItemRepository @Inject constructor(
         return solvableItemDao.findItemsAttemptedBetween(deckId, time.atStartOfDay(), time.atEndOfDay())
     }
 
+    suspend fun deleteSolvableTranslationCto(solvableTranslation: SolvableTranslationCto) {
+        solvableItemDao.delete(solvableTranslation.solvableItem, solvableTranslation.clue)
+    }
+
     suspend fun markPhraseCorrect(solvableTranslation: SolvableTranslationCto, scoreRatio: Double) {
 
         val solvableItem = solvableTranslation.solvableItem

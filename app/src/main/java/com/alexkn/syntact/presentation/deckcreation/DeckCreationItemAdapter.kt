@@ -28,6 +28,7 @@ class DeckCreationItemAdapter : ListItemAdapter<Suggestion, DeckCreationItemAdap
     override fun onBindViewHolder(holder: DeckCreationItemViewHolder, position: Int) {
 
         val phraseSuggestionResponse = list[position]
+        holder.bindTo(phraseSuggestionResponse)
 
         holder.itemView.setOnClickListener {
 
@@ -37,9 +38,7 @@ class DeckCreationItemAdapter : ListItemAdapter<Suggestion, DeckCreationItemAdap
                 bindTo(phraseSuggestionResponse)
                 show((holder.itemView.context as AppCompatActivity).supportFragmentManager, DeckCreationDetailDialog::class.simpleName)
             }
-
         }
-        holder.bindTo(phraseSuggestionResponse)
     }
 
     class DeckCreationItemViewHolder(val binding: DeckCreationItemBinding) : ListItemViewHolder<Suggestion>(binding.root) {

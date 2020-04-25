@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Syntact</string>
-    <string name="empty">_</string>
+    <string name="underscore">_</string>
+    <string name="dash">-</string>
 
     <string name="active_languages_file_key">com.alexkn.syntact.activelanguages</string>
 
@@ -8,6 +9,8 @@
     <string name="back_content_desc">Back</string>
     <string name="flag_content_desc">Flag</string>
     <string name="settings_content_desc">settings</string>
+
+    <string name="percent">%1$d %%</string>
 
     <string name="no">No</string>
     <string name="yes">Yes</string>
@@ -55,7 +58,7 @@
     <string name="deck_creation_empty_list_label">Your Deck has no cards yet.\n\nAdd words in either language to fill it with cards.</string>
     <!-- Creation Item Dialog -->
     <string name="deck_creation_detail_dialog_overline">Suggestion</string>
-    <string name="deck_creation_detail_dialog_header">Edit this Suggestion or use it to generate more Words for your Deck.</string>
+    <string name="deck_creation_detail_dialog_header">Tap individual Words to use them as Input for your Deck.</string>
     <string name="deck_creation_detail_dialog_generate_button">Generate more like this</string>
     <string name="deck_creation_detail_dialog_delete_button">Delete this suggestion</string>
     <string name="deck_creation_detail_dialog_cancel_button">Cancel</string>
@@ -71,6 +74,11 @@
     <string name="deck_details_due_in_label">Due</string>
     <string name="deck_details_streak_label">Streak</string>
     <string name="deck_details_ease_label">Ease</string>
-
+    <!-- Details Item Dialog -->
+    <string name="deck_details_detail_dialog_header">Card</string>
+    <string name="deck_details_detail_dialog_save_button">Save</string>
+    <string name="deck_details_detail_dialog_delete_button">Delete</string>
+    <string name="deck_details_detail_dialog_delete_button_confirm">Really Delete Card?</string>
+    <string name="deck_details_detail_dialog_cancel_button">Cancel</string>
 
 </resources>

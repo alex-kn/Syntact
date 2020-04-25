@@ -59,6 +59,15 @@
             tools:text="English" />
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/dash"
+            app:layout_constraintBaseline_toBaselineOf="@id/deckListLanguageDialogItemTextLeft"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/deckListLanguageDialogItemTextRight"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

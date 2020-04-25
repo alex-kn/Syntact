@@ -4,19 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.alexkn.syntact.R
 import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
+import com.alexkn.syntact.presentation.deckdetails.detail.DeckDetailsDetailDialog
 import org.apache.commons.lang3.time.DurationFormatUtils
 import java.time.Duration
 import java.time.Instant
-import java.util.function.Consumer
 
 
 class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, SolvableItemsListAdapter.SolvableItemViewHolder>() {
 
-    lateinit var deleteItemListener: Consumer<SolvableTranslationCto>
+    lateinit var onDeleteListener: (SolvableTranslationCto) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SolvableItemViewHolder {
 
@@ -28,23 +29,16 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
     override fun onBindViewHolder(holder: SolvableItemViewHolder, position: Int) {
 
         val solvableTranslationCto = list[position]
-
-//        val dialogBuilder = MaterialAlertDialogBuilder(holder.itemView.context)
-
-//        holder.deleteButton.setOnClickListener {
-//            dialogBuilder
-//                    .setTitle("Delete Item")
-//                    .setMessage("The Item will be delete from this Deck")
-//                    .setPositiveButton("Delete") { dialog, _ ->
-//                        deleteItemListener.accept(solvableTranslationCto)
-//                        dialog.dismiss()
-//                    }
-//                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel() }.create().show()
-//        }
-
         holder.bindTo(solvableTranslationCto)
-    }
 
+        holder.itemView.setOnClickListener {
+            with(DeckDetailsDetailDialog()) {
+                onDelete = onDeleteListener
+                bindTo(solvableTranslationCto)
+                show((holder.itemView.context as AppCompatActivity).supportFragmentManager, DeckDetailsDetailDialog::class.simpleName)
+            }
+        }
+    }
 
     class SolvableItemViewHolder(v: View) : ListItemViewHolder<SolvableTranslationCto>(v) {
 

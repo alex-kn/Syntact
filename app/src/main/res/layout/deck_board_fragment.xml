@@ -88,9 +88,9 @@
                 android:src="@drawable/ic_baseline_check_24"
                 android:tint="@color/color_success"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/backButton"
+                app:layout_constraintBottom_toBottomOf="@+id/headerSolved"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/backButton" />
+                app:layout_constraintTop_toTopOf="@+id/headerSolved" />
 
             <ImageView
                 android:id="@+id/failedIndicator"
@@ -105,9 +105,9 @@
                 android:src="@drawable/ic_baseline_clear_24"
                 android:tint="@color/color_error"
                 android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/backButton"
+                app:layout_constraintBottom_toBottomOf="@+id/headerSolved"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/backButton" />
+                app:layout_constraintTop_toTopOf="@+id/headerSolved" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
