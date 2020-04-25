@@ -252,7 +252,7 @@
             android:background="@color/color_backdrop"
             android:elevation="4dp"
             android:orientation="vertical"
-            app:behavior_peekHeight="50dp"
+            app:behavior_peekHeight="0dp"
             app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
 
 

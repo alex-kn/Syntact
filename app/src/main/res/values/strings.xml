@@ -53,6 +53,7 @@
     <string name="deck_creation_name_label">Name</string>
     <string name="deck_creation_default_name">My new Deck</string>
     <string name="deck_creation_new_cards_per_day_label">New Cards Per Day</string>
+    <string name="deck_creation_create_deck_button">Create Deck</string>
     <!-- Creation Front -->
     <string name="deck_creation_add_button">Add</string>
     <string name="deck_creation_empty_list_label">Your Deck has no cards yet.\n\nAdd words in either language to fill it with cards.</string>

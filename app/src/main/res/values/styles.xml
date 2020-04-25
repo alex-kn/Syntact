@@ -11,7 +11,9 @@
         <item name="android:statusBarColor">@color/color_background</item>
         <item name="bottomSheetStyle">@style/Widget.MyTheme.BottomSheet.Modal</item>
         <item name="android:navigationBarColor">@color/color_background</item>
-        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@android:color/transparent</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">
+            @android:color/transparent
+        </item>
     </style>
 
     <style name="Widget.MyTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
@@ -23,7 +25,14 @@
         <item name="android:backgroundTint">@color/color_surface</item>
         <item name="android:background">@color/color_surface</item>
         <item name="android:elevation">12dp</item>
-</style>
+    </style>
+
+    <style name="Widget.MyTheme.Button.Secondary" parent="Widget.MaterialComponents.Button">
+        <item name="iconTint">@color/btn_text_color_selector_secondary</item>
+        <item name="android:textColor">@color/btn_text_color_selector_secondary</item>
+        <item name="rippleColor">@color/btn_ripple_color_secondary</item>
+        <item name="backgroundTint">@color/btn_bg_color_selector_secondary</item>
+    </style>
 
 
     <!--Navigation Drawer-->
@@ -32,7 +41,6 @@
     </style>
 
     <!--Toolbar-->
-    <style name="Widget.MyTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
-    </style>
+    <style name="Widget.MyTheme.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary"></style>
 
 </resources>

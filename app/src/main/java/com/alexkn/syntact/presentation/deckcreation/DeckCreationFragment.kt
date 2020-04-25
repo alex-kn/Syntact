@@ -2,6 +2,8 @@ package com.alexkn.syntact.presentation.deckcreation
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -139,17 +141,29 @@ class DeckCreationFragment : Fragment() {
 
         finishDeckFab.setOnClickListener {
             imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+            if (viewModel.suggestions.value?.values.isNullOrEmpty()) {
+                Snackbar.make(requireView(), "Please add cards to your deck", Snackbar.LENGTH_SHORT).setAnchorView(R.id.finishDeckFab).show()
+            } else {
+                collapse(sheet)
+                deckCreationScrollView.fullScroll(View.FOCUS_DOWN)
+            }
+        }
+        deckCreationCreateDeckButton.background.colorFilter = PorterDuffColorFilter(resources.getColor(R.color.color_secondary, null), PorterDuff.Mode.SRC_ATOP)
+
+        deckCreationCreateDeckButton.setOnClickListener {
+            imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             when {
                 viewModel.deckName.value.isNullOrBlank() -> {
-                    collapse(sheet)
-                    Handler().postDelayed({ Snackbar.make(requireView(), "Please enter a name for your deck.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.deckCreationHeaderLayout).show() }, 400)
+                    Snackbar.make(requireView(), "Please enter a name for your deck.", Snackbar.LENGTH_SHORT).setAnchorView(R.id.deckCreationHeaderLayout).show()
+                    deckCreationNameInput.requestFocus()
                 }
                 viewModel.suggestions.value?.values.isNullOrEmpty() -> {
-                    Snackbar.make(requireView(), "Please add cards to your deck", Snackbar.LENGTH_SHORT).setAnchorView(R.id.finishDeckFab).show()
+                    expand(sheet)
+                    Snackbar.make(requireView(), "Please add cards to your deck", Snackbar.LENGTH_SHORT).show()
                 }
                 else -> {
                     viewModel.createDeck(deckCreationCardsPerDayInput.text.toString())
-                    Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "New Deck created.", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(activity!!.findViewById(R.id.nav_host_fragment), "${viewModel.deckName.value} created.", Snackbar.LENGTH_SHORT).show()
                     Navigation.findNavController(it).popBackStack()
                 }
             }
@@ -283,6 +297,8 @@ class DeckCreationFragment : Fragment() {
             deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_build_24)
             deckCreationBackdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
         }.start()
+        deckCreationCreateDeckButton.shrink()
+        deckCreationCreateDeckButton.hide()
         finishDeckFab.show()
         animateOut(deckCreationHeaderCollapsed)
         animateIn(deckCreationHeaderExpanded)
@@ -295,8 +311,12 @@ class DeckCreationFragment : Fragment() {
 
         deckCreationBackdropButton.animate().rotation(90f).alpha(0.5f).setDuration(100).withEndAction {
             deckCreationBackdropButton.setImageResource(R.drawable.ic_baseline_list_24)
-            deckCreationBackdropButton.animate().rotation(180f).alpha(1f).setDuration(100).start()
+            deckCreationBackdropButton.animate().rotation(180f).alpha(1f).setDuration(100).withEndAction {
+                deckCreationCreateDeckButton.show()
+                deckCreationCreateDeckButton.extend()
+            }.start()
         }.start()
+
         finishDeckFab.hide()
         animateIn(deckCreationHeaderCollapsed)
         animateOut(deckCreationHeaderExpanded)

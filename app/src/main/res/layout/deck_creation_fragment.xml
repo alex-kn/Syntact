@@ -98,6 +98,7 @@
         app:layout_constraintTop_toBottomOf="@+id/topLayout">
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/deckCreationScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="50dp"
@@ -268,6 +269,24 @@
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center"
+            android:padding="16dp"
+            app:layout_anchor="@id/deckCreationContentLayout"
+            app:layout_anchorGravity="top|center">
+
+            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+                android:id="@+id/deckCreationCreateDeckButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="@string/deck_creation_create_deck_button"
+                app:icon="@drawable/ic_baseline_check_24"
+                app:layout_anchorGravity="top" />
+        </FrameLayout>
 
         <include layout="@layout/deck_creation_bottom_sheet" />
 
