@@ -9,7 +9,6 @@ import com.alexkn.syntact.core.repository.ConfigRepository
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.PhraseSuggestionRepository
 import com.alexkn.syntact.core.repository.PreferencesRepository
-import com.alexkn.syntact.presentation.common.handler
 import com.alexkn.syntact.service.Suggestion
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -60,10 +59,15 @@ class DeckCreationViewModel @Inject constructor(
         _deckLang.postValue(Locale(lang))
     }
 
-    fun fetchSuggestions(keywordId: Int, text: String, suggestionLang: Locale) = viewModelScope.launch(handler()) {
+    fun fetchSuggestions(keywordId: Int, text: String, suggestionLang: Locale) = viewModelScope.launch {
         val deckLangVal = deckLang.value!!
         val destLang = if (suggestionLang == deckLangVal) prefs.language else deckLangVal
-        var newSuggestions = phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang)
+
+        var newSuggestions = try {
+            phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang)
+        } catch (e: Exception) {
+            emptyList<Suggestion>()
+        }
         if (suggestionLang != deckLangVal) newSuggestions = swapLanguage(newSuggestions)
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
         addNewSuggestions(keywordId, newSuggestions)

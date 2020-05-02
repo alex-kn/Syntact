@@ -1,4 +1,4 @@
-package com.alexkn.syntact.app
+package com.alexkn.syntact.app.general.config
 
 import android.content.Context
 import com.alexkn.syntact.data.config.DaoModule
@@ -8,12 +8,13 @@ import com.alexkn.syntact.presentation.deckboard.DeckBoardViewModel
 import com.alexkn.syntact.presentation.deckcreation.DeckCreationViewModel
 import com.alexkn.syntact.presentation.deckdetails.DeckDetailsViewModel
 import com.alexkn.syntact.presentation.decklist.DeckListViewModel
+import com.alexkn.syntact.service.config.NetworkModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [NetworkModule::class, DatabaseModule::class, DaoModule::class])
+@Component(modules = [AuthenticationModule::class, NetworkModule::class, DatabaseModule::class, DaoModule::class])
 interface ApplicationComponent {
 
     @Component.Builder

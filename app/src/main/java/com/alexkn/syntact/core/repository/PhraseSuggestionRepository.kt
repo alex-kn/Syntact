@@ -1,6 +1,6 @@
 package com.alexkn.syntact.core.repository
 
-import com.alexkn.syntact.app.AuthProv
+import com.alexkn.syntact.app.auth.AuthenticationProvider
 import com.alexkn.syntact.service.SyntactService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class PhraseSuggestionRepository @Inject constructor(
         private val syntactService: SyntactService,
-        private val authenticationProvider: AuthProv
+        private val authenticationProvider: AuthenticationProvider
 ) {
 
     suspend fun fetchSuggestions(text: String, srcLang: Locale, destLang: Locale) = coroutineScope {
@@ -22,6 +22,7 @@ class PhraseSuggestionRepository @Inject constructor(
         }
 
         sentences.await()
+
     }
 
 }

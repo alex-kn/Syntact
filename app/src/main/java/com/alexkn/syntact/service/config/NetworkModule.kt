@@ -1,4 +1,4 @@
-package com.alexkn.syntact.app
+package com.alexkn.syntact.service.config
 
 import com.alexkn.syntact.core.repository.ConfigRepository
 import com.alexkn.syntact.service.SyntactService
@@ -15,10 +15,6 @@ import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-
-//    @Singleton
-//    @Provides
-//    fun provideSyntactService(): SyntactService = SyntactServiceMock()
 
     @Singleton
     @Provides

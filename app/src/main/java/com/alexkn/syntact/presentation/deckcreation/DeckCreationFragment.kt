@@ -28,8 +28,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexkn.syntact.R
-import com.alexkn.syntact.app.ApplicationComponentProvider
 import com.alexkn.syntact.app.TAG
+import com.alexkn.syntact.app.general.config.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.common.animateIn
 import com.alexkn.syntact.presentation.common.animateOut
 import com.alexkn.syntact.presentation.common.flagDrawableOf
