@@ -18,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.children
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -27,11 +28,13 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.alexkn.syntact.R
 import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.app.general.config.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.common.animateIn
 import com.alexkn.syntact.presentation.common.animateOut
+import com.alexkn.syntact.presentation.common.characterRegex
 import com.alexkn.syntact.presentation.common.detail.ChooseLanguageDialog
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -230,10 +233,9 @@ class DeckCreationFragment : Fragment() {
     }
 
     private fun generateFromSuggestion(keywordMap: Map<Locale, Set<String>>) {
-        val regex = Regex("[A-Za-zÄÜÖäüö]+")//TODO
         keywordMap.forEach { (locale, keywords) ->
             keywords.forEach {
-                addKeywordChip(regex.find(it)!!.value, locale)
+                addKeywordChip(it, locale)
             }
         }
     }
@@ -244,8 +246,9 @@ class DeckCreationFragment : Fragment() {
 
             dialog = ChooseLanguageDialog("Choose the Language of your Deck").apply {
                 bindTo(choices) {
-                    viewModel.switchDeckLang(it)
                     keywords.clear()
+                    viewModel.switchDeckLang(it)
+                    this@DeckCreationFragment.keywordsChipGroup.children.forEach { chip -> this@DeckCreationFragment.keywordsChipGroup.removeView(chip) }
                     dialog?.dismiss()
                 }
             }
@@ -260,24 +263,30 @@ class DeckCreationFragment : Fragment() {
 
     private fun addKeywordChip(t: String, lang: Locale) {
 
-        val regex = Regex("[A-Za-zÄÜÖäüö]+")
-        val text = regex.find(t)!!.value
+        val text = characterRegex().find(t)!!.value
 
         val chip = LayoutInflater.from(requireContext()).inflate(R.layout.deck_creation_input_chip, keywordsChipGroup, false) as Chip
         chip.text = text
         chip.isCheckable = false
 
-        val src = resources.flagDrawableOf(lang).toBitmap()
-        val roundedSrc = RoundedBitmapDrawableFactory.create(resources, src)
-        roundedSrc.cornerRadius = max(src.width, src.height) / 2f
-        roundedSrc.isCircular = true
-        chip.chipIcon = roundedSrc
+        chip.chipIcon = CircularProgressDrawable(requireContext()).apply {
+            setStyle(CircularProgressDrawable.DEFAULT)
+            setColorSchemeColors(resources.getColor(R.color.color_secondary, null))
+            start()
+        }
+
         chip.setOnCloseIconClickListener(this::onCloseChip)
 
         keywordsChipGroup.addView(chip)
 
         try {
-            viewModel.fetchSuggestions(chip.id, text, lang)
+            viewModel.fetchSuggestions(chip.id, text, lang).invokeOnCompletion {
+                val src = resources.flagDrawableOf(lang).toBitmap()
+                val roundedSrc = RoundedBitmapDrawableFactory.create(resources, src)
+                roundedSrc.cornerRadius = max(src.width, src.height) / 2f
+                roundedSrc.isCircular = true
+                chip.chipIcon = roundedSrc
+            }
         } catch (e: Exception) {
             Log.e(TAG, "DeckCreationFragment: ", e)
         }
