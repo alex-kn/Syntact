@@ -59,18 +59,23 @@ class DeckCreationDetailDialog : DialogFragment() {
     private fun setupSentence(text: String, locale: Locale, layout: ViewGroup) {
         keywordsToAdd[locale] = mutableSetOf()
         val layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-        layoutParams.setMargins(2, 1, 2, 1)
+        layoutParams.setMargins(5, 3, 5, 3)
         text.split(" ").forEach {
             val materialTextView = MaterialTextView(requireContext())
             materialTextView.layoutParams = layoutParams
             materialTextView.setTextAppearance(R.style.TextAppearance_MyTheme_Headline5)
             materialTextView.text = it
-            materialTextView.setBackgroundResource(R.drawable.rounded_activatable)
 
             layout.addView(materialTextView)
             materialTextView.setOnClickListener { v ->
                 val textView = v as MaterialTextView
-                if (textView.isActivated) keywordsToAdd[locale]!!.remove(it) else keywordsToAdd[locale]!!.add(it)
+                if (textView.isActivated) {
+                    keywordsToAdd[locale]!!.remove(it)
+                    materialTextView.setTextColor(resources.getColor(R.color.color_on_background, null))
+                } else {
+                    keywordsToAdd[locale]!!.add(it)
+                    materialTextView.setTextColor(resources.getColor(R.color.color_secondary, null))
+                }
                 materialTextView.isActivated = !materialTextView.isActivated
                 deckCreationDetailAddButton.isEnabled = keywordsToAdd.isNotEmpty()
             }

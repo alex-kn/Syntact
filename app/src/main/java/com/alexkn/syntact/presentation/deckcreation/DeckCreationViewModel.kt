@@ -1,9 +1,11 @@
 package com.alexkn.syntact.presentation.deckcreation
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.core.model.Preferences
 import com.alexkn.syntact.core.repository.ConfigRepository
 import com.alexkn.syntact.core.repository.DeckRepository
@@ -64,10 +66,13 @@ class DeckCreationViewModel @Inject constructor(
         val destLang = if (suggestionLang == deckLangVal) prefs.language else deckLangVal
 
         var newSuggestions = try {
+            Log.d(TAG, "fetchSuggestions: Fetching suggestions for $text (ID: $keywordId, $suggestionLang -> $destLang)")
             phraseSuggestionRepository.fetchSuggestions(text, suggestionLang, destLang)
         } catch (e: Exception) {
+            Log.e(TAG, "DeckCreationViewModel: Error fetching suggestions for $text (ID: $keywordId, $suggestionLang -> $destLang)", e)
             emptyList<Suggestion>()
         }
+        Log.d(TAG, "fetchSuggestions: Fetched ${newSuggestions.size} suggestions for $text (ID: $keywordId, $suggestionLang -> $destLang)")
         if (suggestionLang != deckLangVal) newSuggestions = swapLanguage(newSuggestions)
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
         addNewSuggestions(keywordId, newSuggestions)
@@ -75,6 +80,7 @@ class DeckCreationViewModel @Inject constructor(
 
     @Synchronized
     private fun addNewSuggestions(keywordId: Int, suggestionList: List<Suggestion>) {
+        println("Running on ${Thread.currentThread().name}")
         val currentSuggestions = _suggestions.value!!
         val newSuggestions = suggestionList.filterNot { new ->
             currentSuggestions.values.flatten().any { old ->
@@ -82,7 +88,7 @@ class DeckCreationViewModel @Inject constructor(
             }
         }
         val newSuggestionMap = currentSuggestions + mapOf(keywordId to newSuggestions)
-        _suggestions.postValue(newSuggestionMap)
+        _suggestions.value = newSuggestionMap
     }
 
     private fun swapLanguage(newSuggestions: List<Suggestion>): List<Suggestion> {

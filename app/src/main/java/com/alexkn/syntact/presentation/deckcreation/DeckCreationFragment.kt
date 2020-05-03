@@ -142,7 +142,7 @@ class DeckCreationFragment : Fragment() {
         finishDeckFab.setOnClickListener {
             imm.hideSoftInputFromWindow(it.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
             if (viewModel.suggestions.value?.values.isNullOrEmpty()) {
-                Snackbar.make(requireView(), "Please add cards to your deck", Snackbar.LENGTH_SHORT).setAnchorView(R.id.finishDeckFab).show()
+                Snackbar.make(requireView(), "Please add cards to your deck", Snackbar.LENGTH_SHORT).show()
             } else {
                 collapse(sheet)
                 deckCreationScrollView.fullScroll(View.FOCUS_DOWN)
@@ -218,9 +218,9 @@ class DeckCreationFragment : Fragment() {
             numberOfCardsOutput.text = suggestions.values.flatten().size.toString()
             suggestionListEmptyLabel.visibility = if (suggestions.values.firstOrNull().isNullOrEmpty()) View.VISIBLE else View.GONE
             suggestionListAdapter.submitList(suggestions.toSortedMap().values.flatten())
-            suggestions.filter { it.value.isEmpty() }.keys.forEach {
+            suggestions.filter { it.value.isNullOrEmpty() }.keys.forEach {
                 val chip = keywordsChipGroup.findViewById<Chip?>(it)
-                val color = ContextCompat.getColor(requireContext(), R.color.color_error)
+                val color = ContextCompat.getColor(requireContext(), R.color.color_error_transparent)
                 chip?.chipBackgroundColor = ColorStateList.valueOf(color)
             }
         })
@@ -270,6 +270,13 @@ class DeckCreationFragment : Fragment() {
         roundedSrc.isCircular = true
         chip.chipIcon = roundedSrc
         chip.setOnCloseIconClickListener(this::onCloseChip)
+
+        chip.setOnClickListener {
+            val list = viewModel.suggestions.value!![chip.id]
+            Log.d(TAG, "VM ${chip.id}: $list")
+            Log.d(TAG, "FR ${chip.id}: ${keywords[chip.id]}")
+        }
+
         keywordsChipGroup.addView(chip)
 
         try {
