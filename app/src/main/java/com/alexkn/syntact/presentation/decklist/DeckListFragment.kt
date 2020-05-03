@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
@@ -21,10 +20,10 @@ import com.alexkn.syntact.app.general.config.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.MainActivity
 import com.alexkn.syntact.presentation.common.animateIn
 import com.alexkn.syntact.presentation.common.animateOut
+import com.alexkn.syntact.presentation.common.detail.ChooseLanguageDialog
 import com.alexkn.syntact.presentation.common.toUiString
 import com.alexkn.syntact.presentation.decklist.dialog.DeckListLanguageDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.deck_list_fragment.*
 import java.time.Duration
 import java.time.Instant
@@ -35,7 +34,7 @@ class DeckListFragment : Fragment() {
 
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
     private lateinit var viewModel: DeckListViewModel
-    private lateinit var dialog: AlertDialog
+    private lateinit var dialog: ChooseLanguageDialog
     private var timer: CountDownTimer? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -105,7 +104,9 @@ class DeckListFragment : Fragment() {
                 viewModel.refreshDeckList(it.language)
             }
         })
-        userLanguageOutput.setOnClickListener { dialog.show() }
+        userLanguageOutput.setOnClickListener {
+            dialog.show((requireContext() as AppCompatActivity).supportFragmentManager, ChooseLanguageDialog::class.simpleName)
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -140,10 +141,12 @@ class DeckListFragment : Fragment() {
 
     private fun buildLanguageDialog() {
 
-        dialog = MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Choose your Language")
-                .setItems(viewModel.languageChoices.map { it.displayLanguage }.toTypedArray()) { _, i -> viewModel.switchLanguage(i) }
-                .create()
+        dialog = ChooseLanguageDialog("Choose your Language").apply {
+            bindTo(viewModel.languageChoices) {
+                dialog?.dismiss()
+                viewModel.switchLanguage(it)
+            }
+        }
     }
 
     private fun createBucket(view: View) {

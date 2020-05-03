@@ -47,7 +47,7 @@ class DeckCreationDetailDialog : DialogFragment() {
             dialog?.dismiss()
         }
         deckCreationDetailCancelButton.setOnClickListener { dialog?.dismiss() }
-
+        deckCreationDetailAddButton.isEnabled = false
         setupSentence(suggestion.src, suggestion.srcLang, topItemLayout)
         setupSentence(suggestion.dest, suggestion.destLang, bottomItemLayout)
     }
@@ -77,7 +77,7 @@ class DeckCreationDetailDialog : DialogFragment() {
                     materialTextView.setTextColor(resources.getColor(R.color.color_secondary, null))
                 }
                 materialTextView.isActivated = !materialTextView.isActivated
-                deckCreationDetailAddButton.isEnabled = keywordsToAdd.isNotEmpty()
+                deckCreationDetailAddButton.isEnabled = keywordsToAdd.values.flatten().isNotEmpty()
             }
 
         }

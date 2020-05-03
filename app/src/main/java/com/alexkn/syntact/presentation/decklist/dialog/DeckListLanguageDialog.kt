@@ -31,11 +31,10 @@ class DeckListLanguageDialog : DialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        deckListLanguageList.layoutManager = LinearLayoutManager(this.context)
+        deckListLanguageList.layoutManager = LinearLayoutManager(requireContext())
         deckListLanguageList.adapter = DeckListLanguageDialogItemAdaper(list, onChooseLanguage)
         deckListLanguageCancelButton.setOnClickListener { dismiss() }
     }
-
 
     fun bindTo(list: List<Pair<Locale, Locale>>, onChooseLanguage: (Locale) -> Unit) {
         this.list = list

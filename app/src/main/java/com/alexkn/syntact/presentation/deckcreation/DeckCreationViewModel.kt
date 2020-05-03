@@ -129,9 +129,9 @@ class DeckCreationViewModel @Inject constructor(
         }
     }
 
-    fun switchDeckLang(index: Int) {
+    fun switchDeckLang(locale: Locale) {
         _suggestions.value = emptyMap()
-        _deckLang.value = languageChoices.value!![index]
+        _deckLang.value = locale
     }
 
     fun setDeckName(name: String) {

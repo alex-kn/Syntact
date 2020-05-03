@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="flagLeft"
+            type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="langLeft"
+            type="String" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:clipChildren="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp">
+
+        <ImageView
+            android:id="@+id/chooseLanguageDialogItemImageLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:adjustViewBounds="true"
+            android:alpha="1"
+            android:background="@drawable/frame"
+            android:contentDescription="@string/flag_content_desc"
+            android:scaleType="fitEnd"
+            android:src="@{flagLeft}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chooseLanguageDialogItemTextLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:text="@{langLeft}"
+            android:textAppearance="@style/TextAppearance.MyTheme.Overline"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/chooseLanguageDialogItemImageLeft"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="English" />
+
+    </LinearLayout>
+</layout>

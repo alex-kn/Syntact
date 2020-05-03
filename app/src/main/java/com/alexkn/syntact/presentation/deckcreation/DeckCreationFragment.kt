@@ -14,7 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.core.graphics.drawable.toBitmap
@@ -32,10 +32,10 @@ import com.alexkn.syntact.app.TAG
 import com.alexkn.syntact.app.general.config.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.common.animateIn
 import com.alexkn.syntact.presentation.common.animateOut
+import com.alexkn.syntact.presentation.common.detail.ChooseLanguageDialog
 import com.alexkn.syntact.presentation.common.flagDrawableOf
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseApp
 import kotlinx.android.synthetic.main.deck_creation_bottom_sheet.*
@@ -50,7 +50,7 @@ class DeckCreationFragment : Fragment() {
 
     private val args: DeckCreationFragmentArgs by navArgs()
 
-    private lateinit var dialog: AlertDialog
+    private lateinit var dialog: ChooseLanguageDialog
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
 
     private lateinit var imm: InputMethodManager
@@ -134,7 +134,9 @@ class DeckCreationFragment : Fragment() {
         deckCreationNameInput.addTextChangedListener { viewModel.setDeckName(it.toString()) }
 
         deckCreationCardsPerDayInput.setText(viewModel.defaultNewCardsPerDay.toString())
-        deckCreationLanguageOutput.setOnClickListener { if (!viewModel.languageFixed) dialog.show() }
+        deckCreationLanguageOutput.setOnClickListener {
+            if (!viewModel.languageFixed) dialog.show((requireContext() as AppCompatActivity).supportFragmentManager, ChooseLanguageDialog::class.simpleName)
+        }
 
         setupBackdrop()
         setupSuggestionList()
@@ -240,13 +242,13 @@ class DeckCreationFragment : Fragment() {
 
         viewModel.languageChoices.observe(viewLifecycleOwner, Observer { choices ->
 
-            dialog = MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Choose the Language of your new Deck")
-                    .setItems(choices.map { it.displayLanguage }.toTypedArray()) { _, i ->
-                        viewModel.switchDeckLang(i)
-                        keywords.clear()
-                    }
-                    .create()
+            dialog = ChooseLanguageDialog("Choose the Language of your Deck").apply {
+                bindTo(choices) {
+                    viewModel.switchDeckLang(it)
+                    keywords.clear()
+                    dialog?.dismiss()
+                }
+            }
         })
     }
 

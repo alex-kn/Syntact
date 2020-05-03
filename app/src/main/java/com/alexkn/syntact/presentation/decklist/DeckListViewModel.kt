@@ -77,8 +77,8 @@ constructor(
         viewModelScope.launch(Dispatchers.IO) { preferencesRepository.save(prefs) }
     }
 
-    fun switchLanguage(index: Int) = viewModelScope.launch {
-        preferencesRepository.switchLanguage(languageChoices[index])
+    fun switchLanguage(locale: Locale) = viewModelScope.launch {
+        preferencesRepository.switchLanguage(locale)
     }
 }
 
