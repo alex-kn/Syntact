@@ -22,12 +22,14 @@ constructor(
         private val deckRepository: DeckRepository,
         private val solvableItemRepository: SolvableItemRepository,
         private val preferencesRepository: PreferencesRepository,
-        private val configRepository: ConfigRepository
+        configRepository: ConfigRepository
 ) : ViewModel() {
 
     val preferences: LiveData<Preferences?> = preferencesRepository.findLive()
 
     val languageChoices = configRepository.availableLanguages
+
+    var nearestDueDate: Instant? = null
 
     private val _decks = MutableLiveData<List<DeckListItem>>()
     val decks: LiveData<List<DeckListItem>>
@@ -45,7 +47,9 @@ constructor(
     val total: LiveData<Int>
         get() = _total
 
-    fun refreshDeckList(userLang: Locale) = viewModelScope.launch(Dispatchers.Default) {
+    fun refreshDeckList(userLang: Locale = preferences.value!!.language) = viewModelScope.launch(Dispatchers.Default) {
+
+        nearestDueDate = solvableItemRepository.findNearestDueDate(userLang)
 
         var totalNewCards = 0
         var totalReviews = 0

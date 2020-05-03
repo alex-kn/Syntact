@@ -62,10 +62,14 @@ class DeckBoardFragment : Fragment() {
 
         solutionInput.addTextChangedListener(SolutionTextWatcher())
         nextButton.setOnClickListener { onNext() }
-        backButton.setOnClickListener {
+
+        val backListener: (v: View) -> Unit = {
             Navigation.findNavController(it).popBackStack()
             imm.hideSoftInputFromWindow(solutionInput.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
         }
+        backButton.setOnClickListener(backListener)
+        deckBoardDoneButton.setOnClickListener(backListener)
+
     }
 
     private fun onDeckChanged(deck: DeckListItem) {

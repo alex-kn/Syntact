@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.deckdetails
 
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class DeckDetailsFragment : Fragment() {
 
         backButton.setOnClickListener { Navigation.findNavController(it).popBackStack() }
 
+
         setupItemList()
 
         val sheet = BottomSheetBehavior.from(contentLayout)
@@ -47,6 +49,7 @@ class DeckDetailsFragment : Fragment() {
             isFitToContents = false
             isHideable = false
             state = BottomSheetBehavior.STATE_EXPANDED
+            expand(this)
         }
 
         deckDetailsBackdropButton.setOnClickListener {
@@ -81,7 +84,7 @@ class DeckDetailsFragment : Fragment() {
             viewModel.save(deckDetailsNameInput.text.toString().trim(), deckDetailsCardsPerDayInput.text.toString().trim())
             expand(sheet)
             deckDetailsSaveFab.hide()
-            Snackbar.make(requireView(), "Deck saved.", Snackbar.LENGTH_SHORT).show()
+            Handler().postDelayed({ Snackbar.make(requireView(), "Deck saved.", Snackbar.LENGTH_SHORT).show() }, 200)
         }
 
         deckDetailsDeleteDeckButton.setOnClickListener {
@@ -119,7 +122,7 @@ class DeckDetailsFragment : Fragment() {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         deckDetailsBackdropButton.rotation = 180f
         deckDetailsBackdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
-            deckDetailsBackdropButton.setImageResource(R.drawable.ic_baseline_show_chart_24)
+            deckDetailsBackdropButton.setImageResource(R.drawable.ic_baseline_build_24)
             deckDetailsBackdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
         }.start()
         animateIn(headerExpanded)

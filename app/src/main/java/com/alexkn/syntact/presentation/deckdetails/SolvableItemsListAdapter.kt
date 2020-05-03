@@ -9,8 +9,8 @@ import com.alexkn.syntact.R
 import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.presentation.common.ListItemAdapter
 import com.alexkn.syntact.presentation.common.ListItemViewHolder
+import com.alexkn.syntact.presentation.common.toUiString
 import com.alexkn.syntact.presentation.deckdetails.detail.DeckDetailsDetailDialog
-import org.apache.commons.lang3.time.DurationFormatUtils
 import java.time.Duration
 import java.time.Instant
 
@@ -55,15 +55,7 @@ class SolvableItemsListAdapter : ListItemAdapter<SolvableTranslationCto, Solvabl
             clueTextView.text = entity.clue.text
 
             val duration = Duration.between(Instant.now(), entity.solvableItem.nextDueDate ?: Instant.now())
-            val durationString = when {
-                duration.toDays() > 1 -> DurationFormatUtils.formatDuration(duration.toMillis(), "d' Days'", false)
-                duration.toDays() > 0 -> DurationFormatUtils.formatDuration(duration.toMillis(), "d' Day'", false)
-                duration.toHours() > 1 -> DurationFormatUtils.formatDuration(duration.toMillis(), "H' Hours'", false)
-                duration.toHours() > 0 -> DurationFormatUtils.formatDuration(duration.toMillis(), "H' Hour'", false)
-                duration.isNegative || duration.isZero -> "now"
-                else -> DurationFormatUtils.formatDuration(duration.toMillis(), "m' Minutes'", false)
-            }
-            dueOutput.text = durationString
+            dueOutput.text = duration.toUiString()
             streakOutput.text = entity.solvableItem.consecutiveCorrectAnswers.toString()
             easeOutput.text = "%.2f".format(entity.solvableItem.easiness)
         }

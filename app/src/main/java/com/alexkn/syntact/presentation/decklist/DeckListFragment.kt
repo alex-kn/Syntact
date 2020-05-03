@@ -1,6 +1,7 @@
 package com.alexkn.syntact.presentation.decklist
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,10 +21,13 @@ import com.alexkn.syntact.app.general.config.ApplicationComponentProvider
 import com.alexkn.syntact.presentation.MainActivity
 import com.alexkn.syntact.presentation.common.animateIn
 import com.alexkn.syntact.presentation.common.animateOut
+import com.alexkn.syntact.presentation.common.toUiString
 import com.alexkn.syntact.presentation.decklist.dialog.DeckListLanguageDialog
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.android.synthetic.main.deck_list_fragment.*
+import java.time.Duration
+import java.time.Instant
 import java.util.*
 
 
@@ -32,6 +36,7 @@ class DeckListFragment : Fragment() {
     private lateinit var sheet: BottomSheetBehavior<LinearLayout>
     private lateinit var viewModel: DeckListViewModel
     private lateinit var dialog: AlertDialog
+    private var timer: CountDownTimer? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -62,8 +67,27 @@ class DeckListFragment : Fragment() {
         viewModel.reviews.observe(viewLifecycleOwner, Observer { reviewsOutput.text = "$it" })
         viewModel.total.observe(viewLifecycleOwner, Observer {
             deckListContentHeaderLabel.text = when (it) {
-                0 -> resources.getString(R.string.deck_list_list_header_done)
-                else -> resources.getQuantityString(R.plurals.deck_list_list_header, it, it)
+                0 -> {
+                    viewModel.nearestDueDate?.let { dueDate ->
+                        timer = object : CountDownTimer(Duration.between(Instant.now(), dueDate).toMillis(), 1000) {
+                            override fun onTick(millisUntilFinished: Long) {
+                                deckListContentHeaderDueDurationOutput?.text = Duration.ofMillis(millisUntilFinished).toUiString()
+                            }
+
+                            override fun onFinish() {
+                                viewModel.refreshDeckList()
+                            }
+                        }.start()
+                        deckListContentHeaderDueDurationOutput.visibility = View.VISIBLE
+                    }
+
+                    resources.getString(R.string.deck_list_list_header_done)
+                }
+                else -> {
+                    deckListContentHeaderDueDurationOutput.visibility = View.GONE
+                    timer?.cancel()
+                    resources.getQuantityString(R.plurals.deck_list_list_header, it, it)
+                }
             }
         })
 
@@ -108,6 +132,9 @@ class DeckListFragment : Fragment() {
         viewModel.decks.observe(viewLifecycleOwner, Observer {
             bucketAdapter.submitList(it)
             deckListEmptyLabel.isVisible = it.isEmpty()
+            deckListContentHeaderLabel.isVisible = it.isNotEmpty()
+            deckListContentHeaderDueDurationOutput.isVisible = it.isNotEmpty()
+
         })
     }
 
@@ -163,6 +190,11 @@ class DeckListFragment : Fragment() {
         createBucketFab.hide()
         animateOut(newLabel, newOutput, reviewsLabel, reviewsOutput)
         animateIn(settingsLabel)
+    }
+
+    override fun onPause() {
+        timer?.cancel()
+        super.onPause()
     }
 
 }

@@ -10,6 +10,7 @@ import com.alexkn.syntact.data.dao.SolvableItemDao
 import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
@@ -25,6 +26,8 @@ class SolvableItemRepository @Inject constructor(
     private val maxPerformanceRating = 5.0
 
     fun getSolvableTranslations(bucketId: Long): LiveData<List<SolvableTranslationCto>> = solvableItemDao.getSolvableTranslations(bucketId)
+
+    suspend fun findNearestDueDate(userLang: Locale) = solvableItemDao.findNearestDueDate(userLang)
 
     suspend fun findNextSolvableItem(deckId: Long, time: Instant, newItemsPerDay: Int): SolvableTranslationCto? {
 

@@ -7,6 +7,7 @@ import com.alexkn.syntact.core.model.SolvableItem
 import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.data.dao.base.BaseDao
 import java.time.Instant
+import java.util.*
 
 @Dao
 abstract class SolvableItemDao : BaseDao<SolvableItem> {
@@ -34,6 +35,9 @@ abstract class SolvableItemDao : BaseDao<SolvableItem> {
 
     @Query("SELECT IFNULL(MAX(id),0) FROM solvableitem WHERE deckId = :deckId;")
     abstract suspend fun getMaxId(deckId: Long): Long
+
+    @Query("SELECT nextDueDate FROM SolvableItem s JOIN Deck d on d.id  = s.deckId WHERE d.userLanguage = :userLang ORDER BY nextDueDate ASC LIMIT 1")
+    abstract suspend fun findNearestDueDate(userLang: Locale): Instant?
 
     @Query("SELECT * FROM SolvableItem where id = :id")
     abstract suspend fun find(id: Long): SolvableItem

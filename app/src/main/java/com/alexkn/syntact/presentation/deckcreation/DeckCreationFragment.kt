@@ -134,7 +134,7 @@ class DeckCreationFragment : Fragment() {
         deckCreationNameInput.addTextChangedListener { viewModel.setDeckName(it.toString()) }
 
         deckCreationCardsPerDayInput.setText(viewModel.defaultNewCardsPerDay.toString())
-        deckCreationLanguageOutput.setOnClickListener { dialog.show() }
+        deckCreationLanguageOutput.setOnClickListener { if (!viewModel.languageFixed) dialog.show() }
 
         setupBackdrop()
         setupSuggestionList()
@@ -146,6 +146,7 @@ class DeckCreationFragment : Fragment() {
             } else {
                 collapse(sheet)
                 deckCreationScrollView.fullScroll(View.FOCUS_DOWN)
+                deckCreationScrollView.clearFocus()
             }
         }
         deckCreationCreateDeckButton.background.colorFilter = PorterDuffColorFilter(resources.getColor(R.color.color_secondary, null), PorterDuff.Mode.SRC_ATOP)
@@ -270,12 +271,6 @@ class DeckCreationFragment : Fragment() {
         roundedSrc.isCircular = true
         chip.chipIcon = roundedSrc
         chip.setOnCloseIconClickListener(this::onCloseChip)
-
-        chip.setOnClickListener {
-            val list = viewModel.suggestions.value!![chip.id]
-            Log.d(TAG, "VM ${chip.id}: $list")
-            Log.d(TAG, "FR ${chip.id}: ${keywords[chip.id]}")
-        }
 
         keywordsChipGroup.addView(chip)
 

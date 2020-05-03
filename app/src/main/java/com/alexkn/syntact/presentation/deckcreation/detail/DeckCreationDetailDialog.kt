@@ -59,7 +59,7 @@ class DeckCreationDetailDialog : DialogFragment() {
     private fun setupSentence(text: String, locale: Locale, layout: ViewGroup) {
         keywordsToAdd[locale] = mutableSetOf()
         val layoutParams = RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT)
-        layoutParams.setMargins(5, 3, 5, 3)
+        layoutParams.setMargins(6, 3, 6, 3)
         text.split(" ").forEach {
             val materialTextView = MaterialTextView(requireContext())
             materialTextView.layoutParams = layoutParams

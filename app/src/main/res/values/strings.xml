@@ -28,7 +28,7 @@
         <item quantity="one">%1$d Card is due today</item>
         <item quantity="other">%1$d Cards are due today</item>
     </plurals>
-    <string name="deck_list_list_header_done">You\'re done for today</string>
+    <string name="deck_list_list_header_done">You\'re done for now. Next card in</string>
     <string name="deck_list_new_today_label">New Today</string>
     <string name="deck_list_reviews_today_label">Reviews Today</string>
     <string name="deck_list_options_button">Options</string>
@@ -82,5 +82,6 @@
     <string name="deck_details_detail_dialog_delete_button">Delete</string>
     <string name="deck_details_detail_dialog_delete_button_confirm">Really Delete Card?</string>
     <string name="deck_details_detail_dialog_cancel_button">Cancel</string>
+    <string name="deck_board_back_to_deck_list_button">Back to Deck List</string>
 
 </resources>

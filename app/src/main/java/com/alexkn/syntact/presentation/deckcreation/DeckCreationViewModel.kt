@@ -32,6 +32,9 @@ class DeckCreationViewModel @Inject constructor(
 
     val defaultNewCardsPerDay = 20
 
+    val languageFixed: Boolean
+        get() = prefs.language != Locale.ENGLISH
+
     var languageChoices: MutableLiveData<List<Locale>> = MutableLiveData(emptyList())
 
     private val _deckLang = MutableLiveData<Locale?>()
@@ -80,7 +83,6 @@ class DeckCreationViewModel @Inject constructor(
 
     @Synchronized
     private fun addNewSuggestions(keywordId: Int, suggestionList: List<Suggestion>) {
-        println("Running on ${Thread.currentThread().name}")
         val currentSuggestions = _suggestions.value!!
         val newSuggestions = suggestionList.filterNot { new ->
             currentSuggestions.values.flatten().any { old ->
