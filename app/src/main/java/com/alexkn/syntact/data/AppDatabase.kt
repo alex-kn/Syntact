@@ -15,7 +15,7 @@ import com.alexkn.syntact.data.dao.SolvableItemDao
 
 @Database(
         entities = [SolvableItem::class, Deck::class, Clue::class, Preferences::class],
-        version = 73)
+        version = 74)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
