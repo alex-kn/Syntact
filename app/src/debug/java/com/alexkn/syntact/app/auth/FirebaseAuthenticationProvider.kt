@@ -3,6 +3,7 @@ package com.alexkn.syntact.app.auth
 import android.content.Context
 import android.util.Log
 import com.alexkn.syntact.app.TAG
+import com.alexkn.syntact.app.auth.api.AuthenticationProvider
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser

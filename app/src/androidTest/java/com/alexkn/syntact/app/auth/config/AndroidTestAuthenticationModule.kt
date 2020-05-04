@@ -1,16 +1,16 @@
 package com.alexkn.syntact.app.auth.config
 
 import com.alexkn.syntact.app.auth.api.AuthenticationProvider
-import com.alexkn.syntact.app.auth.impl.TestAuthenticationProvider
+import com.alexkn.syntact.app.auth.impl.AndroidTestAuthenticationProvider
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class TestAuthenticationModule {
+class AndroidTestAuthenticationModule {
 
     @Singleton
     @Provides
-    fun authenticationProvider(): AuthenticationProvider = TestAuthenticationProvider()
+    fun authenticationProvider(): AuthenticationProvider = AndroidTestAuthenticationProvider()
 
 }

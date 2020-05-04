@@ -18,7 +18,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "com.alexkn.syntact.runner.SyntactTestRunner"
+        testInstrumentationRunner "com.alexkn.syntact.app.general.config.SyntactTestRunner"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -130,7 +130,6 @@ dependencies {
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
     testImplementation 'androidx.test:runner:1.2.0'
-    // Required -- JUnit 4 framework
     testImplementation 'junit:junit:4.13'
     testImplementation "io.mockk:mockk:1.10.0"
 

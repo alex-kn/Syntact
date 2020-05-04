@@ -1,4 +1,4 @@
-package com.alexkn.syntact.runner
+package com.alexkn.syntact.app.general.config
 
 import android.app.Application
 import android.content.Context

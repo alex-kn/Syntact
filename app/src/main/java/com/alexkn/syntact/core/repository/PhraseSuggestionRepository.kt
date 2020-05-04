@@ -1,6 +1,6 @@
 package com.alexkn.syntact.core.repository
 
-import com.alexkn.syntact.app.auth.AuthenticationProvider
+import com.alexkn.syntact.app.auth.api.AuthenticationProvider
 import com.alexkn.syntact.service.SyntactService
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope

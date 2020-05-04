@@ -1,4 +1,4 @@
-package com.alexkn.syntact.app
+package com.alexkn.syntact.data.config
 
 import android.content.Context
 import androidx.room.Room
