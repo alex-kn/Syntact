@@ -253,7 +253,7 @@
             android:elevation="4dp"
             android:orientation="vertical"
             app:behavior_peekHeight="0dp"
-            app:layout_behavior="com.alexkn.syntact.presentation.common.BackdropBottemSheetBehavior">
+            app:layout_behavior="dev.alexknittel.syntact.presentation.common.BackdropBottemSheetBehavior">
 
 
             <com.google.android.material.appbar.AppBarLayout

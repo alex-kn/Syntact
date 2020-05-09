@@ -6,7 +6,7 @@
     app:startDestination="@id/deckListFragment">
     <fragment
         android:id="@+id/deckListFragment"
-        android:name="com.alexkn.syntact.presentation.decklist.DeckListFragment"
+        android:name="dev.alexknittel.syntact.presentation.decklist.DeckListFragment"
         android:label="deck_list_fragment"
         tools:layout="@layout/deck_list_fragment">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/deckBoardFragment"
-        android:name="com.alexkn.syntact.presentation.deckboard.DeckBoardFragment"
+        android:name="dev.alexknittel.syntact.presentation.deckboard.DeckBoardFragment"
         android:label="deck_board_fragment"
         tools:layout="@layout/deck_board_fragment">
         <argument
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/deckCreationFragment"
-        android:name="com.alexkn.syntact.presentation.deckcreation.DeckCreationFragment"
+        android:name="dev.alexknittel.syntact.presentation.deckcreation.DeckCreationFragment"
         android:label="deck_creation_fragment"
         tools:layout="@layout/deck_creation_fragment">
         <argument
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/deckDetailsFragment"
-        android:name="com.alexkn.syntact.presentation.deckdetails.DeckDetailsFragment"
+        android:name="dev.alexknittel.syntact.presentation.deckdetails.DeckDetailsFragment"
         android:label="deck_details_fragment"
         tools:layout="@layout/deck_details_fragment">
         <argument

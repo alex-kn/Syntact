@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.alexkn.syntact">
+    package="dev.alexknittel.syntact">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".app.SyntactApplication"
+        android:name="dev.alexknittel.syntact.app.SyntactApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,7 +15,7 @@
         android:theme="@style/MyTheme.DayNight"
         android:windowSoftInputMode="stateHidden|adjustResize"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".presentation.MainActivity">
+        <activity android:name="dev.alexknittel.syntact.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

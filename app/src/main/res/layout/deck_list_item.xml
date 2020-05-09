@@ -8,7 +8,7 @@
 
         <variable
             name="item"
-            type="com.alexkn.syntact.core.model.DeckListItem" />
+            type="dev.alexknittel.syntact.core.model.DeckListItem" />
 
         <variable
             name="progress"
