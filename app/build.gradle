@@ -14,7 +14,7 @@ android {
     compileSdkVersion 29
     defaultConfig {
         applicationId "dev.alexknittel.syntact"
-        minSdkVersion 28
+        minSdkVersion 26
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -28,7 +28,8 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -89,8 +90,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0-alpha06'
 
     implementation 'org.apache.commons:commons-lang3:3.9'
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'org.apache.commons:commons-text:1.8'
     implementation 'commons-io:commons-io:20030203.000550'
 
     implementation 'com.squareup.retrofit2:retrofit:2.7.2'
@@ -106,8 +105,6 @@ dependencies {
 
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
 
-    implementation 'ru.semper-viventem.backdrop:backdrop:0.1.7'
-
     def room_version = '2.2.4'
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
@@ -122,10 +119,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
     kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
-
-    def work_version = '2.3.3'
-    implementation "androidx.work:work-runtime:$work_version"
-    implementation "androidx.work:work-runtime-ktx:$work_version"
 
     kapt "com.android.databinding:compiler:$android_plugin_version"
 
@@ -164,8 +157,6 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:1.0.0"
     implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-
-
 }
 repositories {
     mavenCentral()

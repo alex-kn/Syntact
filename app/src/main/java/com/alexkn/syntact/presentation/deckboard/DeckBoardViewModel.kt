@@ -8,9 +8,9 @@ import com.alexkn.syntact.core.model.DeckListItem
 import com.alexkn.syntact.core.model.SolvableTranslationCto
 import com.alexkn.syntact.core.repository.DeckRepository
 import com.alexkn.syntact.core.repository.SolvableItemRepository
+import com.alexkn.syntact.presentation.common.levenshteinDistanceTo
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.apache.commons.text.similarity.LevenshteinDistance
 import java.time.Instant
 import javax.inject.Inject
 
@@ -28,7 +28,6 @@ class DeckBoardViewModel @Inject constructor(
 
     lateinit var items: List<SolvableTranslationCto>
 
-    private val levenshteinDistance: LevenshteinDistance = LevenshteinDistance.getDefaultInstance()
     private val _maxScore: MutableLiveData<Int> = MutableLiveData(0)
     private val _currentScore: MutableLiveData<Int> = MutableLiveData(0)
 
@@ -91,7 +90,7 @@ class DeckBoardViewModel @Inject constructor(
     }
 
     private fun getCurrentScore(translationCto: SolvableTranslationCto, solution: String): Int {
-        val value = translationCto.solvableItem.text.length - levenshteinDistance.apply(translationCto.solvableItem.text.toLowerCase(), solution.toLowerCase())
+        val value = translationCto.solvableItem.text.length - translationCto.solvableItem.text.toLowerCase().levenshteinDistanceTo(solution.toLowerCase())
         return if (value >= 0) value else 0
     }
 
