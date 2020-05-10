@@ -3,7 +3,7 @@
     <string name="underscore">_</string>
     <string name="dash">-</string>
 
-    <string name="active_languages_file_key">com.alexkn.syntact.activelanguages</string>
+    <string name="active_languages_file_key">dev.alexknittel.syntact.activelanguages</string>
 
     <!-- Common -->
     <string name="back_content_desc">Back</string>
@@ -28,12 +28,12 @@
         <item quantity="one">%1$d Card is due today</item>
         <item quantity="other">%1$d Cards are due today</item>
     </plurals>
-    <string name="deck_list_list_header_done">You\'re done for now. Next card in</string>
+    <string name="deck_list_list_header_done">You\'re done for now. Next card</string>
     <string name="deck_list_new_today_label">New Today</string>
     <string name="deck_list_reviews_today_label">Reviews Today</string>
     <string name="deck_list_options_button">Options</string>
     <string name="deck_list_start_button">Start</string>
-    <string name="deck_list_empty_list_label">You currently have no decks.\n\nTab the + below to get started.</string>
+    <string name="deck_list_empty_list_label">You currently have no decks for your language.\n\nTab the + below to get started.</string>
     <!-- List Language Dialog -->
     <string name="deck_list_language_dialog_header">Choose a Language for your new Deck</string>
     <string name="deck_list_language_dialog_cancel_button">Cancel</string>
@@ -44,6 +44,7 @@
     <string name="deck_board_next_button">next</string>
     <string name="deck_board_solvedindicator_content_desc">Solved</string>
     <string name="deck_board_failedindicator_content_desc">Failed</string>
+    <string name="deck_board_back_to_deck_list_button">Back to Deck List</string>
 
     <!-- Creation -->
     <!-- Creation Back -->
@@ -82,6 +83,5 @@
     <string name="deck_details_detail_dialog_delete_button">Delete</string>
     <string name="deck_details_detail_dialog_delete_button_confirm">Really Delete Card?</string>
     <string name="deck_details_detail_dialog_cancel_button">Cancel</string>
-    <string name="deck_board_back_to_deck_list_button">Back to Deck List</string>
 
 </resources>

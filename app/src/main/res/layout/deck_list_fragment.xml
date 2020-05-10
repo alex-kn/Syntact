@@ -236,7 +236,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:paddingHorizontal="4dp"
+                    android:paddingHorizontal="2dp"
                     android:textColor="@color/color_primary"
                     tools:text="20m"
                     android:textAppearance="@style/TextAppearance.MyTheme.Overline" />

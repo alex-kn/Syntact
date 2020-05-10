@@ -18,7 +18,6 @@ class ConfigRepository @Inject constructor(context: Context) {
             Locale.ENGLISH,
             Locale.GERMAN,
             Locale("es"),
-            Locale.ITALIAN,
             Locale.FRENCH
     )
         private set

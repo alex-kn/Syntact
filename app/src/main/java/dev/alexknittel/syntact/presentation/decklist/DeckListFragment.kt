@@ -175,8 +175,8 @@ class DeckListFragment : Fragment() {
         sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
         backdropButton.rotation = 180f
         backdropButton.animate().rotation(270f).alpha(0.5f).setDuration(100).withEndAction {
-            backdropButton.setImageResource(R.drawable.ic_baseline_account_circle_24)
-            backdropButton.animate().rotation(360f).alpha(1f).setDuration(100).start()
+            backdropButton?.setImageResource(R.drawable.ic_baseline_account_circle_24)
+            backdropButton?.let { it.animate().rotation(360f).alpha(1f).setDuration(100).start() }
         }.start()
         createBucketFab.show()
         animateOut(settingsLabel)
