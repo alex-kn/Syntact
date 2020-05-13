@@ -14,7 +14,7 @@ import dev.alexknittel.syntact.service.config.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AuthenticationModule::class, NetworkModule::class, DatabaseModule::class, DaoModule::class])
+@Component(modules = [NetworkModule::class, DatabaseModule::class, DaoModule::class])
 interface ApplicationComponent {
 
     @Component.Builder

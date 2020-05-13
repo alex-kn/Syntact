@@ -78,7 +78,7 @@ class DeckCreationViewModel @Inject constructor(
         Log.d(TAG, "fetchSuggestions: Fetched ${newSuggestions.size} suggestions for $text (ID: $keywordId, $suggestionLang -> $destLang)")
         if (suggestionLang != deckLangVal) newSuggestions = swapLanguage(newSuggestions)
         newSuggestions.forEach { it.keywordId = keywordId; it.id = idSequence++ }
-        addNewSuggestions(keywordId, newSuggestions)
+       addNewSuggestions(keywordId, newSuggestions)
     }
 
     @Synchronized

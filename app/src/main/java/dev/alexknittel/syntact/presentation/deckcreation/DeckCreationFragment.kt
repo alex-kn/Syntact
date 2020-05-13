@@ -32,7 +32,6 @@ import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.FirebaseApp
 import dev.alexknittel.syntact.R
 import dev.alexknittel.syntact.app.TAG
 import dev.alexknittel.syntact.app.general.config.ApplicationComponentProvider
@@ -65,11 +64,6 @@ class DeckCreationFragment : Fragment() {
         get() = if (leftInputActive) viewModel.deckLang.value!! else viewModel.userLang.value!!
 
     private var leftInputActive = true
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(requireContext())
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

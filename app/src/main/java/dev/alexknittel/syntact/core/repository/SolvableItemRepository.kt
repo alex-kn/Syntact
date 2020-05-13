@@ -35,7 +35,6 @@ class SolvableItemRepository @Inject constructor(
         if (newItems.isNotEmpty()) return newItems[0]
         val reviewItems = findItemsDueForReview(deckId, time)
         return if (reviewItems.isNotEmpty()) reviewItems[0] else null
-        //TODO shuffle, new first, review first
     }
 
     suspend fun findItemsDueForReview(deckId: Long, time: Instant): List<SolvableTranslationCto> {

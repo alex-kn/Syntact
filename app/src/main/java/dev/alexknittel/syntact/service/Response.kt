@@ -3,11 +3,6 @@ package dev.alexknittel.syntact.service
 import dev.alexknittel.syntact.core.model.Identifiable
 import java.util.*
 
-
-data class PhraseSuggestionResponse(
-        var suggestions: List<Suggestion>
-)
-
 data class Suggestion(
         override var id: Long? = null,
         var keywordId: Int? = null,

@@ -3,7 +3,6 @@ package dev.alexknittel.syntact.app.general.config
 import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import dev.alexknittel.syntact.app.auth.config.TestAuthenticationModule
 import dev.alexknittel.syntact.data.config.TestDaoModule
 import dev.alexknittel.syntact.data.config.TestDatabaseModule
 import dev.alexknittel.syntact.presentation.deckcreation.DeckCreationViewModelTest
@@ -12,7 +11,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Singleton
 
 @ExperimentalCoroutinesApi
-@Component(modules = [TestAuthenticationModule::class, TestNetworkModule::class, TestDatabaseModule::class, TestDaoModule::class])
+@Component(modules = [TestNetworkModule::class, TestDatabaseModule::class, TestDaoModule::class])
 @Singleton
 interface TestApplicationComponent : ApplicationComponent {
 

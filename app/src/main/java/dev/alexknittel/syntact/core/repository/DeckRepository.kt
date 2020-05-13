@@ -31,8 +31,6 @@ class DeckRepository @Inject constructor(
 
     suspend fun deleteDeck(id: Long) = deckDao.delete(id)
 
-    suspend fun findAll(): List<Deck> = deckDao.findAll()
-
     fun findDeck(id: Long): LiveData<Deck?> = deckDao.findLive(id)
 
     suspend fun find(id: Long): Deck = deckDao.find(id)

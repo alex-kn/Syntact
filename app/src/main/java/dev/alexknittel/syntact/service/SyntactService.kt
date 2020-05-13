@@ -1,17 +1,12 @@
 package dev.alexknittel.syntact.service
 
+import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface SyntactService {
 
-    @GET("suggestions/sentences")
-    suspend fun getSuggestionSentences(
-            @Header("Authorization") token: String,
-            @Query("phrase") phrase: String,
-            @Query("srcLang") srcLang: String,
-            @Query("destLang") destLang: String
-    ): PhraseSuggestionResponse
-
+    @GET
+    suspend fun fetch(@Url url: String, @Query("source") srcLang: String, @Query("query") phrase: String): Response<String>
 }
