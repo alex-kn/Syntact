@@ -6,8 +6,6 @@ Syntact is an App for learning languages that generates flashcards and organizes
 
 ## Showcase
 
-![](screenshots/device-2020-05-13-183549.mp4)
-
 <video width="320" height="240" controls>
   <source src="screenshots/device-2020-05-13-183549.mp4" type="video/mp4">
 </video>
@@ -26,7 +24,7 @@ Tap to + in the main screen to create a new deck. Type a word in either language
   <td>Use a suggestion's individual words to generate new suggestions</td>
 </tr>
 <tr>
-   <td>TODO</td>
+   <td><img src="img/01_create_deck.gif"/></td>
    <td>TODO</td>
    <td>TODO</td>
 </tr>
