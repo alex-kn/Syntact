@@ -24,8 +24,8 @@ The App can be build either using Android Studio or using the command line.
 2. Download the [command line tools](https://developer.android.com/studio#cmdline-tools) and extract into a folder. For future reference, we call this folder `ANDROID_SDK_ROOT`.
 2. Install the Android SDK via [sdkmanager](https://developer.android.com/studio/command-line/sdkmanager) by running `sdkmanager "platforms;android-28"`.
 3. Create a file in the project root called `local.properties` containing `sdk.dir=PATH_TO_YOUR_ANDROID_SDK_ROOT`, for example:
-   * Windows: `sdk.dir=C:\\Android\\sdk`
-   * Unix: `sdk.dir=/home/android/sdk`
+   * Windows: `sdk.dir=C:\\Android\\ANDROID_SDK_ROOT`
+   * Unix: `sdk.dir=/home/android/ANDROID_SDK_ROOT`
 4. Run `gradlew build`. This will output two APKs:
    * app\build\outputs\apk\debug\app-debug.apk
    * app\build\outputs\apk\release\app-release-unsigned.apk
