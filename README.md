@@ -7,7 +7,7 @@ Syntact is an App for learning languages that generates flashcards and organizes
 * [Kotlin](https://kotlinlang.org/)
 * [Dagger 2](https://dagger.dev/) for Dependency Injection
 * [Android Architecture Components](https://developer.android.com/topic/libraries/architecture), such as [Room Persistence Library](https://developer.android.com/topic/libraries/architecture/room), [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel), [LiveData](https://developer.android.com/topic/libraries/architecture/livedata), [Navigation](https://developer.android.com/guide/navigation)
-
+* [Material Design](https://material.io/)
 
 ## Build
 
