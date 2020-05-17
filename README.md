@@ -11,6 +11,8 @@ Syntact is an App for learning languages that generates flashcards and organizes
 
 ## Build
 
+The App can be build either using Android Studio or using the command line.
+
 ### Android Studio
 
 1. Download [Android Studio](https://developer.android.com/studio).
