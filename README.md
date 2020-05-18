@@ -17,7 +17,7 @@ The App can be build either using Android Studio or using the command line.
 
 1. Download [Android Studio](https://developer.android.com/studio).
 2. Import Project
-3. Run app on a connected device or running emulator (green arrow <img width=20% src="img/run_studio.png"/>).
+3. Run app on a connected device or running emulator (<img width=20% src="img/run_studio.png"/>).
 
 ### Command Line
 
