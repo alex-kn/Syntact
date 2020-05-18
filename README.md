@@ -1,6 +1,6 @@
 # Syntact
 
-Syntact is an App for learning languages that generates flashcards and organizes them into decks. These flashcards can be learnt and reviewed using a simple spaced repetition algorithm.
+Syntact is an App for learning languages that generates flashcards and organizes them into decks. These flashcards can be learnt and reviewed using a simple spaced repetition algorithm. The flashcards are generated using example sentences from https://www.linguee.com/.
 
 ## Technologies
 
@@ -11,7 +11,7 @@ Syntact is an App for learning languages that generates flashcards and organizes
 
 ## Build
 
-The App can be build either using Android Studio or using the command line.
+The App can be built using either Android Studio or the command line.
 
 ### Android Studio
 
